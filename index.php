@@ -1,11 +1,11 @@
 <?php include 'header.php'; ?>
 <main>
     <section class="relative overflow-hidden">
-        <img src="assets/images/bn.svg" class="w-full h-full absolute top-0 left-0 object-cover" alt="">
+        <div class="gradient-canvas"></div>
+        
         <div class="wrapper p-6 md:p-10 min-h-[unset] md:min-h-[100vh] relative">
             <div
                 class="relative md:absolute top-[-13%] lg:top-0 left-[16%] md:left-[10%] lg:left-0 flex items-center z-2 w-full justify-center xl:justify-start scale-[1.8] md:scale-[1]">
-                <img src="assets/images/bn-1.svg" alt="">
             </div>
             <div
                 class="relative md:absolute z-3 bottom-0 right-0 px-0 md:px-10 max-w-full xl:max-w-[60%] text-center md:text-left">
@@ -473,4 +473,8 @@
         </div>
     </section>
 </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/js/animation.js"></script>
+
 <?php include 'footer.php'; ?>

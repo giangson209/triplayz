@@ -20,6 +20,8 @@
 
     <link rel="stylesheet" type="text/css" href="assets/css/tailwind.css">
 
+    <link rel="stylesheet" type="text/css" href="assets/css/animation.css">
+
     <style>
         html.lenis,
         html.lenis body {
