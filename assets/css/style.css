@@ -249,6 +249,12 @@ body img {
   right: 0;
 }
 
+.wrapper {
+  max-width: 1920px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 .h-menu ul {
   display: flex;
   align-items: center;

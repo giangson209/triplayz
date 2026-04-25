@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="555c5a88-e0e7-4743-9ff5-82f416086c89" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/assets/css/input.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/input.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/style.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/tailwind.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/tailwind.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/private.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/private.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/scss/_header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/_header.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scss/_layer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/_layer.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/footer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +75,8 @@
       <workItem from="1776631594694" duration="15000" />
       <workItem from="1776739983044" duration="22964000" />
       <workItem from="1776868947239" duration="12299000" />
-      <workItem from="1776972966874" duration="9100000" />
+      <workItem from="1776972966874" duration="9238000" />
+      <workItem from="1777079764007" duration="2717000" />
     </task>
     <servers />
   </component>
