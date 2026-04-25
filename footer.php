@@ -115,6 +115,9 @@
 <script type='text/javascript' src='assets/lib/js/jquery.min.js'></script>
 <script type='text/javascript' src='assets/lib/js/wow.min.js'></script>
 <script type='text/javascript' src='assets/lib/js/swiper.min.js'></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script type="text/javascript" src="assets/js/private.js?v=<?php echo time() ?>"></script>
 </body>
 

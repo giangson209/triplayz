@@ -17,6 +17,24 @@
     <link rel="stylesheet" type="text/css" title="" href="assets/css/style.css?v=<?php echo time() ?>">
 
     <link rel="stylesheet" type="text/css" href="assets/css/tailwind.css">
+    
+    <style>
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-smooth iframe {
+            pointer-events: none;
+        }
+    </style>
 
 </head>
 
