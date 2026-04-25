@@ -205,9 +205,10 @@
         </div>
     </section>
 
-    <section class="relative px-6 md:px-10 py-10 overflow-hidden">
-        <div class="wrapper relative overflow-hidden">
-            <div class="text-[56px] md:text-[100px] lg:text-[124px] 2xl:text-[164px] 3xl:text-[200px] font-medium mb-4">
+    <section class="relative overflow-hidden">
+        <div class="wrapper relative overflow-hidden py-10">
+            <div
+                class="text-[56px] md:text-[100px] lg:text-[124px] 2xl:text-[164px] 3xl:text-[200px] font-medium mb-4 px-6 md:px-10">
                 WHY US?</div>
             <div class="pl-0 3xl:pl-[22%] block lg:flex items-end justify-between anek">
                 <div class="item mb-4 lg:mb-0 last:mb-0 max-w-[60%] md:max-w-full lg:max-w-75 w-full opacity-85">
@@ -228,13 +229,13 @@
                     </div>
                 </div>
             </div>
-            <div class="py-20 relativeoverflow-hidden hidden md:block">
+            <div class="py-20 relative overflow-hidden hidden md:block content-whuyus">
                 <div class="absolute top-0 right-0 w-full h-full pointer-events-none">
                     <img src="assets/images/union-why.png" alt="">
                 </div>
                 <div class="relative">
                     <div class="w-[45%] 3xl:w-1/2 ml-[-25%] flex items-center relative z-4">
-                        <img src="assets/images/circle-blue.png" alt="">
+                        <img src="assets/images/circle-blue.png" class="whyus-wheel" alt="">
                         <div class="absolute top-0 left-0 w-full h-full flex items-center z-2 pointer-events-none">
                             <img src="assets/images/circle-gray.png" alt="">
                         </div>
@@ -244,14 +245,24 @@
                         </div>
                     </div>
                     <div class="absolute top-0 left-0 w-full h-full flex items-center pl-[36%] 3xl:pl-[40%]">
-                        <div class="max-w-full flex items-center justify-center gap-6 lg:gap-10 xl:gap-20 3xl:gap-32">
-                            <div class="avarta w-full max-w-36 lg:max-w-60 xl:max-w-85 3xl:max-w-105"><img
-                                    src="assets/images/why.png" class="max-w-105" alt=""></div>
-                            <div class="desc">
-                                <div class="font-medium text-[48px] xl:text-[80px] 2xl:text-[112px] 3xl:text-[142px]">
-                                    50+</div>
-                                <div class="anek text-5 xl:text-6">SUCCESSFULLY DELIVERED PROJECTS</div>
-                            </div>
+                        <div class="relative w-full h-full whyus-slides-container overflow-hidden">
+                            <?php for ($x = 1; $x <= 4; $x++) { 
+                                // Tạo nội dung giả lập khác nhau cho 4 lượt hiển thị
+                                $numbers = ['50+', '100+', '200+', '300+'];
+                                $texts = ['SUCCESSFULLY DELIVERED PROJECTS', 'SATISFIED CLIENTS WORLDWIDE', 'TECH EXPERTS & ENGINEERS', 'YEARS OF INDUSTRY EXP'];
+                            ?>
+                                <div class="whyus-slide absolute top-0 left-0 w-full h-full flex items-center gap-6 lg:gap-10 xl:gap-20 3xl:gap-32 <?php echo $x === 1 ? '' : 'opacity-0 translate-y-10'; ?>">
+                                    <div class="avarta w-full max-w-36 lg:max-w-60 xl:max-w-85 3xl:max-w-105">
+                                        <img src="assets/images/why.png" class="max-w-105" alt="">
+                                    </div>
+                                    <div class="desc">
+                                        <div class="font-medium text-[48px] xl:text-[80px] 2xl:text-[112px] 3xl:text-[142px]">
+                                            <?php echo $numbers[$x-1]; ?>
+                                        </div>
+                                        <div class="anek text-5 xl:text-6"><?php echo $texts[$x-1]; ?></div>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -300,7 +311,8 @@
                                 <div class="swiper-slide">
                                     <div
                                         class="item flex items-center py-4 md:py-7.5 px-8 md:px-20 bg-[#FFFFFF0D] rounded-[2px] overflow-hidden">
-                                        <img src="assets/images/partner.png" alt=""></div>
+                                        <img src="assets/images/partner.png" alt="">
+                                    </div>
                                 </div>
                             <?php } ?>
                         </div>
@@ -313,7 +325,8 @@
                                 <div class="swiper-slide">
                                     <div
                                         class="item flex items-center py-4 md:py-7.5 px-8 md:px-20 bg-[#FFFFFF0D] rounded-[2px] overflow-hidden">
-                                        <img src="assets/images/partner.png" alt=""></div>
+                                        <img src="assets/images/partner.png" alt="">
+                                    </div>
                                 </div>
                             <?php } ?>
                         </div>
@@ -338,8 +351,13 @@
                             We combine technical precision with strategic thinking — so every solution we deliver moves
                             your business meaningfully forward.
                         </div>
-                        <div class="hidden md:block numb text-10 2xl:text-[64px] font-medium">01<span
-                                class="opacity-25">/03</span></div>
+                        <div class="numb text-10 2xl:text-[64px] font-medium hidden md:flex items-center">
+                            <span
+                                class="inline-flex overflow-hidden relative justify-center items-center aspect-square h-full">
+                                <span class="current-case-numb absolute w-full text-center">01</span>
+                            </span>
+                            <span class="opacity-25">/08</span>
+                        </div>
                         <div class="btn-main">
                             <a href="" style="border: 1px solid #1D1D2714; background: #1D1D2714;">
                                 MORE PROJECTS
