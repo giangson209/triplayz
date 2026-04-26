@@ -585,63 +585,59 @@
     };
 
     msgText.textContent = "Đang tải dữ liệu bản đồ...";
-    prog.style.width = "20%";
+    prog.style.width = "10%";
 
-    const topoData = await fetch(
-      "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-    ).then((r) => r.json());
+    const worker = new Worker("assets/js/globe-worker.js");
 
-    prog.style.width = "50%";
-    msgText.textContent = "Đang xử lý lục địa...";
-    await new Promise((r) => setTimeout(r, 10));
+    const landCells = await new Promise((resolve, reject) => {
+      worker.onmessage = ({ data }) => {
+        if (data.type === "progress") {
+          prog.style.width = data.pct + "%";
+          msgText.textContent = data.text;
+        } else if (data.type === "done") {
+          worker.terminate();
+          resolve(new Int16Array(data.buffer));
+        } else if (data.type === "error") {
+          worker.terminate();
+          reject(new Error(data.message));
+        }
+      };
+      worker.onerror = (err) => {
+        worker.terminate();
+        reject(err);
+      };
+      worker.postMessage({ type: "start" });
+    });
 
-    const land = topojson.feature(topoData, topoData.objects.land);
-    function isOnLand(lon, lat) {
-      return d3.geoContains(land, [lon, lat]);
-    }
+    prog.style.width = "90%";
+    msgText.textContent = "Đang dựng cầu...";
 
-    prog.style.width = "70%";
-    msgText.textContent = "Đang vẽ lưới ô vuông...";
-    await new Promise((r) => setTimeout(r, 10));
-
-    const COLS = 220;
-    const ROWS = 110;
+    const COLS = 160;
+    const ROWS = 80;
     const CELL = 10;
-    const GAP = 0.24;
-    const texW = COLS * CELL;
-    const texH = ROWS * CELL;
+    const GAP = 0.2;
 
     const offscreen = document.createElement("canvas");
-    offscreen.width = texW;
-    offscreen.height = texH;
+    offscreen.width = COLS * CELL;
+    offscreen.height = ROWS * CELL;
     const ctx = offscreen.getContext("2d");
-    ctx.clearRect(0, 0, texW, texH);
+    ctx.clearRect(0, 0, offscreen.width, offscreen.height);
     ctx.fillStyle = "hsla(247, 48%, 64%, 1)";
 
     const pad = (CELL * GAP) / 2;
     const sz = CELL * (1 - GAP);
 
-    for (let row = 0; row < ROWS; row++) {
-      const lat = 90 - (row + 0.5) * (180 / ROWS);
-      if (Math.abs(lat) > 83) continue;
-      for (let col = 0; col < COLS; col++) {
-        const lon = -180 + (col + 0.5) * (360 / COLS);
-        if (!isOnLand(lon, lat)) continue;
-        const px = col * CELL + pad;
-        const py = row * CELL + pad;
-        ctx.fillRect(px, py, sz, sz);
-      }
+    for (let i = 0; i < landCells.length; i += 2) {
+      const row = landCells[i];
+      const col = landCells[i + 1];
+      ctx.fillRect(col * CELL + pad, row * CELL + pad, sz, sz);
     }
-
-    prog.style.width = "90%";
-    msgText.textContent = "Đang dựng cầu...";
-    await new Promise((r) => setTimeout(r, 10));
-
-    initGlobe(offscreen);
 
     prog.style.width = "100%";
     await new Promise((r) => setTimeout(r, 150));
     msgEl.style.display = "none";
+
+    initGlobe(offscreen);
 
     function initGlobe(textureCanvas) {
       const canvas = document.getElementById("company-globe-canvas");
