@@ -247,7 +247,6 @@
                     <div class="absolute top-0 left-0 w-full h-full flex items-center pl-[36%] 3xl:pl-[40%]">
                         <div class="relative w-full h-full whyus-slides-container overflow-hidden">
                             <?php for ($x = 1; $x <= 4; $x++) { 
-                                // Tạo nội dung giả lập khác nhau cho 4 lượt hiển thị
                                 $numbers = ['50+', '100+', '200+', '300+'];
                                 $texts = ['SUCCESSFULLY DELIVERED PROJECTS', 'SATISFIED CLIENTS WORLDWIDE', 'TECH EXPERTS & ENGINEERS', 'YEARS OF INDUSTRY EXP'];
                             ?>
@@ -342,7 +341,6 @@
                     <div id="company-globe-msg-text">Creating...</div>
                     <div id="company-globe-prog-bar"><div id="company-globe-prog"></div></div>
                 </div>
-                <div id="company-globe-hint">DRAG TO ROTATE</div>
             </div>
         </div>
     </section>

@@ -165,52 +165,7 @@ $(document).ready(function () {
                 });
             });
         }
-        // Animation xoay vòng Why Us (Chuyển lập tức, không trượt dần theo scrub)
-        if ($('.content-whuyus').length && $('.whyus-slide').length > 1) {
-            let slides = gsap.utils.toArray('.whyus-slide');
-
-            // Khởi tạo các slide
-            slides.forEach((sl, i) => {
-                sl.classList.remove('opacity-0', 'translate-y-10');
-                if (i > 0) gsap.set(sl, { yPercent: 100 });
-                else gsap.set(sl, { yPercent: 0 }); // Đảm bảo slide 0 nằm đúng vị trí
-            });
-
-            let activeSlide = 0;
-
-            // 1 ScrollTrigger duy nhất để lấy tổng tiến trình (progress)
-            ScrollTrigger.create({
-                trigger: ".content-whuyus",
-                start: "center center",
-                end: () => "+=" + (window.innerHeight * 4),
-                pin: true,
-                onUpdate: (self) => {
-                    // progress chạy từ 0 đến 1. Chia 4 khu vực: 0->0.25, 0.25->0.5, 0.5->0.75, 0.75->1.0
-                    let newIndex = Math.min(3, Math.floor(self.progress * 4));
-
-                    if (newIndex !== activeSlide) {
-                        activeSlide = newIndex;
-
-                        // Chạy hiệu ứng cho tất cả slide dựa trên vị trí index mới nhất
-                        slides.forEach((sl, idx) => {
-                            if (idx === activeSlide) {
-                                // Mở slide target vào giữa
-                                gsap.to(sl, { yPercent: 0, duration: 0.15, ease: "power2.inOut", overwrite: "auto" });
-                            } else if (idx < activeSlide) {
-                                // Slide đằng trước đẩy tuốt lên trên
-                                gsap.to(sl, { yPercent: -100, duration: 0.15, ease: "power2.inOut", overwrite: "auto" });
-                            } else {
-                                // Cất các slide sau xuống dưới
-                                gsap.to(sl, { yPercent: 100, duration: 0.15, ease: "power2.inOut", overwrite: "auto" });
-                            }
-                        });
-
-                        // Cập nhật góc quay theo số đoạn
-                        gsap.to('.whyus-wheel', { rotation: activeSlide * 45, duration: 0.15, ease: "power2.inOut", overwrite: "auto" });
-                    }
-                }
-            });
-        }
+        
     }
 
 });

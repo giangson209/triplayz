@@ -8,13 +8,13 @@
 
 #company {
   position: relative;
-  min-height: 200vh;
+  max-height: 168vh;
   padding-bottom: 36rem;
 }
 
 .company-globe-container {
   position: absolute;
-  bottom: 18px;
+  bottom: -36vh;
   left: 50%;
   transform: translateX(-50%);
   width: min(100%, 720px);
@@ -66,7 +66,9 @@
   width: 36px;
   height: 36px;
   flex-shrink: 0;
-  transition: transform 0.25s ease, filter 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
@@ -90,7 +92,9 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: rgba(255, 255, 255, 0.35);
-  transition: color 0.25s, text-decoration-color 0.25s;
+  transition:
+    color 0.25s,
+    text-decoration-color 0.25s;
 }
 
 .company-globe-marker.is-hovered .company-globe-marker-name {
@@ -137,4 +141,3 @@
   color: rgba(255, 255, 255, 0.35);
   pointer-events: none;
 }
-

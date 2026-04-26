@@ -21,7 +21,7 @@
       0, 0, 0, 0, 0,
     ],
     [
-      0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+      0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
       0, 0, 0, 0, 0,
     ],
     [
@@ -682,7 +682,7 @@
       });
       const sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
       const globe = new THREE.Group();
-      globe.rotation.x = 0.25;
+      globe.rotation.x = -0.2;
       globe.add(sphereMesh);
       scene.add(globe);
 
@@ -893,4 +893,4 @@
   } else {
     window.init3DGlobe();
   }
-}())
+})();
