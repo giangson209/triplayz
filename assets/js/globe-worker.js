@@ -34,7 +34,6 @@ self.onmessage = async function (e) {
     const COLS = 160;
     const ROWS = 80;
 
-    // Tính toán các ô nào là đất — trả về mảng số thay vì bitmap
     const cells = [];
     for (let row = 0; row < ROWS; row++) {
       if (row % 10 === 0) {

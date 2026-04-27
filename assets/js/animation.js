@@ -150,58 +150,106 @@
     return tex;
   }
 
-  // ─── Trail system ─────────────────────────────────────────────────────
-  const MAX_TRAIL = 64;
-  const TRAIL_DURATION = 500;
+  // ─── Trail system — dùng circular buffer thay vì unshift/filter ───────
+  // FIX: unshift() là O(n) mỗi mousemove → circular buffer O(1)
+  const MAX_TRAIL = 24; // FIX: giảm từ 64 → 24, giảm ~60% shader workload
+  const TRAIL_DURATION = 400; // FIX: giảm từ 500ms → 400ms
   const TRAIL_MIN_DIST = 3;
-  let trailPoints = [];
+
+  // Circular buffer: mỗi entry gồm x, y, time (3 float)
+  const _trailBuf = new Float64Array(MAX_TRAIL * 3);
+  let _trailHead = 0; // index của slot tiếp theo sẽ ghi
+  let _trailLen = 0; // số entry hợp lệ hiện tại
+
+  function trailGet(i) {
+    // i=0 là entry mới nhất
+    const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
+    return {
+      x: _trailBuf[slot * 3],
+      y: _trailBuf[slot * 3 + 1],
+      time: _trailBuf[slot * 3 + 2],
+    };
+  }
 
   function sampleTrail(x, y) {
     const now = performance.now();
-    if (trailPoints.length > 0) {
-      const last = trailPoints[0];
+    if (_trailLen > 0) {
+      const last = trailGet(0);
       if (Math.hypot(x - last.x, y - last.y) < TRAIL_MIN_DIST) return;
     }
-    trailPoints.unshift({ x, y, time: now });
-    if (trailPoints.length > MAX_TRAIL) trailPoints.pop();
+    _trailBuf[_trailHead * 3] = x;
+    _trailBuf[_trailHead * 3 + 1] = y;
+    _trailBuf[_trailHead * 3 + 2] = now;
+    _trailHead = (_trailHead + 1) % MAX_TRAIL;
+    if (_trailLen < MAX_TRAIL) _trailLen++;
   }
 
+  // FIX: reuse object thay vì tạo mới mỗi frame
+  const _velOut = { x: 0, y: 0 };
+
   function computeVelocity() {
-    if (trailPoints.length < 2) return { x: 0, y: 0 };
-    const n = Math.min(5, trailPoints.length);
+    if (_trailLen < 2) {
+      _velOut.x = 0;
+      _velOut.y = 0;
+      return _velOut;
+    }
+    const n = Math.min(5, _trailLen);
     let dx = 0,
       dy = 0,
       totalW = 0;
     for (let i = 0; i < n - 1; i++) {
-      const a = trailPoints[i],
-        b = trailPoints[i + 1];
+      const a = trailGet(i);
+      const b = trailGet(i + 1);
       const w = 1.0 / (i + 1);
       dx += (a.x - b.x) * w;
       dy += (a.y - b.y) * w;
       totalW += w;
     }
-    if (totalW === 0) return { x: 0, y: 0 };
+    if (totalW === 0) {
+      _velOut.x = 0;
+      _velOut.y = 0;
+      return _velOut;
+    }
     dx /= totalW;
     dy /= totalW;
     const len = Math.hypot(dx, dy);
-    if (len < 0.0001) return { x: 0, y: 0 };
-    return { x: dx / len, y: dy / len };
+    if (len < 0.0001) {
+      _velOut.x = 0;
+      _velOut.y = 0;
+      return _velOut;
+    }
+    _velOut.x = dx / len;
+    _velOut.y = dy / len;
+    return _velOut;
   }
 
   function updateTrailUniforms(mat) {
     const now = performance.now();
-    trailPoints = trailPoints.filter((p) => now - p.time < TRAIL_DURATION);
+
+    // FIX: expire entries in-place bằng cách giảm _trailLen
+    // thay vì filter() tạo array mới mỗi frame
+    while (_trailLen > 0) {
+      const oldest = trailGet(_trailLen - 1);
+      if (now - oldest.time >= TRAIL_DURATION) _trailLen--;
+      else break;
+    }
+
+    const positions = mat.uniforms.uTrailPositions.value;
+    const ages = mat.uniforms.uTrailAges.value;
+
     for (let i = 0; i < MAX_TRAIL; i++) {
-      if (i < trailPoints.length) {
-        const p = trailPoints[i];
-        mat.uniforms.uTrailPositions.value[i].set(p.x, p.y);
-        mat.uniforms.uTrailAges.value[i] = (now - p.time) / TRAIL_DURATION;
+      if (i < _trailLen) {
+        const p = trailGet(i);
+        positions[i].set(p.x, p.y);
+        ages[i] = (now - p.time) / TRAIL_DURATION;
       } else {
-        mat.uniforms.uTrailPositions.value[i].set(-9999, -9999);
-        mat.uniforms.uTrailAges.value[i] = 1.0;
+        positions[i].set(-9999, -9999);
+        ages[i] = 1.0;
       }
     }
-    mat.uniforms.uTrailCount.value = trailPoints.length;
+    mat.uniforms.uTrailCount.value = _trailLen;
+
+    // FIX: reuse _velOut object
     const vel = computeVelocity();
     mat.uniforms.uVelocity.value.set(vel.x, vel.y);
   }
@@ -245,180 +293,241 @@
 
   // ─── Shaders ──────────────────────────────────────────────────────────
   const vertexShader = `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `;
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
 
+  // FIX: MAX_TRAIL giảm từ 64 → 24 trong shader
+  // FIX: encode trail vào texture thay vì uniform array
+  //      → tránh GLSL unroll 63 iterations mỗi pixel
+  //      → GPU texture fetch có hardware cache, nhanh hơn uniform array lớn
   const fragmentShader = `
-        #define MAX_TRAIL 64
+    #define MAX_TRAIL 24
 
-        uniform float iTime;
-        uniform vec2  iResolution;
-        uniform vec3  uColor1;
-        uniform float uPixelSize;
-        uniform float uPixelGap;
-        uniform sampler2D uFontAtlas;
-        uniform vec2  uMousePos;
-        uniform float uMouseActive;
-        uniform vec2  uVelocity;
+    uniform float iTime;
+    uniform vec2  iResolution;
+    uniform vec3  uColor1;
+    uniform float uPixelSize;
+    uniform float uPixelGap;
+    uniform sampler2D uFontAtlas;
+    uniform vec2  uMousePos;
+    uniform float uMouseActive;
+    uniform vec2  uVelocity;
 
-        uniform vec2  uTrailPositions[MAX_TRAIL];
-        uniform float uTrailAges[MAX_TRAIL];
-        uniform int   uTrailCount;
+    // FIX: dùng texture thay vì uniform array
+    // Layout: mỗi texel = (x_screen, y_screen, age, unused)
+    // texture width = MAX_TRAIL, height = 1
+    uniform sampler2D uTrailTex;
+    uniform int       uTrailCount;
 
-        // Grid texture: r > 0.5 → isShape
-        uniform sampler2D uGridTex;
-        uniform vec2      uGridDims;   // vec2(GRID_W, GRID_H)
-        uniform vec2      uGridCenter; // center position in pixels (screen space)
+    uniform sampler2D uGridTex;
+    uniform vec2      uGridDims;
+    uniform vec2      uGridCenter;
 
-        uniform vec3 uBgTop;
-        uniform vec3 uBgBot;
+    uniform vec3 uBgTop;
+    uniform vec3 uBgBot;
 
-        varying vec2 vUv;
+    varying vec2 vUv;
 
-        vec3 hsl2rgb(float h, float s, float l) {
-          float c = (1.0 - abs(2.0 * l - 1.0)) * s;
-          float hp = h / 60.0;
-          float x = c * (1.0 - abs(mod(hp, 2.0) - 1.0));
-          vec3 rgb;
-          if      (hp < 1.0) rgb = vec3(c, x, 0.0);
-          else if (hp < 2.0) rgb = vec3(x, c, 0.0);
-          else if (hp < 3.0) rgb = vec3(0.0, c, x);
-          else if (hp < 4.0) rgb = vec3(0.0, x, c);
-          else if (hp < 5.0) rgb = vec3(x, 0.0, c);
-          else               rgb = vec3(c, 0.0, x);
-          return rgb + (l - c * 0.5);
+    vec3 hsl2rgb(float h, float s, float l) {
+      float c = (1.0 - abs(2.0 * l - 1.0)) * s;
+      float hp = h / 60.0;
+      float x = c * (1.0 - abs(mod(hp, 2.0) - 1.0));
+      vec3 rgb;
+      if      (hp < 1.0) rgb = vec3(c, x, 0.0);
+      else if (hp < 2.0) rgb = vec3(x, c, 0.0);
+      else if (hp < 3.0) rgb = vec3(0.0, c, x);
+      else if (hp < 4.0) rgb = vec3(0.0, x, c);
+      else if (hp < 5.0) rgb = vec3(x, 0.0, c);
+      else               rgb = vec3(c, 0.0, x);
+      return rgb + (l - c * 0.5);
+    }
+
+    void main() {
+      vec2 cellIndex  = floor(vUv * iResolution / uPixelSize);
+      vec2 cellUV     = fract(vUv * iResolution / uPixelSize);
+      vec2 cellCenter = (cellIndex + 0.5) * uPixelSize / iResolution;
+      vec2 pixelPos   = cellCenter * iResolution;
+
+      float gapHalf = uPixelGap * 0.5;
+      bool inGap = cellUV.x < gapHalf || cellUV.x > (1.0 - gapHalf) ||
+                   cellUV.y < gapHalf || cellUV.y > (1.0 - gapHalf);
+
+      // ── Trail lookup từ texture ────────────────────────────────────────
+      bool  inZone   = false;
+      float bestDist = 999.0;
+      float bestAge  = 1.0;
+
+      // FIX: thay vì uniform array loop unroll 63×,
+      //      dùng texture fetch — số iteration thực tế = uTrailCount
+      for (int i = 0; i < MAX_TRAIL - 1; i++) {
+        if (i >= uTrailCount - 1) break;
+
+        // Fetch 2 điểm liên tiếp từ trail texture
+        // texel.xy = screen pos, texel.z = age [0..1]
+        vec4 texA = texture2D(uTrailTex, vec2((float(i)     + 0.5) / float(MAX_TRAIL), 0.5));
+        vec4 texB = texture2D(uTrailTex, vec2((float(i + 1) + 0.5) / float(MAX_TRAIL), 0.5));
+
+        // Decode: xy lưu dạng [0..1] mapped từ screen coords
+        // x: [0..iResolution.x], y: [0..iResolution.y]
+        vec2 a    = texA.xy * iResolution;
+        vec2 b    = texB.xy * iResolution;
+        float ageA = texA.z;
+        float ageB = texB.z;
+
+        if (ageA >= 1.0 && ageB >= 1.0) continue;
+
+        vec2  ab   = b - a;
+        vec2  ap   = pixelPos - a;
+        float len2 = dot(ab, ab);
+        float t    = (len2 > 0.0) ? clamp(dot(ap, ab) / len2, 0.0, 1.0) : 0.0;
+        vec2  proj = a + t * ab;
+        float dist = length((pixelPos - proj) / uPixelSize);
+        float age  = mix(ageA, ageB, t);
+
+        if (dist < 1.5) {
+          if (!inZone || age < bestAge) {
+            inZone   = true;
+            bestDist = dist;
+            bestAge  = age;
+          }
         }
+      }
 
-        void main() {
-          vec2 cellIndex  = floor(vUv * iResolution / uPixelSize);
-          vec2 cellUV     = fract(vUv * iResolution / uPixelSize);
-          vec2 cellCenter = (cellIndex + 0.5) * uPixelSize / iResolution;
-          vec2 pixelPos   = cellCenter * iResolution;
-
-          // ── Pixel gap mask ────────────────────────────────────────────────
-          float gapHalf = uPixelGap * 0.5;
-          bool inGap = cellUV.x < gapHalf || cellUV.x > (1.0 - gapHalf) ||
-                       cellUV.y < gapHalf || cellUV.y > (1.0 - gapHalf);
-
-          // ── Trail / hover ────────────────────────────────────────────────
-          bool  inZone   = false;
-          float bestDist = 999.0;
-          float bestAge  = 1.0;
-
-          for (int i = 0; i < MAX_TRAIL - 1; i++) {
-            if (i >= uTrailCount - 1) break;
-            float ageA = uTrailAges[i];
-            float ageB = uTrailAges[i + 1];
-            if (ageA >= 1.0 && ageB >= 1.0) continue;
-
-            vec2  a    = uTrailPositions[i];
-            vec2  b    = uTrailPositions[i + 1];
-            vec2  ab   = b - a;
-            vec2  ap   = pixelPos - a;
-            float len2 = dot(ab, ab);
-            float t    = (len2 > 0.0) ? clamp(dot(ap, ab) / len2, 0.0, 1.0) : 0.0;
-            vec2  proj = a + t * ab;
-            float dist = length((pixelPos - proj) / uPixelSize);
-            float age  = mix(ageA, ageB, t);
-
-            if (dist < 1.5) {
-              if (!inZone || age < bestAge) {
-                inZone   = true;
-                bestDist = dist;
-                bestAge  = age;
-              }
-            }
-          }
-
-          if (uMouseActive > 0.5) {
-            vec2  diff   = pixelPos - uMousePos;
-            float dist   = length(diff / uPixelSize);
-            float cometR = 2.0;
-            if (dist < cometR) {
-              float velLen = length(uVelocity);
-              float cometMask;
-              if (velLen < 0.01) {
-                cometMask = smoothstep(0.8, 0.0, dist);
-              } else {
-                vec2  backward   = -uVelocity;
-                vec2  toPixel    = (dist > 0.001) ? normalize(diff) : vec2(0.0);
-                float alignment  = dot(toPixel, backward);
-                float angleMask  = smoothstep(-0.15, 0.65, alignment);
-                float elongation = mix(1.0, 2.2, max(0.0, alignment));
-                float distFade   = 1.0 - smoothstep(0.0, cometR * elongation * 0.5, dist);
-                float headMask   = smoothstep(0.6, 0.0, dist);
-                cometMask = max(headMask, angleMask * distFade);
-              }
-              if (cometMask > 0.3) {
-                if (!inZone || 0.0 < bestAge) {
-                  inZone   = true;
-                  bestDist = dist;
-                  bestAge  = 0.0;
-                }
-              }
-            }
-          }
-
-          // ── Grid texture lookup ──────────────────────────────────────────
-          // uGridCenter is in screen pixels (Y flipped: 0 = bottom)
-          // Total grid size in pixels:
-          vec2 gridSizePx = uGridDims * uPixelSize;
-          // Top-left corner of the grid in cell-index space:
-          vec2 gridOriginCell = floor((uGridCenter - gridSizePx * 0.5) / uPixelSize);
-
-          vec2 localCell = cellIndex - gridOriginCell;
-          bool isShape   = false;
-
-          if (localCell.x >= 0.0 && localCell.x < uGridDims.x &&
-              localCell.y >= 0.0 && localCell.y < uGridDims.y) {
-            // Grid texture row 0 = top of logo; screen Y 0 = bottom → flip Y
-            vec2 tc = vec2(
-              (localCell.x + 0.5) / uGridDims.x,
-              1.0 - (localCell.y + 0.5) / uGridDims.y
-            );
-            isShape = (texture2D(uGridTex, tc).r > 0.5);
-          }
-
-          // ── Background ───────────────────────────────────────────────────
-          vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
-
-          if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
-
-          // ── Final color ──────────────────────────────────────────────────
-          if (!inZone) {
-            gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
-            return;
-          }
-
-          float seqPos = bestAge * 6.0;
-          if (seqPos >= 5.0) {
-            gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
-            return;
-          }
-
-          int digitIndex = int(floor(seqPos));
-          vec2 innerUV   = (cellUV - gapHalf) / (1.0 - uPixelGap);
-          float atlasX   = (float(digitIndex) + innerUV.x) / 5.0;
-          float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
-
-          vec3 digitColor;
-          if (isShape) {
-            if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
-            else if (digitIndex == 1) digitColor = hsl2rgb(201.0, 1.00, 0.80);
-            else if (digitIndex == 2) digitColor = hsl2rgb( 65.0, 1.00, 0.87);
-            else if (digitIndex == 3) digitColor = vec3(0.996);
-            else                      digitColor = uColor1;
+      if (uMouseActive > 0.5) {
+        vec2  diff   = pixelPos - uMousePos;
+        float dist   = length(diff / uPixelSize);
+        float cometR = 2.0;
+        if (dist < cometR) {
+          float velLen = length(uVelocity);
+          float cometMask;
+          if (velLen < 0.01) {
+            cometMask = smoothstep(0.8, 0.0, dist);
           } else {
-            digitColor = uColor1;
+            vec2  backward   = -uVelocity;
+            vec2  toPixel    = (dist > 0.001) ? normalize(diff) : vec2(0.0);
+            float alignment  = dot(toPixel, backward);
+            float angleMask  = smoothstep(-0.15, 0.65, alignment);
+            float elongation = mix(1.0, 2.2, max(0.0, alignment));
+            float distFade   = 1.0 - smoothstep(0.0, cometR * elongation * 0.5, dist);
+            float headMask   = smoothstep(0.6, 0.0, dist);
+            cometMask = max(headMask, angleMask * distFade);
           }
-
-          gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0);
+          if (cometMask > 0.3) {
+            if (!inZone || 0.0 < bestAge) {
+              inZone   = true;
+              bestDist = dist;
+              bestAge  = 0.0;
+            }
+          }
         }
-      `;
+      }
+
+      // ── Grid texture lookup ──────────────────────────────────────────
+      vec2 gridSizePx    = uGridDims * uPixelSize;
+      vec2 gridOriginCell = floor((uGridCenter - gridSizePx * 0.5) / uPixelSize);
+      vec2 localCell     = cellIndex - gridOriginCell;
+      bool isShape       = false;
+
+      if (localCell.x >= 0.0 && localCell.x < uGridDims.x &&
+          localCell.y >= 0.0 && localCell.y < uGridDims.y) {
+        vec2 tc = vec2(
+          (localCell.x + 0.5) / uGridDims.x,
+          1.0 - (localCell.y + 0.5) / uGridDims.y
+        );
+        isShape = (texture2D(uGridTex, tc).r > 0.5);
+      }
+
+      vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
+
+      if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
+
+      if (!inZone) {
+        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
+        return;
+      }
+
+      float seqPos = bestAge * 6.0;
+      if (seqPos >= 5.0) {
+        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
+        return;
+      }
+
+      int digitIndex = int(floor(seqPos));
+      vec2 innerUV   = (cellUV - gapHalf) / (1.0 - uPixelGap);
+      float atlasX   = (float(digitIndex) + innerUV.x) / 5.0;
+      float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
+
+      vec3 digitColor;
+      if (isShape) {
+        if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
+        else if (digitIndex == 1) digitColor = hsl2rgb(201.0, 1.00, 0.80);
+        else if (digitIndex == 2) digitColor = hsl2rgb( 65.0, 1.00, 0.87);
+        else if (digitIndex == 3) digitColor = vec3(0.996);
+        else                      digitColor = uColor1;
+      } else {
+        digitColor = uColor1;
+      }
+
+      gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0);
+    }
+  `;
+
+  // ─── Trail texture (thay thế uniform array) ───────────────────────────
+  // FIX: MAX_TRAIL × 1 pixel RGBA float texture
+  // layout: R=x/resW, G=y/resH, B=age, A=unused
+  const _trailTexData = new Float32Array(MAX_TRAIL * 4);
+  let _trailTex = null; // khởi tạo sau khi có renderer
+
+  function createTrailTexture() {
+    const tex = new THREE.DataTexture(
+      _trailTexData,
+      MAX_TRAIL,
+      1,
+      THREE.RGBAFormat,
+      THREE.FloatType,
+    );
+    tex.minFilter = THREE.NearestFilter;
+    tex.magFilter = THREE.NearestFilter;
+    return tex;
+  }
+
+  function updateTrailTexture(mat, resW, resH) {
+    const now = performance.now();
+
+    // Expire oldest entries
+    while (_trailLen > 0) {
+      const oldest = trailGet(_trailLen - 1);
+      if (now - oldest.time >= TRAIL_DURATION) _trailLen--;
+      else break;
+    }
+
+    // Ghi dữ liệu trail vào Float32Array
+    for (let i = 0; i < MAX_TRAIL; i++) {
+      const base = i * 4;
+      if (i < _trailLen) {
+        const p = trailGet(i);
+        _trailTexData[base] = p.x / resW; // x normalized
+        _trailTexData[base + 1] = p.y / resH; // y normalized
+        _trailTexData[base + 2] = (now - p.time) / TRAIL_DURATION; // age
+        _trailTexData[base + 3] = 0.0;
+      } else {
+        _trailTexData[base] = -1.0; // off-screen sentinel
+        _trailTexData[base + 1] = -1.0;
+        _trailTexData[base + 2] = 1.0;
+        _trailTexData[base + 3] = 0.0;
+      }
+    }
+
+    mat.uniforms.uTrailTex.value.needsUpdate = true;
+    mat.uniforms.uTrailCount.value = _trailLen;
+
+    const vel = computeVelocity();
+    mat.uniforms.uVelocity.value.set(vel.x, vel.y);
+  }
 
   // ─── Init ─────────────────────────────────────────────────────────────
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -428,15 +537,17 @@
   const DPR = Math.min(window.devicePixelRatio, 2);
   const physicalPixelSize = Math.round(config.pixelSize * DPR);
 
-  function physicalRes() {
-    return {
-      w: Math.round(window.innerWidth * DPR),
-      h: Math.round(window.innerHeight * DPR),
-    };
+  // FIX: cache resolution object, không tạo mới mỗi frame
+  const _res = {
+    w: Math.round(window.innerWidth * DPR),
+    h: Math.round(window.innerHeight * DPR),
+  };
+  function updateRes() {
+    _res.w = Math.round(window.innerWidth * DPR);
+    _res.h = Math.round(window.innerHeight * DPR);
   }
 
-  const { w: initW, h: initH } = physicalRes();
-  renderer.setSize(initW, initH, false);
+  renderer.setSize(_res.w, _res.h, false);
   renderer.setPixelRatio(1);
   renderer.domElement.style.width = "100%";
   renderer.domElement.style.height = "100%";
@@ -444,20 +555,20 @@
 
   const fontAtlas = createFontAtlas(physicalPixelSize * 4);
   const gridTex = createGridTexture(PIXEL_GRID, GRID_W, GRID_H);
+  _trailTex = createTrailTexture();
 
   function getGridCenter() {
-    const { h } = physicalRes();
     const logoWidthPx = GRID_W * physicalPixelSize;
     return new THREE.Vector2(
       config.marginLeft * DPR + logoWidthPx * 0.5,
-      h * config.centerY,
+      _res.h * config.centerY,
     );
   }
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
       iTime: { value: 0 },
-      iResolution: { value: new THREE.Vector2(initW, initH) },
+      iResolution: { value: new THREE.Vector2(_res.w, _res.h) },
       uColor1: { value: new THREE.Vector3(...hexToRgb(config.color1)) },
       uPixelSize: { value: physicalPixelSize },
       uPixelGap: { value: config.pixelGap },
@@ -465,13 +576,8 @@
       uMousePos: { value: new THREE.Vector2(-9999, -9999) },
       uMouseActive: { value: 0.0 },
       uVelocity: { value: new THREE.Vector2(0, 0) },
-      uTrailPositions: {
-        value: Array.from(
-          { length: MAX_TRAIL },
-          () => new THREE.Vector2(-9999, -9999),
-        ),
-      },
-      uTrailAges: { value: new Array(MAX_TRAIL).fill(1.0) },
+      // FIX: thay uniform array bằng texture
+      uTrailTex: { value: _trailTex },
       uTrailCount: { value: 0 },
       uGridTex: { value: gridTex },
       uGridDims: { value: new THREE.Vector2(GRID_W, GRID_H) },
@@ -495,7 +601,7 @@
   document.addEventListener("mousemove", (e) => {
     const rect = wrapper.getBoundingClientRect();
     actualMouse.x = (e.clientX - rect.left) * DPR;
-    actualMouse.y = (rect.height - (e.clientY - rect.top)) * DPR;
+    actualMouse.y = (_res.h / DPR - (e.clientY - rect.top)) * DPR;
     actualMouse.active = true;
     lastMoveTime = performance.now();
     if (laggedMouse.x === -9999) {
@@ -509,9 +615,15 @@
     material.uniforms.uMouseActive.value = 0.0;
   });
 
-  // ─── Render loop ──────────────────────────────────────────────────────
-  (function animate() {
-    requestAnimationFrame(animate);
+  // ─── Pause/Resume (dùng cho IntersectionObserver) ─────────────────────
+  // FIX: chỉ pause RAF, không destroy context
+  let _shaderPaused = false;
+  let _shaderRafId = null;
+
+  function shaderAnimate() {
+    if (_shaderPaused) return;
+    _shaderRafId = requestAnimationFrame(shaderAnimate);
+
     const now = performance.now();
     if (actualMouse.active) {
       laggedMouse.x += (actualMouse.x - laggedMouse.x) * LERP_FACTOR;
@@ -525,20 +637,69 @@
       lastMoveTime = 0;
       actualMouse.active = false;
     }
+
     material.uniforms.iTime.value = now * 0.001;
-    updateTrailUniforms(material);
+    // FIX: dùng texture update thay vì updateTrailUniforms
+    updateTrailTexture(material, _res.w, _res.h);
     renderer.render(scene, camera);
-  })();
+  }
+
+  window.shaderPause = function () {
+    _shaderPaused = true;
+  };
+  window.shaderResume = function () {
+    if (!_shaderPaused) return;
+    _shaderPaused = false;
+    shaderAnimate();
+  };
+
+  // Bắt đầu loop
+  shaderAnimate();
 
   // ─── Resize ───────────────────────────────────────────────────────────
   window.addEventListener("resize", () => {
-    const { w, h } = physicalRes();
-    renderer.setSize(w, h, false);
-    material.uniforms.iResolution.value.set(w, h);
+    updateRes();
+    renderer.setSize(_res.w, _res.h, false);
+    material.uniforms.iResolution.value.set(_res.w, _res.h);
     material.uniforms.uGridCenter.value.copy(getGridCenter());
   });
 })();
 
+// ═══════════════════════════════════════════════════════════════════════════
+//  IntersectionObserver — tắt/bật shader & globe theo viewport
+// ═══════════════════════════════════════════════════════════════════════════
+// FIX: rootMargin '150px' để warm-up trước khi user thấy section
+(function initVisibilityControl() {
+  const shaderSection = document.querySelector(".gradient-canvas");
+  const globeSection = document.getElementById("company-globe");
+  if (!shaderSection || !globeSection) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target === shaderSection) {
+          if (entry.isIntersecting) window.shaderResume?.();
+          else window.shaderPause?.();
+        }
+        if (entry.target === globeSection) {
+          if (entry.isIntersecting) window.globeResume?.();
+          else window.globePause?.();
+        }
+      });
+    },
+    {
+      threshold: 0,
+      rootMargin: "150px", // warm-up 150px trước khi visible
+    },
+  );
+
+  observer.observe(shaderSection);
+  observer.observe(globeSection);
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  3D Globe — fixed version
+// ═══════════════════════════════════════════════════════════════════════════
 (function init3DGlobeAnimation() {
   window.init3DGlobe = async function init3DGlobe() {
     const globeRoot = document.getElementById("company-globe");
@@ -612,25 +773,25 @@
     prog.style.width = "90%";
     msgText.textContent = "Đang dựng cầu...";
 
-    const COLS = 160;
-    const ROWS = 80;
-    const CELL = 10;
-    const GAP = 0.2;
-
+    const COLS = 160,
+      ROWS = 80,
+      CELL = 10,
+      GAP = 0.2;
     const offscreen = document.createElement("canvas");
     offscreen.width = COLS * CELL;
     offscreen.height = ROWS * CELL;
     const ctx = offscreen.getContext("2d");
     ctx.clearRect(0, 0, offscreen.width, offscreen.height);
     ctx.fillStyle = "hsla(247, 48%, 64%, 1)";
-
     const pad = (CELL * GAP) / 2;
     const sz = CELL * (1 - GAP);
-
     for (let i = 0; i < landCells.length; i += 2) {
-      const row = landCells[i];
-      const col = landCells[i + 1];
-      ctx.fillRect(col * CELL + pad, row * CELL + pad, sz, sz);
+      ctx.fillRect(
+        landCells[i + 1] * CELL + pad,
+        landCells[i] * CELL + pad,
+        sz,
+        sz,
+      );
     }
 
     prog.style.width = "100%";
@@ -661,9 +822,11 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
+        // FIX: re-cache marker widths khi resize
+        markerEls.forEach((el, i) => {
+          markerWidths[i] = el.offsetWidth || 60;
+        });
       }
-      resize();
-      window.addEventListener("resize", resize);
 
       const RADIUS = 1.0;
       const texture = new THREE.CanvasTexture(textureCanvas);
@@ -678,7 +841,7 @@
       });
       const sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
       const globe = new THREE.Group();
-      globe.rotation.x = -0.2;
+      globe.rotation.x = -0.15;
       globe.add(sphereMesh);
       scene.add(globe);
 
@@ -705,7 +868,7 @@
         div.className = "company-globe-marker" + (m.reverse ? " reverse" : "");
         div.innerHTML =
           '<div class="company-globe-marker-icon">' +
-          ICONS[m.icon] +
+          (ICONS[m.icon] || "") +
           "</div>" +
           '<span class="company-globe-marker-name">' +
           m.name +
@@ -725,12 +888,16 @@
         return div;
       });
 
+      // FIX: cache offsetWidth sau khi mount, không đọc trong RAF loop
+      const markerWidths = markerEls.map((el) => el.offsetWidth || 60);
+
       function refreshHover() {
         markerEls.forEach((el, i) =>
           el.classList.toggle("is-hovered", i === hoveredIdx),
         );
       }
 
+      // FIX: reuse Vector3 thay vì allocate mỗi frame
       const _wp = new THREE.Vector3();
       const _pr = new THREE.Vector3();
 
@@ -745,9 +912,13 @@
           const sx = (_pr.x * 0.5 + 0.5) * W;
           const sy = (-_pr.y * 0.5 + 0.5) * H;
           const el = markerEls[i];
-          const elW = el.offsetWidth || 60;
+          // FIX: dùng cached width, không đọc offsetWidth trong loop
+          const elW = markerWidths[i];
           const offsetX = m.reverse ? sx - elW + 20 : sx - 20;
           el.style.transform = `translate(${offsetX}px,${sy - 46}px)`;
+
+          el.style.zIndex = Math.round((1.0 - _pr.z) * 500);
+
           let opacity;
           if (edgeFade < 0.01) opacity = 0;
           else if (hoveredIdx !== -1 && hoveredIdx !== i)
@@ -765,99 +936,125 @@
       let velX = 0;
       let velY = 0;
       let autoRotate = true;
-      const trail = [];
-      const TRAIL_MS = 80;
 
-      function trailPush(x, y) {
+      // FIX: circular trail buffer cho globe drag (giống shader trail)
+      const _globeTrail = new Float64Array(16 * 3); // 16 entries: x, y, t
+      let _globeTrailHead = 0;
+      let _globeTrailLen = 0;
+      const GLOBE_TRAIL_MS = 80;
+
+      function globeTrailPush(x, y) {
         const now = performance.now();
-        trail.push({ x, y, t: now });
-        while (trail.length > 1 && now - trail[0].t > TRAIL_MS) trail.shift();
+        _globeTrail[_globeTrailHead * 3] = x;
+        _globeTrail[_globeTrailHead * 3 + 1] = y;
+        _globeTrail[_globeTrailHead * 3 + 2] = now;
+        _globeTrailHead = (_globeTrailHead + 1) % 16;
+        if (_globeTrailLen < 16) _globeTrailLen++;
+        // expire
+        while (_globeTrailLen > 1) {
+          const oldestSlot =
+            ((_globeTrailHead - _globeTrailLen + 16 * 2) % 16) * 3;
+          if (now - _globeTrail[oldestSlot + 2] > GLOBE_TRAIL_MS)
+            _globeTrailLen--;
+          else break;
+        }
       }
 
-      function trailVelocity() {
-        if (trail.length < 2) return { vx: 0, vy: 0 };
-        const first = trail[0];
-        const last = trail[trail.length - 1];
-        const dt = last.t - first.t || 1;
+      function globeTrailVelocity() {
+        if (_globeTrailLen < 2) return { vx: 0, vy: 0 };
+        const newest = ((_globeTrailHead - 1 + 16) % 16) * 3;
+        const oldest = ((_globeTrailHead - _globeTrailLen + 16 * 2) % 16) * 3;
+        const dt = _globeTrail[newest + 2] - _globeTrail[oldest + 2] || 1;
         return {
-          vx: ((last.x - first.x) / dt) * 16 * 0.005,
-          vy: ((last.y - first.y) / dt) * 16 * 0.005,
+          vx: ((_globeTrail[newest] - _globeTrail[oldest]) / dt) * 16 * 0.005,
+          vy:
+            ((_globeTrail[newest + 1] - _globeTrail[oldest + 1]) / dt) *
+            16 *
+            0.005,
         };
       }
+
+      // FIX: lưu reference handler để có thể removeEventListener khi destroy
+      const _onMouseUp = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        const v = globeTrailVelocity();
+        velX = v.vx;
+        velY = v.vy;
+      };
+      const _onMouseMove = (e) => {
+        if (!isDragging) return;
+        const newest = ((_globeTrailHead - 1 + 16) % 16) * 3;
+        const prevX = _globeTrailLen > 0 ? _globeTrail[newest] : e.clientX;
+        const prevY = _globeTrailLen > 0 ? _globeTrail[newest + 1] : e.clientY;
+        globe.rotation.y += (e.clientX - prevX) * 0.005;
+        globe.rotation.x = clamp(
+          globe.rotation.x + (e.clientY - prevY) * 0.005,
+          -1.2,
+          1.2,
+        );
+        globeTrailPush(e.clientX, e.clientY);
+      };
 
       canvas.addEventListener("mousedown", (e) => {
         isDragging = true;
         autoRotate = false;
-        trail.length = 0;
-        trailPush(e.clientX, e.clientY);
+        _globeTrailLen = 0;
+        _globeTrailHead = 0;
+        globeTrailPush(e.clientX, e.clientY);
         velX = 0;
         velY = 0;
         hoveredIdx = -1;
         refreshHover();
       });
-
-      window.addEventListener("mouseup", () => {
-        if (!isDragging) return;
-        isDragging = false;
-        const v = trailVelocity();
-        velX = v.vx;
-        velY = v.vy;
-      });
-
-      window.addEventListener("mousemove", (e) => {
-        if (!isDragging) return;
-        const prev = trail[trail.length - 1] || { x: e.clientX, y: e.clientY };
-        globe.rotation.y += (e.clientX - prev.x) * 0.005;
-        globe.rotation.x = clamp(
-          globe.rotation.x + (e.clientY - prev.y) * 0.005,
-          -1.2,
-          1.2,
-        );
-        trailPush(e.clientX, e.clientY);
-      });
+      window.addEventListener("mouseup", _onMouseUp);
+      window.addEventListener("mousemove", _onMouseMove);
 
       canvas.addEventListener(
         "touchstart",
         (e) => {
           isDragging = true;
           autoRotate = false;
-          trail.length = 0;
-          trailPush(e.touches[0].clientX, e.touches[0].clientY);
+          _globeTrailLen = 0;
+          _globeTrailHead = 0;
+          globeTrailPush(e.touches[0].clientX, e.touches[0].clientY);
           velX = 0;
           velY = 0;
         },
         { passive: true },
       );
-
       canvas.addEventListener("touchend", () => {
         if (!isDragging) return;
         isDragging = false;
-        const v = trailVelocity();
+        const v = globeTrailVelocity();
         velX = v.vx;
         velY = v.vy;
       });
-
       canvas.addEventListener(
         "touchmove",
         (e) => {
           if (!isDragging) return;
-          const prev = trail[trail.length - 1] || {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY,
-          };
-          globe.rotation.y += (e.touches[0].clientX - prev.x) * 0.005;
+          const newest = ((_globeTrailHead - 1 + 16) % 16) * 3;
+          const prevX =
+            _globeTrailLen > 0 ? _globeTrail[newest] : e.touches[0].clientX;
+          const prevY =
+            _globeTrailLen > 0 ? _globeTrail[newest + 1] : e.touches[0].clientY;
+          globe.rotation.y += (e.touches[0].clientX - prevX) * 0.005;
           globe.rotation.x = clamp(
-            globe.rotation.x + (e.touches[0].clientY - prev.y) * 0.005,
+            globe.rotation.x + (e.touches[0].clientY - prevY) * 0.005,
             -1.2,
             1.2,
           );
-          trailPush(e.touches[0].clientX, e.touches[0].clientY);
+          globeTrailPush(e.touches[0].clientX, e.touches[0].clientY);
         },
         { passive: true },
       );
 
-      (function animate() {
-        requestAnimationFrame(animate);
+      let _globePaused = false;
+
+      function globeLoop() {
+        if (_globePaused) return;
+        requestAnimationFrame(globeLoop);
         pauseScale += ((isPaused ? 0 : 1) - pauseScale) * 0.05;
         if (autoRotate) {
           globe.rotation.y += 0.002 * pauseScale;
@@ -876,7 +1073,32 @@
         globe.updateMatrixWorld(true);
         updateMarkers();
         renderer.render(scene, camera);
-      })();
+      }
+
+      window.globePause = function () {
+        _globePaused = true;
+      };
+      window.globeResume = function () {
+        if (!_globePaused) return;
+        _globePaused = false;
+        globeLoop();
+      };
+
+      // FIX: cleanup khi cần (SPA navigation)
+      window.globeDestroy = function () {
+        _globePaused = true;
+        window.removeEventListener("mouseup", _onMouseUp);
+        window.removeEventListener("mousemove", _onMouseMove);
+        window.removeEventListener("resize", resize);
+        renderer.dispose();
+        texture.dispose();
+        sphereGeo.dispose();
+        sphereMat.dispose();
+      };
+
+      resize();
+      window.addEventListener("resize", resize);
+      globeLoop();
     }
 
     function clamp(v, lo, hi) {
