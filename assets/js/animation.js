@@ -813,7 +813,7 @@
       renderer.setClearColor(0x000000, 0);
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
       camera.position.z = 3.8;
 
       function resize() {
@@ -1111,4 +1111,116 @@
   } else {
     window.init3DGlobe();
   }
+})();
+
+(function initServiceAnimation() {
+
+  const SRV_IMAGES = [
+    "./assets/images/srv-1.png",
+    "./assets/images/srv-2.png",
+    "./assets/images/srv-3.png",
+  ];
+
+  const SRV_DESCRIPTIONS = [
+    "Gamified engagement and interactive media solutions that drive deeper user interaction and lasting engagement.",
+    "Comprehensive BFSI solutions delivering secure, scalable financial platforms and seamless banking integrations.",
+    "End-to-end digital solutions that accelerate transformation and connect your business to the modern ecosystem.",
+  ];
+
+  const TOTAL = SRV_IMAGES.length;
+  const imgFrom = document.getElementById("srv-img-from");
+  const imgTo = document.getElementById("srv-img-to");
+  const titleItems = document.querySelectorAll(".srv-title-item");
+  const slotTrack = document.getElementById("srv-slot-track");
+  const slotWindow = document.getElementById("srv-slot-window");
+  const descText = document.getElementById("srv-desc-text");
+  const bullet = document.getElementById("srv-title-bullet");
+  const wipeLine = document.getElementById("srv-wipe-line");
+  const scrollTrig = document.getElementById("srv-scroll-trigger");
+  const imageStage = document.getElementById("srv-image-stage");
+  const pinnedSec = document.getElementById("srv-pinned-section");
+
+  if (!scrollTrig || !imageStage || !pinnedSec) return;
+
+  let lastFrom = -1,
+    lastTo = -1,
+    lastSlideIdx = -1;
+  
+  function pad2(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  function moveBullet(idx) {
+    const target = titleItems[idx];
+    if (!target) return;
+    const itemRect = target.getBoundingClientRect();
+    const pinnedRect = pinnedSec.getBoundingClientRect();
+    const midY = itemRect.top - pinnedRect.top + itemRect.height / 2;
+    bullet.style.top = midY + "px";
+  }
+
+  function updateUI(idx) {
+    if (idx === lastSlideIdx) return;
+    lastSlideIdx = idx;
+    titleItems.forEach((el, i) => el.classList.toggle("active", i === idx));
+    moveBullet(idx);
+    const digitH = slotWindow.offsetHeight;
+    slotTrack.style.transform = `translateY(-${idx * digitH}px)`;
+    descText.style.opacity = "0";
+    setTimeout(() => {
+      descText.textContent = SRV_DESCRIPTIONS[idx];
+      descText.style.opacity = "1";
+    }, 200);
+  }
+
+  function updateImages(from, to) {
+    if (from !== lastFrom) {
+      imgFrom.src = SRV_IMAGES[from];
+      lastFrom = from;
+    }
+    if (to !== lastTo) {
+      imgTo.src = SRV_IMAGES[to];
+      lastTo = to;
+    }
+  }
+
+  function getProgress() {
+    const rect = scrollTrig.getBoundingClientRect();
+    const total = scrollTrig.offsetHeight - window.innerHeight;
+    return Math.max(0, Math.min(1, -rect.top / total));
+  }
+
+  function onScroll() {
+    const p = getProgress();
+    const numT = TOTAL - 1;
+    const tp = p * numT;
+    const from = Math.min(Math.floor(tp), numT - 1);
+    const to = Math.min(from + 1, TOTAL - 1);
+    const t = tp - from;
+
+    updateUI(t > 0.5 ? to : from);
+    updateImages(from, to);
+
+    const topPct = (1 - t) * 100;
+    imgTo.style.clipPath = `inset(${topPct.toFixed(2)}% 0 0 0)`;
+
+    if (t > 0.005 && t < 0.995) {
+      wipeLine.style.opacity = "1";
+      wipeLine.style.top = `${(1 - t) * 100}%`;
+    } else {
+      wipeLine.style.opacity = "0";
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", () => {
+    onScroll();
+  });
+  window.addEventListener("load", () => {
+    moveBullet(0);
+  });
+
+  imgFrom.src = SRV_IMAGES[0];
+  imgTo.src = SRV_IMAGES[1];
+  onScroll();
 })();
