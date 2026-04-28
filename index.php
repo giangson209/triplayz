@@ -57,11 +57,8 @@
         </div>
     </section>
 
-    <section class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
+    <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative">
         <div class="wrapper relative">
-            <div class="absolute top-0 right-0 pointer-events-none">
-                <img src="assets/images/asci.png" alt="">
-            </div>
             <div class="block lg:flex mb-6 md:mb-20 gap-50 relative z-2">
                 <div class="item anek font-medium opacity-65 pt-0 lg:pt-10 mb-6 lg:mb-0">/SERVICES</div>
                 <div class="wraper max-w-300">
@@ -91,115 +88,103 @@
                     </div>
                 </div>
             </div>
+
             <div class="relative block">
                 <div class="line w-full mb-6 md:mb-0">
                     <img src="assets/images/line-srv.svg" class="w-full" alt="">
                 </div>
-                <div class="hidden md:grid grid-cols-12 relative pt-12 gap-10 xl:gap-25 min-h-180 2xl:min-h-200">
-                    <div class="item col-span-5 3xl:col-span-4 h-full flex flex-col justify-between gap-10">
-                        <div class="list-service text-10 2xl:text-[56px] font-medium">
-                            <ul class="">
-                                <li class="relative pl-11 mb-2 last:mb-0 active">Digital Solution</li>
-                                <li class="relative pl-11 mb-2 last:mb-0">BFSI Solution</li>
-                                <li class="relative pl-11 mb-2 last:mb-0">Digital Solution</li>
+
+                <!-- Desktop: scroll-pin animation -->
+                <div id="srv-scroll-trigger" class="hidden md:block">
+                    <div id="srv-pinned-section">
+
+                        <div id="srv-image-stage">
+                            <img id="srv-img-from" class="srv-slide-img" src="" alt="" />
+                            <img id="srv-img-to"   class="srv-slide-img" src="" alt="" />
+
+                            <div id="srv-wipe-line"></div>
+
+                            <div class="srv-corner" id="srv-c-tl">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M22 1H1V22" stroke="#2a3d60" stroke-width="1.5"/></svg>
+                            </div>
+                            <div class="srv-corner" id="srv-c-tr">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M0 1H21V22" stroke="#2a3d60" stroke-width="1.5"/></svg>
+                            </div>
+                            <div class="srv-corner" id="srv-c-bl">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M22 21H1V0" stroke="#2a3d60" stroke-width="1.5"/></svg>
+                            </div>
+                            <div class="srv-corner" id="srv-c-br">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M0 21H21V0" stroke="#2a3d60" stroke-width="1.5"/></svg>
+                            </div>
+                        </div>
+
+                        <div id="srv-title-bullet"></div>
+
+                        <div id="srv-title-list">
+                            <ul>
+                                <li class="srv-title-item active" id="srv-title-0">Gamification</li>
+                                <li class="srv-title-item" id="srv-title-1">BFSI Solution</li>
+                                <li class="srv-title-item" id="srv-title-2">Digital Solution</li>
                             </ul>
                         </div>
-                        <div class="tags gap-3.5 flex flex-wrap anek text-4 3xl:text-5">
-                            <a href="" class="inline-flex rounded-0.5 py-4 px-5 bg-[#FFFFFF14]">Web & App
-                                Development</a>
-                            <a href="" class="inline-flex rounded-0.5 py-4 px-5 bg-[#FFFFFF14]">UI/UX & Creative
-                                Design</a>
-                            <a href="" class="inline-flex rounded-0.5 py-4 px-5 bg-[#FFFFFF14]">Bussiness Platform &
-                                System Intergration</a>
-                            <a href="" class="inline-flex rounded-0.5 py-4 px-5 bg-[#FFFFFF14]">MVP-as-a-Service</a>
-                            <a href="" class="inline-flex rounded-0.5 py-4 px-5 bg-[#FFFFFF14]">Data Visualization &
-                                Analytics</a>
-                        </div>
-                    </div>
-                    <div class="item col-span-4 3xl:col-span-5 h-full flex items-center justify-center">
-                        <img src="assets/images/srv.png" alt="">
-                    </div>
-                    <div class="item col-span-3 h-full flex flex-col justify-between">
-                        <div class="top text-right text-[56px] font-medium">
-                            01 <br> <span class="opacity-25">/03</span>
 
-                        </div>
-                        <div class="bot">
-                            <div class="max-w-85 ml-auto anek opacity-85">
-                                Gamified engagement and interactive media solutions that drive deeper user interaction
-                                and lasting engagement.
+                        <div id="srv-counter">
+                            <div class="srv-counter-row">
+                                <div class="srv-slot-digit srv-slot-static">0</div>
+                                <div id="srv-slot-window">
+                                    <div id="srv-slot-track">
+                                        <div class="srv-slot-digit">1</div>
+                                        <div class="srv-slot-digit">2</div>
+                                        <div class="srv-slot-digit">3</div>
+                                    </div>
+                                </div>
                             </div>
+                            <div id="srv-counter-total">/03</div>
+                        </div>
+
+                        <div id="srv-tags">
+                            <span class="srv-tag">Web &amp; App Development</span>
+                            <span class="srv-tag">UI/UX &amp; Creative Design</span>
+                            <span class="srv-tag">Business Platform &amp; System Integration</span>
+                            <span class="srv-tag">MVP-as-a-Service</span>
+                            <span class="srv-tag">Data Visualization &amp; Analytics</span>
+                        </div>
+
+                        <div id="srv-description">
+                            <p id="srv-desc-text">
+                                Gamified engagement and interactive media solutions that drive
+                                deeper user interaction and lasting engagement.
+                            </p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Mobile: giữ nguyên -->
                 <div class="grid md:hidden grid-cols-1 gap-6">
+                    <?php for ($x = 1; $x <= 3; $x++) { ?>
                     <div class="item relative border-b border-[#FFFFFF26] pb-8">
-                        <div class="avarta"><img src="assets/images/srv-1.png" alt=""></div>
+                        <div class="avarta"><img src="assets/images/srv-<?php echo $x; ?>.png" alt=""></div>
                         <div class="mt-4">
-                            <div class="text-6 font-medium mb-5 text-white">1.Gamification</div>
+                            <div class="text-6 font-medium mb-5 text-white"><?php echo $x; ?>.<?php echo ['Gamification','BFSI Solution','Digital Solution'][$x-1]; ?></div>
                             <div class="desc mb-5 opacity-85 anek">
                                 We combine technical precision with strategic thinking — so every solution we deliver
                                 moves your business meaningfully forward.
                             </div>
                             <ul class="desc-item-servce grid grid-cols-2 gap-x-5 gap-y-1 pl-4 list-disc anek">
-                                <li>UI/UX & Creative </li>
-                                <li>UI/UX & Creative </li>
+                                <li>UI/UX &amp; Creative</li>
+                                <li>UI/UX &amp; Creative</li>
                                 <li>Design</li>
                                 <li>Design</li>
-                                <li>Web & App </li>
-                                <li>Web & App </li>
+                                <li>Web &amp; App</li>
+                                <li>Web &amp; App</li>
                                 <li>Development</li>
                                 <li>Development</li>
-                                <li>Bussiness Platform & System Intergration</li>
-                                <li>Bussiness Platform & System Intergration</li>
+                                <li>Business Platform &amp; System Integration</li>
+                                <li>Business Platform &amp; System Integration</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="item relative border-b border-[#FFFFFF26] pb-8">
-                        <div class="avarta"><img src="assets/images/srv-2.png" alt=""></div>
-                        <div class="mt-4">
-                            <div class="text-6 font-medium mb-5 text-white">2.BFSI Solution</div>
-                            <div class="desc mb-5 opacity-85 anek">
-                                We combine technical precision with strategic thinking — so every solution we deliver
-                                moves your business meaningfully forward.
-                            </div>
-                            <ul class="desc-item-servce grid grid-cols-2 gap-x-5 gap-y-1 pl-4 list-disc anek">
-                                <li>UI/UX & Creative </li>
-                                <li>UI/UX & Creative </li>
-                                <li>Design</li>
-                                <li>Design</li>
-                                <li>Web & App </li>
-                                <li>Web & App </li>
-                                <li>Development</li>
-                                <li>Development</li>
-                                <li>Bussiness Platform & System Intergration</li>
-                                <li>Bussiness Platform & System Intergration</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="item relative border-b border-[#FFFFFF26] pb-8">
-                        <div class="avarta"><img src="assets/images/srv-3.png" alt=""></div>
-                        <div class="mt-4">
-                            <div class="text-6 font-medium mb-5 text-white">3.Digital Solution</div>
-                            <div class="desc mb-5 opacity-85 anek">
-                                We combine technical precision with strategic thinking — so every solution we deliver
-                                moves your business meaningfully forward.
-                            </div>
-                            <ul class="desc-item-servce grid grid-cols-2 gap-x-5 gap-y-1 pl-4 list-disc anek">
-                                <li>UI/UX & Creative </li>
-                                <li>UI/UX & Creative </li>
-                                <li>Design</li>
-                                <li>Design</li>
-                                <li>Web & App </li>
-                                <li>Web & App </li>
-                                <li>Development</li>
-                                <li>Development</li>
-                                <li>Bussiness Platform & System Intergration</li>
-                                <li>Bussiness Platform & System Intergration</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

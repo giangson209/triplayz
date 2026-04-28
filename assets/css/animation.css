@@ -141,3 +141,213 @@
   color: rgba(255, 255, 255, 0.35);
   pointer-events: none;
 }
+
+/* ── Fix overflow cho section ── */
+#service { overflow: clip; }
+
+/* ── Breakout khỏi wrapper + section padding, KHÔNG dùng transform
+   (transform trên ancestor sẽ phá position:fixed của wipe-line) ── */
+#srv-scroll-trigger {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: calc(100vh * 4);
+}
+
+#srv-pinned-section {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* ── Image stage — giữ nguyên, hoạt động đúng trong 100vw context ── */
+#srv-image-stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(calc(-50% + 2vw), -50%);
+    width: min(48vw, 64vh);
+    height: min(48vw, 64vh);
+    overflow: visible;
+}
+
+.srv-slide-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    user-select: none;
+    pointer-events: none;
+}
+
+#srv-img-from { z-index: 1; }
+#srv-img-to {
+    z-index: 2;
+    clip-path: inset(100% 0 0 0);
+    will-change: clip-path;
+    transition: none !important;
+}
+
+/* ── Corners ── */
+.srv-corner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+    z-index: 100;
+}
+#srv-c-tl { top: -11px;    left: -11px;  }
+#srv-c-tr { top: -11px;    right: -11px; }
+#srv-c-bl { bottom: -11px; left: -11px;  }
+#srv-c-br { bottom: -11px; right: -11px; }
+.srv-corner svg { display: block; }
+
+/* ── Title list — căn trái màn hình (40px = md:px-10) ── */
+#srv-title-list {
+    position: absolute;
+    top: 38%;
+    left: 40px;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+#srv-title-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.srv-title-item {
+    font-size: clamp(24px, 2.88vw, 43px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #2a3550;
+    transition: color 0.4s;
+    line-height: 1.2;
+    padding-left: 20px; /* khoảng trống cho bullet */
+    cursor: default;
+}
+
+.srv-title-item.active { color: #ffffff; }
+
+/* ── Bullet — ô vuông xanh lam, cùng left với title list ── */
+#srv-title-bullet {
+    position: absolute;
+    left: 40px;
+    width: 8px;
+    height: 8px;
+    background: hsla(201, 100%, 80%, 1);
+    z-index: 21;
+    transition: top 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* ── Counter ── */
+#srv-counter {
+    position: absolute;
+    top: 6%;
+    right: 5%;
+    z-index: 20;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2vh;
+}
+
+.srv-counter-row { display: flex; }
+
+#srv-slot-window {
+    overflow: hidden;
+    height: clamp(38px, 4.2vw, 64px);
+    display: flex;
+    align-items: flex-start;
+}
+
+#srv-slot-track {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.srv-slot-digit {
+    font-size: clamp(32px, 4vw, 58px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1;
+    height: clamp(38px, 4.2vw, 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#srv-counter-total {
+    font-size: clamp(32px, 4vw, 58px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #3a4a6b;
+    line-height: 1;
+}
+
+/* ── Tags — cùng left với title ── */
+#srv-tags {
+    position: absolute;
+    bottom: 8%;
+    left: 40px;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 480px;
+}
+
+.srv-tag {
+    font-family: "Anek Latin", monospace;
+    padding: 7px 14px;
+    border: 1px solid #1e2a40;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #8899bb;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    background: rgba(255,255,255,0.02);
+}
+
+/* ── Description ── */
+#srv-description {
+    position: absolute;
+    bottom: 8%;
+    right: 5%;
+    z-index: 20;
+    width: 22%;
+}
+
+#srv-description p {
+    font-family: "Anek Latin", monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    color: hsl(220, 30%, 42%);
+    font-weight: 300;
+    transition: opacity 0.3s;
+    text-align: start;
+}
+
+/* ── Wipe line — fixed để tính đúng tọa độ viewport ── */
+#srv-wipe-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #4a8fff;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0;
+}
