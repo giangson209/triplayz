@@ -1,3 +1,39 @@
+.button-white,
+.button-purple {
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.button-purple {
+  background: #6c27f0;
+  color: #ffffff;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button-purple .dot {
+  background-color: #fff !important;
+}
+
+.srv-bg {
+  position: absolute;
+  top: -40vh;
+  left: 20vw;
+  opacity: 0.3;
+}
+
+.srv-anim {
+  background-color: #1d1d27;
+}
+
 .gradient-canvas {
   position: absolute;
   top: 0;

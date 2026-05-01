@@ -59,6 +59,7 @@
 
     <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative">
         <div class="wrapper relative">
+            <img class="srv-bg" src="./assets/images/asci.png" alt="">
             <div class="block lg:flex mb-6 md:mb-20 gap-50 relative z-2">
                 <div class="item anek font-medium opacity-65 pt-0 lg:pt-10 mb-6 lg:mb-0">/SERVICES</div>
                 <div class="wraper max-w-300">
@@ -89,7 +90,7 @@
                 </div>
             </div>
 
-            <div class="relative block">
+            <div class="srv-anim relative block">
                 <div class="line w-full mb-6 md:mb-0">
                     <img src="assets/images/line-srv.svg" class="w-full" alt="">
                 </div>
@@ -102,7 +103,7 @@
                             <img id="srv-img-from" class="srv-slide-img" src="" alt="" />
                             <img id="srv-img-to"   class="srv-slide-img" src="" alt="" />
 
-                            <div id="srv-wipe-line"></div>
+                            <div id="srv-wipe-line"></div> 
 
                             <div class="srv-corner" id="srv-c-tl">
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M22 1H1V22" stroke="#2a3d60" stroke-width="1.5"/></svg>
@@ -465,6 +466,9 @@
     </section>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>

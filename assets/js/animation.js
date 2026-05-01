@@ -1,3 +1,96 @@
+(function initButtonAnimation() {
+  function wrapButtonContent() {
+    document.querySelectorAll(".btn-main a").forEach((a) => {
+      const nodes = [...a.childNodes];
+
+      const whiteDiv = document.createElement("div");
+      whiteDiv.className = "button-white";
+      nodes.forEach((node) => whiteDiv.appendChild(node));
+
+      const purpleDiv = whiteDiv.cloneNode(true);
+      purpleDiv.className = "button-purple";
+
+      a.appendChild(whiteDiv);
+      a.appendChild(purpleDiv);
+
+      const white = whiteDiv;
+      const purple = purpleDiv;
+
+      gsap.set(purple, {
+        rotateX: -90,
+        transformOrigin: "bottom center",
+        translateZ: -180,
+        transformPerspective: 800,
+      });
+
+      gsap.set(white, {
+        transformOrigin: "top center",
+        transformPerspective: 600,
+      });
+
+      let isHovered = false;
+
+      a.addEventListener("mouseenter", () => {
+        if (isHovered) return;
+        isHovered = true;
+
+        const tl = gsap.timeline();
+
+        tl.to(white, {
+          rotateX: 90,
+          translateZ: -180,
+          duration: 0.45,
+          ease: "power2.inOut",
+          overwrite: true,
+        });
+
+        tl.to(
+          purple,
+          {
+            rotateX: 0,
+            translateZ: 0,
+            duration: 0.45,
+            ease: "power2.inOut",
+            overwrite: true,
+          },
+          "<.08",
+        );
+      });
+
+      a.addEventListener("mouseleave", () => {
+        if (!isHovered) return;
+        isHovered = false;
+
+        const tl = gsap.timeline();
+
+        tl.to(purple, {
+          rotateX: -90,
+          transformOrigin: "bottom center",
+          translateZ: -180,
+          transformPerspective: 1000,
+          ease: "power2.inOut",
+          duration: 0.45,
+          overwrite: true,
+        });
+
+        tl.to(
+          white,
+          {
+            rotateX: 0,
+            translateZ: 0,
+            duration: 0.45,
+            ease: "power2.inOut",
+            overwrite: true,
+          },
+          "<.08",
+        );
+      });
+    });
+  }
+
+  wrapButtonContent();
+})();
+
 (function initPixelatedShader() {
   const config = {
     color1: "#766FF6",
@@ -132,7 +225,6 @@
   const GRID_W = PIXEL_GRID[0].length;
   const GRID_H = PIXEL_GRID.length;
 
-  // ─── Build THREE.DataTexture from pixel grid ──────────────────────────
   function createGridTexture(grid, w, h) {
     const data = new Uint8Array(w * h * 4);
     for (let row = 0; row < h; row++) {
@@ -150,19 +242,15 @@
     return tex;
   }
 
-  // ─── Trail system — dùng circular buffer thay vì unshift/filter ───────
-  // FIX: unshift() là O(n) mỗi mousemove → circular buffer O(1)
-  const MAX_TRAIL = 24; // FIX: giảm từ 64 → 24, giảm ~60% shader workload
-  const TRAIL_DURATION = 400; // FIX: giảm từ 500ms → 400ms
+  const MAX_TRAIL = 24;
+  const TRAIL_DURATION = 400;
   const TRAIL_MIN_DIST = 3;
 
-  // Circular buffer: mỗi entry gồm x, y, time (3 float)
   const _trailBuf = new Float64Array(MAX_TRAIL * 3);
-  let _trailHead = 0; // index của slot tiếp theo sẽ ghi
-  let _trailLen = 0; // số entry hợp lệ hiện tại
+  let _trailHead = 0;
+  let _trailLen = 0;
 
   function trailGet(i) {
-    // i=0 là entry mới nhất
     const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
     return {
       x: _trailBuf[slot * 3],
@@ -184,7 +272,6 @@
     if (_trailLen < MAX_TRAIL) _trailLen++;
   }
 
-  // FIX: reuse object thay vì tạo mới mỗi frame
   const _velOut = { x: 0, y: 0 };
 
   function computeVelocity() {
@@ -221,37 +308,6 @@
     _velOut.x = dx / len;
     _velOut.y = dy / len;
     return _velOut;
-  }
-
-  function updateTrailUniforms(mat) {
-    const now = performance.now();
-
-    // FIX: expire entries in-place bằng cách giảm _trailLen
-    // thay vì filter() tạo array mới mỗi frame
-    while (_trailLen > 0) {
-      const oldest = trailGet(_trailLen - 1);
-      if (now - oldest.time >= TRAIL_DURATION) _trailLen--;
-      else break;
-    }
-
-    const positions = mat.uniforms.uTrailPositions.value;
-    const ages = mat.uniforms.uTrailAges.value;
-
-    for (let i = 0; i < MAX_TRAIL; i++) {
-      if (i < _trailLen) {
-        const p = trailGet(i);
-        positions[i].set(p.x, p.y);
-        ages[i] = (now - p.time) / TRAIL_DURATION;
-      } else {
-        positions[i].set(-9999, -9999);
-        ages[i] = 1.0;
-      }
-    }
-    mat.uniforms.uTrailCount.value = _trailLen;
-
-    // FIX: reuse _velOut object
-    const vel = computeVelocity();
-    mat.uniforms.uVelocity.value.set(vel.x, vel.y);
   }
 
   function hexToRgb(hex) {
@@ -291,7 +347,6 @@
     return tex;
   }
 
-  // ─── Shaders ──────────────────────────────────────────────────────────
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -299,11 +354,6 @@
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
-
-  // FIX: MAX_TRAIL giảm từ 64 → 24 trong shader
-  // FIX: encode trail vào texture thay vì uniform array
-  //      → tránh GLSL unroll 63 iterations mỗi pixel
-  //      → GPU texture fetch có hardware cache, nhanh hơn uniform array lớn
   const fragmentShader = `
     #define MAX_TRAIL 24
 
@@ -317,9 +367,6 @@
     uniform float uMouseActive;
     uniform vec2  uVelocity;
 
-    // FIX: dùng texture thay vì uniform array
-    // Layout: mỗi texel = (x_screen, y_screen, age, unused)
-    // texture width = MAX_TRAIL, height = 1
     uniform sampler2D uTrailTex;
     uniform int       uTrailCount;
 
@@ -356,23 +403,16 @@
       bool inGap = cellUV.x < gapHalf || cellUV.x > (1.0 - gapHalf) ||
                    cellUV.y < gapHalf || cellUV.y > (1.0 - gapHalf);
 
-      // ── Trail lookup từ texture ────────────────────────────────────────
       bool  inZone   = false;
       float bestDist = 999.0;
       float bestAge  = 1.0;
 
-      // FIX: thay vì uniform array loop unroll 63×,
-      //      dùng texture fetch — số iteration thực tế = uTrailCount
       for (int i = 0; i < MAX_TRAIL - 1; i++) {
         if (i >= uTrailCount - 1) break;
 
-        // Fetch 2 điểm liên tiếp từ trail texture
-        // texel.xy = screen pos, texel.z = age [0..1]
         vec4 texA = texture2D(uTrailTex, vec2((float(i)     + 0.5) / float(MAX_TRAIL), 0.5));
         vec4 texB = texture2D(uTrailTex, vec2((float(i + 1) + 0.5) / float(MAX_TRAIL), 0.5));
 
-        // Decode: xy lưu dạng [0..1] mapped từ screen coords
-        // x: [0..iResolution.x], y: [0..iResolution.y]
         vec2 a    = texA.xy * iResolution;
         vec2 b    = texB.xy * iResolution;
         float ageA = texA.z;
@@ -426,7 +466,6 @@
         }
       }
 
-      // ── Grid texture lookup ──────────────────────────────────────────
       vec2 gridSizePx    = uGridDims * uPixelSize;
       vec2 gridOriginCell = floor((uGridCenter - gridSizePx * 0.5) / uPixelSize);
       vec2 localCell     = cellIndex - gridOriginCell;
@@ -476,11 +515,8 @@
     }
   `;
 
-  // ─── Trail texture (thay thế uniform array) ───────────────────────────
-  // FIX: MAX_TRAIL × 1 pixel RGBA float texture
-  // layout: R=x/resW, G=y/resH, B=age, A=unused
   const _trailTexData = new Float32Array(MAX_TRAIL * 4);
-  let _trailTex = null; // khởi tạo sau khi có renderer
+  let _trailTex = null;
 
   function createTrailTexture() {
     const tex = new THREE.DataTexture(
@@ -498,24 +534,24 @@
   function updateTrailTexture(mat, resW, resH) {
     const now = performance.now();
 
-    // Expire oldest entries
     while (_trailLen > 0) {
       const oldest = trailGet(_trailLen - 1);
       if (now - oldest.time >= TRAIL_DURATION) _trailLen--;
       else break;
     }
 
-    // Ghi dữ liệu trail vào Float32Array
     for (let i = 0; i < MAX_TRAIL; i++) {
       const base = i * 4;
       if (i < _trailLen) {
-        const p = trailGet(i);
-        _trailTexData[base] = p.x / resW; // x normalized
-        _trailTexData[base + 1] = p.y / resH; // y normalized
-        _trailTexData[base + 2] = (now - p.time) / TRAIL_DURATION; // age
+        // FIX #2: pre-compute slot index, tránh double indirection qua trailGet()
+        const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
+        _trailTexData[base] = _trailBuf[slot * 3] / resW;
+        _trailTexData[base + 1] = _trailBuf[slot * 3 + 1] / resH;
+        _trailTexData[base + 2] =
+          (now - _trailBuf[slot * 3 + 2]) / TRAIL_DURATION;
         _trailTexData[base + 3] = 0.0;
       } else {
-        _trailTexData[base] = -1.0; // off-screen sentinel
+        _trailTexData[base] = -1.0;
         _trailTexData[base + 1] = -1.0;
         _trailTexData[base + 2] = 1.0;
         _trailTexData[base + 3] = 0.0;
@@ -529,7 +565,6 @@
     mat.uniforms.uVelocity.value.set(vel.x, vel.y);
   }
 
-  // ─── Init ─────────────────────────────────────────────────────────────
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   const wrapper = document.querySelector(".gradient-canvas");
@@ -537,7 +572,6 @@
   const DPR = Math.min(window.devicePixelRatio, 2);
   const physicalPixelSize = Math.round(config.pixelSize * DPR);
 
-  // FIX: cache resolution object, không tạo mới mỗi frame
   const _res = {
     w: Math.round(window.innerWidth * DPR),
     h: Math.round(window.innerHeight * DPR),
@@ -576,7 +610,6 @@
       uMousePos: { value: new THREE.Vector2(-9999, -9999) },
       uMouseActive: { value: 0.0 },
       uVelocity: { value: new THREE.Vector2(0, 0) },
-      // FIX: thay uniform array bằng texture
       uTrailTex: { value: _trailTex },
       uTrailCount: { value: 0 },
       uGridTex: { value: gridTex },
@@ -598,6 +631,9 @@
   const LERP_FACTOR = 0.15;
   let lastMoveTime = 0;
 
+  // FIX #4: dirty flag — chỉ render khi có thay đổi thực sự
+  let _dirty = true; // true để render frame đầu tiên (vẽ background tĩnh)
+
   document.addEventListener("mousemove", (e) => {
     const rect = wrapper.getBoundingClientRect();
     actualMouse.x = (e.clientX - rect.left) * DPR;
@@ -608,15 +644,16 @@
       laggedMouse.x = actualMouse.x;
       laggedMouse.y = actualMouse.y;
     }
+    _dirty = true; // mouse move → cần render
   });
 
   document.addEventListener("mouseleave", () => {
     actualMouse.active = false;
     material.uniforms.uMouseActive.value = 0.0;
+    _dirty = true; // frame cuối để xoá hiệu ứng mouse
   });
 
-  // ─── Pause/Resume (dùng cho IntersectionObserver) ─────────────────────
-  // FIX: chỉ pause RAF, không destroy context
+  // ─── Pause/Resume ─────────────────────────────────────────────────────
   let _shaderPaused = false;
   let _shaderRafId = null;
 
@@ -625,23 +662,36 @@
     _shaderRafId = requestAnimationFrame(shaderAnimate);
 
     const now = performance.now();
+
     if (actualMouse.active) {
       laggedMouse.x += (actualMouse.x - laggedMouse.x) * LERP_FACTOR;
       laggedMouse.y += (actualMouse.y - laggedMouse.y) * LERP_FACTOR;
       sampleTrail(laggedMouse.x, laggedMouse.y);
       material.uniforms.uMousePos.value.set(laggedMouse.x, laggedMouse.y);
       material.uniforms.uMouseActive.value = 1.0;
+      _dirty = true;
     }
+
     if (lastMoveTime > 0 && now - lastMoveTime > 120) {
       material.uniforms.uMouseActive.value = 0.0;
       lastMoveTime = 0;
       actualMouse.active = false;
+      _dirty = true; // cần 1 frame cuối để tắt comet
     }
 
-    material.uniforms.iTime.value = now * 0.001;
-    // FIX: dùng texture update thay vì updateTrailUniforms
-    updateTrailTexture(material, _res.w, _res.h);
-    renderer.render(scene, camera);
+    // Trail đang fade out → tiếp tục render cho đến khi hết hẳn
+    if (_trailLen > 0) _dirty = true;
+
+    // FIX #4: chỉ gọi render khi dirty
+    if (_dirty) {
+      material.uniforms.iTime.value = now * 0.001;
+      updateTrailTexture(material, _res.w, _res.h);
+      renderer.render(scene, camera);
+
+      // Sau khi render, kiểm tra xem còn cần tiếp không
+      // Nếu không còn trail và mouse không active → nghỉ
+      _dirty = _trailLen > 0 || actualMouse.active;
+    }
   }
 
   window.shaderPause = function () {
@@ -650,25 +700,24 @@
   window.shaderResume = function () {
     if (!_shaderPaused) return;
     _shaderPaused = false;
+    _dirty = true; // vẽ lại ngay khi resume
     shaderAnimate();
   };
 
-  // Bắt đầu loop
   shaderAnimate();
 
-  // ─── Resize ───────────────────────────────────────────────────────────
   window.addEventListener("resize", () => {
     updateRes();
     renderer.setSize(_res.w, _res.h, false);
     material.uniforms.iResolution.value.set(_res.w, _res.h);
     material.uniforms.uGridCenter.value.copy(getGridCenter());
+    _dirty = true; // resize → cần render lại
   });
 })();
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  IntersectionObserver — tắt/bật shader & globe theo viewport
+//  IntersectionObserver
 // ═══════════════════════════════════════════════════════════════════════════
-// FIX: rootMargin '150px' để warm-up trước khi user thấy section
 (function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");
@@ -689,7 +738,7 @@
     },
     {
       threshold: 0,
-      rootMargin: "150px", // warm-up 150px trước khi visible
+      rootMargin: "150px",
     },
   );
 
@@ -698,7 +747,7 @@
 })();
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  3D Globe — fixed version
+//  3D Globe
 // ═══════════════════════════════════════════════════════════════════════════
 (function init3DGlobeAnimation() {
   window.init3DGlobe = async function init3DGlobe() {
@@ -745,7 +794,7 @@
       USA: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30.6067 4.42063C27.7736 1.56994 24.0067 0 20.0001 0C15.9935 0 12.2267 1.56987 9.39339 4.42063C6.56029 7.27126 5 11.0613 5 15.0926C5 19.124 6.56029 22.9142 9.39339 25.7649L19.259 35.6911C19.4637 35.8971 19.7319 36 20.0001 36C20.2684 36 20.5367 35.897 20.7413 35.6911L30.6065 25.7649C33.4397 22.9142 34.9999 19.1241 35 15.0927C34.9999 11.0612 33.4398 7.27118 30.6067 4.42063ZM24.7109 19.8324C23.4527 21.0985 21.7797 21.7958 20.0002 21.7958C18.2207 21.7958 16.5478 21.0985 15.2896 19.8325C14.0312 18.5664 13.3383 16.8832 13.3383 15.0926C13.3383 13.3022 14.0312 11.6189 15.2896 10.3528C16.5478 9.08673 18.2207 8.38951 20.0002 8.38951C21.7797 8.38951 23.4527 9.08673 24.7109 10.3528C25.9692 11.6188 26.6622 13.3021 26.6622 15.0926C26.6621 16.8831 25.9691 18.5664 24.7109 19.8324Z" fill="white"/><g clip-path="url(#clip0_1150_34950)"><path d="M19.9998 26.9995C26.6268 26.9995 31.9995 21.6264 31.9995 14.9998C31.9995 8.37318 26.6273 3 19.9998 3C13.3722 3 8 8.37364 8 14.9998C8 21.6259 13.3727 26.9995 19.9998 26.9995Z" fill="#F0F0F0"/><path fill-rule="evenodd" clip-rule="evenodd" d="M30.2269 8.73412H19.4609V5.60059H27.4604C28.5589 6.47512 29.4953 7.53574 30.2269 8.73412ZM32.0002 14.9998H19.4674V11.8672H31.5872C31.8622 12.8886 32.001 13.942 32.0002 14.9998ZM20.0004 26.9995C22.7133 27.0058 25.3472 26.0864 27.467 24.3933H12.5343C14.6537 26.0867 17.2876 27.0061 20.0004 26.9995ZM30.24 21.2668H9.76075C9.16344 20.2927 8.70987 19.2375 8.41406 18.1338H31.5867C31.291 19.2375 30.8374 20.2928 30.24 21.2668Z" fill="#D80027"/><path fill-rule="evenodd" clip-rule="evenodd" d="M13.571 4.86747H13.5602V4.87497L13.571 4.86747ZM13.571 4.86747H14.6561L13.6338 5.60105L14.0205 6.80103L13.0005 6.06745L11.9871 6.80103L12.3204 5.76558C11.4247 6.51526 10.6432 7.39167 10.0006 8.36709H10.354L9.70715 8.83583L9.41372 9.35145L9.72028 10.3049L9.14045 9.883L8.74061 10.8139L9.07389 11.8592H10.3395L9.33357 12.6003L9.72028 13.8003L8.7003 13.0667L8.10031 13.5064C8.03336 14.0014 7.99984 14.5003 8 14.9998H19.9998V3.00001C17.7226 2.99705 15.4921 3.64498 13.571 4.86747ZM14.0182 13.7942L14.0271 13.8012H14.0205L14.0182 13.7942ZM13.6333 12.6008L14.0182 13.7942L13.0001 13.0676L11.9801 13.8012L12.3668 12.6012L11.3468 11.8676H12.6124L12.9991 10.6677L13.3858 11.8676H14.6514L13.6333 12.6008ZM13.6404 9.1077L14.0271 10.3077L13.0071 9.5741L11.9871 10.3077L12.3738 9.1077L11.3538 8.37412H12.6194L13.0062 7.17415L13.3929 8.37412H14.6585L13.6404 9.1077ZM17.3134 13.0676L18.3334 13.8012L17.9467 12.6012L18.9685 11.8676H17.7029L17.3162 10.6677L16.9295 11.8676H15.6639L16.6839 12.6012L16.2972 13.8012L17.3134 13.0676ZM17.9467 9.1077L18.3334 10.3077L17.3134 9.5741L16.2934 10.3077L16.6801 9.1077L15.6602 8.37412H16.9258L17.3125 7.17415L17.6992 8.37412H18.9648L17.9467 9.1077ZM18.3334 6.81415L17.9467 5.61418L18.9685 4.8806H17.7029L17.3162 3.68062L16.9295 4.8806H15.6639L16.6839 5.61418L16.2972 6.81415L17.3172 6.08057L18.3334 6.81415Z" fill="#0052B4"/></g><defs><clipPath id="clip0_1150_34950"><rect width="24" height="24" fill="white" transform="translate(8 3)"/></clipPath></defs></svg>`,
     };
 
-    msgText.textContent = "Đang tải dữ liệu bản đồ...";
+    msgText.textContent = "Downloading map data...";
     prog.style.width = "10%";
 
     const worker = new Worker("assets/js/globe-worker.js");
@@ -771,7 +820,7 @@
     });
 
     prog.style.width = "90%";
-    msgText.textContent = "Đang dựng cầu...";
+    msgText.textContent = "Creating globe...";
 
     const COLS = 160,
       ROWS = 80,
@@ -822,7 +871,6 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        // FIX: re-cache marker widths khi resize
         markerEls.forEach((el, i) => {
           markerWidths[i] = el.offsetWidth || 60;
         });
@@ -863,6 +911,7 @@
         localPos: latLonToVec3(c.lat, c.lon, 1.01),
       }));
 
+      // FIX #3: khởi tạo _cache trên mỗi element ngay khi tạo
       const markerEls = markerData.map((m, i) => {
         const div = document.createElement("div");
         div.className = "company-globe-marker" + (m.reverse ? " reverse" : "");
@@ -873,6 +922,15 @@
           '<span class="company-globe-marker-name">' +
           m.name +
           "</span>";
+
+        // FIX #3: cache style values, tránh ghi DOM khi không thay đổi
+        div._cache = {
+          transform: "",
+          zIndex: "",
+          opacity: "",
+          pointerEvents: "",
+        };
+
         div.addEventListener("mouseenter", () => {
           if (isDragging) return;
           hoveredIdx = i;
@@ -888,7 +946,6 @@
         return div;
       });
 
-      // FIX: cache offsetWidth sau khi mount, không đọc trong RAF loop
       const markerWidths = markerEls.map((el) => el.offsetWidth || 60);
 
       function refreshHover() {
@@ -897,9 +954,40 @@
         );
       }
 
-      // FIX: reuse Vector3 thay vì allocate mỗi frame
       const _wp = new THREE.Vector3();
       const _pr = new THREE.Vector3();
+
+      // FIX #3: helper chỉ ghi style khi giá trị thực sự thay đổi
+      function setMarkerStyle(el, transform, zIndex, opacity, pointerEvents) {
+        const c = el._cache;
+        if (
+          c.transform === transform &&
+          c.zIndex === zIndex &&
+          c.opacity === opacity &&
+          c.pointerEvents === pointerEvents
+        )
+          return; // không có thay đổi → bỏ qua hoàn toàn
+
+        // Batch tất cả 4 properties vào 1 lần ghi cssText duy nhất
+        el.style.cssText =
+          "transform:" +
+          transform +
+          ";" +
+          "z-index:" +
+          zIndex +
+          ";" +
+          "opacity:" +
+          opacity +
+          ";" +
+          "pointer-events:" +
+          pointerEvents +
+          ";";
+
+        c.transform = transform;
+        c.zIndex = zIndex;
+        c.opacity = opacity;
+        c.pointerEvents = pointerEvents;
+      }
 
       function updateMarkers() {
         const W = renderer.domElement.clientWidth;
@@ -912,21 +1000,28 @@
           const sx = (_pr.x * 0.5 + 0.5) * W;
           const sy = (-_pr.y * 0.5 + 0.5) * H;
           const el = markerEls[i];
-          // FIX: dùng cached width, không đọc offsetWidth trong loop
           const elW = markerWidths[i];
           const offsetX = m.reverse ? sx - elW + 20 : sx - 20;
-          el.style.transform = `translate(${offsetX}px,${sy - 46}px)`;
-
-          el.style.zIndex = Math.round((1.0 - _pr.z) * 500);
 
           let opacity;
           if (edgeFade < 0.01) opacity = 0;
           else if (hoveredIdx !== -1 && hoveredIdx !== i)
             opacity = edgeFade * 0.15;
           else opacity = edgeFade;
-          el.style.opacity = opacity;
-          el.style.pointerEvents =
-            edgeFade > 0.3 && !isDragging ? "auto" : "none";
+
+          // FIX #3: làm tròn để tránh floating-point noise làm cache miss liên tục
+          // toFixed(1) → độ chính xác 0.1px, đủ mượt, cache hoạt động hiệu quả
+          const transform =
+            "translate(" +
+            offsetX.toFixed(1) +
+            "px," +
+            (sy - 46).toFixed(1) +
+            "px)";
+          const zIndex = String(Math.round((1.0 - _pr.z) * 500));
+          const opacityStr = opacity.toFixed(3);
+          const pointerEvents = edgeFade > 0.3 && !isDragging ? "auto" : "none";
+
+          setMarkerStyle(el, transform, zIndex, opacityStr, pointerEvents);
         });
       }
 
@@ -937,8 +1032,7 @@
       let velY = 0;
       let autoRotate = true;
 
-      // FIX: circular trail buffer cho globe drag (giống shader trail)
-      const _globeTrail = new Float64Array(16 * 3); // 16 entries: x, y, t
+      const _globeTrail = new Float64Array(16 * 3);
       let _globeTrailHead = 0;
       let _globeTrailLen = 0;
       const GLOBE_TRAIL_MS = 80;
@@ -950,7 +1044,6 @@
         _globeTrail[_globeTrailHead * 3 + 2] = now;
         _globeTrailHead = (_globeTrailHead + 1) % 16;
         if (_globeTrailLen < 16) _globeTrailLen++;
-        // expire
         while (_globeTrailLen > 1) {
           const oldestSlot =
             ((_globeTrailHead - _globeTrailLen + 16 * 2) % 16) * 3;
@@ -974,7 +1067,6 @@
         };
       }
 
-      // FIX: lưu reference handler để có thể removeEventListener khi destroy
       const _onMouseUp = () => {
         if (!isDragging) return;
         isDragging = false;
@@ -1061,7 +1153,8 @@
         } else if (!isDragging) {
           velX *= 0.92;
           velY *= 0.92;
-          globe.rotation.y += velX * pauseScale;
+
+          globe.rotation.y += (0.002 + velX) * pauseScale;
           globe.rotation.x = clamp(
             globe.rotation.x + velY * pauseScale,
             -1.2,
@@ -1084,7 +1177,6 @@
         globeLoop();
       };
 
-      // FIX: cleanup khi cần (SPA navigation)
       window.globeDestroy = function () {
         _globePaused = true;
         window.removeEventListener("mouseup", _onMouseUp);
@@ -1114,7 +1206,6 @@
 })();
 
 (function initServiceAnimation() {
-
   const SRV_IMAGES = [
     "./assets/images/gami.png",
     "./assets/images/bfsi.png",
@@ -1145,7 +1236,7 @@
   let lastFrom = -1,
     lastTo = -1,
     lastSlideIdx = -1;
-  
+
   function pad2(n) {
     return String(n).padStart(2, "0");
   }
@@ -1212,7 +1303,19 @@
     }
   }
 
-  window.addEventListener("scroll", onScroll, { passive: true });
+  let _srvRafPending = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (_srvRafPending) return;
+      _srvRafPending = true;
+      requestAnimationFrame(() => {
+        onScroll();
+        _srvRafPending = false;
+      });
+    },
+    { passive: true },
+  );
   window.addEventListener("resize", () => {
     onScroll();
   });

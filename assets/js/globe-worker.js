@@ -10,7 +10,7 @@ self.onmessage = async function (e) {
     self.postMessage({
       type: "progress",
       pct: 10,
-      text: "Đang tải dữ liệu bản đồ...",
+      text: "Downloading map data...",
     });
 
     const topoData = await fetch(
@@ -20,7 +20,7 @@ self.onmessage = async function (e) {
     self.postMessage({
       type: "progress",
       pct: 40,
-      text: "Đang xử lý lục địa...",
+      text: "Handling continents...",
     });
 
     const land = topojson.feature(topoData, topoData.objects.land);
@@ -28,7 +28,7 @@ self.onmessage = async function (e) {
     self.postMessage({
       type: "progress",
       pct: 60,
-      text: "Đang vẽ lưới ô vuông...",
+      text: "Drawing grids...",
     });
 
     const COLS = 160;
@@ -40,7 +40,7 @@ self.onmessage = async function (e) {
         self.postMessage({
           type: "progress",
           pct: 60 + Math.round((row / ROWS) * 30),
-          text: "Đang vẽ lưới ô vuông...",
+          text: "Drawing grids...",
         });
       }
       const lat = 90 - (row + 0.5) * (180 / ROWS);

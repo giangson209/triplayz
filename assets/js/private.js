@@ -89,11 +89,7 @@ $(document).ready(function () {
                     }
                 });
 
-                tl.from(".vision-text", { xPercent: 87, ease: "none", duration: 1 }, 0)
-                    .from(".shape-text", { xPercent: -87, ease: "none", duration: 1 }, 0)
-                    .from(".take-1", { yPercent: -200, opacity: 0, ease: "none", duration: 1 }, 0)
-                    .from(".take-2", { yPercent: 200, opacity: 0, ease: "none", duration: 1 }, 0)
-                    .to({}, { duration: 0.1 }); // Nghỉ một chút (~ 60px - 100px scroll) sau khi animation chạy xong để không bị giật sang section khác
+                
             }
         }
 
@@ -159,7 +155,7 @@ $(document).ready(function () {
                                     ease: "power2.out"
                                 });
 
-                            }, 25); // Chờ 25ms (khoảng gần 2 frame) để lắng đọng nhịp cuộn nhanh
+                            }, 25); 
                         }
                     }
                 });
