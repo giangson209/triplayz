@@ -42,18 +42,17 @@
         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
             <img src="assets/images/union.png" class="inline" alt="">
         </div>
-        <div
-            class="block lg:flex items-center justify-center text-10 2xl:text-[64px] 3xl:text-[72px] font-medium gap-10 xl:gap-30 2xl:gap-8 relative z-2">
-            <div class="txt vision-text">where vision</div>
-            <div class="text-center py-10 lg:py-0 shapes-container">
-                <div class="icon take-1 -mb-8 last:mb-0">
-                    <img src="assets/images/take-1.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]" alt="">
-                </div>
-                <div class="icon take-2 -mb-8 last:mb-0">
-                    <img src="assets/images/take-2.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]" alt="">
-                </div>
+        <div class="vision-shape-container">
+            <div class="vision-shape-logo">
+                <div class="logo-top"><img src="./assets/images/take-1.svg" alt=""></div>
+                <div class="logo-bottom"><img src="./assets/images/take-2.svg" alt=""></div>
             </div>
-            <div class="txt shape-text">take shape</div>
+            <div class="vision-shape-text">
+                <div class="vision">where vision</div>
+            </div>
+            <div class="vision-shape-text">
+                <div class="shape">take shape</div>
+            </div>
         </div>
     </section>
 

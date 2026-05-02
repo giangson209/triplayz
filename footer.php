@@ -97,7 +97,7 @@
                 <div class="bot">
                     <div class="flex items-center justify-between pt-0 md:pt-4 pb-4">
                         <a href="">GET IN TOUCH WITH US</a>
-                        <span>[ETC +7] Hanoi, Vietnam</span>
+                        <span>[UTC +7] Hanoi, Vietnam</span>
                     </div>
                     <div class="w-full">
                         <a href="" class="flex items-center justify-center gap-4 py-4 md:py-6 lg:py-10 2xl:py-12 3xl:py-14 px-10 border border-[#FFFFFF26] bg-[#6154C4]">

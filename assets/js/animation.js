@@ -1,3 +1,109 @@
+(function initVisionShapeAnimation() {
+  const section = document.querySelector(".vision-shape-section");
+  if (!section) return;
+
+  const logoTop = section.querySelector(".logo-top img");
+  const logoBottom = section.querySelector(".logo-bottom img");
+  const textVision = section.querySelector(".vision");
+  const textShape = section.querySelector(".shape");
+
+  if (!logoTop || !logoBottom || !textVision || !textShape) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // --- Setup gradient text ---
+  const MUTED = "hsl(240,15%,53%)";
+  const VIVID = "#fff";
+
+  [textVision, textShape].forEach((el) => {
+    el.style.webkitBackgroundClip = "text";
+    el.style.backgroundClip = "text";
+    el.style.color = "transparent";
+  });
+
+  // textVision trượt từ phải sang trái → sweep cũng chạy từ phải sang trái
+  textVision.style.backgroundImage = `linear-gradient(to left, ${MUTED} 0%, ${MUTED} 0%)`;
+
+  // textShape trượt từ trái sang phải → sweep chạy từ trái sang phải
+  textShape.style.backgroundImage = `linear-gradient(to right, ${MUTED} 0%, ${MUTED} 0%)`;
+
+  // Proxy để GSAP scrub kéo giá trị
+  const vProxy = { pct: 0 };
+  const sProxy = { pct: 0 };
+
+  // --- Set trạng thái ban đầu ---
+  gsap.set(logoTop, { bottom: "32vh", opacity: 0 });
+  gsap.set(logoBottom, { top: "32vh", opacity: 0 });
+  gsap.set(textVision, { right: "0" });
+  gsap.set(textShape, { left: "0" });
+
+  let tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".vision-shape-section",
+      start: "top top",
+      end: "+=300%",
+      pin: true,
+      scrub: 0.1,
+      anticipatePin: 0.5,
+    },
+  });
+
+  tl.to(
+    textVision,
+    { delay: .2, right: "32vh", ease: "linear", duration: 1.1 },
+    0,
+  )
+    .to(
+      textShape,
+      { delay: .2, left: "32vh", ease: "linear", duration: 1.1 },
+      0,
+    )
+    .to(
+      logoTop,
+      { delay: .2, bottom: "-3vh", opacity: 1, ease: "linear", duration: 1 },
+      0,
+    )
+    .to(
+      logoBottom,
+      { delay: .2, top: "-3vh", opacity: 1, ease: "linear", duration: 1 },
+      0,
+    )
+
+    // Sweep màu textVision: phải → trái, khớp với hướng trượt
+    .to(
+      vProxy,
+      {
+        delay: .2,
+        pct: 200,
+        ease: "linear",
+        duration: 1.1,
+        onUpdate() {
+          const p =vProxy.pct;
+          textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${p - 6}%, ${MUTED} ${p}%)`;
+        },
+      },
+      0,
+    )
+
+    // Sweep màu textShape: trái → phải, khớp với hướng trượt
+    .to(
+      sProxy,
+      {
+        delay: .2,
+        pct: 200,
+        ease: "linear",
+        duration: 1.1,
+        onUpdate() {
+          const p = sProxy.pct;
+          textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${p - 6}%, ${MUTED} ${p}%)`;
+        },
+      },
+      0,
+    )
+
+    .to({}, { duration: 0.2 });
+})();
+
 (function initButtonAnimation() {
   function wrapButtonContent() {
     document.querySelectorAll(".btn-main a").forEach((a) => {
@@ -715,9 +821,6 @@
   });
 })();
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  IntersectionObserver
-// ═══════════════════════════════════════════════════════════════════════════
 (function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");
@@ -746,9 +849,6 @@
   observer.observe(globeSection);
 })();
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  3D Globe
-// ═══════════════════════════════════════════════════════════════════════════
 (function init3DGlobeAnimation() {
   window.init3DGlobe = async function init3DGlobe() {
     const globeRoot = document.getElementById("company-globe");
@@ -1215,7 +1315,7 @@
   const SRV_DESCRIPTIONS = [
     "Gamified engagement and interactive media solutions that drive deeper user interaction and lasting engagement.",
     "Comprehensive BFSI solutions delivering secure, scalable financial platforms and seamless banking integrations.",
-    "End-to-end digital solutions that accelerate transformation and connect your business to the modern ecosystem.",
+    "End-to-end digital solutions that accelerate transformation and connect your bupower2ss to the modern ecosystem.",
   ];
 
   const TOTAL = SRV_IMAGES.length;
