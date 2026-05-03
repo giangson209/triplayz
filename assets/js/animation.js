@@ -1,3 +1,134 @@
+(function initPreloader() {
+  document.body.style.overflowY = "hidden";
+
+  const ring = document.getElementById("ring");
+  const loaderIcon = document.getElementById("loader-icon");
+  const columns = document.querySelectorAll("#preloader .column");
+
+  const CIRC = 2 * Math.PI * 60;
+  ring.style.strokeDasharray = CIRC;
+  ring.style.strokeDashoffset = CIRC;
+
+  const steps = [
+    { pct: 35, duration: 0.7, ease: "power1.inOut" },
+    { pct: 50, duration: 0.5, ease: "power1.inOut" },
+    { pct: 80, duration: 0.8, ease: "power2.inOut" },
+    { pct: 100, duration: 0.6, ease: "power2.in" },
+  ];
+
+  const tl = gsap.timeline();
+
+  steps.forEach((step) => {
+    tl.to(ring, {
+      strokeDashoffset: CIRC - (step.pct / 100) * CIRC,
+      duration: step.duration,
+      ease: step.ease,
+    });
+
+    if (step.pct < 100) {
+      tl.to({}, { duration: gsap.utils.random(0.15, 0.35) });
+    }
+  });
+
+  tl.to(loaderIcon, {
+    opacity: 0,
+    scale: 0.95,
+    duration: 0.4,
+    ease: "power2.in",
+  });
+
+  tl.to(
+    ".column",
+    {
+      rotateY: -90,
+      translateZ: 180,
+      transformOrigin: "left center",
+      duration: 1,
+      stagger: -0.03,
+      ease: "power4.inOut",
+      onComplete: () => {
+        gsap.set("#preloader", { display: "none" });
+        document.body.style.overflowY = "";
+      },
+    },
+    "<0.1",
+  );
+})();
+
+(function initVisionShapeAnimation() {
+  const scrollTrig = document.getElementById("vision-scroll-trigger");
+  const section = document.getElementById("vision-pinned-section");
+  if (!scrollTrig || !section) return;
+
+  const logoTop = section.querySelector(".logo-top img");
+  const logoBottom = section.querySelector(".logo-bottom img");
+  const textVision = section.querySelector(".vision");
+  const textShape = section.querySelector(".shape");
+  if (!logoTop || !logoBottom || !textVision || !textShape) return;
+
+  const MUTED = "hsl(240,15%,53%)";
+  const VIVID = "#fff";
+
+  [textVision, textShape].forEach((el) => {
+    el.style.webkitBackgroundClip = "text";
+    el.style.backgroundClip = "text";
+    el.style.color = "transparent";
+  });
+  textVision.style.right = "0";
+  textShape.style.left = "0";
+  logoTop.style.bottom = "32vh";
+  logoTop.style.opacity = "0";
+  logoBottom.style.top = "32vh";
+  logoBottom.style.opacity = "0";
+
+  /* ── helpers ── */
+  function getProgress() {
+    const rect = scrollTrig.getBoundingClientRect();
+    const total = scrollTrig.offsetHeight - window.innerHeight;
+    return Math.max(0, Math.min(1, -rect.top / total));
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  /* ── main update ── */
+  function onScroll() {
+    const p = getProgress();
+
+    const t = Math.max(0, Math.min(1, (p - 0.14) / 0.72));
+
+    textVision.style.right = lerp(0, 32, t) + "vh";
+    textShape.style.left = lerp(0, 32, t) + "vh";
+
+    logoTop.style.bottom = lerp(32, -3, t) + "vh";
+    logoTop.style.opacity = t;
+    logoBottom.style.top = lerp(32, -3, t) + "vh";
+    logoBottom.style.opacity = t;
+
+    const pct = t * 200;
+    textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${pct - 6}%, ${MUTED} ${pct}%)`;
+    textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${pct - 6}%, ${MUTED} ${pct}%)`;
+  }
+
+  let _rafPending = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (_rafPending) return;
+      _rafPending = true;
+      requestAnimationFrame(() => {
+        onScroll();
+        _rafPending = false;
+      });
+    },
+    { passive: true },
+  );
+
+  window.addEventListener("resize", onScroll);
+  onScroll(); 
+})();
+
 (function initButtonAnimation() {
   function wrapButtonContent() {
     document.querySelectorAll(".btn-main a").forEach((a) => {
@@ -715,9 +846,6 @@
   });
 })();
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  IntersectionObserver
-// ═══════════════════════════════════════════════════════════════════════════
 (function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");
@@ -746,9 +874,6 @@
   observer.observe(globeSection);
 })();
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  3D Globe
-// ═══════════════════════════════════════════════════════════════════════════
 (function init3DGlobeAnimation() {
   window.init3DGlobe = async function init3DGlobe() {
     const globeRoot = document.getElementById("company-globe");
@@ -1215,7 +1340,7 @@
   const SRV_DESCRIPTIONS = [
     "Gamified engagement and interactive media solutions that drive deeper user interaction and lasting engagement.",
     "Comprehensive BFSI solutions delivering secure, scalable financial platforms and seamless banking integrations.",
-    "End-to-end digital solutions that accelerate transformation and connect your business to the modern ecosystem.",
+    "End-to-end digital solutions that accelerate transformation and connect your bupower2ss to the modern ecosystem.",
   ];
 
   const TOTAL = SRV_IMAGES.length;

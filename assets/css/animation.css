@@ -1,3 +1,158 @@
+/* ==================== */
+/* PRELOADER */
+/* ==================== */
+  #preloader {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#preloader .column {
+  background-color: hsla(247, 48%, 45%, 1);
+  width: 100%;
+  height: 100%;
+  transform-origin: bottom center;
+}
+
+.lazy-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+}
+
+.ring-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  overflow: visible;
+}
+
+.circle-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1.8;
+}
+
+.circle-fill {
+  fill: none;
+  stroke: white;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  transform-origin: 48px 48px;
+  transform: rotate(-90deg);
+}
+
+
+
+
+/* ==================== */
+/* VISION SHAPE */
+/* ==================== */
+/* Wrapper tạo "không gian scroll" — 4 trang ảo */
+#vision-scroll-trigger {
+  position: relative;
+  height: calc(100vh * 4);
+}
+
+.vision-shape-section {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.vision-shape-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2vh;
+  pointer-events: none;
+}
+
+.vision-shape-text {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.vision-shape-text div {
+  font-size: 3vw;
+  font-weight: 500;
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.vision {
+  right: 32vh;
+}
+
+.shape {
+  left: 32vh;
+}
+
+.vision-shape-logo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.logo-top {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.logo-top img {
+  height: 32vh;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.logo-bottom {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.logo-bottom img {
+  height: 32vh;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+
+
+
+
+
+/* ==================== */
+/* BUTTON */
+/* ==================== */
+
 .button-white,
 .button-purple {
   align-items: center;
@@ -23,16 +178,11 @@
   background-color: #fff !important;
 }
 
-.srv-bg {
-  position: absolute;
-  top: -40vh;
-  left: 20vw;
-  opacity: 0.3;
-}
 
-.srv-anim {
-  background-color: #1d1d27;
-}
+
+/* ==================== */
+/* SHADER */
+/* ==================== */
 
 .gradient-canvas {
   position: absolute;
@@ -41,6 +191,13 @@
   width: 100%;
   height: 100%;
 }
+
+
+
+
+/* ==================== */
+/* GLOBE */
+/* ==================== */
 
 #company {
   position: relative;
@@ -178,11 +335,28 @@
   pointer-events: none;
 }
 
-/* ── Fix overflow cho section ── */
+
+
+
+
+
+/* ==================== */
+/* SERVICE */
+/* ==================== */
+
+.srv-bg {
+  position: absolute;
+  top: -40vh;
+  left: 20vw;
+  opacity: 0.3;
+}
+
+.srv-anim {
+  background-color: #1d1d27;
+}
+
 #service { overflow: clip; }
 
-/* ── Breakout khỏi wrapper + section padding, KHÔNG dùng transform
-   (transform trên ancestor sẽ phá position:fixed của wipe-line) ── */
 #srv-scroll-trigger {
     position: relative;
     width: 100vw;
@@ -198,7 +372,6 @@
     overflow: hidden;
 }
 
-/* ── Image stage — giữ nguyên, hoạt động đúng trong 100vw context ── */
 #srv-image-stage {
     position: absolute;
     left: 50%;

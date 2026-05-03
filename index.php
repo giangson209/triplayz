@@ -1,5 +1,50 @@
 <?php include 'header.php'; ?>
 <main>
+    <section id="preloader">
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+      <div class="column"></div>
+    </section>
+    <div class="lazy-loading" id="loader-icon">
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M36.564 36.4292C38.4974 34.5161 41.6228 34.5261 43.5462 36.4493L71.3949 64.3046L71.3849 64.3145C71.6254 64.5549 71.6253 64.9355 71.3849 65.1759L65.1641 71.3961C64.9237 71.6365 64.543 71.6364 64.3026 71.3961L44.9988 52.0947L44.9988 79.3891C44.9988 79.7296 44.7283 80 44.3877 80L35.5923 80C35.2617 80 34.9813 79.7296 34.9813 79.3891L34.9813 52.0947L15.6775 71.3961C15.4371 71.6365 15.0564 71.6364 14.816 71.3961L8.59502 65.1759C8.35464 64.9355 8.35462 64.5549 8.59502 64.3145L36.564 36.4292Z"
+          fill="white"
+        />
+        <path
+          d="M44.3977 -4.28095e-07C44.7383 2.33778e-05 45.0087 0.280441 45.0088 0.610942L45.0088 27.9054L64.3126 8.60402C64.553 8.36363 64.9336 8.36363 65.174 8.60402L71.3949 14.8241C71.6353 15.0645 71.6353 15.4451 71.3949 15.6855L52.0911 34.9869L79.389 34.9869C79.7195 34.9869 80 35.2573 80 35.5978L80 44.3922C80 44.7227 79.7295 45.0032 79.389 45.0032L59.7346 45.0032C57.8713 45.0032 56.0881 44.262 54.7758 42.9499L45.8302 34.0052C42.5745 30.75 37.2953 30.75 34.0496 34.0052L25.0639 42.9598C23.7516 44.272 21.9684 45.0032 20.1152 45.0032L0.611019 45.0032C0.280478 45.0031 2.70922e-05 44.7327 4.28042e-07 44.3922L3.43244e-07 35.5978C3.24989e-05 35.2573 0.280481 34.9869 0.611019 34.9869L27.9089 34.9869L8.60509 15.6855C8.36467 15.4451 8.36467 15.0645 8.60509 14.8241L14.8259 8.60402C15.0664 8.36363 15.447 8.36363 15.6874 8.60402L34.9912 27.9054L34.9912 0.610942C34.9913 0.280427 35.2718 -3.401e-07 35.6024 -3.43288e-07L44.3977 -4.28095e-07Z"
+          fill="white"
+        />
+      </svg>
+
+      <svg class="ring-svg" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="48" cy="48" r="60" class="circle-track" />
+        <circle cx="48" cy="48" r="60" class="circle-fill" id="ring" />
+      </svg>
+    </div>
     <section class="relative overflow-hidden">
         <div class="gradient-canvas"></div>
         
@@ -37,25 +82,27 @@
             </div>
         </div>
     </section>
-    <section
-        class="vision-shape-section relative h-[unset] lg:h-[100vh] flex items-center justify-center text-center py-20 lg:py-0 wrapper overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-            <img src="assets/images/union.png" class="inline" alt="">
-        </div>
-        <div
-            class="block lg:flex items-center justify-center text-10 2xl:text-[64px] 3xl:text-[72px] font-medium gap-10 xl:gap-30 2xl:gap-8 relative z-2">
-            <div class="txt vision-text">where vision</div>
-            <div class="text-center py-10 lg:py-0 shapes-container">
-                <div class="icon take-1 -mb-8 last:mb-0">
-                    <img src="assets/images/take-1.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]" alt="">
+    <div class="vision-scroll-trigger" id="vision-scroll-trigger">
+        <section id="vision-pinned-section"
+            class="vision-shape-section flex items-center justify-center text-center wrapper overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                <img src="assets/images/union.png" class="inline" alt="">
+            </div>
+            <div class="vision-shape-container">
+                <div class="vision-shape-logo">
+                    <div class="logo-top"><img src="./assets/images/take-1.svg" alt=""></div>
+                    <div class="logo-bottom"><img src="./assets/images/take-2.svg" alt=""></div>
                 </div>
-                <div class="icon take-2 -mb-8 last:mb-0">
-                    <img src="assets/images/take-2.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]" alt="">
+                <div class="vision-shape-text">
+                    <div class="vision">where vision</div>
+                </div>
+                <div class="vision-shape-text">
+                    <div class="shape">take shape</div>
                 </div>
             </div>
-            <div class="txt shape-text">take shape</div>
-        </div>
-    </section>
+        </section>
+    </div>
+    
 
     <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative">
         <div class="wrapper relative">
@@ -470,7 +517,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="assets/js/animation.js"></script>
 
