@@ -1,9 +1,13 @@
-(function initPreloader() {
+(function initPreloaderTextAnimation() {
+  const scrollbarWidth =
+    window.innerWidth - document.documentElement.clientWidth;
   document.body.style.overflowY = "hidden";
+  if (scrollbarWidth > 0) {
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+  }
 
   const ring = document.getElementById("ring");
   const loaderIcon = document.getElementById("loader-icon");
-  const columns = document.querySelectorAll("#preloader .column");
 
   const CIRC = 2 * Math.PI * 60;
   ring.style.strokeDasharray = CIRC;
@@ -37,6 +41,39 @@
     ease: "power2.in",
   });
 
+  const heroIntroSplits = gsap.utils.toArray(".hero-intro").map((text) => {
+    const split = SplitText.create(text, { type: "words" });
+    gsap.set(split.words, { opacity: 0, yPercent: 10 });
+    return split;
+  });
+
+  const heroTitleSplits = gsap.utils.toArray(".hero-title").map((title) => {
+    const split = SplitText.create(title, {
+      type: "lines",
+      linesClass: "title-line",
+    });
+
+    split.lines.forEach((line) => {
+      const inner = document.createElement("div");
+      inner.className = "title-line-inner";
+      inner.innerHTML = line.innerHTML;
+      line.innerHTML = "";
+      line.appendChild(inner);
+
+      gsap.set(inner, {
+        x: 60,
+        opacity: 0,
+        filter: "blur(6px)",
+        transformOrigin: "bottom center",
+        transformPerspective: 500,
+      });
+    });
+
+    return split;
+  });
+
+  let heroTriggered = false;
+
   tl.to(
     ".column",
     {
@@ -46,13 +83,138 @@
       duration: 1,
       stagger: -0.03,
       ease: "power4.inOut",
+      onUpdate: function () {
+        if (heroTriggered || this.progress() < 0.5) return;
+        heroTriggered = true;
+
+        const heroTl = gsap.timeline();
+
+        heroIntroSplits.forEach((split) => {
+          heroTl.to(
+            split.words,
+            {
+              duration: 0.3,
+              ease: "power1.in",
+              opacity: 1,
+              yPercent: 0,
+              stagger: 0.05,
+            },
+            0,
+          );
+        });
+
+        heroTitleSplits.forEach((split) => {
+          heroTl.to(
+            split.lines.map((l) => l.firstChild),
+            {
+              x: 0,
+              opacity: 1,
+              filter: "blur(0px)",
+              duration: 0.8,
+              ease: "power1.out",
+              stagger: { each: 0.2, from: "start" },
+            },
+            "<",
+          );
+        });
+      },
       onComplete: () => {
+        // ── Column xong hẳn mới ẩn preloader ────────────────────────
         gsap.set("#preloader", { display: "none" });
         document.body.style.overflowY = "";
+        document.body.style.paddingRight = "";
       },
     },
     "<0.1",
   );
+
+
+  function setupSplits(texts) {
+    const targets = Array.isArray(texts) ? texts : [texts];
+
+    targets.forEach((text) => {
+      const split = SplitText.create(text, {
+        type: "words",
+      });
+
+      text.anim = gsap.from(split.words, {
+        scrollTrigger: {
+          trigger: text,
+          start: "bottom 80%",
+        },
+        duration: 0.2,
+        ease: "power2.inOut",
+        opacity: 0,
+        yPercent: 10,
+        stagger: 0.1,
+      });
+    });
+  }
+
+  function initTextAnimations() {
+    const elements = gsap.utils.toArray(".text-animation");
+    if (elements.length === 0) return;
+    setupSplits(elements);
+  }
+
+  function splitTitle(titles) {
+    const targets = Array.isArray(titles) ? titles : [titles];
+
+    targets.forEach((title) => {
+      const split = SplitText.create(title, {
+        type: "lines",
+        linesClass: "title-line",
+      });
+
+      split.lines.forEach((line) => {
+        const inner = document.createElement("div");
+        inner.className = "title-line-inner";
+        inner.innerHTML = line.innerHTML;
+        line.innerHTML = "";
+        line.appendChild(inner);
+
+        gsap.set(inner, {
+          x: 60,
+          opacity: 0,
+          filter: "blur(6px)",
+          transformOrigin: "bottom center",
+          transformPerspective: 500,
+        });
+      });
+
+      const lineTl = gsap.timeline({ paused: true });
+
+      lineTl.to(
+        split.lines.map((l) => l.firstChild),
+        {
+          x: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: { each: 0.2, from: "start" },
+        },
+      );
+
+      title.anim = lineTl;
+
+      ScrollTrigger.create({
+        trigger: title,
+        start: "bottom 90%",
+        once: true,
+        onEnter: () => lineTl.play(),
+      });
+    });
+  }
+
+  function initTitleAnimations() {
+    const elements = gsap.utils.toArray(".title-animation");
+    if (elements.length === 0) return;
+    splitTitle(elements);
+  }
+
+  initTextAnimations();
+  initTitleAnimations();
 })();
 
 (function initVisionShapeAnimation() {
@@ -96,7 +258,7 @@
   function onScroll() {
     const p = getProgress();
 
-    const t = Math.max(0, Math.min(1, (p - 0.14) / 0.72));
+    const t = Math.max(0, Math.min(1, (p - 0.05) / 0.7));
 
     textVision.style.right = lerp(0, 32, t) + "vh";
     textShape.style.left = lerp(0, 32, t) + "vh";
@@ -126,7 +288,7 @@
   );
 
   window.addEventListener("resize", onScroll);
-  onScroll(); 
+  onScroll();
 })();
 
 (function initButtonAnimation() {

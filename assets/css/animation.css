@@ -63,7 +63,7 @@
 /* Wrapper tạo "không gian scroll" — 4 trang ảo */
 #vision-scroll-trigger {
   position: relative;
-  height: calc(100vh * 4);
+  height: calc(100vh * 2.5);
 }
 
 .vision-shape-section {
