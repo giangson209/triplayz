@@ -56,10 +56,10 @@
                 class="relative md:absolute z-3 bottom-0 right-0 px-0 md:px-10 max-w-full xl:max-w-[60%] text-center md:text-left">
                 <div class="mb-12 3xl:mb-20">
                     <div
-                        class="text-10 md:text-[48px] lg:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-medium mb-8 3xl:mb-10">
+                        class="hero-title text-10 md:text-[48px] lg:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-medium mb-8 3xl:mb-10">
                         a global end-to-end
                         tech partner</div>
-                    <div class="btn-main">
+                    <div class="btn-main hero-button">
                         <a href="">
                             TALK WITH US
                             <span class="dot"></span>
@@ -71,11 +71,11 @@
                 </div>
                 <div
                     class="py-6 2xl:py-8 3xl:py-10 border-t border-[#FFFFFF26] block md:flex items-center justify-between gap-6 md:gap-16 2xl:gap-8 3xl:gap-10 text-center md:text-left">
-                    <div class="item anek max-w-121 w-full text-center md:text-left mb-6 md:mb-0">
+                    <div class="hero-intro item anek max-w-121 w-full text-center md:text-left mb-6 md:mb-0">
                         Gamification, BFSI solutions, and digital solutions under one roof, helping enterprises across
                         industries engage customers and grow sustainably
                     </div>
-                    <div class="item px-6 md:px-0">
+                    <div class="clutch item px-6 md:px-0">
                         <img src="assets/images/clutch.png" class="max-w-69 2xl:max-w-[auto] w-full" alt="">
                     </div>
                 </div>
@@ -111,14 +111,14 @@
                 <div class="item anek font-medium opacity-65 pt-0 lg:pt-10 mb-6 lg:mb-0">/SERVICES</div>
                 <div class="wraper max-w-300">
                     <h2
-                        class="text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-medium leading-[1.25]">
+                        class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-medium leading-[1.25]">
                         What our purpose-built
                         <br class="hidden xl:block">solutions can do for <br class="hidden xl:block"><span
                             class="text-[#56565D]">your growth strategy</span>
                     </h2>
 
                     <div
-                        class="mt-6 md:mt-10 lg:mt-14 3xl:mt-36 flex items-end gap-x-10 xl:gap-x-82 justify-between 3xl:justify-[unset] flex-wrap md:flex-[unset]">
+                        class="mt-6 md:mt-10 lg:mt-14 3xl:mt-36 flex items-end gap-x-10 xl:gap-x-82 justify-between 3xl:justify-[unset] md:flex-[unset]">
                         <div class="btn-main order-2 md:order-1">
                             <a href="">
                                 DOWNLOAD BROCHURE
@@ -129,7 +129,7 @@
                             </a>
                         </div>
                         <div
-                            class="max-w-full md:max-w-1/2 xl:max-w-103 w-full anek opacity-85 order-1 md:order-2 mb-6 md:mb-0">
+                            class="text-animation max-w-full md:max-w-1/2 xl:max-w-103 w-full anek opacity-85 order-1 md:order-2 mb-6 md:mb-0">
                             We combine technical precision with strategic thinking — so every solution we deliver moves
                             your business meaningfully forward.
                         </div>
@@ -241,13 +241,13 @@
     <section class="relative overflow-hidden">
         <div class="wrapper relative overflow-hidden py-10">
             <div
-                class="text-[56px] md:text-[100px] lg:text-[124px] 2xl:text-[164px] 3xl:text-[200px] font-medium mb-4 px-6 md:px-10">
+                class="title-animation text-[56px] md:text-[100px] lg:text-[124px] 2xl:text-[164px] 3xl:text-[200px] font-medium mb-4 px-6 md:px-10">
                 WHY US?</div>
             <div class="pl-0 3xl:pl-[22%] block lg:flex items-end justify-between anek">
-                <div class="item mb-4 lg:mb-0 last:mb-0 max-w-[60%] md:max-w-full lg:max-w-75 w-full opacity-85">
+                <div class="text-animation item mb-4 lg:mb-0 last:mb-0 max-w-[60%] md:max-w-full lg:max-w-75 w-full opacity-85">
                     Experience you can measure. Outcomes you can rely on.
                 </div>
-                <div class="item mb-4 lg:mb-0 last:mb-0 max-w-[60%] md:max-w-full lg:max-w-75 w-full opacity-85">
+                <div class="text-animation item mb-4 lg:mb-0 last:mb-0 max-w-[60%] md:max-w-full lg:max-w-75 w-full opacity-85">
                     Experience you can measure. Outcomes you can rely on.
                 </div>
                 <div class="item mb-4 lg:mb-0 last:mb-0">
@@ -322,7 +322,7 @@
         <div class="wrapper relative overflow-hidden">
             <img src="assets/images/top-company.png" class="w-full absolute top-0 left-0" alt="">
             <div class="px-6 md:px-10 text-center relative mb-16 md:mb-28 3xl:mb-31">
-                <div class="text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium mb-6 md:mb-10">
+                <div class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium mb-6 md:mb-10">
                     Companies we're proud to <br class="hidden md:block">have worked with
                 </div>
                 <div class="btn-main">
@@ -384,7 +384,7 @@
                 <div
                     class="item col-span-5 md:col-span-2 2xl:col-span-1 h-[auto] md:h-[80vh] block md:sticky top-25 pb-6 md:pb-0 mb-6 md:mb-0 border-b md:border-0 border-[#00000026]">
                     <div class="block md:flex flex-col justify-between h-full text-[#1D1D27]">
-                        <div class="text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium">Highlight <br>
+                        <div class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium">Highlight <br>
                             case study</div>
                         <div class="block md:hidden py-6 anek">
                             We combine technical precision with strategic thinking — so every solution we deliver moves
@@ -449,7 +449,7 @@
         <img src="assets/images/bn-form.jpg" class="w-full h-full absolute object-cover top-0 left-0" alt="">
         <div class="grid grid-cols-12 gap-10 relative z-2">
             <div class="item item col-span-12 lg:col-span-6 2xl:col-span-7 h-full flex items-center">
-                <div class="text-[48px] lg:text-[64px] 3xl:text-[80px] font-medium">Get a free consultation</div>
+                <div class="text-animation text-[48px] lg:text-[64px] 3xl:text-[80px] font-medium">Get a free consultation</div>
             </div>
             <div class="item col-span-12 lg:col-span-6 2xl:col-span-5">
                 <div class="bg-white w-full p-10 text-black">
