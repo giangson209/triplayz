@@ -694,7 +694,7 @@
 
       float gapHalf = uPixelGap * 0.5;
       bool inGap = cellUV.x < gapHalf || cellUV.x > (1.0 - gapHalf) ||
-                   cellUV.y < gapHalf || cellUV.y > (1.0 - gapHalf);
+                  cellUV.y < gapHalf || cellUV.y > (1.0 - gapHalf);
 
       bool  inZone   = false;
       float bestDist = 999.0;
@@ -1198,7 +1198,6 @@
         localPos: latLonToVec3(c.lat, c.lon, 1.01),
       }));
 
-      // FIX #3: khởi tạo _cache trên mỗi element ngay khi tạo
       const markerEls = markerData.map((m, i) => {
         const div = document.createElement("div");
         div.className = "company-globe-marker" + (m.reverse ? " reverse" : "");
@@ -1210,7 +1209,6 @@
           m.name +
           "</span>";
 
-        // FIX #3: cache style values, tránh ghi DOM khi không thay đổi
         div._cache = {
           transform: "",
           zIndex: "",
@@ -1613,4 +1611,8 @@
   imgFrom.src = SRV_IMAGES[0];
   imgTo.src = SRV_IMAGES[1];
   onScroll();
+})();
+
+(function initParallaxAnimation() {
+  
 })();

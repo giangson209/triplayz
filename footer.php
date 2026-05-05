@@ -1,4 +1,4 @@
-<footer class="bg-blue px-6 md:px-10 py-6 md:py-10 relative">
+<footer class="bg-blue px-6 md:px-10 py-6 md:py-10">
     <div class="wrapper">
         <img src="assets/images/bg-footer.png" class="w-full h-full top-0 left-0 absolute object-cover" alt="">
         <div class="grid grid-cols-12 gap-0 md:gap-6 relative z-2">
