@@ -1,11 +1,4 @@
 $(document).ready(function () {
-  // $('.btn-bar').click(function(){
-  //     $('.mm-menu').addClass('active');
-  // })
-  // $('.close-menu').click(function(){
-  //     $('.mm-menu').removeClass('active');
-  // })
-
   var swiperConfig = {
     spaceBetween: 16,
     slidesPerView: 2,
@@ -40,13 +33,15 @@ $(document).ready(function () {
     autoplay: {
       delay: 0,
       disableOnInteraction: false,
-      reverseDirection: true, // chạy ngược chiều
+      reverseDirection: true,
     },
   });
 
+  let lenis; // khai báo ở scope ngoài để dùng được trong gsap block
+
   if (typeof Lenis !== "undefined") {
-    const lenis = new Lenis({
-      duration: 1.35,
+    lenis = new Lenis({
+      duration: 1.45,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smooth: true,
       smoothTouch: false,
@@ -83,7 +78,7 @@ $(document).ready(function () {
       const footerEl = document.querySelector("footer");
       if (!mainEl || !footerEl) return;
 
-      const MAIN_SLOW = 1.8;
+      const MAIN_SLOW = 1.9;
       const FOOTER_SLOW = 0.7;
 
       const spacer = document.createElement("div");
@@ -99,7 +94,10 @@ $(document).ready(function () {
         const V = window.innerHeight;
         const FH = footerEl.offsetHeight;
         spacer.style.height =
-          Math.max(V * MAIN_SLOW *.94, V * FOOTER_SLOW *.94 + Math.max(0, FH - V)) + "px";
+          Math.max(
+            V * MAIN_SLOW * 0.94,
+            V * FOOTER_SLOW * 0.94 + Math.max(0, FH - V),
+          ) + "px";
       }
 
       updateSpacer();
@@ -113,19 +111,17 @@ $(document).ready(function () {
         if (scroll > triggerY) {
           const rawDelta = scroll - triggerY;
 
-          // ── Main
           const mainDelta = rawDelta / MAIN_SLOW;
           mainEl.style.transform = `translateY(-${mainDelta}px)`;
 
           const mainProgress = Math.min(1, mainDelta / V);
           mainEl.style.boxShadow = `0 10px 20px rgba(0,0,0,.3)`;
 
-          // ── Footer reveal
           const footerProgress = Math.min(1, rawDelta / (FOOTER_SLOW * V));
           const footerParallax = FOOTER_OFFSET * (1 - footerProgress);
 
           const FH = footerEl.offsetHeight;
-          const footerScrollStart = (FOOTER_SLOW) * V;
+          const footerScrollStart = FOOTER_SLOW * V;
           const footerScrollDelta = Math.min(
             Math.max(0, rawDelta - footerScrollStart),
             Math.max(0, FH - V),
@@ -150,7 +146,7 @@ $(document).ready(function () {
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Cập nhật số thứ tự cho phần Highlight case study kèm hiệu ứng slide (chống kẹt khi cuộn nhanh)
+    // Cập nhật số thứ tự cho phần Highlight case study kèm hiệu ứng slide
     if ($(".item-casestudy").length) {
       let activeIndex = 0;
       let lastDirection = 1;
@@ -166,7 +162,6 @@ $(document).ready(function () {
               lastDirection = index > activeIndex ? 1 : -1;
               activeIndex = index;
 
-              // Dùng debounce/timeout siêu ngắn để gom nhóm và bỏ qua các trạng thái trung gian nếu cuộn vèo một phát qua nhiều item
               clearTimeout(updateTimeout);
               updateTimeout = setTimeout(() => {
                 let num = activeIndex + 1;
@@ -174,34 +169,29 @@ $(document).ready(function () {
 
                 let $wrap = $(".current-case-numb").first().parent();
 
-                // Dọn dẹp DOM node thừa để rác không bị dồn khi cuộn cuồng loạn mà onComplete chưa ki kịp
                 $wrap.find(".is-leaving").remove();
 
                 let $oldEls = $wrap.find(".current-case-numb");
 
-                // Nếu số hiện tại vẫn giống thì khỏi làm gì (trường hợp quay xe ngay lập tức)
                 if ($oldEls.length && $oldEls.last().text() === String(newText))
                   return;
 
                 $oldEls.addClass("is-leaving");
 
-                // Hướng trượt (scroll xuống -> trượt xuống như yêu cầu)
                 let yOut = lastDirection === 1 ? "100%" : "-100%";
                 let yIn = lastDirection === 1 ? "-100%" : "100%";
 
                 let $newEl = $(
                   '<span class="current-case-numb absolute w-full text-center">' +
-                  newText +
-                  "</span>",
+                    newText +
+                    "</span>",
                 );
                 gsap.set($newEl, { y: yIn });
 
                 $wrap.append($newEl);
 
-                // Ngắt sạch hiệu ứng cũ để không bị giật lag
                 gsap.killTweensOf($oldEls);
 
-                // Tăng tốc một chút hiệu ứng khi cuộn nhanh, bỏ đi inOut cho dứt khoát
                 gsap.to($oldEls, {
                   y: yOut,
                   duration: 0.3,
@@ -216,21 +206,21 @@ $(document).ready(function () {
                   duration: 0.3,
                   ease: "power2.out",
                 });
-              }, 25); // Chờ 25ms (khoảng gần 2 frame) để lắng đọng nhịp cuộn nhanh
+              }, 25);
             }
           },
         });
       });
     }
-    // Animation xoay vòng Why Us (Trượt dần theo scrub)
+
+    // Animation xoay vòng Why Us
     if ($(".content-whuyus").length && $(".whyus-slide").length > 1) {
       let slides = gsap.utils.toArray(".whyus-slide");
 
-      // Khởi tạo các slide
       slides.forEach((sl, i) => {
         sl.classList.remove("opacity-0", "translate-y-10");
         if (i > 0) gsap.set(sl, { yPercent: 100 });
-        else gsap.set(sl, { yPercent: 0 }); // Đảm bảo slide 0 nằm đúng vị trí
+        else gsap.set(sl, { yPercent: 0 });
       });
 
       let tl = gsap.timeline({
@@ -240,47 +230,60 @@ $(document).ready(function () {
           end: () => "+=" + window.innerHeight * 4,
           pin: true,
           scrub: true,
-        }
+        },
       });
 
-      // Xoay wheel liên tục trong suốt timeline (chiều âm để mép phải bánh xe đi lên cùng hướng với slide)
       let totalDuration = slides.length - 1;
-      let totalRotation = -totalDuration * 45; // Đổi thành chiều âm để không bị ngược
+      let totalRotation = -totalDuration * 45;
 
-      tl.to(".whyus-wheel", {
-        rotation: totalRotation,
-        ease: "none",
-        duration: totalDuration
-      }, 0);
+      tl.to(
+        ".whyus-wheel",
+        {
+          rotation: totalRotation,
+          ease: "none",
+          duration: totalDuration,
+        },
+        0,
+      );
 
-      // Hiệu ứng chuyển slide mượt mà
       slides.forEach((sl, i) => {
         if (i > 0) {
-          // Slide cũ đi lên (-100%)
-          tl.to(slides[i - 1], { yPercent: -100, ease: "none", duration: 1 }, i - 1);
-          // Slide mới đi từ dưới lên (0%)
+          tl.to(
+            slides[i - 1],
+            { yPercent: -100, ease: "none", duration: 1 },
+            i - 1,
+          );
           tl.to(sl, { yPercent: 0, ease: "none", duration: 1 }, i - 1);
         }
       });
     }
-    // Parallax effect cho form section image
+
     if ($(".form-parallax-sec").length && $(".form-parallax-img").length) {
-      gsap.fromTo(".form-parallax-img",
-        { yPercent: -30 },
-        {
-          yPercent: 30,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".form-parallax-sec",
-            start: "top bottom", // Bắt đầu khi top của section chạm bottom của viewport
-            end: "bottom top",   // Kết thúc khi bottom của section chạm top của viewport
-            scrub: true,
-          },
-        }
-      );
+      const section = document.querySelector(".form-parallax-sec");
+      const img = document.querySelector(".form-parallax-img");
+      let smoothedScroll = lenis ? lenis.targetScroll : window.scrollY;
+      const LERP_FACTOR = 0.18; 
+
+      gsap.ticker.add(() => {
+        const target = lenis ? lenis.targetScroll : window.scrollY;
+        smoothedScroll += (target - smoothedScroll) * LERP_FACTOR;
+
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const vh = window.innerHeight;
+
+        const start = sectionTop - vh;
+        const end = sectionTop + sectionHeight;
+        const progress = (smoothedScroll - start) / (end - start);
+        const clamped = Math.max(0, Math.min(1, progress));
+
+        // Map từ -20px đến +20px
+        const yPercent = -10 + clamped * 22;
+        img.style.transform = `translateY(${yPercent}%)`;
+      });
     }
 
-    // Tự động ẩn/hiện header khi cuộn
+    // Header ẩn/hiện khi scroll
     let headerEl = document.getElementById("main-header");
     if (headerEl) {
       ScrollTrigger.create({
@@ -288,13 +291,11 @@ $(document).ready(function () {
         end: 99999,
         onUpdate: (self) => {
           if (self.direction === -1) {
-            // Cuộn lên -> hiện
             headerEl.style.transform = "translateY(0%)";
           } else if (self.direction === 1) {
-            // Cuộn xuống -> ẩn
             headerEl.style.transform = "translateY(-100%)";
           }
-        }
+        },
       });
     }
   }

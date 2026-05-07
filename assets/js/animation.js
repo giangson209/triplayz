@@ -1613,6 +1613,3 @@
   onScroll();
 })();
 
-(function initParallaxAnimation() {
-  
-})();
