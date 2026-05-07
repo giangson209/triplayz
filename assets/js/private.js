@@ -147,71 +147,7 @@ $(document).ready(function () {
     gsap.registerPlugin(ScrollTrigger);
 
     // Cập nhật số thứ tự cho phần Highlight case study kèm hiệu ứng slide
-    if ($(".item-casestudy").length) {
-      let activeIndex = 0;
-      let lastDirection = 1;
-      let updateTimeout;
-
-      $(".item-casestudy").each(function (index) {
-        ScrollTrigger.create({
-          trigger: this,
-          start: "top 60%",
-          end: "bottom 60%",
-          onToggle: (self) => {
-            if (self.isActive && activeIndex !== index) {
-              lastDirection = index > activeIndex ? 1 : -1;
-              activeIndex = index;
-
-              clearTimeout(updateTimeout);
-              updateTimeout = setTimeout(() => {
-                let num = activeIndex + 1;
-                let newText = num < 10 ? "0" + num : num;
-
-                let $wrap = $(".current-case-numb").first().parent();
-
-                $wrap.find(".is-leaving").remove();
-
-                let $oldEls = $wrap.find(".current-case-numb");
-
-                if ($oldEls.length && $oldEls.last().text() === String(newText))
-                  return;
-
-                $oldEls.addClass("is-leaving");
-
-                let yOut = lastDirection === 1 ? "100%" : "-100%";
-                let yIn = lastDirection === 1 ? "-100%" : "100%";
-
-                let $newEl = $(
-                  '<span class="current-case-numb absolute w-full text-center">' +
-                    newText +
-                    "</span>",
-                );
-                gsap.set($newEl, { y: yIn });
-
-                $wrap.append($newEl);
-
-                gsap.killTweensOf($oldEls);
-
-                gsap.to($oldEls, {
-                  y: yOut,
-                  duration: 0.3,
-                  ease: "power2.out",
-                  onComplete: () => {
-                    $oldEls.remove();
-                  },
-                });
-
-                gsap.to($newEl, {
-                  y: "0%",
-                  duration: 0.3,
-                  ease: "power2.out",
-                });
-              }, 25);
-            }
-          },
-        });
-      });
-    }
+    
 
     // Animation xoay vòng Why Us
     if ($(".content-whuyus").length && $(".whyus-slide").length > 1) {
@@ -223,6 +159,8 @@ $(document).ready(function () {
         else gsap.set(sl, { yPercent: 0 });
       });
 
+      let lastWhyusIdx = -1;
+
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".content-whuyus",
@@ -230,6 +168,29 @@ $(document).ready(function () {
           end: () => "+=" + window.innerHeight * 4,
           pin: true,
           scrub: true,
+          onEnter: () => {
+            // Trigger slide 0 khi section lần đầu vào viewport
+            if (lastWhyusIdx < 0 && window.triggerAnimationsIn) {
+              lastWhyusIdx = 0;
+              window.triggerAnimationsIn(slides[0]);
+            }
+          },
+          onUpdate: (self) => {
+            // rawProgress: 0...(slides.length-1), trigger sớm ở 40% transition
+            const rawProgress = self.progress * (slides.length - 1);
+            const newIdx = Math.min(
+              slides.length - 1,
+              Math.floor(rawProgress + 0.4),
+            );
+            if (newIdx > lastWhyusIdx) {
+              for (let i = lastWhyusIdx + 1; i <= newIdx; i++) {
+                if (window.triggerAnimationsIn) {
+                  window.triggerAnimationsIn(slides[i]);
+                }
+              }
+              lastWhyusIdx = newIdx;
+            }
+          },
         },
       });
 
@@ -262,7 +223,7 @@ $(document).ready(function () {
       const section = document.querySelector(".form-parallax-sec");
       const img = document.querySelector(".form-parallax-img");
       let smoothedScroll = lenis ? lenis.targetScroll : window.scrollY;
-      const LERP_FACTOR = 0.18; 
+      const LERP_FACTOR = 0.18;
 
       gsap.ticker.add(() => {
         const target = lenis ? lenis.targetScroll : window.scrollY;

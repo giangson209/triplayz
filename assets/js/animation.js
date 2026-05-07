@@ -133,28 +133,29 @@
     const targets = Array.isArray(texts) ? texts : [texts];
 
     targets.forEach((text) => {
-      const split = SplitText.create(text, {
-        type: "words",
-      });
+      const split = SplitText.create(text, { type: "words" });
+      gsap.set(split.words, { opacity: 0, yPercent: 10 }); // ẩn ban đầu
 
-      text.anim = gsap.from(split.words, {
+      const parentSlide = text.closest(".whyus-slide");
+
+      if (parentSlide) {
+        text._gsapWordSplit = split;
+        return;
+      }
+
+      // ✅ Đổi từ gsap.from() → gsap.to(), animate ĐẾN trạng thái visible
+      text.anim = gsap.to(split.words, {
         scrollTrigger: {
           trigger: text,
           start: "bottom 80%",
         },
-        duration: 0.2,
-        ease: "power2.inOut",
-        opacity: 0,
-        yPercent: 10,
-        stagger: 0.1,
+        duration: 0.3,
+        ease: "power2.out",
+        opacity: 1, // ← đến opacity 1
+        yPercent: 0, // ← đến vị trí gốc
+        stagger: 0.08,
       });
     });
-  }
-
-  function initTextAnimations() {
-    const elements = gsap.utils.toArray(".text-animation");
-    if (elements.length === 0) return;
-    setupSplits(elements);
   }
 
   function splitTitle(titles) {
@@ -183,7 +184,6 @@
       });
 
       const lineTl = gsap.timeline({ paused: true });
-
       lineTl.to(
         split.lines.map((l) => l.firstChild),
         {
@@ -198,6 +198,13 @@
 
       title.anim = lineTl;
 
+      const parentSlide = title.closest(".whyus-slide");
+
+      if (parentSlide) {
+        // TẤT CẢ whyus slides kể cả slide 0 → chờ trigger thủ công
+        return;
+      }
+
       ScrollTrigger.create({
         trigger: title,
         start: "bottom 90%",
@@ -205,6 +212,12 @@
         onEnter: () => lineTl.play(),
       });
     });
+  }
+
+  function initTextAnimations() {
+    const elements = gsap.utils.toArray(".text-animation");
+    if (elements.length === 0) return;
+    setupSplits(elements);
   }
 
   function initTitleAnimations() {
@@ -215,6 +228,26 @@
 
   initTextAnimations();
   initTitleAnimations();
+
+  window.triggerAnimationsIn = function (container) {
+    container.querySelectorAll(".text-animation").forEach(function (text) {
+      if (text._gsapWordSplit) {
+        gsap.to(text._gsapWordSplit.words, {
+          duration: 0.3,
+          ease: "power2.out",
+          opacity: 1,
+          yPercent: 0,
+          stagger: 0.08,
+          overwrite: true,
+        });
+      }
+    });
+    container.querySelectorAll(".title-animation").forEach(function (title) {
+      if (title.anim) {
+        title.anim.restart();
+      }
+    });
+  };
 })();
 
 (function initVisionShapeAnimation() {
@@ -1613,3 +1646,135 @@
   onScroll();
 })();
 
+(function initCompanyDarkOverlay() {
+  const section = document.getElementById("company");
+  const rows = document.querySelectorAll(".company-dark-row");
+  if (!section || !rows.length) return;
+
+  const ROW_DURATION = 420;
+  const STAGGER_PX = 130;
+  const done = new Array(rows.length).fill(false);
+
+  function onScroll() {
+    const rect = section.getBoundingClientRect();
+    const scrolled = window.innerHeight * 0.7 - rect.top;
+
+    rows.forEach((row, i) => {
+      if (done[i]) return;
+
+      const start = i * STAGGER_PX;
+      const end = start + ROW_DURATION;
+      const t = Math.max(0, Math.min(1, (scrolled - start) / (end - start)));
+
+      row.style.transform = `scaleX(${1 - t})`;
+
+      if (t >= 1) done[i] = true;
+    });
+  }
+
+  let _raf = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (_raf) return;
+      _raf = true;
+      requestAnimationFrame(() => {
+        onScroll();
+        _raf = false;
+      });
+    },
+    { passive: true },
+  );
+
+  window.addEventListener("resize", onScroll);
+  onScroll();
+})();
+
+(function initCompanyFadeAnimations() {
+  const swiperRows = document.querySelectorAll(
+    ".company-marquee .swiper-container"
+  );
+  const globeContainer = document.querySelector(".company-globe-container");
+
+  swiperRows.forEach((el, i) => {
+    gsap.set(el, { opacity: 0.2, filter: "blur(2px)" });
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: "bottom 90%",
+      once: true,
+      onEnter: () => {
+        gsap.to(el, {
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.7,
+          ease: "power2.out",
+          delay: i * 0.15,
+        });
+      },
+    });
+  });
+
+  if (!globeContainer) return;
+
+  gsap.set(globeContainer, { opacity: 0.5, filter: "blur(4px)" });
+
+  ScrollTrigger.create({
+    trigger: "#company",
+    start: "bottom bottom",
+    once: true,
+    onEnter: () => {
+      gsap.to(globeContainer, {
+        opacity: 1,
+        filter: "blur(0px)",
+        duration: .8,
+        ease: "power2.out",
+      });
+    },
+  });
+})();
+
+(function initCaseStudyCounter() {
+  const items = document.querySelectorAll(".item-casestudy");
+  const digitWrap = document.getElementById("case-digit-wrap");
+  const digitTrack = document.getElementById("case-digit-track");
+  if (!items.length || !digitWrap || !digitTrack) return;
+
+  let activeIndex = 0;
+
+  function slideTo(index) {
+    if (index === activeIndex) return;
+    activeIndex = index;
+    const itemH = digitWrap.offsetHeight; 
+    digitTrack.style.transition =
+      "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)";
+    digitTrack.style.transform = `translateY(-${index * itemH}px)`;
+  }
+
+  function onScroll() {
+    let newIndex = 0;
+    items.forEach((el, i) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top + rect.height / 2 < window.innerHeight * 0.9) newIndex = i;
+    });
+    slideTo(newIndex);
+  }
+
+  let _raf = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (_raf) return;
+      _raf = true;
+      requestAnimationFrame(() => {
+        onScroll();
+        _raf = false;
+      });
+    },
+    { passive: true },
+  );
+
+  if (typeof lenis !== "undefined") lenis.on("scroll", onScroll);
+
+  onScroll();
+})();

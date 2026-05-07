@@ -172,22 +172,22 @@
 
                             <div class="srv-corner" id="srv-c-tl">
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                    <path d="M22 1H1V22" stroke="#2a3d60" stroke-width="1.5" />
+                                    <path d="M22 1H1V22" stroke="#ffffff" stroke-width="1.5" />
                                 </svg>
                             </div>
                             <div class="srv-corner" id="srv-c-tr">
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                    <path d="M0 1H21V22" stroke="#2a3d60" stroke-width="1.5" />
+                                    <path d="M0 1H21V22" stroke="#ffffff" stroke-width="1.5" />
                                 </svg>
                             </div>
                             <div class="srv-corner" id="srv-c-bl">
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                    <path d="M22 21H1V0" stroke="#2a3d60" stroke-width="1.5" />
+                                    <path d="M22 21H1V0" stroke="#ffffff" stroke-width="1.5" />
                                 </svg>
                             </div>
                             <div class="srv-corner" id="srv-c-br">
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                    <path d="M0 21H21V0" stroke="#2a3d60" stroke-width="1.5" />
+                                    <path d="M0 21H21V0" stroke="#ffffff" stroke-width="1.5" />
                                 </svg>
                             </div>
                         </div>
@@ -344,10 +344,16 @@
 
     <section id="company" class="relative overflow-hidden bg-[#483BA8] pt-10 md:pt-20 lg:pt-25 3xl:pt-50">
         <div class="company-marquee wrapper relative overflow-hidden">
-            <img src="assets/images/top-company.png" class="w-full absolute top-0 left-0" alt="">
+            <img src="assets/images/top-company.png" class="w-full absolute top-0 left-0" alt="">    
+            <div class="company-dark-overlay">
+                <div class="company-dark-row"></div>
+                <div class="company-dark-row"></div>
+                <div class="company-dark-row"></div>
+                <div class="company-dark-row"></div>
+            </div>       
             <div class="px-6 md:px-10 text-center relative mb-16 md:mb-28 3xl:mb-31">
                 <div
-                    class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium mb-6 md:mb-10">
+                    class="company-title title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium mb-6 md:mb-10">
                     Companies we're proud to <br class="hidden md:block">have worked with
                 </div>
                 <div class="btn-main">
@@ -391,14 +397,16 @@
                 </div>
             </div>
         </div>
-        <div class="company-globe-container">
-            <div id="company-globe" class="company-globe">
-                <canvas id="company-globe-canvas"></canvas>
-                <div id="company-globe-labels"></div>
-                <div id="company-globe-msg">
-                    <div id="company-globe-msg-text">Creating...</div>
-                    <div id="company-globe-prog-bar">
-                        <div id="company-globe-prog"></div>
+        <div class="globe-wrapper">
+            <div class="company-globe-container">
+                <div id="company-globe" class="company-globe">
+                    <canvas id="company-globe-canvas"></canvas>
+                    <div id="company-globe-labels"></div>
+                    <div id="company-globe-msg">
+                        <div id="company-globe-msg-text">Creating...</div>
+                        <div id="company-globe-prog-bar">
+                            <div id="company-globe-prog"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -419,11 +427,15 @@
                             your business meaningfully forward.
                         </div>
                         <div class="numb text-10 2xl:text-[64px] font-medium hidden md:flex items-center">
-                            <span
-                                class="inline-flex overflow-hidden relative justify-center items-center aspect-square h-full">
-                                <span class="current-case-numb absolute w-full text-center">01</span>
+                            <span>0</span>
+                            <span id="case-digit-wrap" style="display:inline-block; overflow:hidden; position:relative; width:0.6em; height:1.15em; vertical-align:bottom;">
+                                <span id="case-digit-track" style="position:absolute; top:0; left:0; width:100%; will-change:transform;">
+                                    <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">1</span>
+                                    <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">2</span>
+                                    <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">3</span>
+                                </span>
                             </span>
-                            <span class="opacity-25">/08</span>
+                            <span class="opacity-25">/03</span>
                         </div>
                         <div class="btn-main">
                             <a href="" style="border: 1px solid #1D1D2714; background: #1D1D2714;">
@@ -438,7 +450,7 @@
                 </div>
                 <div class="item col-span-5 md:col-span-3 2xl:col-span-2 pl-0 md:pl-10">
                     <?php
-                    for ($x = 1; $x <= 8; $x++) { ?>
+                    for ($x = 1; $x <= 3; $x++) { ?>
                         <div class="item item-casestudy mb-6 md:mb-10 3xl:mb-20 last:mb-0">
                             <div class="relative avarta overflow-hidden">
                                 <img src="assets/images/study.jpg" class="w-full" alt="">
