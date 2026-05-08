@@ -298,7 +298,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="assets/js/animation.js"></script>
+<script src="assets/js/animation.js?v=<?php echo time() ?>"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {

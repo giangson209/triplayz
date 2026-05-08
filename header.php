@@ -19,9 +19,9 @@
 
     <link rel="stylesheet" type="text/css" title="" href="assets/css/custom.css?v=<?php echo time() ?>">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/tailwind.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/tailwind.css?v=<?php echo time() ?>">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/animation.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/animation.css?v=<?php echo time() ?>">
 
     <style>
         html.lenis,

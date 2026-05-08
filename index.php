@@ -315,7 +315,8 @@
                                             class="title-animation font-medium text-[48px] xl:text-[80px] 2xl:text-[112px] 3xl:text-[142px]">
                                             <?php echo $numbers[$x - 1]; ?>
                                         </div>
-                                        <div class="text-animation anek text-5 xl:text-6"><?php echo $texts[$x - 1]; ?></div>
+                                        <div class="text-animation anek text-5 xl:text-6"><?php echo $texts[$x - 1]; ?>
+                                        </div>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -344,13 +345,13 @@
 
     <section id="company" class="relative overflow-hidden bg-[#483BA8] pt-10 md:pt-20 lg:pt-25 3xl:pt-50">
         <div class="company-marquee wrapper relative overflow-hidden">
-            <img src="assets/images/top-company.png" class="w-full absolute top-0 left-0" alt="">    
+            <img src="assets/images/top-company.png" class="w-full absolute top-0 left-0" alt="">
             <div class="company-dark-overlay">
                 <div class="company-dark-row"></div>
                 <div class="company-dark-row"></div>
                 <div class="company-dark-row"></div>
                 <div class="company-dark-row"></div>
-            </div>       
+            </div>
             <div class="px-6 md:px-10 text-center relative mb-16 md:mb-28 3xl:mb-31">
                 <div
                     class="company-title title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium mb-6 md:mb-10">
@@ -428,11 +429,16 @@
                         </div>
                         <div class="numb text-10 2xl:text-[64px] font-medium hidden md:flex items-center">
                             <span>0</span>
-                            <span id="case-digit-wrap" style="display:inline-block; overflow:hidden; position:relative; width:0.6em; height:1.15em; vertical-align:bottom;">
-                                <span id="case-digit-track" style="position:absolute; top:0; left:0; width:100%; will-change:transform;">
-                                    <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">1</span>
-                                    <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">2</span>
-                                    <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">3</span>
+                            <span id="case-digit-wrap"
+                                style="display:inline-block; overflow:hidden; position:relative; width:0.6em; height:1.15em; vertical-align:bottom;">
+                                <span id="case-digit-track"
+                                    style="position:absolute; top:0; left:0; width:100%; will-change:transform;">
+                                    <span
+                                        style="display:block; text-align:center; height:1.15em; line-height:1.15;">1</span>
+                                    <span
+                                        style="display:block; text-align:center; height:1.15em; line-height:1.15;">2</span>
+                                    <span
+                                        style="display:block; text-align:center; height:1.15em; line-height:1.15;">3</span>
                                 </span>
                             </span>
                             <span class="opacity-25">/03</span>
@@ -486,8 +492,8 @@
     </section>
 
     <section class="py-20 lg:py-25 px-10 relative overflow-hidden hidden md:block wrapper form-parallax-sec">
-        <img src="assets/images/bn-form.jpg" class="bg-form w-full h-full absolute object-cover top-0 left-0 form-parallax-img"
-            alt="">
+        <img src="assets/images/bn-form.jpg"
+            class="bg-form w-full h-full absolute object-cover top-0 left-0 form-parallax-img" alt="">
         <div class="grid grid-cols-12 gap-10 relative z-2">
             <div class="item item col-span-12 lg:col-span-6 2xl:col-span-7 h-full flex items-center">
                 <div class="title-animation text-[48px] lg:text-[64px] 3xl:text-[80px] font-medium">Get a free
@@ -561,6 +567,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="assets/js/animation.js"></script>
+<script src="assets/js/animation.js?v=<?php echo time() ?>"></script>
 
 <?php include 'footer.php'; ?>
