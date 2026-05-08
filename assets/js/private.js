@@ -220,7 +220,7 @@ $(document).ready(function () {
       const section = document.querySelector(".form-parallax-sec");
       const img = document.querySelector(".form-parallax-img");
       let smoothedScroll = lenis ? lenis.targetScroll : window.scrollY;
-      const LERP_FACTOR = 0.1;
+      const LERP_FACTOR = 0.09;
 
       gsap.ticker.add(() => {
         const target = lenis ? lenis.targetScroll : window.scrollY;
@@ -273,3 +273,5 @@ $(document).ready(function () {
     $input.val("").trigger("input");
   });
 });
+
+console.log(window.location.pathname);
