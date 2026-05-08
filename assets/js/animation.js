@@ -1762,3 +1762,246 @@
 
   onScroll();
 })();
+
+(function initFooterLinkAnimation() {
+  function run() {
+    const footerLinks = Array.from(
+      document.querySelectorAll("footer a"),
+    ).filter((a) => {
+      if (a.closest(".btn-main")) return false;
+      if (a.querySelector("img")) return false;
+      if (a.textContent.trim().startsWith("WORK WITH US")) return false;
+      return true;
+    });
+
+    footerLinks.forEach((a) => {
+      a.classList.add("footer-anim-link");
+
+      const line = document.createElement("span");
+      line.className = "footer-link-line";
+      a.appendChild(line);
+
+      gsap.set(line, { clipPath: "inset(0 100% 0 0)" });
+
+      let playing = false;
+      let pending = null; // 'enter' | 'leave' | null
+
+      function playAction(action) {
+        playing = true;
+        pending = null;
+
+        gsap.to(line, {
+          clipPath:
+            action === "enter" ? "inset(0 0% 0 0)" : "inset(0 0% 0 100%)",
+          duration: 0.35,
+          ease: action === "enter" ? "power2.out" : "power2.in",
+          onComplete: () => {
+            if (action === "leave") {
+              gsap.set(line, { clipPath: "inset(0 100% 0 0)" });
+            }
+            playing = false;
+            if (pending) {
+              const next = pending;
+              pending = null;
+              playAction(next);
+            }
+          },
+        });
+      }
+
+      a.addEventListener("mouseenter", () => {
+        if (!playing) playAction("enter");
+        else pending = "enter"; 
+      });
+
+      a.addEventListener("mouseleave", () => {
+        if (!playing) playAction("leave");
+        else pending = "leave"; 
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
+})();
+
+(function initWorkWithUsAnimation() {
+  function run() {
+    let workBtn = null;
+    document.querySelectorAll("footer a").forEach((a) => {
+      if (a.textContent.trim().startsWith("WORK WITH US")) workBtn = a;
+    });
+    if (!workBtn) return;
+
+    let textContent = "";
+    let svgEl = null;
+    [...workBtn.childNodes].forEach((n) => {
+      if (n.nodeType === Node.TEXT_NODE && n.textContent.trim())
+        textContent = n.textContent.trim();
+      if (n.nodeName.toLowerCase() === "svg") svgEl = n.cloneNode(true);
+    });
+    if (!textContent || !svgEl) return;
+
+    workBtn.innerHTML = "";
+
+    const GAP = 10;
+
+    const textSpan = document.createElement("span");
+    textSpan.textContent = textContent;
+
+    const svgLeft = svgEl.cloneNode(true);
+    const svgRight = svgEl.cloneNode(true);
+
+    const track = document.createElement("div");
+    Object.assign(track.style, {
+      display: "flex",
+      alignItems: "center",
+      gap: GAP + "px",
+      flexShrink: "0",
+    });
+    track.append(svgLeft, textSpan, svgRight);
+
+    const wrapper = document.createElement("div");
+    Object.assign(wrapper.style, {
+      overflow: "hidden",
+      display: "flex",
+    });
+    wrapper.appendChild(track);
+    workBtn.appendChild(wrapper);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const svgW = svgLeft.getBoundingClientRect().width;
+        const offset = svgW + GAP;
+
+        // wrapper = textW + gap + svgW → đủ chứa [text][svgRight] hoặc [svgLeft][text]
+        wrapper.style.width = track.scrollWidth - offset + "px";
+
+        // Default: cả 3 lùi trái offset → [text][svgRight] hiện trong wrapper
+        gsap.set([svgLeft, textSpan, svgRight], { x: -offset });
+
+        let tlEnter = null,
+          tlLeave = null;
+
+        workBtn.addEventListener("mouseenter", () => {
+          tlLeave?.kill();
+          tlEnter = gsap.timeline();
+          // svgLeft trượt vào
+          tlEnter.to(svgLeft, { x: 0, duration: 0.42, ease: "power1.out" }, 0);
+          // text trượt sang phải về đúng vị trí
+          tlEnter.to(
+            textSpan,
+            { x: 0, duration: 0.42, ease: "sine.out" },
+            0,
+          );
+          // svgRight bị đẩy ra ngoài phải
+          tlEnter.to(svgRight, { x: 0, duration: 0.42, ease: "power1.out" }, 0);
+        });
+
+        workBtn.addEventListener("mouseleave", () => {
+          tlEnter?.kill();
+          tlLeave = gsap.timeline();
+          tlLeave.to(
+            svgLeft,
+            { x: -offset, duration: 0.42, ease: "power1.out" },
+            0,
+          );
+          tlLeave.to(
+            textSpan,
+            { x: -offset, duration: 0.42, ease: "sine.out" },
+            0,
+          );
+          tlLeave.to(
+            svgRight,
+            { x: -offset, duration: 0.42, ease: "power1.out" },
+            0,
+          );
+        });
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
+})();
+
+(function initSocialIconFlipAnimation() {
+  function run() {
+    document.querySelectorAll(".social-flip-btn").forEach((a) => {
+      const front = a.querySelector(".social-front");
+      const back = a.querySelector(".social-back");
+      if (!front || !back) return;
+
+      gsap.set(back, {
+        rotateX: -90,
+        transformOrigin: "bottom center",
+        translateZ: -180,
+        transformPerspective: 800,
+      });
+
+      gsap.set(front, {
+        transformOrigin: "top center",
+        transformPerspective: 600,
+      });
+
+      let isHovered = false;
+
+      a.addEventListener("mouseenter", () => {
+        if (isHovered) return;
+        isHovered = true;
+        const tl = gsap.timeline();
+        tl.to(front, {
+          rotateX: 90,
+          translateZ: -180,
+          duration: 0.45,
+          ease: "power2.inOut",
+          overwrite: true,
+        });
+        tl.to(
+          back,
+          {
+            rotateX: 0,
+            translateZ: 0,
+            duration: 0.45,
+            ease: "power2.inOut",
+            overwrite: true,
+          },
+          "<.08",
+        );
+      });
+
+      a.addEventListener("mouseleave", () => {
+        if (!isHovered) return;
+        isHovered = false;
+        const tl = gsap.timeline();
+        tl.to(back, {
+          rotateX: -90,
+          translateZ: -180,
+          transformOrigin: "center bottom",
+          duration: 0.45,
+          ease: "power2.inOut",
+          overwrite: true,
+        });
+        tl.to(
+          front,
+          {
+            rotateX: 0,
+            translateZ: 0,
+            duration: 0.45,
+            ease: "power2.inOut",
+            overwrite: true,
+          },
+          "<.08",
+        );
+      });
+    });
+  }
+
+  window.addEventListener("load", run);
+})();

@@ -87,7 +87,7 @@ $(document).ready(function () {
       mainEl.insertAdjacentElement("afterend", spacer);
 
       function getOffset() {
-        return window.innerHeight * 0.4;
+        return window.innerHeight * 0.5;
       }
 
       function updateSpacer() {
@@ -95,8 +95,8 @@ $(document).ready(function () {
         const FH = footerEl.offsetHeight;
         spacer.style.height =
           Math.max(
-            V * MAIN_SLOW * 0.94,
-            V * FOOTER_SLOW * 0.94 + Math.max(0, FH - V),
+            V * MAIN_SLOW * 0.64,
+            V * FOOTER_SLOW * 0.64 + Math.max(0, FH - V),
           ) + "px";
       }
 
@@ -220,7 +220,7 @@ $(document).ready(function () {
       const section = document.querySelector(".form-parallax-sec");
       const img = document.querySelector(".form-parallax-img");
       let smoothedScroll = lenis ? lenis.targetScroll : window.scrollY;
-      const LERP_FACTOR = 0.09;
+      const LERP_FACTOR = 0.07;
 
       gsap.ticker.add(() => {
         const target = lenis ? lenis.targetScroll : window.scrollY;
