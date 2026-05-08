@@ -504,4 +504,34 @@ body img {
   }
 }
 
+.item-tools {
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+.item-tools::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #8B86F7;
+  transition: height 0.4s ease-in-out;
+  z-index: -1;
+}
+.item-tools:hover::before {
+  height: 100%;
+}
+.item-tools:hover .logo {
+  opacity: 1 !important;
+}
+.item-tools span, .item-tools .logo {
+  position: relative;
+  z-index: 2;
+}
+.item-tools .logo {
+  transition: opacity 0.4s ease-in-out;
+}
+
 /*# sourceMappingURL=style.css.map */

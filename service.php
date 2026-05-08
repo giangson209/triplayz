@@ -18,7 +18,8 @@
         </div>
     </section>
 
-    <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
+    <section id="service"
+        class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative hidden">
         <div class="wrapper relative">
             <div class="absolute top-0 right-0 pointer-events-none">
                 <img class="srv-bg" src="assets/images/asci.png" alt="">
@@ -153,6 +154,51 @@
                         </div>
                     <?php } ?>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-25 px-10 bg-[#483BA8] relative text-white">
+        <div class="wrapper">
+            <div class="flex items-end justify-between mb-36">
+                <div class="item">
+                    <div class="text-[124px] font-medium">
+                        Technologies <br> & Tools
+                    </div>
+                </div>
+                <div class="w-full max-w-117 anek">
+                    <span>We don't just use cutting edge tools; we back them with 10+ years of experience in the
+                        market
+                        to deliver faster and more accurate solutions </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-50">
+                <div class="item">
+                    <div class="top anek mb-6">
+                        <div class="mb-4 flex items-center justify-between">
+                            <span>Front-end languages & frameworks</span>
+                            <div class="icon">
+                                <img src="assets/images/cpu.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
+                    </div>
+                    <div class="list relative text-6 font-medium">
+                        <?php
+                        for ($x = 1; $x <= 6; $x++) { ?>
+                            <div
+                                class="item item-tools relative overflow-hidden flex items-center justify-between px-6 py-6 border-b-[2px] border-[#594CBC]">
+                                <span>Kafka</span>
+                                <div class="logo opacity-0">
+                                    <img src="assets/images/kafa.png" alt="">
+                                </div>
+                            </div>
+                        <?php }
+                        ?>
+                    </div>
+                </div>
+                <div class="item"></div>
             </div>
         </div>
     </section>

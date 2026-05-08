@@ -187,3 +187,40 @@
     }
   }
 }
+
+.item-tools {
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #8B86F7;
+    transition: height 0.4s ease-in-out;
+    z-index: -1;
+  }
+
+  &:hover {
+    &::before {
+      height: 100%;
+    }
+
+    .logo {
+      opacity: 1 !important;
+    }
+  }
+
+  span, .logo {
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo {
+    transition: opacity 0.4s ease-in-out;
+  }
+}

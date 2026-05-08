@@ -568,6 +568,9 @@
   .max-w-105 {
     max-width: calc(var(--spacing) * 105);
   }
+  .max-w-117 {
+    max-width: calc(var(--spacing) * 117);
+  }
   .max-w-121 {
     max-width: calc(var(--spacing) * 121);
   }
@@ -868,6 +871,9 @@
   }
   .border-\[\#00000026\] {
     border-color: #00000026;
+  }
+  .border-\[\#594CBC\] {
+    border-color: #594CBC;
   }
   .border-\[\#D0CCBE\] {
     border-color: #D0CCBE;
