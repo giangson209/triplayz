@@ -8,7 +8,7 @@
                     Ready to Bring Your <br>Vision to Life?
                 </div>
                 <ul class="block md:flex items-center gap-4 lg:gap-10 anek">
-                    <li class="other-info mb-4 last:mb-0"><a href="">© 2026 TriPlayZ</a></li>
+                    <li class="other-info mb-4 last:mb-0">© 2026 TriPlayZ</li>
                     <li class="other-info mb-4 last:mb-0"><a href="">Terms & Conditions</a></li>
                     <li class="other-info mb-4 last:mb-0"><a href="">Privacy Policy</a></li>
                 </ul>
@@ -17,19 +17,34 @@
                 <div class="absolute top-0 right-0 hidden md:block">
                     <ul>
                         <li class="mb-6 last:mb-0">
-                            <a href=""><img src="assets/images/sc-1.svg" alt=""></a>
+                            <a href="" class="social-flip-btn">
+                                <div class="social-front"><img src="assets/images/sc-1.svg" alt=""></div>
+                                <div class="social-back"><img src="assets/images/sc-1-2.svg" alt=""></div>
+                            </a>
                         </li>
                         <li class="mb-6 last:mb-0">
-                            <a href=""><img src="assets/images/sc-2.svg" alt=""></a>
+                            <a href="" class="social-flip-btn">
+                                <div class="social-front"><img src="assets/images/sc-2.svg" alt=""></div>
+                                <div class="social-back"><img src="assets/images/sc-2-2.svg" alt=""></div>
+                            </a>
                         </li>
                         <li class="mb-6 last:mb-0">
-                            <a href=""><img src="assets/images/sc-3.svg" alt=""></a>
+                            <a href="" class="social-flip-btn">
+                                <div class="social-front"><img src="assets/images/sc-3.svg" alt=""></div>
+                                <div class="social-back"><img src="assets/images/sc-3-2.svg" alt=""></div>
+                            </a>
                         </li>
                         <li class="mb-6 last:mb-0">
-                            <a href=""><img src="assets/images/sc-4.svg" alt=""></a>
+                            <a href="" class="social-flip-btn">
+                                <div class="social-front"><img src="assets/images/sc-4.svg" alt=""></div>
+                                <div class="social-back"><img src="assets/images/sc-4-2.svg" alt=""></div>
+                            </a>
                         </li>
                         <li class="mb-6 last:mb-0">
-                            <a href=""><img src="assets/images/sc-5.svg" alt=""></a>
+                            <a href="" class="social-flip-btn">
+                                <div class="social-front"><img src="assets/images/sc-5.svg" alt=""></div>
+                                <div class="social-back"><img src="assets/images/sc-5-2.svg" alt=""></div>
+                            </a>
                         </li>
                     </ul>
                 </div>
