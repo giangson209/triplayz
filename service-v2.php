@@ -18,8 +18,7 @@
         </div>
     </section>
 
-    <section id="service"
-        class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative hidden">
+    <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
         <div class="wrapper relative">
             <div class="absolute top-0 right-0 pointer-events-none">
                 <img class="srv-bg" src="assets/images/asci.png" alt="">
@@ -158,7 +157,7 @@
         </div>
     </section>
 
-    <section class="py-25 px-10 bg-[#483BA8] relative text-white hidden">
+    <section class="py-25 px-10 bg-[#483BA8] relative text-white">
         <div class="wrapper">
             <div class="flex items-end justify-between mb-36">
                 <div class="item">
@@ -173,67 +172,51 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-x-50 gap-y-35">
-                <?php
-                for ($j = 1; $j <= 5; $j++) { ?>
-                    <div class="item">
-                        <div class="top anek mb-6">
-                            <div class="mb-4 flex items-center justify-between">
-                                <span>Front-end languages & frameworks</span>
-                                <div class="icon">
-                                    <img src="assets/images/cpu.svg" alt="">
-                                </div>
+            <div class="grid grid-cols-2 gap-50">
+                <div class="item">
+                    <div class="top anek mb-6">
+                        <div class="mb-4 flex items-center justify-between">
+                            <span>Front-end languages & frameworks</span>
+                            <div class="icon">
+                                <img src="assets/images/cpu.svg" alt="">
                             </div>
-                            <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
                         </div>
-                        <div class="list relative text-6 font-medium">
-                            <?php
-                            for ($x = 1; $x <= 3; $x++) { ?>
-                                <div
-                                    class="item item-tools relative overflow-hidden flex items-center justify-between px-6 py-6 border-b-[2px] border-[#594CBC]">
-                                    <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
-                                    <span>Kafka</span>
-                                    <div class="logo opacity-0">
-                                        <img src="assets/images/kafa.png" alt="">
-                                    </div>
-
-                                    <svg class="d-studio-award-block--filler absolute top-0 left-0 w-full h-full -z-10"
-                                        viewBox="0 0 500 100" preserveAspectRatio="none" style="opacity: 0;">
-                                        <path fill="#8B86F7" class="d-award-path" d="M 0 100 V 100 Q 250 100 500 100 V 100 z">
-                                        </path>
-                                    </svg>
+                        <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
+                    </div>
+                    <div class="list relative text-6 font-medium">
+                        <?php
+                        for ($x = 1; $x <= 6; $x++) { ?>
+                            <div
+                                class="item item-tools relative overflow-hidden flex items-center justify-between px-6 py-6 border-b-[2px] border-[#594CBC]">
+                                <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
+                                <span>Kafka</span>
+                                <div class="logo opacity-0">
+                                    <img src="assets/images/kafa.png" alt="">
                                 </div>
-                            <?php }
-                            ?>
-                        </div>
-                    </div>
-                <?php }
-                ?>
-            </div>
-        </div>
-    </section>
 
-    <section class="py-25 px-10 relative">
-        <div class="grid grid-cols-2 gap-20">
-            <div class="item">
-                <div class="top">
-                    <div class="flex items-center gap-10">
-                        <span class="anek opacity-65">/DELIVERY PROCESS</span>
-                        <div class="text-[80px] font-medium">We validate </div>
+                                <svg class="d-studio-award-block--filler absolute top-0 left-0 w-full h-full z-4"
+                                    viewBox="0 0 500 100" preserveAspectRatio="none" style="
+                                    opacity: 0;
+                                ">
+                                    <path fill="#dca66d" class="d-award-path" d="M 0 100 V 100 Q 250 100 500 100 V 100 z">
+                                    </path>
+                                </svg>
+                            </div>
+                        <?php }
+                        ?>
                     </div>
-                    <div class="text-[80px] font-medium opacity-35">concepts & attract</div>
                 </div>
+                <div class="item"></div>
             </div>
-            <div class="item"></div>
         </div>
     </section>
 </main>
-<!-- <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="assets/js/animation.js"></script> -->
+<!-- <script src="assets/js/animation.js"></script> -->
 
 <?php include 'footer.php'; ?>

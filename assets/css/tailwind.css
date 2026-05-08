@@ -271,6 +271,9 @@
   .left-\[16\%\] {
     left: 16%;
   }
+  .-z-10 {
+    z-index: calc(10 * -1);
+  }
   .z-2 {
     z-index: 2;
   }
@@ -728,6 +731,9 @@
   .gap-10 {
     gap: calc(var(--spacing) * 10);
   }
+  .gap-20 {
+    gap: calc(var(--spacing) * 20);
+  }
   .gap-50 {
     gap: calc(var(--spacing) * 50);
   }
@@ -767,6 +773,9 @@
   .gap-x-10 {
     column-gap: calc(var(--spacing) * 10);
   }
+  .gap-x-50 {
+    column-gap: calc(var(--spacing) * 50);
+  }
   .gap-y-1 {
     row-gap: calc(var(--spacing) * 1);
   }
@@ -775,6 +784,9 @@
   }
   .gap-y-10 {
     row-gap: calc(var(--spacing) * 10);
+  }
+  .gap-y-35 {
+    row-gap: calc(var(--spacing) * 35);
   }
   .overflow-hidden {
     overflow: hidden;

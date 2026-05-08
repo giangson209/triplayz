@@ -272,6 +272,83 @@ $(document).ready(function () {
     var $input = $(this).siblings("input, textarea");
     $input.val("").trigger("input");
   });
+
+  // Handle directional hover for .item-tools with SVG
+  $(".item-tools").each(function () {
+    let $this = $(this);
+    let $svg = $this.find(".d-studio-award-block--filler");
+    let $path = $svg.find("path");
+
+    let tl;
+
+    $this.on("mouseenter", function (e) {
+      if (tl) tl.kill();
+      tl = gsap.timeline();
+
+      let rect = this.getBoundingClientRect();
+      let relY = e.clientY - rect.top;
+      let isTop = relY < rect.height / 2;
+
+      gsap.set($svg[0], { opacity: 1 });
+
+      if (isTop) {
+        gsap.set($path[0], { attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" } });
+        tl.to($path[0], {
+          attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
+          duration: 0.15,
+          ease: "sine.in"
+        }).to($path[0], {
+          attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" },
+          duration: 0.15,
+          ease: "sine.out"
+        });
+      } else {
+        gsap.set($path[0], { attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" } });
+        tl.to($path[0], {
+          attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
+          duration: 0.15,
+          ease: "sine.in"
+        }).to($path[0], {
+          attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" },
+          duration: 0.15,
+          ease: "sine.out"
+        });
+      }
+    });
+
+    $this.on("mouseleave", function (e) {
+      if (tl) tl.kill();
+      tl = gsap.timeline();
+
+      let rect = this.getBoundingClientRect();
+      let relY = e.clientY - rect.top;
+      let isTop = relY < rect.height / 2;
+
+      if (isTop) {
+        gsap.set($path[0], { attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" } });
+        tl.to($path[0], {
+          attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
+          duration: 0.35,
+          ease: "sine.in"
+        }).to($path[0], {
+          attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" },
+          duration: 0.35,
+          ease: "sine.out"
+        });
+      } else {
+        gsap.set($path[0], { attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" } });
+        tl.to($path[0], {
+          attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
+          duration: 0.35,
+          ease: "sine.in"
+        }).to($path[0], {
+          attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
+          duration: 0.35,
+          ease: "sine.out"
+        });
+      }
+    });
+  });
 });
 
 console.log(window.location.pathname);

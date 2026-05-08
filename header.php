@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" title="" href="assets/lib/css/swiper.min.css">
     <link rel="stylesheet" type="text/css" title="" href="assets/lib/css/animate.css">

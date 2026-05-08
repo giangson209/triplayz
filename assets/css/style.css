@@ -125,6 +125,10 @@
   font-family: "Grid Suisse Intl";
 }
 
+.doto {
+  font-family: "Doto", sans-serif;
+}
+
 /*======================================== config =================================*/
 *,
 *:before,
@@ -507,31 +511,20 @@ body img {
 .item-tools {
   position: relative;
   z-index: 1;
-  transition: all 0.4s ease;
-}
-.item-tools::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background-color: #8B86F7;
-  transition: height 0.4s ease-in-out;
-  z-index: -1;
-}
-.item-tools:hover::before {
-  height: 100%;
 }
 .item-tools:hover .logo {
   opacity: 1 !important;
+  right: 0;
 }
-.item-tools span, .item-tools .logo {
+.item-tools span,
+.item-tools .logo {
   position: relative;
   z-index: 2;
+  transition: 0.4s all !important;
 }
 .item-tools .logo {
   transition: opacity 0.4s ease-in-out;
+  right: -20px;
 }
 
 /*# sourceMappingURL=style.css.map */

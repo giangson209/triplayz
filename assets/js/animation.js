@@ -10,7 +10,7 @@ function isPage(...pages) {
 
     targets.forEach((text) => {
       const split = SplitText.create(text, { type: "words" });
-      gsap.set(split.words, { opacity: 0, yPercent: 10 }); 
+      gsap.set(split.words, { opacity: 0, yPercent: 10 });
 
       const parentSlide = text.closest(".whyus-slide");
 
@@ -26,8 +26,8 @@ function isPage(...pages) {
         },
         duration: 0.3,
         ease: "power2.out",
-        opacity: 1, 
-        yPercent: 0, 
+        opacity: 1,
+        yPercent: 0,
         stagger: 0.08,
       });
     });
@@ -1079,7 +1079,7 @@ function isPage(...pages) {
 })();
 
 (function init3DGlobeAnimation() {
-    if (!isPage("index")) return;
+  if (!isPage("index")) return;
 
   window.init3DGlobe = async function init3DGlobe() {
     const globeRoot = document.getElementById("company-globe");
@@ -1535,8 +1535,8 @@ function isPage(...pages) {
 })();
 
 (function initServiceAnimation() {
-  if (!isPage("index", "service")) return;
-  
+  if (!isPage("index", "service", "service-v2")) return;
+
 
   const SRV_IMAGES = [
     "./assets/images/gami.png",
@@ -1661,7 +1661,7 @@ function isPage(...pages) {
 })();
 
 (function initCompanyDarkOverlay() {
-if (!isPage("index")) return;
+  if (!isPage("index")) return;
 
   const section = document.getElementById("company");
   const rows = document.querySelectorAll(".company-dark-row");
