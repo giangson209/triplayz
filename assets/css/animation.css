@@ -86,7 +86,7 @@ footer {
 /* ==================== */
 #vision-scroll-trigger {
   position: relative;
-  height: calc(100vh * 2.5);
+  height: calc(100vh * 3);
 }
 
 .vision-shape-section {
@@ -663,6 +663,13 @@ ma
     opacity: 0;
 }
 
+/* ==================== */
+/* FORM*/
+/* ==================== */
+
+.bg-form {
+  scale: 1.2
+}
 
 /* ==================== */
 /* FOOTER */
@@ -674,3 +681,4 @@ ma
   align-items: center;
   margin: 0;
 }
+

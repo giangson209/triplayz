@@ -78,7 +78,7 @@ $(document).ready(function () {
       const footerEl = document.querySelector("footer");
       if (!mainEl || !footerEl) return;
 
-      const MAIN_SLOW = 1.9;
+      const MAIN_SLOW = 2;
       const FOOTER_SLOW = 0.7;
 
       const spacer = document.createElement("div");
@@ -145,9 +145,6 @@ $(document).ready(function () {
 
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
-
-    // Cập nhật số thứ tự cho phần Highlight case study kèm hiệu ứng slide
-    
 
     // Animation xoay vòng Why Us
     if ($(".content-whuyus").length && $(".whyus-slide").length > 1) {
@@ -223,7 +220,7 @@ $(document).ready(function () {
       const section = document.querySelector(".form-parallax-sec");
       const img = document.querySelector(".form-parallax-img");
       let smoothedScroll = lenis ? lenis.targetScroll : window.scrollY;
-      const LERP_FACTOR = 0.18;
+      const LERP_FACTOR = 0.1;
 
       gsap.ticker.add(() => {
         const target = lenis ? lenis.targetScroll : window.scrollY;
@@ -239,7 +236,7 @@ $(document).ready(function () {
         const clamped = Math.max(0, Math.min(1, progress));
 
         // Map từ -20px đến +20px
-        const yPercent = -10 + clamped * 22;
+        const yPercent = -10 + clamped * 24;
         img.style.transform = `translateY(${yPercent}%)`;
       });
     }
