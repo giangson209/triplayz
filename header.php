@@ -57,7 +57,8 @@
 
 <body>
 
-    <header id="main-header" class="fixed top-0 left-0 w-full z-50 p-2.5 md:p-5 2xl:p-10 anek" style="transition: transform 0.4s ease-in-out;">
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 p-2.5 md:p-5 2xl:p-10 anek hidden"
+        style="transition: transform 0.4s ease-in-out;">
         <div class="wrapper">
             <div
                 class="bg-black w-full p-2 border border-[#2F2F38] rounded-1 hidden lg:flex items-center justify-between gap-6 relative">

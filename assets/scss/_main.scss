@@ -3,12 +3,16 @@
     li {
       opacity: 0.25;
       cursor: pointer;
-      &.active, &:hover {
+
+      &.active,
+      &:hover {
         opacity: 1;
+
         &:after {
           opacity: 1;
         }
       }
+
       &:after {
         content: "";
         width: 12px;
@@ -31,6 +35,7 @@
       }
     }
   }
+
   .desc-absolute {
     opacity: 0;
     transition: .4s all !important;
@@ -41,4 +46,144 @@
 .swiper-model-1 .swiper-wrapper,
 .swiper-model-2 .swiper-wrapper {
   transition-timing-function: linear;
+}
+
+.form-contact {
+  .txt_field {
+    border: 1px solid #FFFFFF26;
+    background-color: #282834;
+    transition: .3s all !important;
+    outline: 1px solid transparent;
+    height: 72px;
+
+    @media (max-width:1023px) {
+      height: 64px;
+    }
+
+    &:focus {
+      outline: #9A9DFF solid 1px;
+    }
+
+    // &::placeholder {
+    //   color: #9A9DFF;
+    // }
+
+  }
+
+  select {
+    border: 1px solid #FFFFFF26 !important;
+    background-color: #282834 !important;
+    transition: .3s all !important;
+    outline: 1px solid transparent;
+    height: 72px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+
+    @media (max-width:1023px) {
+      height: 64px;
+    }
+
+    &:focus {
+      outline: #9A9DFF solid 1px;
+    }
+
+  }
+
+  textarea {
+    border: 1px solid #FFFFFF26 !important;
+    background-color: #282834 !important;
+    transition: .3s all !important;
+    outline: 1px solid transparent;
+    height: 144px;
+    padding: 24px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+
+    &:focus {
+      outline: #9A9DFF solid 1px;
+    }
+
+  }
+
+  .button_field {
+    width: max-content;
+    position: relative;
+
+    @media (max-width:1023px) {
+      margin: 0 auto;
+    }
+
+    .btn_field {
+      min-width: 167px;
+      height: 56px;
+      text-align: center;
+      border: 1px solid #FFFFFF14;
+      background: #FFFFFF14;
+    }
+  }
+
+  .icon {
+    img {
+      @media (max-width:1023px) {
+        width: 24px;
+      }
+    }
+  }
+
+
+}
+
+.single-text {
+  p {
+    margin-bottom: 24px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.item-idea {
+  >div {
+    padding-bottom: 248px;
+
+    @media (max-width: 1600px) {
+      padding-bottom: 150px;
+    }
+
+    @media (max-width: 767px) {
+      padding: 24px;
+    }
+  }
+
+  &:nth-child(2n+1) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &:nth-child(2n) {
+    >div {
+      padding-bottom: 400px;
+
+      @media (max-width: 1600px) {
+        padding-bottom: 250px;
+      }
+
+      @media (max-width: 767px) {
+        padding: 24px;
+      }
+    }
+  }
+
+  .desc {
+    @media (max-width: 767px) {
+      font-size: 16px;
+
+    }
+  }
 }
