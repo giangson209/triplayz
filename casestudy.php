@@ -39,7 +39,7 @@
         </div>
     </section>
 
-    <section class="relative px-6 md:px-10 py-10 lg:py-25">
+    <section class="relative px-6 md:px-10 py-10 lg:py-25 overflow-hidden">
         <div class="top py-4 flex items-center justify-between text-5">
             <span>Featured case studies</span>
             <span>
@@ -60,7 +60,7 @@
         <div class="line mb-4 flex items-center justify-center">
             <img src="assets/images/line-srv.svg" class="w-full" alt="">
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-10 gap-y-10 md:gap-y-20 lg:gap-y-31">
+        <div id="casestudy-list" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-10 gap-y-10 md:gap-y-20 lg:gap-y-31">
             <?php
             for ($x = 1; $x <= 6; $x++) { ?>
                 <div class="item relative">
@@ -93,4 +93,44 @@
         </div>
     </section>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        const items = document.querySelectorAll('#casestudy-list > .item');
+        
+        items.forEach((item, index) => {
+            const isLeft = index % 2 === 0;
+            const startX = isLeft ? "-100vw" : "100vw";
+            
+            if (index < 2) {
+                gsap.fromTo(item, 
+                    { x: startX },
+                    {
+                        x: 0,
+                        duration: 1.2,
+                        ease: "power2.out",
+                        delay: 0.2
+                    }
+                );
+            } else {
+                gsap.fromTo(item, 
+                    { x: startX },
+                    {
+                        x: 0,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 95%",
+                            end: "top 50%",
+                            scrub: 1
+                        }
+                    }
+                );
+            }
+        });
+    }
+});
+</script>
+
 <?php include 'footer.php'; ?>

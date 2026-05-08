@@ -260,4 +260,19 @@ $(document).ready(function () {
       });
     }
   }
+
+  // Handle contact form clear button
+  $(".form-contact input, .form-contact textarea").on("input", function () {
+    var $icon = $(this).siblings(".btn-clear");
+    if ($(this).val().length > 0) {
+      $icon.removeClass("opacity-0 pointer-events-none").addClass("!opacity-100 !pointer-events-auto");
+    } else {
+      $icon.addClass("opacity-0 pointer-events-none").removeClass("!opacity-100 !pointer-events-auto");
+    }
+  });
+
+  $(".form-contact .btn-clear").on("click", function () {
+    var $input = $(this).siblings("input, textarea");
+    $input.val("").trigger("input");
+  });
 });

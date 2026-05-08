@@ -389,4 +389,119 @@ body img {
   transition-timing-function: linear;
 }
 
+.form-contact .txt_field {
+  border: 1px solid rgba(255, 255, 255, 0.1490196078);
+  background-color: #282834;
+  transition: 0.3s all !important;
+  outline: 1px solid transparent;
+  height: 72px;
+}
+@media (max-width: 1023px) {
+  .form-contact .txt_field {
+    height: 64px;
+  }
+}
+.form-contact .txt_field:focus {
+  outline: #9A9DFF solid 1px;
+}
+.form-contact select {
+  border: 1px solid rgba(255, 255, 255, 0.1490196078) !important;
+  background-color: #282834 !important;
+  transition: 0.3s all !important;
+  outline: 1px solid transparent;
+  height: 72px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+}
+@media (max-width: 1023px) {
+  .form-contact select {
+    height: 64px;
+  }
+}
+.form-contact select:focus {
+  outline: #9A9DFF solid 1px;
+}
+.form-contact textarea {
+  border: 1px solid rgba(255, 255, 255, 0.1490196078) !important;
+  background-color: #282834 !important;
+  transition: 0.3s all !important;
+  outline: 1px solid transparent;
+  height: 144px;
+  padding: 24px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+}
+.form-contact textarea:focus {
+  outline: #9A9DFF solid 1px;
+}
+.form-contact .button_field {
+  width: max-content;
+  position: relative;
+}
+@media (max-width: 1023px) {
+  .form-contact .button_field {
+    margin: 0 auto;
+  }
+}
+.form-contact .button_field .btn_field {
+  min-width: 167px;
+  height: 56px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.0784313725);
+  background: rgba(255, 255, 255, 0.0784313725);
+}
+@media (max-width: 1023px) {
+  .form-contact .icon img {
+    width: 24px;
+  }
+}
+
+.single-text p {
+  margin-bottom: 24px;
+}
+.single-text p:last-child {
+  margin-bottom: 0;
+}
+
+.item-idea > div {
+  padding-bottom: 248px;
+}
+@media (max-width: 1600px) {
+  .item-idea > div {
+    padding-bottom: 150px;
+  }
+}
+@media (max-width: 767px) {
+  .item-idea > div {
+    padding: 24px;
+  }
+}
+.item-idea:nth-child(2n+1) {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.item-idea:nth-child(2n) > div {
+  padding-bottom: 400px;
+}
+@media (max-width: 1600px) {
+  .item-idea:nth-child(2n) > div {
+    padding-bottom: 250px;
+  }
+}
+@media (max-width: 767px) {
+  .item-idea:nth-child(2n) > div {
+    padding: 24px;
+  }
+}
+@media (max-width: 767px) {
+  .item-idea .desc {
+    font-size: 16px;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
