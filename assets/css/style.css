@@ -526,5 +526,17 @@ body img {
   transition: opacity 0.4s ease-in-out;
   right: -20px;
 }
+@media (max-width: 767px) {
+  .item-tools .logo {
+    right: 0;
+  }
+  .item-tools .logo img {
+    max-height: 40px;
+  }
+}
+
+.item-step:last-child .line {
+  display: none;
+}
 
 /*# sourceMappingURL=style.css.map */

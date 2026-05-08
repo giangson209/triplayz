@@ -2,12 +2,12 @@
 <main>
     <section class="relative overflow-hidden">
         <img src="assets/images/bn-service.jpg" class="w-full h-screen object-cover" alt="">
-        <div class="absolute bottom-0 left-0 w-full p-20">
+        <div class="absolute bottom-0 left-0 w-full p-4 md:p-10 lg:p-18 3xl:p-20">
             <div class="wrapper">
-                <div class="flex gap-92 justify-end">
-                    <div class="item anek font-medium pt-14">[ SERVICES ]</div>
+                <div class="block xl:flex gap-40 xl:gap-72 3xl:gap-92 justify-end">
+                    <div class="item anek font-medium pt-0 xl:pt-14 mb-8 xl:mb-0">[ SERVICES ]</div>
                     <div class="item">
-                        <h1 class="text-[100px] font-semibold">
+                        <h1 class="text-10 xl:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-semibold">
                             One Partner <br>
                             Three Strengths <br>
                             Endless Possibilities
@@ -18,8 +18,7 @@
         </div>
     </section>
 
-    <section id="service"
-        class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative hidden">
+    <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
         <div class="wrapper relative">
             <div class="absolute top-0 right-0 pointer-events-none">
                 <img class="srv-bg" src="assets/images/asci.png" alt="">
@@ -158,42 +157,43 @@
         </div>
     </section>
 
-    <section class="py-25 px-10 bg-[#483BA8] relative text-white hidden">
+    <section class="py-10 lg:py-25 px-4 md:px-10 bg-[#483BA8] relative text-white overflow-hidden">
         <div class="wrapper">
-            <div class="flex items-end justify-between mb-36">
+            <div class="block lg:flex items-end justify-between mb-20 lg:mb-25 2xl:mb-36">
                 <div class="item">
-                    <div class="text-[124px] font-medium">
+                    <div class="text-10 lg:text-[64px] 2xl:text-[80px] 3xl:text-[124px] font-medium title-animation">
                         Technologies <br> & Tools
                     </div>
                 </div>
-                <div class="w-full max-w-117 anek">
+                <div class="w-full max-w-117 anek title-animation mt-4 lg:mt-0">
                     <span>We don't just use cutting edge tools; we back them with 10+ years of experience in the
                         market
                         to deliver faster and more accurate solutions </span>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-x-50 gap-y-35">
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-x-20 md:gap-x-10 lg:gap-x-25 2xl:gap-x-50 gap-y-20 lg:gap-y-35">
                 <?php
                 for ($j = 1; $j <= 5; $j++) { ?>
                     <div class="item">
-                        <div class="top anek mb-6">
+                        <div class="top anek mb-5 lg:mb-6">
                             <div class="mb-4 flex items-center justify-between">
-                                <span>Front-end languages & frameworks</span>
+                                <span class="title-animation">Front-end languages & frameworks</span>
                                 <div class="icon">
                                     <img src="assets/images/cpu.svg" alt="">
                                 </div>
                             </div>
                             <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
                         </div>
-                        <div class="list relative text-6 font-medium">
+                        <div class="list relative text-5 lg:text-6 font-medium">
                             <?php
                             for ($x = 1; $x <= 3; $x++) { ?>
                                 <div
-                                    class="item item-tools relative overflow-hidden flex items-center justify-between px-6 py-6 border-b-[2px] border-[#594CBC]">
+                                    class="item item-tools relative overflow-hidden flex items-center justify-between px-0 lg:px-6 py-3 md:py-4 lg:py-6 border-b-[2px] border-[#594CBC]">
                                     <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
                                     <span>Kafka</span>
-                                    <div class="logo opacity-0">
+                                    <div class="logo opacity-100 md:opacity-0">
                                         <img src="assets/images/kafa.png" alt="">
                                     </div>
 
@@ -213,27 +213,159 @@
         </div>
     </section>
 
-    <section class="py-25 px-10 relative">
-        <div class="grid grid-cols-2 gap-20">
-            <div class="item">
-                <div class="top">
-                    <div class="flex items-center gap-10">
-                        <span class="anek opacity-65">/DELIVERY PROCESS</span>
-                        <div class="text-[80px] font-medium">We validate </div>
+    <section class="py-10 md:py-25 px-4 md:px-10 relative">
+        <div class="block lg:grid grid-cols-2 gap-20">
+            <div class="item mb-10 lg:mb-0">
+                <div class="sticky top-6">
+                    <div class="top mb-10 md:mb-16 2xl:mb-25">
+                        <div class="block 2xl:flex items-center gap-10">
+                            <span class="anek opacity-65 title-animation">/DELIVERY PROCESS</span>
+                            <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium title-animation">We validate
+                            </div>
+                        </div>
+                        <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium opacity-35 title-animation">
+                            concepts &
+                            attract</div>
                     </div>
-                    <div class="text-[80px] font-medium opacity-35">concepts & attract</div>
+
+                    <div class="avarta hidden lg:block">
+                        <img src="assets/images/detail-1.png"
+                            class="max-h-60 2xl:max-h-85 transition-opacity duration-300" alt="" id="process-img">
+                    </div>
                 </div>
             </div>
-            <div class="item"></div>
+            <div class="item">
+                <?php
+                // Mảng dữ liệu mẫu (sau này bạn thay bằng dữ liệu từ database)
+                $process_steps = [
+                    [
+                        'image' => 'assets/images/detail-1.png',
+                        'title' => 'Briefing',
+                        'desc' => '<p>Receive and analyze project requirements and objectives</p><p>Clarify the brief and identify potential risks</p><p>Conduct internal meetings to align the approach and solution direction</p>'
+                    ],
+                    [
+                        'image' => 'assets/images/detail-2.png', // Sửa tên ảnh thực tế tại đây
+                        'title' => 'Planning',
+                        'desc' => '<p>Receive and analyze project requirements and objectives</p><p>Clarify the brief and identify potential risks</p><p>Conduct internal meetings to align the approach and solution direction</p>'
+                    ],
+                    [
+                        'image' => 'assets/images/detail-1.png',
+                        'title' => 'Execution',
+                        'desc' => '<p>Receive and analyze project requirements and objectives</p><p>Clarify the brief and identify potential risks</p><p>Conduct internal meetings to align the approach and solution direction</p>'
+                    ],
+                    [
+                        'image' => 'assets/images/detail-2.png',
+                        'title' => 'Testing',
+                        'desc' => '<p>Receive and analyze project requirements and objectives</p><p>Clarify the brief and identify potential risks</p><p>Conduct internal meetings to align the approach and solution direction</p>'
+                    ],
+                    [
+                        'image' => 'assets/images/detail-1.png',
+                        'title' => 'Delivery',
+                        'desc' => '<p>Receive and analyze project requirements and objectives</p><p>Clarify the brief and identify potential risks</p><p>Conduct internal meetings to align the approach and solution direction</p>'
+                    ],
+                ];
+
+                foreach ($process_steps as $index => $step) {
+                    $x = $index + 1;
+                    ?>
+                    <div class="item-step relative pb-16 2xl:pb-25 last:pb-0 flex step-block"
+                        data-img="<?php echo $step['image']; ?>">
+                        <div class="line w-0.5 h-full bg-[#2F2F38] absolute top-0 left-4.5 lg:left-9 overflow-hidden">
+                            <div class="line-fill w-full bg-[#8B86F7]" style="height: 0%;"></div>
+                        </div>
+                        <div class="w-full max-w-10 lg:max-w-18 relative font-bold text-5 lg:text-8">
+                            <span
+                                class="doto step-num transition-all duration-300 inline-flex items-center justify-center border-1 border-[#FFFFFF26] h-10 lg:h-18 w-full rounded-1 lg:rounded-3 bg-[#1D1D27]">0<?php echo $x; ?></span>
+                        </div>
+                        <div class="w-full pl-6 lg:pl-16 pt-0 lg:pt-4">
+                            <div class="text-6 lg:text-8 2xl:text-10 font-medium mb-6 2xl:mb-8">
+                                <?php echo $step['title']; ?>
+                            </div>
+                            <div class="desc anek opacity-55">
+                                <?php echo $step['desc']; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
+                ?>
+            </div>
         </div>
     </section>
 </main>
-<!-- <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="assets/js/animation.js"></script> -->
+<script src="assets/js/animation.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const steps = document.querySelectorAll(".step-block");
+        const processImg = document.getElementById("process-img");
+
+        steps.forEach((step, index) => {
+            const lineFill = step.querySelector(".line-fill");
+            const stepNum = step.querySelector(".step-num");
+            const imgSrc = step.getAttribute("data-img");
+
+            if (lineFill) {
+                gsap.to(lineFill, {
+                    height: "100%",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: step,
+                        start: "top 60%",
+                        end: "bottom 60%",
+                        scrub: true
+                    }
+                });
+            }
+
+            ScrollTrigger.create({
+                trigger: step,
+                start: "top 60%",
+                onEnter: () => {
+                    stepNum.classList.remove("bg-[#1D1D27]", "border-[#FFFFFF26]");
+                    stepNum.classList.add("bg-[#8B86F7]", "border-[#8B86F7]", "text-white");
+                    changeImage(imgSrc);
+                },
+                onLeaveBack: () => {
+                    stepNum.classList.remove("bg-[#8B86F7]", "border-[#8B86F7]", "text-white");
+                    stepNum.classList.add("bg-[#1D1D27]", "border-[#FFFFFF26]");
+
+                    if (index > 0) {
+                        const prevImgSrc = steps[index - 1].getAttribute("data-img");
+                        changeImage(prevImgSrc);
+                    }
+                }
+            });
+        });
+
+        function changeImage(imgSrc) {
+            if (processImg && processImg.getAttribute("src") !== imgSrc) {
+                gsap.killTweensOf(processImg);
+                gsap.to(processImg, {
+                    opacity: 0, duration: 0.15, onComplete: () => {
+                        processImg.setAttribute("src", imgSrc);
+                        gsap.to(processImg, { opacity: 1, duration: 0.15 });
+                    }
+                });
+            }
+        }
+
+        if (steps.length > 0) {
+            const firstNum = steps[0].querySelector(".step-num");
+            firstNum.classList.remove("bg-[#1D1D27]", "border-[#FFFFFF26]");
+            firstNum.classList.add("bg-[#8B86F7]", "border-[#8B86F7]", "text-white");
+            if (processImg) {
+                processImg.setAttribute("src", steps[0].getAttribute("data-img"));
+            }
+        }
+    });
+</script>
 
 <?php include 'footer.php'; ?>

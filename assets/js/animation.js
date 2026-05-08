@@ -1064,13 +1064,6 @@
 })();
 
 (function init3DGlobeAnimation() {
-<<<<<<< HEAD
-  if (!isPage("index")) return;
-=======
-  const globeRoot = document.getElementById("company-globe");
-  if (!globeRoot) return;
->>>>>>> 59e626b6afceab9f651e0dd0fee02540234aac99
-
   window.init3DGlobe = async function init3DGlobe() {
     const msgEl = document.getElementById("company-globe-msg");
     const msgText = document.getElementById("company-globe-msg-text");
@@ -1636,11 +1629,6 @@
 })();
 
 (function initCompanyDarkOverlay() {
-<<<<<<< HEAD
-  if (!isPage("index")) return;
-
-=======
->>>>>>> 59e626b6afceab9f651e0dd0fee02540234aac99
   const section = document.getElementById("company");
   const rows = document.querySelectorAll(".company-dark-row");
   if (!section || !rows.length) return;
