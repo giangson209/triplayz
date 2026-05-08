@@ -58,7 +58,7 @@
 
 <body>
 
-    <header id="main-header" class="fixed top-0 left-0 w-full z-50 p-2.5 md:p-5 2xl:p-10 anek hidden"
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 p-2.5 md:p-5 2xl:p-10 anek"
         style="transition: transform 0.4s ease-in-out;">
         <div class="wrapper">
             <div
