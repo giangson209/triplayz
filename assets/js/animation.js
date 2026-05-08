@@ -254,6 +254,7 @@
   const scrollTrig = document.getElementById("vision-scroll-trigger");
   const section = document.getElementById("vision-pinned-section");
   if (!scrollTrig || !section) return;
+  if (typeof lenis !== "undefined") lenis.on("scroll", onScroll);
 
   const logoTop = section.querySelector(".logo-top img");
   const logoBottom = section.querySelector(".logo-bottom img");
@@ -271,9 +272,9 @@
   });
   textVision.style.right = "0";
   textShape.style.left = "0";
-  logoTop.style.bottom = "32vh";
+  logoTop.style.top = "0";
   logoTop.style.opacity = "0";
-  logoBottom.style.top = "32vh";
+  logoBottom.style.bottom = "0";
   logoBottom.style.opacity = "0";
 
   /* ── helpers ── */
@@ -291,19 +292,21 @@
   function onScroll() {
     const p = getProgress();
 
-    const t = Math.max(0, Math.min(1, (p - 0.05) / 0.7));
+    const t = Math.max(0, Math.min(1, (p - 0.01) / 1));
 
     textVision.style.right = lerp(0, 32, t) + "vh";
     textShape.style.left = lerp(0, 32, t) + "vh";
 
-    logoTop.style.bottom = lerp(32, -3, t) + "vh";
-    logoTop.style.opacity = t;
-    logoBottom.style.top = lerp(32, -3, t) + "vh";
-    logoBottom.style.opacity = t;
+    logoTop.style.top = lerp(0, 26, t) + "vh";
+    logoBottom.style.bottom = lerp(0, 26, t) + "vh";
 
-    const pct = t * 200;
-    textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${pct - 6}%, ${MUTED} ${pct}%)`;
-    textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${pct - 6}%, ${MUTED} ${pct}%)`;
+    const logoOpacity = Math.min(1, t * 3);
+    logoTop.style.opacity = logoOpacity;
+    logoBottom.style.opacity = logoOpacity;
+
+    const pct = t * 100;
+    textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${pct+0.5}%, ${MUTED} ${pct}%)`;
+    textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${pct+0.5}%, ${MUTED} ${pct}%)`;
   }
 
   let _rafPending = false;
@@ -970,16 +973,15 @@
       laggedMouse.x = actualMouse.x;
       laggedMouse.y = actualMouse.y;
     }
-    _dirty = true; // mouse move → cần render
+    _dirty = true; 
   });
 
   document.addEventListener("mouseleave", () => {
     actualMouse.active = false;
     material.uniforms.uMouseActive.value = 0.0;
-    _dirty = true; // frame cuối để xoá hiệu ứng mouse
+    _dirty = true; 
   });
 
-  // ─── Pause/Resume ─────────────────────────────────────────────────────
   let _shaderPaused = false;
   let _shaderRafId = null;
 
@@ -1002,20 +1004,16 @@
       material.uniforms.uMouseActive.value = 0.0;
       lastMoveTime = 0;
       actualMouse.active = false;
-      _dirty = true; // cần 1 frame cuối để tắt comet
+      _dirty = true; 
     }
 
-    // Trail đang fade out → tiếp tục render cho đến khi hết hẳn
     if (_trailLen > 0) _dirty = true;
 
-    // FIX #4: chỉ gọi render khi dirty
     if (_dirty) {
       material.uniforms.iTime.value = now * 0.001;
       updateTrailTexture(material, _res.w, _res.h);
       renderer.render(scene, camera);
 
-      // Sau khi render, kiểm tra xem còn cần tiếp không
-      // Nếu không còn trail và mouse không active → nghỉ
       _dirty = _trailLen > 0 || actualMouse.active;
     }
   }
@@ -1026,7 +1024,7 @@
   window.shaderResume = function () {
     if (!_shaderPaused) return;
     _shaderPaused = false;
-    _dirty = true; // vẽ lại ngay khi resume
+    _dirty = true; 
     shaderAnimate();
   };
 
