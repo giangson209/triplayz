@@ -1,9 +1,3 @@
-function isPage(...pages) {
-  const path = window.location.pathname;
-  if (pages.includes("index") && path.endsWith("/")) return true;
-  return pages.some((p) => path.endsWith("/" + p + ".php"));
-}
-
 (function initPreloaderTextAnimation() {
   function setupSplits(texts) {
     const targets = Array.isArray(texts) ? texts : [texts];
@@ -76,7 +70,6 @@ function isPage(...pages) {
       const parentSlide = title.closest(".whyus-slide");
 
       if (parentSlide) {
-        // TẤT CẢ whyus slides kể cả slide 0 → chờ trigger thủ công
         return;
       }
 
@@ -124,7 +117,12 @@ function isPage(...pages) {
     });
   };
 
-  if (!isPage("index")) return;
+  // --- Preloader: chỉ chạy nếu có đủ element ---
+  const ring = document.getElementById("ring");
+  const loaderIcon = document.getElementById("loader-icon");
+  const columns = document.querySelectorAll("#preloader .column");
+
+  if (!ring || !loaderIcon || !columns.length) return;
 
   const scrollbarWidth =
     window.innerWidth - document.documentElement.clientWidth;
@@ -132,9 +130,6 @@ function isPage(...pages) {
   if (scrollbarWidth > 0) {
     document.body.style.paddingRight = `${scrollbarWidth}px`;
   }
-
-  const ring = document.getElementById("ring");
-  const loaderIcon = document.getElementById("loader-icon");
 
   const CIRC = 2 * Math.PI * 60;
   ring.style.strokeDasharray = CIRC;
@@ -246,7 +241,6 @@ function isPage(...pages) {
         });
       },
       onComplete: () => {
-        // ── Column xong hẳn mới ẩn preloader ────────────────────────
         gsap.set("#preloader", { display: "none" });
         document.body.style.overflowY = "";
         document.body.style.paddingRight = "";
@@ -257,10 +251,10 @@ function isPage(...pages) {
 })();
 
 (function initVisionShapeAnimation() {
-  if (!isPage("index")) return;
   const scrollTrig = document.getElementById("vision-scroll-trigger");
   const section = document.getElementById("vision-pinned-section");
   if (!scrollTrig || !section) return;
+
   if (typeof lenis !== "undefined") lenis.on("scroll", onScroll);
 
   const logoTop = section.querySelector(".logo-top img");
@@ -284,7 +278,6 @@ function isPage(...pages) {
   logoBottom.style.bottom = "0";
   logoBottom.style.opacity = "0";
 
-  /* ── helpers ── */
   function getProgress() {
     const rect = scrollTrig.getBoundingClientRect();
     const total = scrollTrig.offsetHeight - window.innerHeight;
@@ -295,7 +288,6 @@ function isPage(...pages) {
     return a + (b - a) * t;
   }
 
-  /* ── main update ── */
   function onScroll() {
     const p = getProgress();
 
@@ -428,7 +420,8 @@ function isPage(...pages) {
 })();
 
 (function initPixelatedShader() {
-  if (!isPage("index")) return;
+  const wrapper = document.querySelector(".gradient-canvas");
+  if (!wrapper) return;
 
   const config = {
     color1: "#766FF6",
@@ -881,7 +874,6 @@ function isPage(...pages) {
     for (let i = 0; i < MAX_TRAIL; i++) {
       const base = i * 4;
       if (i < _trailLen) {
-        // FIX #2: pre-compute slot index, tránh double indirection qua trailGet()
         const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
         _trailTexData[base] = _trailBuf[slot * 3] / resW;
         _trailTexData[base + 1] = _trailBuf[slot * 3 + 1] / resH;
@@ -905,7 +897,6 @@ function isPage(...pages) {
 
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
-  const wrapper = document.querySelector(".gradient-canvas");
 
   const DPR = Math.min(window.devicePixelRatio, 2);
   const physicalPixelSize = Math.round(config.pixelSize * DPR);
@@ -963,14 +954,11 @@ function isPage(...pages) {
   const scene = new THREE.Scene();
   scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
 
-  // ─── Mouse ────────────────────────────────────────────────────────────
   const actualMouse = { x: -9999, y: -9999, active: false };
   const laggedMouse = { x: -9999, y: -9999 };
   const LERP_FACTOR = 0.15;
   let lastMoveTime = 0;
-
-  // FIX #4: dirty flag — chỉ render khi có thay đổi thực sự
-  let _dirty = true; // true để render frame đầu tiên (vẽ background tĩnh)
+  let _dirty = true;
 
   document.addEventListener("mousemove", (e) => {
     const rect = wrapper.getBoundingClientRect();
@@ -992,11 +980,10 @@ function isPage(...pages) {
   });
 
   let _shaderPaused = false;
-  let _shaderRafId = null;
 
   function shaderAnimate() {
     if (_shaderPaused) return;
-    _shaderRafId = requestAnimationFrame(shaderAnimate);
+    requestAnimationFrame(shaderAnimate);
 
     const now = performance.now();
 
@@ -1044,13 +1031,11 @@ function isPage(...pages) {
     renderer.setSize(_res.w, _res.h, false);
     material.uniforms.iResolution.value.set(_res.w, _res.h);
     material.uniforms.uGridCenter.value.copy(getGridCenter());
-    _dirty = true; // resize → cần render lại
+    _dirty = true;
   });
 })();
 
 (function initVisibilityControl() {
-  if (!isPage("index")) return;
-
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");
   if (!shaderSection || !globeSection) return;
@@ -1079,12 +1064,14 @@ function isPage(...pages) {
 })();
 
 (function init3DGlobeAnimation() {
+<<<<<<< HEAD
   if (!isPage("index")) return;
+=======
+  const globeRoot = document.getElementById("company-globe");
+  if (!globeRoot) return;
+>>>>>>> 59e626b6afceab9f651e0dd0fee02540234aac99
 
   window.init3DGlobe = async function init3DGlobe() {
-    const globeRoot = document.getElementById("company-globe");
-    if (!globeRoot) return;
-
     const msgEl = document.getElementById("company-globe-msg");
     const msgText = document.getElementById("company-globe-msg-text");
     const prog = document.getElementById("company-globe-prog");
@@ -1286,7 +1273,6 @@ function isPage(...pages) {
       const _wp = new THREE.Vector3();
       const _pr = new THREE.Vector3();
 
-      // FIX #3: helper chỉ ghi style khi giá trị thực sự thay đổi
       function setMarkerStyle(el, transform, zIndex, opacity, pointerEvents) {
         const c = el._cache;
         if (
@@ -1295,9 +1281,8 @@ function isPage(...pages) {
           c.opacity === opacity &&
           c.pointerEvents === pointerEvents
         )
-          return; // không có thay đổi → bỏ qua hoàn toàn
+          return;
 
-        // Batch tất cả 4 properties vào 1 lần ghi cssText duy nhất
         el.style.cssText =
           "transform:" +
           transform +
@@ -1338,8 +1323,6 @@ function isPage(...pages) {
             opacity = edgeFade * 0.15;
           else opacity = edgeFade;
 
-          // FIX #3: làm tròn để tránh floating-point noise làm cache miss liên tục
-          // toFixed(1) → độ chính xác 0.1px, đủ mượt, cache hoạt động hiệu quả
           const transform =
             "translate(" +
             offsetX.toFixed(1) +
@@ -1535,8 +1518,6 @@ function isPage(...pages) {
 })();
 
 (function initServiceAnimation() {
-  if (!isPage("index", "service", "service-v2")) return;
-
 
   const SRV_IMAGES = [
     "./assets/images/gami.png",
@@ -1547,7 +1528,7 @@ function isPage(...pages) {
   const SRV_DESCRIPTIONS = [
     "Gamified engagement and interactive media solutions that drive deeper user interaction and lasting engagement.",
     "Comprehensive BFSI solutions delivering secure, scalable financial platforms and seamless banking integrations.",
-    "End-to-end digital solutions that accelerate transformation and connect your bupower2ss to the modern ecosystem.",
+    "End-to-end digital solutions that accelerate transformation and connect your business to the modern ecosystem.",
   ];
 
   const TOTAL = SRV_IMAGES.length;
@@ -1568,10 +1549,6 @@ function isPage(...pages) {
   let lastFrom = -1,
     lastTo = -1,
     lastSlideIdx = -1;
-
-  function pad2(n) {
-    return String(n).padStart(2, "0");
-  }
 
   function moveBullet(idx) {
     const target = titleItems[idx];
@@ -1648,9 +1625,7 @@ function isPage(...pages) {
     },
     { passive: true },
   );
-  window.addEventListener("resize", () => {
-    onScroll();
-  });
+  window.addEventListener("resize", onScroll);
   window.addEventListener("load", () => {
     moveBullet(0);
   });
@@ -1661,8 +1636,11 @@ function isPage(...pages) {
 })();
 
 (function initCompanyDarkOverlay() {
+<<<<<<< HEAD
   if (!isPage("index")) return;
 
+=======
+>>>>>>> 59e626b6afceab9f651e0dd0fee02540234aac99
   const section = document.getElementById("company");
   const rows = document.querySelectorAll(".company-dark-row");
   if (!section || !rows.length) return;
@@ -1707,8 +1685,6 @@ function isPage(...pages) {
 })();
 
 (function initCompanyFadeAnimations() {
-  if (!isPage("index")) return;
-
   const swiperRows = document.querySelectorAll(
     ".company-marquee .swiper-container",
   );
@@ -1753,8 +1729,6 @@ function isPage(...pages) {
 })();
 
 (function initCaseStudyCounter() {
-  if (!isPage("index")) return;
-
   const items = document.querySelectorAll(".item-casestudy");
   const digitWrap = document.getElementById("case-digit-wrap");
   const digitTrack = document.getElementById("case-digit-track");

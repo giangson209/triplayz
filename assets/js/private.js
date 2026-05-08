@@ -244,17 +244,31 @@ $(document).ready(function () {
     // Header ẩn/hiện khi scroll
     let headerEl = document.getElementById("main-header");
     if (headerEl) {
-      ScrollTrigger.create({
-        start: "top -100",
-        end: 99999,
-        onUpdate: (self) => {
-          if (self.direction === -1) {
-            headerEl.style.transform = "translateY(0%)";
-          } else if (self.direction === 1) {
-            headerEl.style.transform = "translateY(-100%)";
-          }
-        },
-      });
+      let lastScrollY = lenis ? lenis.scroll : window.scrollY;
+
+      const handleHeaderScroll = ({ scroll }) => {
+        if (scroll < 100) {
+          headerEl.style.transform = "translateY(0%)";
+        } else if (scroll < lastScrollY) {
+          headerEl.style.transform = "translateY(0%)";
+        } else if (scroll > lastScrollY) {
+          headerEl.style.transform = "translateY(-100%)";
+        }
+        lastScrollY = scroll;
+      };
+
+      if (lenis) {
+        lenis.on("scroll", handleHeaderScroll);
+      } else {
+        window.addEventListener(
+          "scroll",
+          () => {
+            const scroll = window.scrollY;
+            handleHeaderScroll({ scroll });
+          },
+          { passive: true },
+        );
+      }
     }
   }
 
@@ -351,4 +365,4 @@ $(document).ready(function () {
   });
 });
 
-console.log(window.location.pathname);
+
