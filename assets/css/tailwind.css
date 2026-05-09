@@ -2206,6 +2206,16 @@
       max-width: calc(100% - 116px);
     }
   }
+  .md\:max-w-\[calc\(100\%-125px\)\] {
+    @media (width >= 768px) {
+      max-width: calc(100% - 125px);
+    }
+  }
+  .md\:max-w-\[calc\(100\%-136px\)\] {
+    @media (width >= 768px) {
+      max-width: calc(100% - 136px);
+    }
+  }
   .md\:max-w-full {
     @media (width >= 768px) {
       max-width: 100%;

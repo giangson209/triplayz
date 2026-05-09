@@ -236,11 +236,10 @@
                     class="item-project relative py-5 md:py-6 px-5 md:px-10 bg-[#2B2B38] border-[2px] border-[#FFFFFF26] w-full max-w-full md:max-w-100 2xl:max-w-117 mb-4 last:mb-0">
                     <div class="top flex items-center justify-between">
                         <h3
-                            class="text-5 md:text-6 2xl:text-7 font-medium max-w-[calc(100%-48px)] md:max-w-[calc(100%-116px)] pr-8 text-left">
+                            class="text-5 md:text-6 2xl:text-7 font-medium max-w-[calc(100%-48px)] md:max-w-[calc(100%-136px)]  pr-8 text-left">
                             Customizable Games
                         </h3>
-                        <div class="doto text-6 md:text-[48px] 2xl:text-[64px] font-bold opacity-25">/0
-                            <?php echo $x; ?>
+                        <div class="doto text-6 md:text-[48px] 2xl:text-[64px] font-bold opacity-25">/0<?php echo $x; ?>
                         </div>
                     </div>
                     <div class="anek opacity-85 pt-5 md:pt-6 mt-3 md:mt-6 border-t-[1px] border-[#FFFFFF26] text-left">
