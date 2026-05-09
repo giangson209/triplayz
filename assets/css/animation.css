@@ -190,7 +190,7 @@ footer {
 }
 
 .button-purple {
-  background: #6c27f0;
+  background: hsla(247, 48%, 44%, 1);
   color: #ffffff;
   position: absolute;
   inset: 0;
@@ -405,6 +405,19 @@ ma
   font-size: 12px;
   color: rgba(255, 255, 255, 0.35);
   pointer-events: none;
+}
+
+.company-marquee .company-header {
+  position: relative;
+  z-index: 4;
+}
+
+.company-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: transparent;
+  pointer-events: none; /* đổi thành auto nếu cần chặn click swiper */
 }
 
 
@@ -723,4 +736,39 @@ footer a.footer-anim-link .footer-link-line {
 
 .social-back {
   z-index: 1;
+}
+
+
+
+/* ==================== */
+/* WHY US */
+/* ==================== */
+#whyus-section,
+#whyus-section > .wrapper {
+  overflow: clip; /* clip không phá sticky, hidden thì có */
+}
+
+#whyus-scroll-trigger {
+  position: relative;
+  height: calc(100vh * 5); /* đủ scroll cho 4 slides */
+}
+
+#whyus-pinned-section {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.whyus-slides-container {
+    overflow: visible !important;
+}
+
+
+
+/* ==================== */
+/* HEADER */
+/* ==================== */
+.arrow {
+  rotate: -90deg;
 }
