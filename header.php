@@ -72,7 +72,7 @@
                             <li>
                                 <a href="">
                                     Services
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
                                     </svg>
@@ -129,7 +129,7 @@
                             <li>
                                 <a href="">
                                     Company
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
                                     </svg>
@@ -189,7 +189,7 @@
                             <a href="">
                                 <img src="assets/images/eng.png" alt="">
                                 <span>English</span>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
                                 </svg>
