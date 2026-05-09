@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 <main>
-    <section class="relative overflow-hidden hidden">
+    <section class="relative overflow-hidden">
         <div class="block">
             <img src="assets/images/bn-about.jpg" class="w-full object-cover h-screen" alt="">
         </div>
@@ -11,7 +11,7 @@
             </h1>
         </div>
         <div class="absolute bottom-0 left-0 w-full px-4 md:px-10 lg:px-16 py-10 z-3">
-            <div class="text-[42px] font-medium mb-6">
+            <div class="text-[42px] font-medium mb-6 block md:hidden">
                 Your Vision <br> Our Innovation
             </div>
             <div class="grid grid-cols-12 gap-6 border-0 md:border-t-[1px] border-[#FFFFFF26] pt-0 md:pt-10">
@@ -52,7 +52,7 @@
             </div>
         </div>
     </section>
-    <section class="relative hidden">
+    <section class="relative">
         <div class="block md:hidden bg-[#483BA8] py-10 px-4">
             <div class="w-full max-w-245">
                 <div class="anek mb-6">/OUR VISON</div>
@@ -89,7 +89,7 @@
         </div>
     </section>
 
-    <section id="achieve-section" class="py-10 md:py-25 relative px-4 md:px-10 overflow-hidden hidden">
+    <section id="achieve-section" class="py-10 md:py-25 relative px-4 md:px-10 overflow-hidden">
         <div class="absolute flex items-center justify-center top-0 left-0 w-full h-full">
             <img src="assets/images/archive.png" class="w-full" alt="">
         </div>
@@ -167,7 +167,7 @@
         </div>
     </section>
 
-    <section class="relative py-10 md:py-25 px-4 md:px-10 hidden">
+    <section class="relative py-10 md:py-25 px-4 md:px-10">
         <div class="wrapper">
             <div
                 class="m-auto w-full max-w-244 text-8 lg:text-[60px] 2xl:text-[80px] font-medium text-center md:text-left">
@@ -202,7 +202,8 @@
         <div class="wrapper relative px-4 md:px-10">
             <div class="text-left md:text-center m-auto">
                 <div class="mb-4 md:mb-6 anek opacity-65">/OUR JOURNEY</div>
-                <div class="text-8 lg:text-[64px] 2xl:text-[80px] font-medium mb-10 md:mb-30 max-w-282 w-full m-auto">
+                <div
+                    class="text-8 lg:text-[52px] xl:text-[64px] 2xl:text-[80px] font-medium mb-10 md:mb-30 max-w-282 w-full m-auto">
                     Our journey
                     reflects
                     a growing depth
@@ -217,8 +218,17 @@
                 <?php
                 for ($x = 1; $x <= 4; $x++) {
                     ?>
-                    <div class="item mb-6 pb-6 relative">
+                    <div
+                        class="item mb-6 pb-6 relative border-b-[1px] border-[#FFFFFF26] last:mb-0 last:pb-0 last:border-0">
                         <div class="text-4 mb-3">09.2023 - 06.2024</div>
+                        <div class="text-5 font-medium mb-3">
+                            Entering the Japan Market
+                        </div>
+                        <div class="text-4 anek">
+                            Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
+                            positioned ourselves as a new-generation tech partner. Experience-driven thinking and execution
+                            quality guide everything we build.
+                        </div>
                     </div>
                     <?php
                 }
@@ -227,94 +237,206 @@
         </div>
     </section>
 
-    <section class="relative py-36 px-10 hidden">
+    <section class="relative py-10 md:py-25 lg:py-36 px-4 md:px-10">
         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
             <img src="assets/images/vuong.jpg" class="w-full h-full object-cover top-0 left-0" alt="">
         </div>
         <div class="wrapper relative z-2 pr-0 3xl:pr-[8%]">
-            <div class="absolute font-medium text-[64px] top-0 left-0">
+            <div
+                class="relative 2xl:absolute font-medium text-8 md:text-[52px] xl:text-[64px] top-0 left-0 mb-6 md:mb-10 lg:mb-20 2xl:mb-0 text-center md:text-left">
                 Brings the best <br>technology solution
             </div>
-            <div class="flex justify-end gap-6 w-full max-w-230 ml-auto mb-6">
-                <div class="item relative aspect-square bg-[#2B2B38] p-8 w-90 flex flex-col justify-between">
+            <div class="block md:flex justify-end gap-6 w-full max-w-230 ml-auto mb-6 last:mb-0">
+                <div
+                    class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
                     <div class="absolute top-0 left-0 w-full">
                         <img src="assets/images/top-bring.png" class="w-full" alt="">
                     </div>
                     <div class="absolute bottom-0 left-0 w-full">
-                        <img src="assets/images/top-bring.png" class="w-full" alt="">
+                        <img src="assets/images/bot-bring.png" class="w-full" alt="">
                     </div>
                     <div class="top">
-                        <div class="text-6 font-medium mb-2">Luck-based</div>
+                        <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
                         <div class="anek opacity-85">
                             Lucky wheel, Mystery box, Plinko, Lucky number
                         </div>
                     </div>
-                    <div class="icon">
-                        <img src="assets/images/joy.png" alt="">
+                    <div class="icon mt-10 md:mt-0">
+                        <img src="assets/images/joy.png" class="w-8 md:w-14" alt="">
                     </div>
                 </div>
-                <div class="item relative aspect-square bg-[#2B2B38] p-8 w-90 flex flex-col justify-between">
+                <div
+                    class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
                     <div class="absolute top-0 left-0 w-full">
                         <img src="assets/images/top-bring.png" class="w-full" alt="">
                     </div>
                     <div class="absolute bottom-0 left-0 w-full">
-                        <img src="assets/images/top-bring.png" class="w-full" alt="">
+                        <img src="assets/images/bot-bring.png" class="w-full" alt="">
                     </div>
                     <div class="top">
-                        <div class="text-6 font-medium mb-2">Luck-based</div>
+                        <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
                         <div class="anek opacity-85">
                             Lucky wheel, Mystery box, Plinko, Lucky number
                         </div>
                     </div>
-                    <div class="icon">
-                        <img src="assets/images/joy.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="flex gap-6 w-full max-w-230 ml-auto mb-6">
-                <div class="item relative aspect-square bg-[#2B2B38] p-8 w-90 flex flex-col justify-between">
-                    <div class="absolute top-0 left-0 w-full">
-                        <img src="assets/images/top-bring.png" class="w-full" alt="">
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full">
-                        <img src="assets/images/top-bring.png" class="w-full" alt="">
-                    </div>
-                    <div class="top">
-                        <div class="text-6 font-medium mb-2">Luck-based</div>
-                        <div class="anek opacity-85">
-                            Lucky wheel, Mystery box, Plinko, Lucky number
-                        </div>
-                    </div>
-                    <div class="icon">
-                        <img src="assets/images/joy.png" alt="">
-                    </div>
-                </div>
-                <div class="item relative aspect-square bg-[#2B2B38] p-8 w-90 flex flex-col justify-between">
-                    <div class="absolute top-0 left-0 w-full">
-                        <img src="assets/images/top-bring.png" class="w-full" alt="">
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full">
-                        <img src="assets/images/top-bring.png" class="w-full" alt="">
-                    </div>
-                    <div class="top">
-                        <div class="text-6 font-medium mb-2">Luck-based</div>
-                        <div class="anek opacity-85">
-                            Lucky wheel, Mystery box, Plinko, Lucky number
-                        </div>
-                    </div>
-                    <div class="icon">
-                        <img src="assets/images/joy.png" alt="">
+                    <div class="icon mt-10 md:mt-0">
+                        <img src="assets/images/joy.png" class="w-8 md:w-14" alt="">
                     </div>
                 </div>
             </div>
-
+            <div class="block md:flex gap-6 w-full max-w-230 ml-auto mb-6 last:mb-0">
+                <div
+                    class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
+                    <div class="absolute top-0 left-0 w-full">
+                        <img src="assets/images/top-bring.png" class="w-full" alt="">
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full">
+                        <img src="assets/images/bot-bring.png" class="w-full" alt="">
+                    </div>
+                    <div class="top">
+                        <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
+                        <div class="anek opacity-85">
+                            Lucky wheel, Mystery box, Plinko, Lucky number
+                        </div>
+                    </div>
+                    <div class="icon mt-10 md:mt-0">
+                        <img src="assets/images/joy.png" class="w-8 md:w-14" alt="">
+                    </div>
+                </div>
+                <div
+                    class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
+                    <div class="absolute top-0 left-0 w-full">
+                        <img src="assets/images/top-bring.png" class="w-full" alt="">
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full">
+                        <img src="assets/images/bot-bring.png" class="w-full" alt="">
+                    </div>
+                    <div class="top">
+                        <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
+                        <div class="anek opacity-85">
+                            Lucky wheel, Mystery box, Plinko, Lucky number
+                        </div>
+                    </div>
+                    <div class="icon mt-10 md:mt-0">
+                        <img src="assets/images/joy.png" class="w-8 md:w-14" alt="">
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="leaders-section" class="relative py-20 px-10 h-screen overflow-hidden bg-[#1D1D27] hidden">
+    <section id="leaders-section"
+        class="relative py-10 md:py-20 px-4 md:px-10 h-[auto] md:h-screen overflow-hidden bg-[#1D1D27]">
         <img src="assets/images/bg-mem.png" class="w-full h-full absolute object-cover top-0 left-0" alt="">
+
+
+        <!-- Left side content -->
+        <div class="wrapper relative h-full w-full z-10 flex flex-col justify-between">
+            <div class="block md:flex gap-10 xl:gap-25 justify-between">
+                <div class="w-full max-w-208 mb-6 md:mb-10">
+                    <div
+                        class="text-8 md:text-10 xl:text-[56px] 2xl:text-[64px] font-medium leading-tight pr-0 xl:pr-[8%] 2xl:pr-0  text-center md:text-left">
+                        The leaders driving worldquant foundry's mission forward
+                    </div>
+                </div>
+                <div class="w-full max-w-122 hidden md:block">
+                    <div class="single-text anek opacity-85">
+                        <p class="mb-4">Triplayz was founded by a team with deep expertise in Gamification and
+                            Fintech.From day one,
+                            we positioned ourselves as a new-generation tech partner. </p>
+                        <p>Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one,
+                            we positioned ourselves as a new-generation tech partner. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full max-w-133 left-0 bottom-0 mt-auto">
+                <div class="grid grid-cols-3 md:grid-cols-2 gap-4 md:gap-8 text-center md:text-left">
+                    <div class="item border-t-[1px] border-[#FFFFFF26] pt-4">
+                        <div
+                            class="numb text-10 md:text-[48px] xl:text-[64px] 2xl:text-[80px] font-medium mb-2 md:mb-3">
+                            20
+                        </div>
+                        <div class="anek opacity-85">Professionals</div>
+                    </div>
+                    <div class="item border-t-[1px] border-[#FFFFFF26] pt-4">
+                        <div
+                            class="numb text-10 md:text-[48px] xl:text-[64px] 2xl:text-[80px] font-medium mb-2 md:mb-3">
+                            2</div>
+                        <div class="anek opacity-85">Offices worldwide</div>
+                    </div>
+                    <div class="item border-t-[1px] border-[#FFFFFF26] pt-4">
+                        <div
+                            class="numb text-10 md:text-[48px] xl:text-[64px] 2xl:text-[80px] font-medium mb-2 md:mb-3">
+                            85%
+                        </div>
+                        <div class="anek opacity-85">On-time delivery</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Right side container for members -->
-        <div class="members-container absolute right-0 top-0 w-2/3 h-full pointer-events-none z-20">
+        <div
+            class="members-container relative md:absolute right-0 top-0 w-full md:w-2/3 h-full z-20 block mt-6 md:mt-0">
+            <?php
+            for ($x = 1; $x <= 5; $x++) { ?>
+                <div
+                    class="item-member relative w-full max-w-full md:max-w-90 bg-[#2F2F38] border border-[2px] border-[#FFFFFF26] mb-6 md:mb-0 last:mb-0">
+                    <div class="block"><img src="assets/images/mem-2.png" alt=""></div>
+                    <div class="p-4 md:p-6">
+                        <div class="relative w-full pr-13">
+                            <div class="text-5 md:text-6 font-medium mb-1 md:mb-0.5">Ngoc Nguyen</div>
+                            <div class="anek opacity-85">CEO</div>
+                            <div class="absolute top-0 right-0 flex items-center h-full">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="48" height="48" rx="24" fill="white" fill-opacity="0.08" />
+                                    <path d="M24 16.5V32.5" stroke="white" stroke-width="2" />
+                                    <path d="M32 24.5L16 24.5" stroke="white" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="anek opacity-85 mt-6 pt-6 border-t-[1px] border-[#FFFFFF26] desc hidden">
+                            Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
+                            positioned ourselves as a new-generation tech partner. Triplayz was founded by a team with deep
+                            expertise in Gamification and Fintech.From day one, we positioned ourselves as a new-generation
+                            tech
+                            partner. Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                            one, we positioned ourselves as a new-generation tech partner.
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="item-member relative w-full max-w-full md:max-w-90 bg-[#2F2F38] border border-[2px] border-[#FFFFFF26] mb-6 md:mb-0 last:mb-0">
+                    <div class="block"><img src="assets/images/mem-1.png" alt=""></div>
+                    <div class="p-4 md:p-6">
+                        <div class="relative w-full pr-13">
+                            <div class="text-5 md:text-6 font-medium mb-1 md:mb-0.5">Ngoc Nguyen</div>
+                            <div class="anek opacity-85">CEO</div>
+                            <div class="absolute top-0 right-0 flex items-center h-full">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="48" height="48" rx="24" fill="white" fill-opacity="0.08" />
+                                    <path d="M24 16.5V32.5" stroke="white" stroke-width="2" />
+                                    <path d="M32 24.5L16 24.5" stroke="white" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="anek opacity-85 mt-6 pt-6 border-t-[1px] border-[#FFFFFF26] desc hidden">
+                            Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
+                            positioned ourselves as a new-generation tech partner. Triplayz was founded by a team with deep
+                            expertise in Gamification and Fintech.From day one, we positioned ourselves as a new-generation
+                            tech
+                            partner. Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                            one, we positioned ourselves as a new-generation tech partner.
+                        </div>
+                    </div>
+                </div>
+            <?php }
+            ?>
+        </div> <!-- End members-container -->
+
+        <div class="hidden">
             <?php
             for ($x = 1; $x <= 5; $x++) { ?>
                 <div class="item-member relative w-full max-w-90 bg-[#2F2F38] border border-[2px] border-[#FFFFFF26]">
@@ -369,42 +491,6 @@
                 </div>
             <?php }
             ?>
-        </div> <!-- End members-container -->
-
-        <!-- Left side content -->
-        <div class="wrapper relative h-full w-full z-10 flex flex-col justify-between">
-            <div class="flex gap-5 justify-between">
-                <div class="w-full max-w-208 mb-10">
-                    <div class="text-[64px] font-medium leading-tight">
-                        The leaders driving worldquant foundry's mission forward
-                    </div>
-                </div>
-                <div class="w-full max-w-122">
-                    <div class="single-text anek opacity-85">
-                        <p class="mb-4">Triplayz was founded by a team with deep expertise in Gamification and
-                            Fintech.From day one,
-                            we positioned ourselves as a new-generation tech partner. </p>
-                        <p>Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one,
-                            we positioned ourselves as a new-generation tech partner. </p>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full max-w-133 left-0 bottom-0 mt-auto">
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="item border-t-[1px] border-[#FFFFFF26] pt-4">
-                        <div class="numb text-[80px] font-medium mb-3">20</div>
-                        <div class="anek opacity-85">Professionals</div>
-                    </div>
-                    <div class="item border-t-[1px] border-[#FFFFFF26] pt-4">
-                        <div class="numb text-[80px] font-medium mb-3">2</div>
-                        <div class="anek opacity-85">Offices worldwide</div>
-                    </div>
-                    <div class="item border-t-[1px] border-[#FFFFFF26] pt-4">
-                        <div class="numb text-[80px] font-medium mb-3">85%</div>
-                        <div class="anek opacity-85">On-time delivery</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </section>
@@ -542,66 +628,76 @@
 
         // --- Leaders Section Animation ---
         const leadersSection = document.getElementById("leaders-section");
-        const members = gsap.utils.toArray(".item-member");
 
-        if (leadersSection && members.length > 0) {
+        if (leadersSection) {
+            mm.add("(min-width: 768px)", () => {
+                // Chỉ lấy các item-member nằm trong members-container của desktop
+                const members = gsap.utils.toArray(".members-container .item-member");
 
-            // Hàm xáo trộn mảng để random vị trí
-            const shuffle = (array) => {
-                let currentIndex = array.length, randomIndex;
-                while (currentIndex !== 0) {
-                    randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex--;
-                    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+                if (members.length > 0) {
+                    // Hàm xáo trộn mảng để random vị trí
+                    const shuffle = (array) => {
+                        let currentIndex = array.length, randomIndex;
+                        while (currentIndex !== 0) {
+                            randomIndex = Math.floor(Math.random() * currentIndex);
+                            currentIndex--;
+                            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+                        }
+                        return array;
+                    };
+
+                    // Tạo danh sách làn đường được xáo trộn ngẫu nhiên từng cụm 3
+                    let randomLanes = [];
+                    for (let i = 0; i < members.length; i += 3) {
+                        randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
+                    }
+
+                    // Set initial positions for members
+                    members.forEach((member, i) => {
+                        const laneIndex = randomLanes[i];
+
+                        // Mỗi làn chiếm khoảng 30%, cộng thêm tí random
+                        const randomLeft = (laneIndex * 32) + (Math.random() * 5);
+
+                        // Strict vertical stagger: each item is placed at least 80% of screen height below the previous
+                        // + random(0, 15) to add slight visual irregularity without breaking the gap
+                        const startTop = 100 + (i * 80) + (Math.random() * 15);
+
+                        member.style.pointerEvents = "auto";
+
+                        gsap.set(member, {
+                            left: `${randomLeft}%`,
+                            top: `${startTop}%`,
+                            position: "absolute",
+                            zIndex: members.length - i // Ensure items that appear later don't inappropriately layer over earlier ones
+                        });
+                    });
+
+                    // Calculate total travel distance needed for the very last item to clear the top of the screen
+                    const lastItemStartTop = 100 + ((members.length - 1) * 80) + 15;
+                    const travelDistance = lastItemStartTop + 80; // Additional 80% to ensure it fully exits
+
+                    // Create scroll animation
+                    // By moving all items by the EXACT SAME amount (-=travelDistance%), 
+                    // their vertical gaps are perfectly preserved and they never collide.
+                    gsap.to(members, {
+                        top: `-=${travelDistance}%`,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: leadersSection,
+                            start: "top top",
+                            end: `+=${members.length * 700}`, // Adjust scroll length based on number of items
+                            pin: true,
+                            scrub: 1.5
+                        }
+                    });
                 }
-                return array;
-            };
-
-            // Tạo danh sách làn đường được xáo trộn ngẫu nhiên từng cụm 3
-            // Cách này đảm bảo cứ 3 item thì sẽ rải đều 3 làn, nhưng thứ tự xuất hiện hoàn toàn ngẫu nhiên
-            let randomLanes = [];
-            for (let i = 0; i < members.length; i += 3) {
-                randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
-            }
-
-            // Set initial positions for members
-            members.forEach((member, i) => {
-                const laneIndex = randomLanes[i];
-
-                // Mỗi làn chiếm khoảng 30%, cộng thêm tí random
-                const randomLeft = (laneIndex * 32) + (Math.random() * 5);
-
-                // Strict vertical stagger: each item is placed at least 80% of screen height below the previous
-                // + random(0, 15) to add slight visual irregularity without breaking the gap
-                const startTop = 100 + (i * 80) + (Math.random() * 15);
-
-                member.style.pointerEvents = "auto";
-
-                gsap.set(member, {
-                    left: `${randomLeft}%`,
-                    top: `${startTop}%`,
-                    position: "absolute",
-                    zIndex: members.length - i // Ensure items that appear later don't inappropriately layer over earlier ones
-                });
             });
 
-            // Calculate total travel distance needed for the very last item to clear the top of the screen
-            const lastItemStartTop = 100 + ((members.length - 1) * 80) + 15;
-            const travelDistance = lastItemStartTop + 80; // Additional 80% to ensure it fully exits
-
-            // Create scroll animation
-            // By moving all items by the EXACT SAME amount (-=travelDistance%), 
-            // their vertical gaps are perfectly preserved and they never collide.
-            gsap.to(members, {
-                top: `-=${travelDistance}%`,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: leadersSection,
-                    start: "top top",
-                    end: `+=${members.length * 700}`, // Adjust scroll length based on number of items
-                    pin: true,
-                    scrub: 1.5
-                }
+            mm.add("(max-width: 767px)", () => {
+                // Clear props on mobile if needed (mostly safe since we only target desktop elements now)
+                const members = gsap.utils.toArray(".members-container .item-member");
+                if (members.length > 0) gsap.set(members, { clearProps: "all" });
             });
         }
     });
