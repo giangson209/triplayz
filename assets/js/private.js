@@ -37,7 +37,7 @@ $(document).ready(function () {
     },
   });
 
-  let lenis; // khai báo ở scope ngoài để dùng được trong gsap block
+  let lenis; 
 
   if (typeof Lenis !== "undefined") {
     lenis = new Lenis({
@@ -87,7 +87,7 @@ $(document).ready(function () {
       mainEl.insertAdjacentElement("afterend", spacer);
 
       function getOffset() {
-        return window.innerHeight * 0.4;
+        return window.innerHeight * 0.5;
       }
 
       function updateSpacer() {
@@ -95,8 +95,8 @@ $(document).ready(function () {
         const FH = footerEl.offsetHeight;
         spacer.style.height =
           Math.max(
-            V * MAIN_SLOW * 0.94,
-            V * FOOTER_SLOW * 0.94 + Math.max(0, FH - V),
+            V * MAIN_SLOW * 0.64,
+            V * FOOTER_SLOW * 0.64 + Math.max(0, FH - V),
           ) + "px";
       }
 
@@ -148,79 +148,111 @@ $(document).ready(function () {
 
     // Animation xoay vòng Why Us
     if ($(".content-whuyus").length && $(".whyus-slide").length > 1) {
-      let slides = gsap.utils.toArray(".whyus-slide");
+      const scrollTrig = document.getElementById("whyus-scroll-trigger");
+      if (scrollTrig) {
+        const slides = gsap.utils.toArray(".whyus-slide");
+        const origins = ["top", "center", "top", "center"];
+        const rotates = [-2, 3, -.5, 2];
 
-      slides.forEach((sl, i) => {
-        sl.classList.remove("opacity-0", "translate-y-10");
-        if (i > 0) gsap.set(sl, { yPercent: 100 });
-        else gsap.set(sl, { yPercent: 0 });
-      });
+        slides.forEach((sl, i) => {
+          sl.classList.remove("opacity-0", "translate-y-10");
+          gsap.set(sl, {
+            yPercent: i === 0 ? 0 : 100,
+            rotateX: 0,
+            rotate: 0,
+            y: 0,
+            z: 0,
+            opacity: 1,
+            transformOrigin: `bottom ${origins[i]}`,
+            transformPerspective: 600,
+          });
+        });
 
-      let lastWhyusIdx = -1;
+        let triggeredIdx = -1;
 
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".content-whuyus",
-          start: "center center",
-          end: () => "+=" + window.innerHeight * 4,
-          pin: true,
-          scrub: true,
-          onEnter: () => {
-            // Trigger slide 0 khi section lần đầu vào viewport
-            if (lastWhyusIdx < 0 && window.triggerAnimationsIn) {
-              lastWhyusIdx = 0;
-              window.triggerAnimationsIn(slides[0]);
-            }
-          },
-          onUpdate: (self) => {
-            // rawProgress: 0...(slides.length-1), trigger sớm ở 40% transition
-            const rawProgress = self.progress * (slides.length - 1);
-            const newIdx = Math.min(
-              slides.length - 1,
-              Math.floor(rawProgress + 0.4),
-            );
-            if (newIdx > lastWhyusIdx) {
-              for (let i = lastWhyusIdx + 1; i <= newIdx; i++) {
-                if (window.triggerAnimationsIn) {
-                  window.triggerAnimationsIn(slides[i]);
-                }
-              }
-              lastWhyusIdx = newIdx;
-            }
-          },
-        },
-      });
-
-      let totalDuration = slides.length - 1;
-      let totalRotation = -totalDuration * 45;
-
-      tl.to(
-        ".whyus-wheel",
-        {
-          rotation: totalRotation,
-          ease: "none",
-          duration: totalDuration,
-        },
-        0,
-      );
-
-      slides.forEach((sl, i) => {
-        if (i > 0) {
-          tl.to(
-            slides[i - 1],
-            { yPercent: -100, ease: "none", duration: 1 },
-            i - 1,
-          );
-          tl.to(sl, { yPercent: 0, ease: "none", duration: 1 }, i - 1);
+        function getWhyusProgress() {
+          const rect = scrollTrig.getBoundingClientRect();
+          const total = scrollTrig.offsetHeight - window.innerHeight;
+          if (total <= 0) return 0;
+          return Math.max(0, Math.min(1, -rect.top / total));
         }
-      });
+
+        function onWhyusScroll() {
+          const p = getWhyusProgress();
+          const numT = slides.length - 1;
+          const tp = p * numT;
+
+          const wheelEl = document.querySelector(".whyus-wheel");
+          if (wheelEl) wheelEl.style.transform = `rotate(${-45 * tp}deg)`;
+
+          slides.forEach((sl, i) => {
+            const rawT = tp - i;
+            const yPct = Math.max(-100, Math.min(100, (i - tp) * 100));
+
+            let rotateX = 0;
+            let rotate = 0
+            let z = 0;
+            let y = 0;
+            let opacity = 1;
+
+            if (rawT >= 0.3 && rawT <= 1.0) {
+              const exitProgress = (rawT - 0.3) / 0.4;
+              rotateX = exitProgress * 20;
+              rotate = exitProgress * rotates[i];
+              z = exitProgress * -90;
+              y = exitProgress * -100;
+              opacity = 1 - exitProgress;
+            }
+
+            gsap.set(sl, { yPercent: yPct, rotateX, rotate, z, y, opacity });
+          });
+
+          const rect = scrollTrig.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight && rect.bottom > 0;
+
+          if (inView && triggeredIdx < 0) {
+            triggeredIdx = 0;
+            if (window.triggerAnimationsIn)
+              window.triggerAnimationsIn(slides[0]);
+          }
+
+          const currentIdx = Math.min(Math.round(tp), numT);
+          if (currentIdx > triggeredIdx) {
+            for (let i = triggeredIdx + 1; i <= currentIdx; i++) {
+              if (window.triggerAnimationsIn)
+                window.triggerAnimationsIn(slides[i]);
+            }
+            triggeredIdx = currentIdx;
+          }
+        }
+
+        let _whyusRaf = false;
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (_whyusRaf) return;
+            _whyusRaf = true;
+            requestAnimationFrame(() => {
+              onWhyusScroll();
+              _whyusRaf = false;
+            });
+          },
+          { passive: true },
+        );
+
+        if (typeof lenis !== "undefined" && lenis) {
+          lenis.on("scroll", onWhyusScroll);
+        }
+
+        onWhyusScroll();
+      }
     }
 
     if ($(".form-parallax-sec").length && $(".form-parallax-img").length) {
       const section = document.querySelector(".form-parallax-sec");
       const img = document.querySelector(".form-parallax-img");
       let smoothedScroll = lenis ? lenis.targetScroll : window.scrollY;
-      const LERP_FACTOR = 0.09;
+      const LERP_FACTOR = 0.07;
 
       gsap.ticker.add(() => {
         const target = lenis ? lenis.targetScroll : window.scrollY;
@@ -235,7 +267,6 @@ $(document).ready(function () {
         const progress = (smoothedScroll - start) / (end - start);
         const clamped = Math.max(0, Math.min(1, progress));
 
-        // Map từ -20px đến +20px
         const yPercent = -10 + clamped * 24;
         img.style.transform = `translateY(${yPercent}%)`;
       });
@@ -364,5 +395,6 @@ $(document).ready(function () {
     });
   });
 });
+
 
 

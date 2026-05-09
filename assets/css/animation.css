@@ -190,7 +190,7 @@ footer {
 }
 
 .button-purple {
-  background: #6c27f0;
+  background: hsla(247, 48%, 44%, 1);
   color: #ffffff;
   position: absolute;
   inset: 0;
@@ -407,6 +407,19 @@ ma
   pointer-events: none;
 }
 
+.company-marquee .company-header {
+  position: relative;
+  z-index: 4;
+}
+
+.company-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: transparent;
+  pointer-events: none; /* đổi thành auto nếu cần chặn click swiper */
+}
+
 
 
 
@@ -417,7 +430,7 @@ ma
 /* ==================== */
 
 .srv-bg {
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .srv-anim {
@@ -682,3 +695,80 @@ ma
   margin: 0;
 }
 
+/* ==================== */
+/* FOOTER LINK ANIMATION */
+/* ==================== */
+
+footer a.footer-anim-link {
+  position: relative;
+  display: inline-block;
+}
+
+footer a.footer-anim-link .footer-link-line {
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  clip-path: inset(0 100% 0 0); 
+}
+
+.social-flip-btn {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+}
+
+.social-front,
+.social-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+}
+
+.social-front {
+  z-index: 2;
+}
+
+.social-back {
+  z-index: 1;
+}
+
+
+
+/* ==================== */
+/* WHY US */
+/* ==================== */
+#whyus-section,
+#whyus-section > .wrapper {
+  overflow: clip; /* clip không phá sticky, hidden thì có */
+}
+
+#whyus-scroll-trigger {
+  position: relative;
+  height: calc(100vh * 5); /* đủ scroll cho 4 slides */
+}
+
+#whyus-pinned-section {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.whyus-slides-container {
+    overflow: visible !important;
+}
+
+
+
+/* ==================== */
+/* HEADER */
+/* ==================== */
+.arrow {
+  rotate: -90deg;
+}

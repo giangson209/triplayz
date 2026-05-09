@@ -117,19 +117,13 @@
     });
   };
 
-  // --- Preloader: chỉ chạy nếu có đủ element ---
   const ring = document.getElementById("ring");
   const loaderIcon = document.getElementById("loader-icon");
   const columns = document.querySelectorAll("#preloader .column");
 
   if (!ring || !loaderIcon || !columns.length) return;
-
-  const scrollbarWidth =
-    window.innerWidth - document.documentElement.clientWidth;
   document.body.style.overflowY = "hidden";
-  if (scrollbarWidth > 0) {
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
-  }
+  document.documentElement.style.overflowY = "hidden";
 
   const CIRC = 2 * Math.PI * 60;
   ring.style.strokeDasharray = CIRC;
@@ -243,11 +237,354 @@
       onComplete: () => {
         gsap.set("#preloader", { display: "none" });
         document.body.style.overflowY = "";
-        document.body.style.paddingRight = "";
+        document.documentElement.style.overflowY = "";
+        window.showScrollbar?.();
       },
     },
     "<0.1",
   );
+})();
+
+(function initCustomScrollbar() {
+  let isReady = !document.getElementById("preloader");
+
+  const style = document.createElement("style");
+  style.textContent = `
+    ::-webkit-scrollbar { display: none; }
+    html { scrollbar-width: none; }
+  `;
+  document.head.appendChild(style);
+
+  const TRACK_W = 14;
+  const THUMB_W = 10;
+  const THUMB_MARGIN = (TRACK_W - THUMB_W) / 2;
+  const THUMB_MIN_H = 48;
+
+  const track = document.createElement("div");
+  Object.assign(track.style, {
+    position: "fixed",
+    right: "0",
+    top: "0",
+    width: TRACK_W + "px",
+    height: "100%",
+    background: "transparent",
+    zIndex: "99",
+    pointerEvents: "none",
+  });
+
+  const thumb = document.createElement("div");
+  Object.assign(thumb.style, {
+    position: "absolute",
+    left: THUMB_MARGIN + "px",
+    width: THUMB_W + "px",
+    minWidth: THUMB_W + "px",
+    maxWidth: THUMB_W + "px",
+    background: "#ffffff",
+    border: "1px solid #1d1d27",
+    borderRadius: "5px",
+    cursor: "pointer",
+    pointerEvents: "auto",
+    transition: "background 0.2s ease",
+    boxSizing: "border-box",
+  });
+
+  thumb.addEventListener("mouseenter", () => {
+    gsap.to(thumb, {
+      background: "#766ff6",
+      borderColor: "#fff",
+      duration: 0.2,
+      ease: "power4.inOut",
+    });
+  });
+
+  thumb.addEventListener("mouseleave", () => {
+    if (!isDragging) {
+      gsap.to(thumb, {
+        background: "#fff",
+        borderColor: "#1d1d27",
+        duration: 0.2,
+        ease: "power4.inOut",
+      });
+    }
+  });
+
+  track.appendChild(thumb);
+  document.body.appendChild(track);
+
+  if (document.getElementById("preloader")) {
+    track.style.display = "none";
+  }
+
+  function getThumbMetrics() {
+    const docH = document.documentElement.scrollHeight;
+    const winH = window.innerHeight;
+    const trackH = winH;
+    const ratio = winH / docH;
+    const thumbH = Math.max(THUMB_MIN_H, trackH * ratio);
+    const scrollable = docH - winH;
+    const thumbRange = trackH - thumbH;
+    const thumbTop =
+      scrollable > 0 ? (window.scrollY / scrollable) * thumbRange : 0;
+    return { thumbH, thumbTop };
+  }
+
+  function updateThumb() {
+    if (!isReady) return;
+    const { thumbH, thumbTop } = getThumbMetrics();
+    thumb.style.height = thumbH + "px";
+    thumb.style.top = thumbTop + "px";
+  }
+
+  let isDragging = false;
+  let dragStartY = 0;
+  let dragStartScrollY = 0;
+
+  thumb.addEventListener("mousedown", (e) => {
+    if (!isReady) return;
+    isDragging = true;
+    dragStartY = e.clientY;
+    dragStartScrollY = window.scrollY;
+    e.preventDefault();
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isReady || !isDragging) return;
+    const docH = document.documentElement.scrollHeight;
+    const winH = window.innerHeight;
+    const { thumbH } = getThumbMetrics();
+    const thumbRange = winH - thumbH;
+    const scrollable = docH - winH;
+    const delta = e.clientY - dragStartY;
+    const scrollDelta = scrollable > 0 ? (delta / thumbRange) * scrollable : 0;
+    window.scrollTo(
+      0,
+      Math.max(0, Math.min(scrollable, dragStartScrollY + scrollDelta)),
+    );
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!isReady || !isDragging) return;
+    isDragging = false;
+    const isHovering = thumb.matches(":hover");
+    if (!isHovering) {
+      thumb.style.background = "#ffffff";
+      thumb.style.borderColor = "#000000";
+    }
+  });
+
+  let _raf = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!isReady || _raf) return;
+      _raf = true;
+      requestAnimationFrame(() => {
+        updateThumb();
+        _raf = false;
+      });
+    },
+    { passive: true },
+  );
+
+  window.addEventListener("resize", () => {
+    if (!isReady) return;
+    updateThumb();
+  });
+
+  window.showScrollbar = function () {
+    isReady = true;
+    track.style.display = "block";
+    updateThumb();
+    gsap.fromTo(
+      track,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5, ease: "power2.out" },
+    );
+  };
+
+  updateThumb();
+})();
+
+(function initHeaderAnimation() {
+  const overrideStyle = document.createElement("style");
+  overrideStyle.textContent = `
+    .h-menu li .sub-menu-child,
+    .btn-head-menu .sub-menu-child {
+      display: block !important;
+      pointer-events: none;
+    }
+    .h-menu li .sub-menu-child.is-open,
+    .btn-head-menu .sub-menu-child.is-open {
+      pointer-events: auto;
+    }
+    .arrow {
+      rotate: 0deg !important;
+      display: inline-block;
+    }
+  `;
+  document.head.appendChild(overrideStyle);
+
+  const allTriggers = [];
+
+  function getAnimChildren(subMenu) {
+    const lis = Array.from(subMenu.querySelectorAll(".sub-menu > li"));
+    const items = Array.from(subMenu.querySelectorAll(".item.overflow"));
+    const rigt = Array.from(subMenu.querySelectorAll(".rigt"));
+    return [...lis, ...items, ...rigt];
+  }
+
+  function setupTrigger(trigger, arrow, subMenu) {
+    gsap.set(subMenu, { clipPath: "inset(0 0 100% 0)" });
+    gsap.set(arrow, { rotation: -90 });
+
+    const children = getAnimChildren(subMenu);
+    gsap.set(children, { x: 30, opacity: 0, filter: "blur(2px)" });
+
+    let isOpen = false;
+    let tlOpen = null;
+    let tlClose = null;
+
+    function buildOpenTl() {
+      const tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        subMenu,
+        {
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.3,
+          ease: "power3.out",
+        },
+        0,
+      );
+
+      tl.to(
+        arrow,
+        {
+          rotation: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        0,
+      );
+
+      tl.to(
+        children,
+        {
+          x: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.4,
+          ease: "power2.out",
+          stagger: 0.03,
+        },
+        0.25,
+      ); 
+
+      return tl;
+    }
+
+    function buildCloseTl() {
+      const tl = gsap.timeline({ paused: true });
+
+      tl.to(
+        children,
+        {
+          x: 18,
+          opacity: 0,
+          filter: "blur(2px)",
+          duration: 0.2,
+          ease: "power2.in",
+          stagger: { each: 0.03, from: "end" },
+        },
+        0,
+      );
+
+      tl.to(
+        subMenu,
+        {
+          clipPath: "inset(0 0 100% 0)",
+          duration: 0.2,
+          ease: "power2.in",
+        },
+        0.05,
+      );
+
+      tl.to(
+        arrow,
+        {
+          rotation: -90,
+          duration: 0.3,
+          ease: "power2.in",
+        },
+        0,
+      );
+
+      return tl;
+    }
+
+    function openMenu() {
+      isOpen = true;
+      subMenu.classList.add("is-open");
+
+      tlClose?.kill();
+      tlOpen = buildOpenTl();
+      tlOpen.play();
+    }
+
+    function closeMenu() {
+      isOpen = false;
+      subMenu.classList.remove("is-open");
+
+      tlOpen?.kill();
+      tlClose = buildCloseTl();
+      tlClose.play();
+    }
+
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isOpen) {
+        closeMenu();
+      } else {
+        allTriggers.forEach((t) => {
+          if (t !== ref && t.isOpen) t.close();
+        });
+        openMenu();
+      }
+    });
+
+    subMenu.addEventListener("click", (e) => e.stopPropagation());
+
+    const ref = {
+      get isOpen() {
+        return isOpen;
+      },
+      close: closeMenu,
+    };
+    allTriggers.push(ref);
+  }
+
+  document.querySelectorAll(".h-menu > ul > li").forEach((item) => {
+    const trigger = item.querySelector(":scope > a");
+    const arrow = trigger?.querySelector(".arrow");
+    const subMenu = item.querySelector(".sub-menu-child");
+    if (!trigger || !arrow || !subMenu) return;
+    setupTrigger(trigger, arrow, subMenu);
+  });
+
+  const translateBtn = document.querySelector(".btn-head-menu.translate");
+  if (translateBtn) {
+    const trigger = translateBtn.querySelector("a");
+    const arrow = trigger?.querySelector(".arrow");
+    const subMenu = translateBtn.querySelector(".sub-menu-child");
+    if (trigger && arrow && subMenu) setupTrigger(trigger, arrow, subMenu);
+  }
+
+  document.addEventListener("click", () => {
+    allTriggers.forEach((t) => {
+      if (t.isOpen) t.close();
+    });
+  });
 })();
 
 (function initVisionShapeAnimation() {
@@ -304,8 +641,8 @@
     logoBottom.style.opacity = logoOpacity;
 
     const pct = t * 100;
-    textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${pct + 0.5}%, ${MUTED} ${pct}%)`;
-    textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${pct + 0.5}%, ${MUTED} ${pct}%)`;
+    textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${pct}%, ${MUTED} ${pct}%)`;
+    textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${pct}%, ${MUTED} ${pct}%)`;
   }
 
   let _rafPending = false;
@@ -1381,6 +1718,12 @@
       };
       const _onMouseMove = (e) => {
         if (!isDragging) return;
+
+        if (e.buttons === 0) {
+          _onMouseUp();
+          return;
+        }
+
         const newest = ((_globeTrailHead - 1 + 16) % 16) * 3;
         const prevX = _globeTrailLen > 0 ? _globeTrail[newest] : e.clientX;
         const prevY = _globeTrailLen > 0 ? _globeTrail[newest + 1] : e.clientY;
@@ -1394,6 +1737,7 @@
       };
 
       canvas.addEventListener("mousedown", (e) => {
+        e.preventDefault();
         isDragging = true;
         autoRotate = false;
         _globeTrailLen = 0;
@@ -1759,4 +2103,245 @@
   if (typeof lenis !== "undefined") lenis.on("scroll", onScroll);
 
   onScroll();
+})();
+
+(function initFooterLinkAnimation() {
+  function run() {
+    const footerLinks = Array.from(
+      document.querySelectorAll("footer a"),
+    ).filter((a) => {
+      if (a.closest(".btn-main")) return false;
+      if (a.querySelector("img")) return false;
+      if (a.textContent.trim().startsWith("WORK WITH US")) return false;
+      return true;
+    });
+
+    footerLinks.forEach((a) => {
+      a.classList.add("footer-anim-link");
+
+      const line = document.createElement("span");
+      line.className = "footer-link-line";
+      a.appendChild(line);
+
+      gsap.set(line, { clipPath: "inset(0 100% 0 0)" });
+
+      let playing = false;
+      let pending = null; // 'enter' | 'leave' | null
+
+      function playAction(action) {
+        playing = true;
+        pending = null;
+
+        gsap.to(line, {
+          clipPath:
+            action === "enter" ? "inset(0 0% 0 0)" : "inset(0 0% 0 100%)",
+          duration: 0.35,
+          ease: action === "enter" ? "power2.out" : "power2.in",
+          onComplete: () => {
+            if (action === "leave") {
+              gsap.set(line, { clipPath: "inset(0 100% 0 0)" });
+            }
+            playing = false;
+            if (pending) {
+              const next = pending;
+              pending = null;
+              playAction(next);
+            }
+          },
+        });
+      }
+
+      a.addEventListener("mouseenter", () => {
+        if (!playing) playAction("enter");
+        else pending = "enter"; 
+      });
+
+      a.addEventListener("mouseleave", () => {
+        if (!playing) playAction("leave");
+        else pending = "leave"; 
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
+})();
+
+(function initWorkWithUsAnimation() {
+  function run() {
+    let workBtn = null;
+    document.querySelectorAll("footer a").forEach((a) => {
+      if (a.textContent.trim().startsWith("WORK WITH US")) workBtn = a;
+    });
+    if (!workBtn) return;
+
+    let textContent = "";
+    let svgEl = null;
+    [...workBtn.childNodes].forEach((n) => {
+      if (n.nodeType === Node.TEXT_NODE && n.textContent.trim())
+        textContent = n.textContent.trim();
+      if (n.nodeName.toLowerCase() === "svg") svgEl = n.cloneNode(true);
+    });
+    if (!textContent || !svgEl) return;
+
+    workBtn.innerHTML = "";
+
+    const GAP = 10;
+
+    const textSpan = document.createElement("span");
+    textSpan.textContent = textContent;
+
+    const svgLeft = svgEl.cloneNode(true);
+    const svgRight = svgEl.cloneNode(true);
+
+    const track = document.createElement("div");
+    Object.assign(track.style, {
+      display: "flex",
+      alignItems: "center",
+      gap: GAP + "px",
+      flexShrink: "0",
+    });
+    track.append(svgLeft, textSpan, svgRight);
+
+    const wrapper = document.createElement("div");
+    Object.assign(wrapper.style, {
+      overflow: "hidden",
+      display: "flex",
+    });
+    wrapper.appendChild(track);
+    workBtn.appendChild(wrapper);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const svgW = svgLeft.getBoundingClientRect().width;
+        const offset = svgW + GAP;
+
+        wrapper.style.width = track.scrollWidth - offset + "px";
+
+        gsap.set([svgLeft, textSpan, svgRight], { x: -offset });
+
+        let tlEnter = null,
+          tlLeave = null;
+
+        workBtn.addEventListener("mouseenter", () => {
+          tlLeave?.kill();
+          tlEnter = gsap.timeline();
+          // svgLeft trượt vào
+          tlEnter.to(svgLeft, { x: 0, duration: 0.42, ease: "power1.out" }, 0);
+          // text trượt sang phải về đúng vị trí
+          tlEnter.to(
+            textSpan,
+            { x: 0, duration: 0.42, ease: "sine.out" },
+            0,
+          );
+          // svgRight bị đẩy ra ngoài phải
+          tlEnter.to(svgRight, { x: 0, duration: 0.42, ease: "power1.out" }, 0);
+        });
+
+        workBtn.addEventListener("mouseleave", () => {
+          tlEnter?.kill();
+          tlLeave = gsap.timeline();
+          tlLeave.to(
+            svgLeft,
+            { x: -offset, duration: 0.42, ease: "power1.out" },
+            0,
+          );
+          tlLeave.to(
+            textSpan,
+            { x: -offset, duration: 0.42, ease: "sine.out" },
+            0,
+          );
+          tlLeave.to(
+            svgRight,
+            { x: -offset, duration: 0.42, ease: "power1.out" },
+            0,
+          );
+        });
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
+})();
+
+(function initSocialIconFlipAnimation() {
+  function run() {
+    document.querySelectorAll(".social-flip-btn").forEach((a) => {
+      const front = a.querySelector(".social-front");
+      const back = a.querySelector(".social-back");
+      if (!front || !back) return;
+
+      gsap.set(back, {
+        rotateX: -90,
+        transformOrigin: "bottom center",
+        translateZ: -180,
+        transformPerspective: 800,
+      });
+
+      gsap.set(front, {
+        transformOrigin: "top center",
+        transformPerspective: 600,
+      });
+
+      let isHovered = false;
+
+      a.addEventListener("mouseenter", () => {
+        if (isHovered) return;
+        isHovered = true;
+        const tl = gsap.timeline();
+        tl.to(front, {
+          rotateX: 90,
+          translateZ: -180,
+          duration: 0.45,
+          ease: "power2.inOut",
+          overwrite: true,
+        });
+        tl.to(
+          back,
+          {
+            rotateX: 0,
+            translateZ: 0,
+            duration: 0.45,
+            ease: "power2.inOut",
+            overwrite: true,
+          },
+          "<.08",
+        );
+      });
+
+      a.addEventListener("mouseleave", () => {
+        if (!isHovered) return;
+        isHovered = false;
+        const tl = gsap.timeline();
+        tl.to(back, {
+          rotateX: -90,
+          translateZ: -180,
+          transformOrigin: "center bottom",
+          duration: 0.45,
+          ease: "power2.inOut",
+          overwrite: true,
+        });
+        tl.to(
+          front,
+          {
+            rotateX: 0,
+            translateZ: 0,
+            duration: 0.45,
+            ease: "power2.inOut",
+            overwrite: true,
+          },
+          "<.08",
+        );
+      });
+    });
+  }
+
+  window.addEventListener("load", run);
 })();

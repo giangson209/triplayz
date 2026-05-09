@@ -258,7 +258,7 @@
         </div>
     </section>
 
-    <section class="relative overflow-hidden">
+    <section id="whyus-section" class="relative overflow-hidden">
         <div class="wrapper relative overflow-hidden py-10">
             <div
                 class="title-animation text-[56px] md:text-[100px] lg:text-[124px] 2xl:text-[164px] 3xl:text-[200px] font-medium mb-4 px-6 md:px-10">
@@ -284,46 +284,49 @@
                     </div>
                 </div>
             </div>
-            <div class="py-20 relative overflow-hidden hidden md:block content-whuyus">
-                <div class="absolute top-0 right-0 w-full h-full pointer-events-none">
-                    <img src="assets/images/union-why.png" alt="">
-                </div>
-                <div class="relative">
-                    <div class="w-[45%] 3xl:w-1/2 ml-[-25%] flex items-center relative z-4">
-                        <img src="assets/images/circle-blue.png" class="whyus-wheel" alt="">
-                        <div class="absolute top-0 left-0 w-full h-full flex items-center z-2 pointer-events-none">
-                            <img src="assets/images/circle-gray.png" alt="">
-                        </div>
-                        <div
-                            class="absolute top-0 right-[-100px] 3xl:right-[-160px] flex items-center justity-center h-full">
-                            <img src="assets/images/arrow-right.svg" alt="">
-                        </div>
+            <div id="whyus-scroll-trigger" class="hidden md:block">
+                <div id="whyus-pinned-section" class="relative overflow-hidden hidden md:block content-whuyus">
+                    <div class="absolute top-0 right-0 w-full h-full pointer-events-none">
+                        <img src="assets/images/union-why.png" alt="">
                     </div>
-                    <div class="absolute top-0 left-0 w-full h-full flex items-center pl-[36%] 3xl:pl-[40%]">
-                        <div class="relative w-full h-full whyus-slides-container overflow-hidden">
-                            <?php for ($x = 1; $x <= 4; $x++) {
-                                $numbers = ['50+', '100+', '200+', '300+'];
-                                $texts = ['SUCCESSFULLY DELIVERED PROJECTS', 'SATISFIED CLIENTS WORLDWIDE', 'TECH EXPERTS & ENGINEERS', 'YEARS OF INDUSTRY EXP'];
-                                ?>
-                                <div
-                                    class="whyus-slide absolute top-0 left-0 w-full h-full block flex items-center gap-6 lg:gap-10 xl:gap-20 3xl:gap-32 <?php echo $x === 1 ? '' : 'opacity-0 translate-y-10'; ?>">
-                                    <div class="avarta w-full max-w-36 md:max-w-56 lg:max-w-60 xl:max-w-85 3xl:max-w-105">
-                                        <img src="assets/images/why.png" class="max-w-105" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <div
-                                            class="title-animation font-medium text-[48px] xl:text-[80px] 2xl:text-[112px] 3xl:text-[142px]">
-                                            <?php echo $numbers[$x - 1]; ?>
+                    <div class="relative">
+                        <div class="w-[45%] 3xl:w-1/2 ml-[-25%] flex items-center relative z-4">
+                            <img src="assets/images/circle-blue.png" class="whyus-wheel" alt="">
+                            <div class="absolute top-0 left-0 w-full h-full flex items-center z-2 pointer-events-none">
+                                <img src="assets/images/circle-gray.png" alt="">
+                            </div>
+                            <div
+                                class="absolute top-0 right-[-100px] 3xl:right-[-160px] flex items-center justity-center h-full">
+                                <img src="assets/images/arrow-right.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center pl-[36%] 3xl:pl-[40%]">
+                            <div class="relative w-full h-full whyus-slides-container overflow-hidden">
+                                <?php for ($x = 1; $x <= 4; $x++) {
+                                    $numbers = ['50+', '100+', '200+', '300+'];
+                                    $texts = ['SUCCESSFULLY DELIVERED PROJECTS', 'SATISFIED CLIENTS WORLDWIDE', 'TECH EXPERTS & ENGINEERS', 'YEARS OF INDUSTRY EXP'];
+                                    ?>
+                                    <div
+                                        class="whyus-slide absolute top-0 left-0 w-full h-full block flex items-center gap-6 lg:gap-10 xl:gap-20 3xl:gap-32 <?php echo $x === 1 ? '' : 'opacity-0 translate-y-10'; ?>">
+                                        <div class="avarta w-full max-w-36 md:max-w-56 lg:max-w-60 xl:max-w-85 3xl:max-w-105">
+                                            <img src="assets/images/why.png" class="max-w-105" alt="">
                                         </div>
-                                        <div class="text-animation anek text-5 xl:text-6"><?php echo $texts[$x - 1]; ?>
+                                        <div class="desc">
+                                            <div
+                                                class="title-animation font-medium text-[48px] xl:text-[80px] 2xl:text-[112px] 3xl:text-[142px]">
+                                                <?php echo $numbers[$x - 1]; ?>
+                                            </div>
+                                            <div class="text-animation anek text-5 xl:text-6"><?php echo $texts[$x - 1]; ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php } ?>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
             <div class="pt-10 block md:hidden px-6">
                 <div class="grid grid-cols-1 gap-6">
                     <?php
@@ -352,7 +355,7 @@
                 <div class="company-dark-row"></div>
                 <div class="company-dark-row"></div>
             </div>
-            <div class="px-6 md:px-10 text-center relative mb-16 md:mb-28 3xl:mb-31">
+            <div class="company-header px-6 md:px-10 text-center relative mb-16 md:mb-28 3xl:mb-31">
                 <div
                     class="company-title title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium mb-6 md:mb-10">
                     Companies we're proud to <br class="hidden md:block">have worked with
@@ -397,6 +400,7 @@
                     </div>
                 </div>
             </div>
+            <div class="company-layer"></div>
         </div>
         <div class="globe-wrapper">
             <div class="company-globe-container">

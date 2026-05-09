@@ -48,12 +48,11 @@ self.onmessage = async function (e) {
       for (let col = 0; col < COLS; col++) {
         const lon = -180 + (col + 0.5) * (360 / COLS);
         if (d3.geoContains(land, [lon, lat])) {
-          cells.push(row, col); // mỗi ô = 2 số
+          cells.push(row, col); 
         }
       }
     }
 
-    // Transfer ArrayBuffer để zero-copy
     const buf = new Int16Array(cells).buffer;
     self.postMessage({ type: "done", buffer: buf }, [buf]);
   } catch (err) {
