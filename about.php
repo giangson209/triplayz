@@ -805,8 +805,15 @@
             scrub: 0.5,
             onEnter: () => {
                 if (!introPlayed) {
+                    // Khóa cuộn trang khi đang show text
+                    document.body.style.overflow = "hidden";
+
                     const introTl = gsap.timeline({
-                        onComplete: () => { introPlayed = true; }
+                        onComplete: () => { 
+                            introPlayed = true; 
+                            // Mở lại cuộn trang sau khi xong intro
+                            document.body.style.overflow = "";
+                        }
                     });
                     introTl.to(textJourney, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" })
                            .to(textJourney, { opacity: 0, y: -20, duration: 0.6, delay: 1.2, ease: "power2.in" })
@@ -818,11 +825,8 @@
                 }
             },
             onUpdate: (self) => {
-                // Chỉ cuộn cards khi intro đã chạy hoặc đang ở trạng thái hiển thị cards
-                if (introPlayed || self.progress > 0.3) {
-                    // Ánh xạ progress từ 0.3-1.0 sang 0-items.length
-                    const adjustedProgress = Math.max(0, (self.progress - 0.3) / 0.7);
-                    updateLayout(adjustedProgress * (items.length - 1));
+                if (introPlayed) {
+                    updateLayout(self.progress * (items.length - 1));
                 }
             }
         });
@@ -831,6 +835,7 @@
         return () => {
             frame.innerHTML = "";
             dotsEl.innerHTML = "";
+            document.body.style.overflow = ""; // Reset scroll lock
             gsap.set([outerEl, textJourney], { clearProps: "all" });
         };
     });
