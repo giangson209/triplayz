@@ -633,8 +633,8 @@
     textVision.style.right = lerp(0, 32, t) + "vh";
     textShape.style.left = lerp(0, 32, t) + "vh";
 
-    logoTop.style.top = lerp(0, 26, t) + "vh";
-    logoBottom.style.bottom = lerp(0, 26, t) + "vh";
+    logoTop.style.top = lerp(0, 21, t) + "vh";
+    logoBottom.style.bottom = lerp(0, 21, t) + "vh";
 
     const logoOpacity = Math.min(1, t * 3);
     logoTop.style.opacity = logoOpacity;
