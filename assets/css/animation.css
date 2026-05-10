@@ -8,7 +8,7 @@ body {
 main {
   position: relative;
   z-index: 2;
-  background-color: #1d1d27;
+  background-color: #1c1c26;
 }
 
 footer {
@@ -273,7 +273,7 @@ footer {
 .company-dark-row {
   flex: 1;
   width: 100%;
-  background: #1d1d27;
+  background: #1c1c26;
   transform-origin: right center;
   will-change: transform;
 }
@@ -436,7 +436,7 @@ ma
 }
 
 .srv-anim {
-  background-color: #1d1d27;
+  background-color: #1c1c26;
 }
 
 #service {
@@ -526,7 +526,7 @@ ma
 #srv-title-list {
   position: absolute;
   top: 6%;
-  left: 5%;
+  left: 40px;
   z-index: 20;
 }
 
@@ -565,7 +565,7 @@ ma
 /* ── Bullet — ô vuông xanh lam, cùng left với title list ── */
 #srv-title-bullet {
   position: absolute;
-  left: 5%;
+  left: 40px;
   width: 8px;
   height: 8px;
   background: hsla(201, 100%, 80%, 1);
@@ -579,7 +579,7 @@ ma
 #srv-counter {
   position: absolute;
   top: 6%;
-  right: 5%;
+  right: 40px;
   z-index: 20;
   text-align: right;
   display: flex;
@@ -628,7 +628,7 @@ ma
 #srv-tags {
   position: absolute;
   bottom: 6%;
-  left: 5%;
+  left: 40px;
   z-index: 20;
   display: flex;
   flex-wrap: wrap;
@@ -652,7 +652,7 @@ ma
 #srv-description {
   position: absolute;
   bottom: 6%;
-  right: 5%;
+  right: 40px;
   z-index: 20;
   width: 18%;
 }
