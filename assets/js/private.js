@@ -278,6 +278,11 @@ $(document).ready(function () {
       let lastScrollY = lenis ? lenis.scroll : window.scrollY;
 
       const handleHeaderScroll = ({ scroll }) => {
+        if (window._headerLocked) {
+          lastScrollY = scroll;
+          return;
+        }
+        
         if (scroll < 100) {
           headerEl.style.transform = "translateY(0%)";
         } else if (scroll < lastScrollY) {
@@ -341,22 +346,22 @@ $(document).ready(function () {
         tl.to($path[0], {
           attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
           duration: 0.15,
-          ease: "sine.in"
+          ease: "power1.in",
         }).to($path[0], {
           attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" },
           duration: 0.15,
-          ease: "sine.out"
+          ease: "power1.out",
         });
       } else {
         gsap.set($path[0], { attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" } });
         tl.to($path[0], {
           attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
           duration: 0.15,
-          ease: "sine.in"
+          ease: "power1.in"
         }).to($path[0], {
           attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" },
           duration: 0.15,
-          ease: "sine.out"
+          ease: "power1.out"
         });
       }
     });
@@ -374,22 +379,22 @@ $(document).ready(function () {
         tl.to($path[0], {
           attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
           duration: 0.35,
-          ease: "sine.in"
+          ease: "power1.in"
         }).to($path[0], {
           attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" },
           duration: 0.35,
-          ease: "sine.out"
+          ease: "power1.out"
         });
       } else {
         gsap.set($path[0], { attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" } });
         tl.to($path[0], {
           attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
           duration: 0.35,
-          ease: "sine.in"
+          ease: "power1.in"
         }).to($path[0], {
           attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
           duration: 0.35,
-          ease: "sine.out"
+          ease: "power1.out"
         });
       }
     });

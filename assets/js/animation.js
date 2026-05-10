@@ -203,6 +203,8 @@
         if (heroTriggered || this.progress() < 0.5) return;
         heroTriggered = true;
 
+        window.shaderReveal?.();
+
         const heroTl = gsap.timeline();
 
         heroIntroSplits.forEach((split) => {
@@ -408,20 +410,27 @@
 (function initHeaderAnimation() {
   const overrideStyle = document.createElement("style");
   overrideStyle.textContent = `
-    .h-menu li .sub-menu-child,
-    .btn-head-menu .sub-menu-child {
-      display: block !important;
-      pointer-events: none;
-    }
-    .h-menu li .sub-menu-child.is-open,
-    .btn-head-menu .sub-menu-child.is-open {
-      pointer-events: auto;
-    }
-    .arrow {
-      rotate: 0deg !important;
-      display: inline-block;
-    }
-  `;
+  .h-menu li .sub-menu-child,
+  .btn-head-menu .sub-menu-child,
+  .h-menu li:hover .sub-menu-child,
+  .btn-head-menu:hover .sub-menu-child {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: none;
+    /* Bỏ transform: none — giữ nguyên translateX(-50%) của Company submenu */
+  }
+
+  .h-menu li .sub-menu-child.is-open,
+  .btn-head-menu .sub-menu-child.is-open {
+    pointer-events: auto;
+  }
+
+  .arrow {
+    rotate: 0deg !important;
+    display: inline-block;
+  }
+`;
   document.head.appendChild(overrideStyle);
 
   const allTriggers = [];
@@ -478,7 +487,7 @@
           stagger: 0.03,
         },
         0.25,
-      ); 
+      );
 
       return tl;
     }
@@ -525,6 +534,7 @@
     function openMenu() {
       isOpen = true;
       subMenu.classList.add("is-open");
+      window._headerLocked = true;
 
       tlClose?.kill();
       tlOpen = buildOpenTl();
@@ -538,6 +548,11 @@
       tlOpen?.kill();
       tlClose = buildCloseTl();
       tlClose.play();
+
+      const anyStillOpen = allTriggers.some((t) => t.isOpen);
+      if (!anyStillOpen) {
+        window._headerLocked = false; 
+      }
     }
 
     trigger.addEventListener("click", (e) => {
@@ -584,6 +599,7 @@
     allTriggers.forEach((t) => {
       if (t.isOpen) t.close();
     });
+    window._headerLocked = false;
   });
 })();
 
@@ -633,8 +649,8 @@
     textVision.style.right = lerp(0, 32, t) + "vh";
     textShape.style.left = lerp(0, 32, t) + "vh";
 
-    logoTop.style.top = lerp(0, 26, t) + "vh";
-    logoBottom.style.bottom = lerp(0, 26, t) + "vh";
+    logoTop.style.top = lerp(0, 21, t) + "vh";
+    logoBottom.style.bottom = lerp(0, 21, t) + "vh";
 
     const logoOpacity = Math.min(1, t * 3);
     logoTop.style.opacity = logoOpacity;
@@ -1042,8 +1058,9 @@
     uniform vec2      uGridDims;
     uniform vec2      uGridCenter;
 
-    uniform vec3 uBgTop;
-    uniform vec3 uBgBot;
+    uniform vec3  uBgTop;
+    uniform vec3  uBgBot;
+    uniform float uRevealProgress;
 
     varying vec2 vUv;
 
@@ -1150,16 +1167,19 @@
 
       vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
 
+      float rand = fract(sin(dot(localCell, vec2(127.1, 311.7))) * 43758.5453);
+      bool shapeRevealed = isShape && (uRevealProgress >= rand);
+
       if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
 
       if (!inZone) {
-        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
+        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
         return;
       }
 
       float seqPos = bestAge * 6.0;
       if (seqPos >= 5.0) {
-        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
+        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
         return;
       }
 
@@ -1169,7 +1189,7 @@
       float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
 
       vec3 digitColor;
-      if (isShape) {
+      if (shapeRevealed) {
         if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
         else if (digitIndex == 1) digitColor = hsl2rgb(201.0, 1.00, 0.80);
         else if (digitIndex == 2) digitColor = hsl2rgb( 65.0, 1.00, 0.87);
@@ -1283,6 +1303,7 @@
       uGridCenter: { value: getGridCenter() },
       uBgTop: { value: new THREE.Vector3(0.2157, 0.1725, 0.3882) },
       uBgBot: { value: new THREE.Vector3(0.0902, 0.0902, 0.1255) },
+      uRevealProgress: { value: 0.0 },
     },
     vertexShader,
     fragmentShader,
@@ -1350,6 +1371,17 @@
       _dirty = _trailLen > 0 || actualMouse.active;
     }
   }
+
+  window.shaderReveal = function () {
+    gsap.to(material.uniforms.uRevealProgress, {
+      value: 1.0,
+      duration: 1,
+      ease: "power2.out",
+      onUpdate: () => {
+        _dirty = true;
+      },
+    });
+  };
 
   window.shaderPause = function () {
     _shaderPaused = true;
@@ -1997,6 +2029,7 @@
   const ROW_DURATION = 420;
   const STAGGER_PX = 130;
   const done = new Array(rows.length).fill(false);
+  const maxT = new Array(rows.length).fill(0); 
 
   function onScroll() {
     const rect = section.getBoundingClientRect();
@@ -2009,9 +2042,10 @@
       const end = start + ROW_DURATION;
       const t = Math.max(0, Math.min(1, (scrolled - start) / (end - start)));
 
-      row.style.transform = `scaleX(${1 - t})`;
+      maxT[i] = Math.max(maxT[i], t); // freeze khi scroll back
+      row.style.transform = `scaleX(${1 - maxT[i]})`;
 
-      if (t >= 1) done[i] = true;
+      if (maxT[i] >= 1) done[i] = true;
     });
   }
 
@@ -2361,4 +2395,110 @@
   }
 
   window.addEventListener("load", run);
+})();
+
+(function initCaseStudyHoverAnimation() {
+  document.querySelectorAll(".item-casestudy").forEach((item) => {
+    const panel = item.querySelector(".desc-absolute");
+    if (!panel) return;
+
+    const titleEl = panel.querySelector(".anek.mb-6"); 
+    const quoteEl = panel.querySelector(".font-medium"); 
+    const logoEl = panel.querySelector(".logo img");
+
+    if (!titleEl || !quoteEl || !logoEl) return;
+
+    gsap.set(panel, { clipPath: "inset(0 0 100% 0)", opacity: 1 });
+
+    gsap.set([titleEl, logoEl], {
+      x: 60,
+      opacity: 0,
+      filter: "blur(6px)",
+    });
+
+    const split = SplitText.create(quoteEl, { type: "words" });
+    gsap.set(split.words, { opacity: 0, yPercent: 10 });
+
+    let tlOpen = null,
+      tlClose = null;
+
+    item.addEventListener("mouseenter", () => {
+      tlClose?.kill();
+      tlOpen = gsap.timeline();
+
+      tlOpen.to(
+        panel,
+        {
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.4,
+          ease: "power1.in",
+        },
+        0,
+      );
+
+      tlOpen.to(
+        [titleEl, logoEl],
+        {
+          x: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        0.35,
+      );
+
+      tlOpen.to(
+        split.words,
+        {
+          opacity: 1,
+          yPercent: 0,
+          duration: 0.3,
+          ease: "power2.out",
+          stagger: 0.025,
+        },
+        0.3,
+      );
+    });
+
+    item.addEventListener("mouseleave", () => {
+      tlOpen?.kill();
+      tlClose = gsap.timeline();
+
+      tlClose.to(
+        split.words,
+        {
+          opacity: 0,
+          yPercent: 10,
+          duration: 0.18,
+          ease: "power2.in",
+          stagger: { each: 0.02, from: "end" },
+        },
+        0,
+      );
+
+      tlClose.to(
+        [titleEl, logoEl],
+        {
+          x: 30,
+          opacity: 0,
+          filter: "blur(4px)",
+          duration: 0.22,
+          ease: "power2.in",
+        },
+        0,
+      );
+
+      tlClose.to(
+        panel,
+        {
+          clipPath: "inset(0 0 100% 0)",
+          duration: 0.3,
+          ease: "power2.in",
+          overwrite: "auto",
+        },
+        0,
+      );
+    });
+  });
 })();

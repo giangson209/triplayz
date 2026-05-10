@@ -87,11 +87,11 @@
                 </div>
                 <div class="vision-shape-logo">
                     <div class="logo-top">
-                        <img src="assets/images/take-1.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]"
+                        <img src="assets/images/take-1.svg" class=""
                             alt="">
                     </div>
                     <div class="logo-bottom">
-                        <img src="assets/images/take-2.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]"
+                        <img src="assets/images/take-2.svg" class=""
                             alt="">
                     </div>
                 </div>
