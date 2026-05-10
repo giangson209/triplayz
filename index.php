@@ -229,6 +229,15 @@
                                 Gamified engagement and interactive media solutions that drive
                                 deeper user interaction and lasting engagement.
                             </p>
+                            <div class="btn-main" style="margin-top: 40px;">
+                                <a href="">
+                                    READ MORE
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
