@@ -236,7 +236,7 @@
                 <div class="grid md:hidden grid-cols-1 gap-6">
                     <?php for ($x = 1; $x <= 3; $x++) { ?>
                         <div class="item relative border-b border-[#FFFFFF26] pb-8">
-                            <div class="avarta"><img src="assets/images/srv-<?php echo $x; ?>.png" alt=""></div>
+                            <div class="avarta"><img src="assets/images/srv-<?php echo $x; ?>.svg" alt=""></div>
                             <div class="mt-4">
                                 <div class="text-6 font-medium mb-5 text-white">
                                     <?php echo $x; ?>.<?php echo ['Gamification', 'BFSI Solution', 'Digital Solution'][$x - 1]; ?>

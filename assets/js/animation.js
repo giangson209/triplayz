@@ -536,6 +536,11 @@
       subMenu.classList.add("is-open");
       window._headerLocked = true;
 
+      allTriggers.forEach((t) => {
+        if (t !== ref) t.setZIndex(1);
+      });
+      subMenu.style.zIndex = 10;
+
       tlClose?.kill();
       tlOpen = buildOpenTl();
       tlOpen.play();
@@ -575,6 +580,9 @@
         return isOpen;
       },
       close: closeMenu,
+      setZIndex(z) {
+        subMenu.style.zIndex = z;
+      },
     };
     allTriggers.push(ref);
   }
@@ -598,6 +606,7 @@
   document.addEventListener("click", () => {
     allTriggers.forEach((t) => {
       if (t.isOpen) t.close();
+      t.setZIndex("");
     });
     window._headerLocked = false;
   });
@@ -1008,7 +1017,6 @@
     canvas.width = size * chars.length;
     canvas.height = size;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = `bold ${Math.floor(size * 0.75)}px monospace`;
     ctx.textAlign = "center";
@@ -1060,7 +1068,8 @@
 
     uniform vec3  uBgTop;
     uniform vec3  uBgBot;
-    uniform float uRevealProgress;
+    uniform float uRevealAge;
+    uniform float uPulseAge;
 
     varying vec2 vUv;
 
@@ -1168,9 +1177,62 @@
       vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
 
       float rand = fract(sin(dot(localCell, vec2(127.1, 311.7))) * 43758.5453);
-      bool shapeRevealed = isShape && (uRevealProgress >= rand);
+
+      float revealSeqAge = -1.0;
+      if (isShape) {
+        float elapsed = uRevealAge - rand;
+        if (elapsed >= 0.0) {
+          revealSeqAge = clamp(elapsed / 0.35, 0.0, 1.05);
+        }
+      }
+      bool shapeRevealed = isShape && (revealSeqAge >= 1.0);
+
+      float cellDist = length(localCell - uGridDims * 0.5);
+      float maxDist  = length(uGridDims * 0.5);
+      float normDist = cellDist / maxDist;
+
+      float pulseSeqAge = -1.0;
+      if (shapeRevealed) {
+        float pelapsed = uPulseAge - normDist;
+        if (pelapsed >= 0.0) {
+          pulseSeqAge = clamp(pelapsed / 0.6, 0.0, 1.05);
+        }
+      }
+      bool pulseActive = pulseSeqAge >= 0.0 && pulseSeqAge < 1.0;
 
       if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
+
+      if (!inZone && isShape && revealSeqAge >= 0.0 && !shapeRevealed) {
+        float seqPos = revealSeqAge * 5.0;
+        int digitIndex = int(floor(seqPos));
+        vec2 innerUV = (cellUV - gapHalf) / (1.0 - uPixelGap);
+        float atlasX = (float(digitIndex) + innerUV.x) / 5.0;
+        float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
+        vec3 digitColor;
+        if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
+        else if (digitIndex == 1) digitColor = hsl2rgb(201.0, 1.00, 0.80);
+        else if (digitIndex == 2) digitColor = hsl2rgb( 65.0, 1.00, 0.87);
+        else if (digitIndex == 3) digitColor = vec3(0.996);
+        else                      digitColor = uColor1;
+        gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0);
+        return;
+      }
+
+      if (!inZone && shapeRevealed && pulseActive) {
+        float pseqPos   = pulseSeqAge * 5.0;
+        int   pdigit    = int(floor(pseqPos));
+        vec2  pinnerUV  = (cellUV - gapHalf) / (1.0 - uPixelGap);
+        float patlasX   = (float(pdigit) + pinnerUV.x) / 5.0;
+        float pGlyph    = texture2D(uFontAtlas, vec2(patlasX, pinnerUV.y)).r;
+        vec3  pColor;
+        if      (pdigit == 0) pColor = hsl2rgb(161.0, 0.85, 0.50);
+        else if (pdigit == 1) pColor = hsl2rgb(201.0, 1.00, 0.80);
+        else if (pdigit == 2) pColor = hsl2rgb( 65.0, 1.00, 0.87);
+        else if (pdigit == 3) pColor = vec3(0.996);
+        else                  pColor = uColor1;
+        gl_FragColor = vec4(mix(bgColor, pColor, pGlyph), 1.0);
+        return;
+      }
 
       if (!inZone) {
         gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
@@ -1301,9 +1363,20 @@
       uGridTex: { value: gridTex },
       uGridDims: { value: new THREE.Vector2(GRID_W, GRID_H) },
       uGridCenter: { value: getGridCenter() },
-      uBgTop: { value: new THREE.Vector3(0.2157, 0.1725, 0.3882) },
-      uBgBot: { value: new THREE.Vector3(0.0902, 0.0902, 0.1255) },
-      uRevealProgress: { value: 0.0 },
+      uBgTop: {
+        value: (() => {
+          const c = new THREE.Color("#30286c");
+          return new THREE.Vector3(c.r, c.g, c.b);
+        })(),
+      },
+      uBgBot: {
+        value: (() => {
+          const c = new THREE.Color("#1c1c26");
+          return new THREE.Vector3(c.r, c.g, c.b);
+        })(),
+      },
+      uRevealAge: { value: 0.0 },
+      uPulseAge: { value: -1.0 },
     },
     vertexShader,
     fragmentShader,
@@ -1372,13 +1445,31 @@
     }
   }
 
-  window.shaderReveal = function () {
-    gsap.to(material.uniforms.uRevealProgress, {
-      value: 1.0,
-      duration: 1,
-      ease: "power2.out",
+  function runPulseLoop() {
+    material.uniforms.uPulseAge.value = 0.0;
+    gsap.to(material.uniforms.uPulseAge, {
+      value: 1.35,
+      duration: 3,
+      ease: "sine.out",
       onUpdate: () => {
         _dirty = true;
+      },
+      onComplete: () => {
+        setTimeout(runPulseLoop, 2000);
+      },
+    });
+  }
+
+  window.shaderReveal = function () {
+    gsap.to(material.uniforms.uRevealAge, {
+      value: 1.35,
+      duration: 1,
+      ease: "power1.out",
+      onUpdate: () => {
+        _dirty = true;
+      },
+      onComplete: () => {
+        setTimeout(runPulseLoop, 3000);
       },
     });
   };
@@ -1893,9 +1984,9 @@
 (function initServiceAnimation() {
 
   const SRV_IMAGES = [
-    "./assets/images/gami.png",
-    "./assets/images/bfsi.png",
-    "./assets/images/digital.png",
+    "./assets/images/srv-1.svg",
+    "./assets/images/srv-2.svg",
+    "./assets/images/srv-3.svg",
   ];
 
   const SRV_DESCRIPTIONS = [
