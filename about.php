@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 <main>
-    <section class="relative overflow-hidden">
+    <section class="relative overflow-hidden hidden">
         <div class="block">
             <img src="assets/images/bn-about.jpg" class="w-full object-cover h-screen" alt="">
         </div>
@@ -89,7 +89,7 @@
         </div>
     </section>
 
-    <section id="achieve-section" class="py-10 md:py-25 relative px-4 md:px-10 overflow-hidden">
+    <section id="achieve-section" class="py-10 md:py-25 relative px-4 md:px-10 overflow-hidden hidden">
         <div class="absolute flex items-center justify-center top-0 left-0 w-full h-full">
             <img src="assets/images/archive.png" class="w-full" alt="">
         </div>
@@ -167,7 +167,7 @@
         </div>
     </section>
 
-    <section class="relative py-10 md:py-25 px-4 md:px-10">
+    <section class="relative py-10 md:py-25 px-4 md:px-10 hidden">
         <div class="wrapper">
             <div
                 class="m-auto w-full max-w-244 text-8 lg:text-[60px] 2xl:text-[80px] font-medium text-center md:text-left">
@@ -198,22 +198,45 @@
         </div>
     </section>
 
-    <section class="relative py-10 md:py-25">
-        <div class="wrapper relative px-4 md:px-10">
-            <div class="text-left md:text-center m-auto">
-                <div class="mb-4 md:mb-6 anek opacity-65">/OUR JOURNEY</div>
-                <div
-                    class="text-8 lg:text-[52px] xl:text-[64px] 2xl:text-[80px] font-medium mb-10 md:mb-30 max-w-282 w-full m-auto">
-                    Our journey
-                    reflects
-                    a growing depth
-                    of
-                    experience
+    <section id="journey-section" class="relative py-10 md:py-0 px-4 md:px-0">
+        <div class="wrapper relative">
+            <div class="text-left md:text-center m-auto absolute top-0 left-0 w-full h-full flex items-center justify-center"
+                id="text-journey">
+                <div class="block">
+                    <div class="mb-4 md:mb-6 anek opacity-65 hero-title">/OUR JOURNEY</div>
+                    <div
+                        class="text-8 lg:text-[52px] xl:text-[64px] 2xl:text-[80px] font-medium mb-10 md:mb-30 max-w-282 w-full m-auto hero-title">
+                        Our journey
+                        reflects
+                        a growing depth
+                        of
+                        experience
+                    </div>
                 </div>
             </div>
             <div class="hidden md:block">
-                <img src="assets/images/rotate.png" alt="">
+                <!-- <img src="assets/images/rotate.png" alt=""> -->
+
+                <div class="outer relative" id="outer">
+                    <div class="absolute left-0 top-0 h-full flex items-center px-10">
+                        <span class="relative top-10">09.2023 - 06.2024</span>
+                    </div>
+                    <div class="scroll-track">
+                        <div class="sticky-frame" id="frame"></div>
+                    </div>
+
+                    <div class="absolute top-0 right-0 px-10 h-full hidden lg:flex items-center">
+                        <div class="max-w-[24vw] xl:max-w-110 w-full anek opacity-85">
+                            Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one,
+                            we positioned ourselves as a new-generation tech partner. Experience-driven thinking and
+                            execution quality guide everything we build.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dots !hidden " id="dots"></div>
             </div>
+
             <div class="md:hidden block">
                 <?php
                 for ($x = 1; $x <= 4; $x++) {
@@ -703,4 +726,116 @@
     });
 </script>
 
+<script>
+    const items = [
+        "Entering the Japan Market",
+        "Founded & Strategically Positioned",
+        "Entering the Japan Market",
+        "Entering the Japan Market",
+        "Entering the Japan Market",
+    ];
+
+    const frame = document.getElementById("frame");
+    const section = document.getElementById("journey-section");
+    const dotsEl = document.getElementById("dots");
+    const outerEl = document.getElementById("outer");
+    const textJourney = document.getElementById("text-journey");
+
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+        const cardWraps = [];
+        const dots = [];
+        const ANGLE_STEP = 28;
+
+        // Trạng thái ban đầu: ẩn cards, chuẩn bị text
+        gsap.set(outerEl, { opacity: 0, visibility: "hidden" });
+        gsap.set(textJourney, { opacity: 0, y: 30 });
+
+        // Tạo các item cho Desktop
+        items.forEach((title, i) => {
+            const wrap = document.createElement("div");
+            wrap.className = "card-wrap";
+            wrap.style.position = "absolute";
+            wrap.style.transformOrigin = "0px 50%";
+            wrap.innerHTML = `<div class="card">${title}</div>`;
+            frame.appendChild(wrap);
+            cardWraps.push(wrap);
+
+            const dot = document.createElement("div");
+            dot.className = "dot";
+            dotsEl.appendChild(dot);
+            dots.push(dot);
+        });
+
+        function updateLayout(floatIndex) {
+            const roundedIndex = Math.round(floatIndex);
+            cardWraps.forEach((card, i) => {
+                const diff = i - floatIndex;
+                const abs = Math.abs(diff);
+                const angle = diff * ANGLE_STEP;
+
+                let opacity = 0;
+                if (abs === 0) opacity = 1;
+                else if (abs <= 1) opacity = 1 - (abs * 0.35);
+                else if (abs <= 2) opacity = 0.65 - (abs - 1) * 0.3;
+                else opacity = Math.max(0, 0.35 - (abs - 2) * 0.35);
+
+                card.querySelector(".card").classList.toggle("active", roundedIndex === i);
+                dots[i].classList.toggle("on", roundedIndex === i);
+
+                gsap.set(card, {
+                    rotation: angle,
+                    opacity: opacity,
+                    zIndex: items.length - Math.floor(abs),
+                });
+            });
+        }
+
+        updateLayout(0);
+
+        let introPlayed = false;
+
+        // ScrollTrigger chính để ghim section
+        ScrollTrigger.create({
+            trigger: section,
+            start: "top top",
+            end: "+=5000",
+            pin: true,
+            scrub: 0.5,
+            onEnter: () => {
+                if (!introPlayed) {
+                    const introTl = gsap.timeline({
+                        onComplete: () => { introPlayed = true; }
+                    });
+                    introTl.to(textJourney, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" })
+                           .to(textJourney, { opacity: 0, y: -20, duration: 0.6, delay: 1.2, ease: "power2.in" })
+                           .to(outerEl, { 
+                               autoAlpha: 1, 
+                               duration: 0.7,
+                               onStart: () => { outerEl.style.visibility = "visible"; }
+                           });
+                }
+            },
+            onUpdate: (self) => {
+                // Chỉ cuộn cards khi intro đã chạy hoặc đang ở trạng thái hiển thị cards
+                if (introPlayed || self.progress > 0.3) {
+                    // Ánh xạ progress từ 0.3-1.0 sang 0-items.length
+                    const adjustedProgress = Math.max(0, (self.progress - 0.3) / 0.7);
+                    updateLayout(adjustedProgress * (items.length - 1));
+                }
+            }
+        });
+
+        // Cleanup
+        return () => {
+            frame.innerHTML = "";
+            dotsEl.innerHTML = "";
+            gsap.set([outerEl, textJourney], { clearProps: "all" });
+        };
+    });
+</script>
+
+
 <?php include 'footer.php'; ?>
+</content>

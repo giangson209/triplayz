@@ -60,12 +60,13 @@
         <div class="line mb-4 flex items-center justify-center">
             <img src="assets/images/line-srv.svg" class="w-full" alt="">
         </div>
-        <div id="casestudy-list" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-10 gap-y-10 md:gap-y-20 lg:gap-y-31">
+        <div id="casestudy-list"
+            class="grid grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-10 gap-y-10 md:gap-y-20 lg:gap-y-31">
             <?php
             for ($x = 1; $x <= 6; $x++) { ?>
                 <div class="item relative">
                     <div class="block mb-4 lg:mb-10">
-                        <a href=""><img src="assets/images/study.jpg"
+                        <a href="case_detail.php"><img src="assets/images/study.jpg"
                                 class="w-full aspect-[900/675] object-cover rounded-2 md:rounded-3" alt=""></a>
                     </div>
                     <div class="block">
@@ -74,7 +75,8 @@
                             GAMIFICATIONS
                         </div>
                         <h3 class="py-3 lg:py-4">
-                            <a href="" class="text-5 lg:text-6 2xl:text-8 font-medium">Creating an Engaging User Experience
+                            <a href="case_detail.php" class="text-5 lg:text-6 2xl:text-8 font-medium">Creating an Engaging
+                                User Experience
                                 with the
                                 New
                                 Lake & Oak Tea Co. Interface on
@@ -95,42 +97,42 @@
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        const items = document.querySelectorAll('#casestudy-list > .item');
-        
-        items.forEach((item, index) => {
-            const isLeft = index % 2 === 0;
-            const startX = isLeft ? "-100vw" : "100vw";
-            
-            if (index < 2) {
-                gsap.fromTo(item, 
-                    { x: startX },
-                    {
-                        x: 0,
-                        duration: 1.2,
-                        ease: "power2.out",
-                        delay: 0.2
-                    }
-                );
-            } else {
-                gsap.fromTo(item, 
-                    { x: startX },
-                    {
-                        x: 0,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: item,
-                            start: "top 95%",
-                            end: "top 50%",
-                            scrub: 1
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            const items = document.querySelectorAll('#casestudy-list > .item');
+
+            items.forEach((item, index) => {
+                const isLeft = index % 2 === 0;
+                const startX = isLeft ? "-100vw" : "100vw";
+
+                if (index < 2) {
+                    gsap.fromTo(item,
+                        { x: startX },
+                        {
+                            x: 0,
+                            duration: 1.2,
+                            ease: "power2.out",
+                            delay: 0.2
                         }
-                    }
-                );
-            }
-        });
-    }
-});
+                    );
+                } else {
+                    gsap.fromTo(item,
+                        { x: startX },
+                        {
+                            x: 0,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: item,
+                                start: "top 95%",
+                                end: "top 50%",
+                                scrub: 1
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    });
 </script>
 
 <?php include 'footer.php'; ?>

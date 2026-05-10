@@ -42,7 +42,7 @@
                 <!-- Large Featured Post -->
                 <div class="lg:col-span-6">
                     <div class="group ">
-                        <a href="" class="block overflow-hidden rounded-[12px] mb-6">
+                        <a href="blog_detail.php" class="block overflow-hidden rounded-[12px] mb-6">
                             <img src="assets/images/study.jpg"
                                 class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Featured Post">
@@ -62,7 +62,7 @@
                         <?php for ($i = 0; $i < 2; $i++) { ?>
                             <div class="lg:col-span-6">
                                 <div class="group">
-                                    <a href="" class="block overflow-hidden rounded-[12px] mb-6">
+                                    <a href="blog_detail.php" class="block overflow-hidden rounded-[12px] mb-6">
                                         <img src="assets/images/study.jpg"
                                             class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500"
                                             alt="Small Post">
@@ -90,7 +90,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 lg:gap-x-10 gap-y-8 md:gap-y-16">
                 <?php for ($i = 0; $i < 3; $i++) { ?>
                     <div class="group">
-                        <a href="" class="block overflow-hidden rounded-[12px] mb-4 md:mb-6">
+                        <a href="blog_detail.php" class="block overflow-hidden rounded-[12px] mb-4 md:mb-6">
                             <img src="assets/images/study.jpg"
                                 class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Blog Grid Post">

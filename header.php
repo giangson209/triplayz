@@ -64,13 +64,13 @@
             <div
                 class="bg-black w-full p-2 border border-[#2F2F38] rounded-1 hidden lg:flex items-center justify-between gap-6 relative">
                 <div class="item h-full flex items-center">
-                    <a href=""><img src="assets/images/logo.svg" alt=""></a>
+                    <a href="index.php"><img src="assets/images/logo.svg" alt=""></a>
                 </div>
                 <div class="item  h-full flex items-center justify-center">
                     <div class="h-menu">
                         <ul>
                             <li>
-                                <a href="">
+                                <a href="service.php">
                                     Services
                                     <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -80,7 +80,7 @@
                                 <div class="sub-menu-child">
                                     <ul class="sub-menu !block">
                                         <li>
-                                            <a href="">
+                                            <a href="service_game-1.php">
                                                 <span class="icon">
                                                     <img src="assets/images/sumenu.svg" alt="">
                                                 </span>
@@ -93,7 +93,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="">
+                                            <a href="service_game-2.php">
                                                 <span class="icon">
                                                     <img src="assets/images/sumenu.svg" alt="">
                                                 </span>
@@ -106,7 +106,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="">
+                                            <a href="service_game-3.php">
                                                 <span class="icon">
                                                     <img src="assets/images/sumenu.svg" alt="">
                                                 </span>
@@ -122,7 +122,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="">
+                                <a href="casestudy.php">
                                     Case Study
                                 </a>
                             </li>
@@ -139,7 +139,7 @@
                                         <div class="grid grid-cols-3 gap-4 w-full max-w-143">
                                             <div
                                                 class="item overflow rounded-1 relative p-2 hover:bg-[#FFFFFF14] max-w-45 w-full">
-                                                <a href="" class="absolute top-0 left-0 z-2 w-full h-full"></a>
+                                                <a href="about.php" class="absolute top-0 left-0 z-2 w-full h-full"></a>
                                                 <img src="assets/images/why.png"
                                                     class="w-full object-cover aspect-square" alt="">
                                                 <div class="pt-3 pb-2 text-center anek font-medium">
@@ -148,7 +148,8 @@
                                             </div>
                                             <div
                                                 class="item overflow rounded-1 relative p-2 hover:bg-[#FFFFFF14] max-w-45 w-full">
-                                                <a href="" class="absolute top-0 left-0 z-2 w-full h-full"></a>
+                                                <a href="career.php"
+                                                    class="absolute top-0 left-0 z-2 w-full h-full"></a>
                                                 <img src="assets/images/why.png"
                                                     class="w-full object-cover aspect-square" alt="">
                                                 <div class="pt-3 pb-2 text-center anek font-medium">
@@ -157,7 +158,7 @@
                                             </div>
                                             <div
                                                 class="item overflow rounded-1 relative p-2 hover:bg-[#FFFFFF14] max-w-45 w-full">
-                                                <a href="" class="absolute top-0 left-0 z-2 w-full h-full"></a>
+                                                <a href="blog.php" class="absolute top-0 left-0 z-2 w-full h-full"></a>
                                                 <img src="assets/images/why.png"
                                                     class="w-full object-cover aspect-square" alt="">
                                                 <div class="pt-3 pb-2 text-center anek font-medium">
@@ -212,7 +213,7 @@
                             </div>
                         </div>
                         <div class="head-contact btn-head-menu">
-                            <a href="" class="bg-[#5643DD]">Contact Us</a>
+                            <a href="contact.php" class="bg-[#5643DD]">Contact Us</a>
                         </div>
                     </div>
                 </div>

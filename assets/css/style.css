@@ -543,4 +543,87 @@ body img {
   cursor: url("../images/hover-game.png") 60 60, auto;
 }
 
+.outer::-webkit-scrollbar {
+  display: none;
+}
+
+.sticky-frame {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.card-wrap {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  min-width: 650px;
+}
+@media (max-width: 1600px) {
+  .card-wrap {
+    min-width: 600px;
+  }
+}
+@media (max-width: 1440px) {
+  .card-wrap {
+    min-width: 480px;
+  }
+}
+
+.card {
+  padding: 24px;
+  background: #292936;
+  font-size: 32px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  left: 360px;
+}
+@media (max-width: 1600px) {
+  .card {
+    left: 280px;
+    font-size: 28px;
+  }
+}
+@media (max-width: 1440px) {
+  .card {
+    left: 240px;
+    font-size: 24px;
+  }
+}
+
+.card.active {
+  background: #5248c7;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.dot.on {
+  background: #5248c7;
+}
+
+.hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  margin-bottom: 6px;
+}
+
 /*# sourceMappingURL=style.css.map */
