@@ -1,5 +1,5 @@
 <?php include 'header.php'; ?>
-<main class="overflow-hidden">
+<main class="">
     <section
         class="relative overflow-hidden h-[auto] md:h-screen pt-25 md:pt-40 2xl:pt-55 pb-10 2xl:pb-20 px-4 md:px-10 2xl:px-20">
         <!-- <img src="assets/images/bn-game-2.png"
