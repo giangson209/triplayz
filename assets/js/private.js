@@ -278,6 +278,11 @@ $(document).ready(function () {
       let lastScrollY = lenis ? lenis.scroll : window.scrollY;
 
       const handleHeaderScroll = ({ scroll }) => {
+        if (window._headerLocked) {
+          lastScrollY = scroll;
+          return;
+        }
+        
         if (scroll < 100) {
           headerEl.style.transform = "translateY(0%)";
         } else if (scroll < lastScrollY) {

@@ -408,20 +408,27 @@
 (function initHeaderAnimation() {
   const overrideStyle = document.createElement("style");
   overrideStyle.textContent = `
-    .h-menu li .sub-menu-child,
-    .btn-head-menu .sub-menu-child {
-      display: block !important;
-      pointer-events: none;
-    }
-    .h-menu li .sub-menu-child.is-open,
-    .btn-head-menu .sub-menu-child.is-open {
-      pointer-events: auto;
-    }
-    .arrow {
-      rotate: 0deg !important;
-      display: inline-block;
-    }
-  `;
+  .h-menu li .sub-menu-child,
+  .btn-head-menu .sub-menu-child,
+  .h-menu li:hover .sub-menu-child,
+  .btn-head-menu:hover .sub-menu-child {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: none;
+    /* Bỏ transform: none — giữ nguyên translateX(-50%) của Company submenu */
+  }
+
+  .h-menu li .sub-menu-child.is-open,
+  .btn-head-menu .sub-menu-child.is-open {
+    pointer-events: auto;
+  }
+
+  .arrow {
+    rotate: 0deg !important;
+    display: inline-block;
+  }
+`;
   document.head.appendChild(overrideStyle);
 
   const allTriggers = [];
@@ -478,7 +485,7 @@
           stagger: 0.03,
         },
         0.25,
-      ); 
+      );
 
       return tl;
     }
@@ -525,6 +532,7 @@
     function openMenu() {
       isOpen = true;
       subMenu.classList.add("is-open");
+      window._headerLocked = true;
 
       tlClose?.kill();
       tlOpen = buildOpenTl();
@@ -538,6 +546,11 @@
       tlOpen?.kill();
       tlClose = buildCloseTl();
       tlClose.play();
+
+      const anyStillOpen = allTriggers.some((t) => t.isOpen);
+      if (!anyStillOpen) {
+        window._headerLocked = false; 
+      }
     }
 
     trigger.addEventListener("click", (e) => {
@@ -584,6 +597,7 @@
     allTriggers.forEach((t) => {
       if (t.isOpen) t.close();
     });
+    window._headerLocked = false;
   });
 })();
 
