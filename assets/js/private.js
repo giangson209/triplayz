@@ -282,7 +282,16 @@ $(document).ready(function () {
           lastScrollY = scroll;
           return;
         }
-        
+
+        const footerTriggerY =
+          document.querySelector("main")?.offsetHeight - window.innerHeight;
+        const inFooterZone = footerTriggerY && scroll > footerTriggerY;
+
+        // Trong footer zone, nếu scroll không thay đổi đáng kể → bỏ qua
+        if (inFooterZone && Math.abs(scroll - lastScrollY) < 2) {
+          return;
+        }
+
         if (scroll < 100) {
           headerEl.style.transform = "translateY(0%)";
         } else if (scroll < lastScrollY) {
@@ -290,6 +299,7 @@ $(document).ready(function () {
         } else if (scroll > lastScrollY) {
           headerEl.style.transform = "translateY(-100%)";
         }
+
         lastScrollY = scroll;
       };
 

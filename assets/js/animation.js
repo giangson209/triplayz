@@ -536,6 +536,11 @@
       subMenu.classList.add("is-open");
       window._headerLocked = true;
 
+      allTriggers.forEach((t) => {
+        if (t !== ref) t.setZIndex(1);
+      });
+      subMenu.style.zIndex = 10;
+
       tlClose?.kill();
       tlOpen = buildOpenTl();
       tlOpen.play();
@@ -575,6 +580,9 @@
         return isOpen;
       },
       close: closeMenu,
+      setZIndex(z) {
+        subMenu.style.zIndex = z;
+      },
     };
     allTriggers.push(ref);
   }
@@ -598,6 +606,7 @@
   document.addEventListener("click", () => {
     allTriggers.forEach((t) => {
       if (t.isOpen) t.close();
+      t.setZIndex("");
     });
     window._headerLocked = false;
   });

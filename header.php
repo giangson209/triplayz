@@ -86,7 +86,7 @@
                                                 </span>
                                                 <span class="text">
                                                     <span class="h-title">
-                                                        Gamifcation
+                                                        Gamification
                                                     </span>
                                                     <p>Lorem Ipsum is simply dummy text of the printing</p>
                                                 </span>
