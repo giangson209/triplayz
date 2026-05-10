@@ -1405,6 +1405,8 @@
     const msgEl = document.getElementById("company-globe-msg");
     const msgText = document.getElementById("company-globe-msg-text");
     const prog = document.getElementById("company-globe-prog");
+    if (!msgEl || !msgText || !prog) return;
+
 
     const CITIES = [
       {
@@ -1500,6 +1502,7 @@
     function initGlobe(textureCanvas) {
       const canvas = document.getElementById("company-globe-canvas");
       const container = canvas.parentElement;
+      if (!canvas || !labelsContainer) return;
 
       const renderer = new THREE.WebGLRenderer({
         canvas,
@@ -1881,7 +1884,20 @@
   const imageStage = document.getElementById("srv-image-stage");
   const pinnedSec = document.getElementById("srv-pinned-section");
 
-  if (!scrollTrig || !imageStage || !pinnedSec) return;
+  if (
+    !scrollTrig ||
+    !imageStage ||
+    !pinnedSec ||
+    !imgFrom ||
+    !imgTo ||
+    !slotTrack ||
+    !slotWindow ||
+    !descText ||
+    !bullet ||
+    !wipeLine ||
+    !titleItems.length
+  )
+    return;
 
   let lastFrom = -1,
     lastTo = -1,
