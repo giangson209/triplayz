@@ -774,3 +774,12 @@ footer a.footer-anim-link .footer-link-line {
 .arrow {
   rotate: -90deg;
 }
+
+
+/* ==================== */
+/* HIGHLIGHT CASESTUDY */
+/* ==================== */
+
+.desc-absolute {
+  transition: none !important;
+}

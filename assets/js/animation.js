@@ -2029,6 +2029,7 @@
   const ROW_DURATION = 420;
   const STAGGER_PX = 130;
   const done = new Array(rows.length).fill(false);
+  const maxT = new Array(rows.length).fill(0); 
 
   function onScroll() {
     const rect = section.getBoundingClientRect();
@@ -2041,9 +2042,10 @@
       const end = start + ROW_DURATION;
       const t = Math.max(0, Math.min(1, (scrolled - start) / (end - start)));
 
-      row.style.transform = `scaleX(${1 - t})`;
+      maxT[i] = Math.max(maxT[i], t); // freeze khi scroll back
+      row.style.transform = `scaleX(${1 - maxT[i]})`;
 
-      if (t >= 1) done[i] = true;
+      if (maxT[i] >= 1) done[i] = true;
     });
   }
 
@@ -2393,4 +2395,110 @@
   }
 
   window.addEventListener("load", run);
+})();
+
+(function initCaseStudyHoverAnimation() {
+  document.querySelectorAll(".item-casestudy").forEach((item) => {
+    const panel = item.querySelector(".desc-absolute");
+    if (!panel) return;
+
+    const titleEl = panel.querySelector(".anek.mb-6"); 
+    const quoteEl = panel.querySelector(".font-medium"); 
+    const logoEl = panel.querySelector(".logo img");
+
+    if (!titleEl || !quoteEl || !logoEl) return;
+
+    gsap.set(panel, { clipPath: "inset(0 0 100% 0)", opacity: 1 });
+
+    gsap.set([titleEl, logoEl], {
+      x: 60,
+      opacity: 0,
+      filter: "blur(6px)",
+    });
+
+    const split = SplitText.create(quoteEl, { type: "words" });
+    gsap.set(split.words, { opacity: 0, yPercent: 10 });
+
+    let tlOpen = null,
+      tlClose = null;
+
+    item.addEventListener("mouseenter", () => {
+      tlClose?.kill();
+      tlOpen = gsap.timeline();
+
+      tlOpen.to(
+        panel,
+        {
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.4,
+          ease: "power1.in",
+        },
+        0,
+      );
+
+      tlOpen.to(
+        [titleEl, logoEl],
+        {
+          x: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        0.35,
+      );
+
+      tlOpen.to(
+        split.words,
+        {
+          opacity: 1,
+          yPercent: 0,
+          duration: 0.3,
+          ease: "power2.out",
+          stagger: 0.025,
+        },
+        0.3,
+      );
+    });
+
+    item.addEventListener("mouseleave", () => {
+      tlOpen?.kill();
+      tlClose = gsap.timeline();
+
+      tlClose.to(
+        split.words,
+        {
+          opacity: 0,
+          yPercent: 10,
+          duration: 0.18,
+          ease: "power2.in",
+          stagger: { each: 0.02, from: "end" },
+        },
+        0,
+      );
+
+      tlClose.to(
+        [titleEl, logoEl],
+        {
+          x: 30,
+          opacity: 0,
+          filter: "blur(4px)",
+          duration: 0.22,
+          ease: "power2.in",
+        },
+        0,
+      );
+
+      tlClose.to(
+        panel,
+        {
+          clipPath: "inset(0 0 100% 0)",
+          duration: 0.3,
+          ease: "power2.in",
+          overwrite: "auto",
+        },
+        0,
+      );
+    });
+  });
 })();
