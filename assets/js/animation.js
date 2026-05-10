@@ -203,6 +203,8 @@
         if (heroTriggered || this.progress() < 0.5) return;
         heroTriggered = true;
 
+        window.shaderReveal?.();
+
         const heroTl = gsap.timeline();
 
         heroIntroSplits.forEach((split) => {
@@ -1056,8 +1058,9 @@
     uniform vec2      uGridDims;
     uniform vec2      uGridCenter;
 
-    uniform vec3 uBgTop;
-    uniform vec3 uBgBot;
+    uniform vec3  uBgTop;
+    uniform vec3  uBgBot;
+    uniform float uRevealProgress;
 
     varying vec2 vUv;
 
@@ -1164,16 +1167,19 @@
 
       vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
 
+      float rand = fract(sin(dot(localCell, vec2(127.1, 311.7))) * 43758.5453);
+      bool shapeRevealed = isShape && (uRevealProgress >= rand);
+
       if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
 
       if (!inZone) {
-        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
+        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
         return;
       }
 
       float seqPos = bestAge * 6.0;
       if (seqPos >= 5.0) {
-        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
+        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
         return;
       }
 
@@ -1183,7 +1189,7 @@
       float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
 
       vec3 digitColor;
-      if (isShape) {
+      if (shapeRevealed) {
         if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
         else if (digitIndex == 1) digitColor = hsl2rgb(201.0, 1.00, 0.80);
         else if (digitIndex == 2) digitColor = hsl2rgb( 65.0, 1.00, 0.87);
@@ -1297,6 +1303,7 @@
       uGridCenter: { value: getGridCenter() },
       uBgTop: { value: new THREE.Vector3(0.2157, 0.1725, 0.3882) },
       uBgBot: { value: new THREE.Vector3(0.0902, 0.0902, 0.1255) },
+      uRevealProgress: { value: 0.0 },
     },
     vertexShader,
     fragmentShader,
@@ -1364,6 +1371,17 @@
       _dirty = _trailLen > 0 || actualMouse.active;
     }
   }
+
+  window.shaderReveal = function () {
+    gsap.to(material.uniforms.uRevealProgress, {
+      value: 1.0,
+      duration: 1,
+      ease: "power2.out",
+      onUpdate: () => {
+        _dirty = true;
+      },
+    });
+  };
 
   window.shaderPause = function () {
     _shaderPaused = true;
