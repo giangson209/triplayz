@@ -1501,8 +1501,10 @@
 
     function initGlobe(textureCanvas) {
       const canvas = document.getElementById("company-globe-canvas");
-      const container = canvas.parentElement;
+      const labelsContainer = document.getElementById("company-globe-labels");
       if (!canvas || !labelsContainer) return;
+
+      const container = canvas.parentElement;
 
       const renderer = new THREE.WebGLRenderer({
         canvas,
@@ -1554,7 +1556,6 @@
         );
       }
 
-      const labelsContainer = document.getElementById("company-globe-labels");
       let hoveredIdx = -1;
 
       const markerData = CITIES.map((c) => ({
