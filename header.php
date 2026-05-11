@@ -58,7 +58,7 @@
 
 <body>
 
-    <header id="main-header" class="fixed top-0 left-0 w-full z-50 p-2.5 md:p-5 2xl:p-10 anek"
+    <header id="main-header" class="fixed top-0 left-0 w-full z-[50] p-2.5 md:p-5 2xl:p-10 anek"
         style="transition: transform 0.4s ease-in-out;">
         <div class="wrapper">
             <div
@@ -231,5 +231,30 @@
                     </svg>
                 </div>
             </div>
+        </div>
+
+        <div
+            class="nav-menu text-[28px] font-medium block lg:hidden bg-[#1D1D27] fixed top-0 w-full h-full z-[100] p-4">
+            <div class="flex rounded-1 border border-[#2F2F38] p-4 items-center justify-between">
+                <div class="logo">
+                    <a href="index.php"><img src="assets/images/logo.svg" alt=""></a>
+                </div>
+                <div class="close-menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 19L18 6" stroke="white" stroke-width="2" stroke-linecap="square" />
+                        <path d="M6 6L19 19" stroke="white" stroke-width="2" stroke-linecap="square" />
+                    </svg>
+                </div>
+            </div>
+
+            <ul>
+                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="index.php">Home</a></li>
+                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="service.php">Service</a></li>
+                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="case-study.php">Case Study</a></li>
+                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="about.php">About Us</a></li>
+                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="career.php">Career</a></li>
+                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="blog.php">Blog</a></li>
+                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="contact.php">Contact</a></li>
+            </ul>
         </div>
     </header>
