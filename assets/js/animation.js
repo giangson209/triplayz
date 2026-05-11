@@ -418,14 +418,11 @@
     visibility: visible !important;
     opacity: 1 !important;
     pointer-events: none;
-    /* Bỏ transform: none — giữ nguyên translateX(-50%) của Company submenu */
   }
-
   .h-menu li .sub-menu-child.is-open,
   .btn-head-menu .sub-menu-child.is-open {
     pointer-events: auto;
   }
-
   .arrow {
     rotate: 0deg !important;
     display: inline-block;
@@ -442,7 +439,8 @@
     return [...lis, ...items, ...rigt];
   }
 
-  function setupTrigger(trigger, arrow, subMenu) {
+  // container = li hoặc .btn-head-menu (bao gồm cả trigger lẫn submenu)
+  function setupTrigger(trigger, arrow, subMenu, container) {
     gsap.set(subMenu, { clipPath: "inset(0 0 100% 0)" });
     gsap.set(arrow, { rotation: -90 });
 
@@ -455,27 +453,12 @@
 
     function buildOpenTl() {
       const tl = gsap.timeline({ paused: true });
-
       tl.to(
         subMenu,
-        {
-          clipPath: "inset(0 0 0% 0)",
-          duration: 0.3,
-          ease: "power3.out",
-        },
+        { clipPath: "inset(0 0 0% 0)", duration: 0.3, ease: "power3.out" },
         0,
       );
-
-      tl.to(
-        arrow,
-        {
-          rotation: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        },
-        0,
-      );
-
+      tl.to(arrow, { rotation: 0, duration: 0.3, ease: "power2.out" }, 0);
       tl.to(
         children,
         {
@@ -488,13 +471,11 @@
         },
         0.25,
       );
-
       return tl;
     }
 
     function buildCloseTl() {
       const tl = gsap.timeline({ paused: true });
-
       tl.to(
         children,
         {
@@ -507,39 +488,25 @@
         },
         0,
       );
-
       tl.to(
         subMenu,
-        {
-          clipPath: "inset(0 0 100% 0)",
-          duration: 0.2,
-          ease: "power2.in",
-        },
+        { clipPath: "inset(0 0 100% 0)", duration: 0.2, ease: "power2.in" },
         0.05,
       );
-
-      tl.to(
-        arrow,
-        {
-          rotation: -90,
-          duration: 0.3,
-          ease: "power2.in",
-        },
-        0,
-      );
-
+      tl.to(arrow, { rotation: -90, duration: 0.3, ease: "power2.in" }, 0);
       return tl;
     }
 
     function openMenu() {
+      if (isOpen) return;
       isOpen = true;
       subMenu.classList.add("is-open");
-      window._headerLocked = true;
-
-      allTriggers.forEach((t) => {
-        if (t !== ref) t.setZIndex(1);
-      });
       subMenu.style.zIndex = 10;
+
+      // Đóng các submenu khác
+      allTriggers.forEach((t) => {
+        if (t !== ref) t.close();
+      });
 
       tlClose?.kill();
       tlOpen = buildOpenTl();
@@ -547,32 +514,20 @@
     }
 
     function closeMenu() {
+      if (!isOpen) return;
       isOpen = false;
       subMenu.classList.remove("is-open");
 
       tlOpen?.kill();
       tlClose = buildCloseTl();
       tlClose.play();
-
-      const anyStillOpen = allTriggers.some((t) => t.isOpen);
-      if (!anyStillOpen) {
-        window._headerLocked = false; 
-      }
     }
 
-    trigger.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (isOpen) {
-        closeMenu();
-      } else {
-        allTriggers.forEach((t) => {
-          if (t !== ref && t.isOpen) t.close();
-        });
-        openMenu();
-      }
-    });
+    // Hover trên container (li hoặc .btn-head-menu) — bao luôn cả submenu bên trong
+    container.addEventListener("mouseenter", openMenu);
+    container.addEventListener("mouseleave", closeMenu);
 
+    // Ngăn click trong submenu bubble lên document
     subMenu.addEventListener("click", (e) => e.stopPropagation());
 
     const ref = {
@@ -587,29 +542,24 @@
     allTriggers.push(ref);
   }
 
+  // Menu items
   document.querySelectorAll(".h-menu > ul > li").forEach((item) => {
     const trigger = item.querySelector(":scope > a");
     const arrow = trigger?.querySelector(".arrow");
     const subMenu = item.querySelector(".sub-menu-child");
     if (!trigger || !arrow || !subMenu) return;
-    setupTrigger(trigger, arrow, subMenu);
+    setupTrigger(trigger, arrow, subMenu, item); // container = li
   });
 
+  // Translate dropdown
   const translateBtn = document.querySelector(".btn-head-menu.translate");
   if (translateBtn) {
     const trigger = translateBtn.querySelector("a");
     const arrow = trigger?.querySelector(".arrow");
     const subMenu = translateBtn.querySelector(".sub-menu-child");
-    if (trigger && arrow && subMenu) setupTrigger(trigger, arrow, subMenu);
+    if (trigger && arrow && subMenu)
+      setupTrigger(trigger, arrow, subMenu, translateBtn); // container = div.btn-head-menu
   }
-
-  document.addEventListener("click", () => {
-    allTriggers.forEach((t) => {
-      if (t.isOpen) t.close();
-      t.setZIndex("");
-    });
-    window._headerLocked = false;
-  });
 })();
 
 (function initVisionShapeAnimation() {
