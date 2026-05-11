@@ -190,15 +190,15 @@
                             <?php
                             for ($x = 1; $x <= 3; $x++) { ?>
                                 <div
-                                    class="item item-tools relative overflow-hidden flex items-center justify-between px-0 lg:px-6 py-3 md:py-4 lg:py-6 border-b-[2px] border-[#594CBC]">
-                                    <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
+                                    class="item item-tools relative flex items-center justify-between px-0 lg:px-6 py-3 md:py-4 lg:py-6 border-b-[1px] border-[#594CBC]">
+                                    <a href="" class="absolute top-0 left-0 w-full h-[calc(100%+1px)] z-3"></a>
                                     <span>Kafka</span>
                                     <div class="logo opacity-100 md:opacity-0">
                                         <img src="assets/images/kafa.png" alt="">
                                     </div>
 
-                                    <svg class="d-studio-award-block--filler absolute top-0 left-0 w-full h-full -z-10"
-                                        viewBox="0 0 500 100" preserveAspectRatio="none" style="opacity: 0;">
+                                    <svg class="d-studio-award-block--filler absolute -top-[0.5px] left-0 w-full h-[calc(100%+1px)] -z-10"
+                                        viewBox="0 0 500 100" preserveAspectRatio="none" style="opacity: 0; overflow: visible;">
                                         <path fill="#8B86F7" class="d-award-path" d="M 0 100 V 100 Q 250 100 500 100 V 100 z">
                                         </path>
                                     </svg>
@@ -216,8 +216,8 @@
     <section class="py-10 md:py-25 px-4 md:px-10 relative">
         <div class="block lg:grid grid-cols-2 gap-20">
             <div class="item mb-10 lg:mb-0">
-                <div class="sticky top-6">
-                    <div class="top mb-10 md:mb-16 2xl:mb-25">
+                <div class="sticky top-0 flex flex-col justify-between h-[auto] lg:h-screen py-0 lg:py-16">
+                    <div class="top mb-0 lg:mb-10">
                         <div class="block 2xl:flex items-center gap-10">
                             <span class="anek opacity-65 title-animation">/DELIVERY PROCESS</span>
                             <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium title-animation">We validate

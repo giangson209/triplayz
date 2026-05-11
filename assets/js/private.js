@@ -347,10 +347,26 @@ $(document).ready(function () {
     let $this = $(this);
     let $svg = $this.find(".d-studio-award-block--filler");
     let $path = $svg.find("path");
+    let $logo = $this.find(".logo");
 
     let tl;
 
     $this.on("mouseenter", function (e) {
+      // Clear all other items in the same list instantly to ensure only ONE liquid is visible
+      $this.closest(".list").find(".item-tools").not($this).each(function() {
+        let $other = $(this);
+        let $otherPath = $other.find(".d-award-path");
+        let $otherLogo = $other.find(".logo");
+        
+        // Kill any running timelines on siblings
+        gsap.killTweensOf($otherPath);
+        gsap.killTweensOf($otherLogo);
+        
+        // Reset siblings to hidden/empty state
+        gsap.set($otherPath, { attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" } });
+        gsap.set($otherLogo, { opacity: window.innerWidth < 768 ? 1 : 0 });
+      });
+
       if (tl) tl.kill();
       tl = gsap.timeline();
 
@@ -360,27 +376,32 @@ $(document).ready(function () {
 
       gsap.set($svg[0], { opacity: 1 });
 
+      // Animate logo opacity
+      tl.to($logo, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0);
+
       if (isTop) {
-        gsap.set($path[0], { attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" } });
+        // Enter from top (Moving DOWN): Arch DOWN
+        gsap.set($path[0], { attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
+          attr: { d: "M 0 0 Q 250 40 500 0 V 50 Q 250 90 0 50 z" },
           duration: 0.15,
-          ease: "power1.in",
-        }).to($path[0], {
-          attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" },
+          ease: "power2.in",
+        }, 0).to($path[0], {
+          attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" },
           duration: 0.15,
-          ease: "power1.out",
+          ease: "power2.out",
         });
       } else {
-        gsap.set($path[0], { attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" } });
+        // Enter from bottom (Moving UP): Arch UP
+        gsap.set($path[0], { attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
+          attr: { d: "M 0 100 Q 250 80 500 100 V 50 Q 250 -20 0 50 z" },
           duration: 0.15,
-          ease: "power1.in"
-        }).to($path[0], {
-          attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" },
+          ease: "power2.in"
+        }, 0).to($path[0], {
+          attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" },
           duration: 0.15,
-          ease: "power1.out"
+          ease: "power2.out"
         });
       }
     });
@@ -393,27 +414,32 @@ $(document).ready(function () {
       let relY = e.clientY - rect.top;
       let isTop = relY < rect.height / 2;
 
+      // Animate logo opacity back
+      tl.to($logo, { opacity: window.innerWidth < 768 ? 1 : 0, duration: 0.2, ease: "power2.in" }, 0);
+
       if (isTop) {
-        gsap.set($path[0], { attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" } });
+        // Exit from top (Moving UP): Arch UP
+        gsap.set($path[0], { attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
-          duration: 0.35,
-          ease: "power1.in"
-        }).to($path[0], {
-          attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" },
-          duration: 0.35,
-          ease: "power1.out"
+          attr: { d: "M 0 0 Q 250 20 500 0 V 50 Q 250 -30 0 50 z" },
+          duration: 0.12,
+          ease: "power2.in"
+        }, 0).to($path[0], {
+          attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" },
+          duration: 0.12,
+          ease: "power2.out"
         });
       } else {
-        gsap.set($path[0], { attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" } });
+        // Exit from bottom (Moving DOWN): Arch DOWN
+        gsap.set($path[0], { attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
-          duration: 0.35,
-          ease: "power1.in"
-        }).to($path[0], {
-          attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
-          duration: 0.35,
-          ease: "power1.out"
+          attr: { d: "M 0 100 Q 250 70 500 100 V 50 Q 250 120 0 50 z" },
+          duration: 0.12,
+          ease: "power2.in"
+        }, 0).to($path[0], {
+          attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" },
+          duration: 0.12,
+          ease: "power2.out"
         });
       }
     });

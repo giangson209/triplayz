@@ -18,9 +18,9 @@
     </section>
 
     <!-- Main Image -->
-    <section class="relative px-0 md:px-10 pb-0 md:pb-6 bg-[#1D1D27]">
-        <div class="wrapper">
-            <img src="assets/images/carr.png" class="w-full rounded-0 md:rounded-3 shadow-lg" alt="Team">
+    <section class="relative px-0 md:px-10 pb-0 md:pb-6 bg-[#1D1D27] avarta-paralax">
+        <div class="wrapper overflow-hidden">
+            <img src="assets/images/carr.png" class="w-full parallax-img" alt="Team" style="transform: scale(1.15);">
         </div>
     </section>
 
@@ -209,12 +209,12 @@
             alt="" style="transform: scale(1.1);">
         <div class="grid grid-cols-12 gap-10 relative z-2">
             <div class="item item col-span-12 lg:col-span-6 2xl:col-span-7 h-full flex items-center">
-                <div class="title-animation text-[48px] lg:text-[64px] 3xl:text-[80px] font-medium">Get a free
+                <div class="title-animation text-[48px] lg:text-[64px] 3xl:text-[80px] font-medium">Get a free <br>
                     consultation</div>
             </div>
             <div class="item col-span-12 lg:col-span-6 2xl:col-span-5">
                 <div class="bg-white w-full p-10 text-black">
-                    <div class="text-10 font-medium mb-8">Get a free consultation</div>
+                    <div class="text-10 font-medium mb-8">Talk to our team</div>
                     <div class="grid grid-cols-2 gap-4 3xl:gap-6 anek">
                         <div class="item">
                             <input type="text"
@@ -257,14 +257,13 @@
                                 placeholder="To better assist you, please describe how we can help...."></textarea>
                         </div>
                         <div class="item">
-                            <div class="btn-main">
-                                <a href="" style="border: 1px solid #1D1D2714; background: #1D1D2714;">
-                                    SUBMIT NOW
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                </a>
+                            <div class="relative w-[max-content]">
+                                <input type="submit" value="SUBMIT NOW"
+                                    class="h-12 min-w-42 bg-[#1D1D2714] anek font-medium uppercase text-center">
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute top-0 left-0"></span>
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute top-0 right-0"></span>
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute bottom-0 left-0"></span>
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute bottom-0 right-0"></span>
                             </div>
                         </div>
                     </div>
@@ -272,5 +271,21 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+                gsap.to(".parallax-img", {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".avarta-paralax",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            }
+        });
+    </script>
 </main>
 <?php include 'footer.php'; ?>

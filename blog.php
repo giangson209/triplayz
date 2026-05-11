@@ -162,14 +162,13 @@
                                 placeholder="To better assist you, please describe how we can help...."></textarea>
                         </div>
                         <div class="item">
-                            <div class="btn-main">
-                                <a href="" style="border: 1px solid #1D1D2714; background: #1D1D2714;">
-                                    SUBMIT NOW
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                </a>
+                            <div class="relative w-[max-content]">
+                                <input type="submit" value="SUBMIT NOW"
+                                    class="h-12 min-w-42 bg-[#1D1D2714] anek font-medium uppercase text-center">
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute top-0 left-0"></span>
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute top-0 right-0"></span>
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute bottom-0 left-0"></span>
+                                <span class="!bg-[#1D1D27] w-1 h-1 absolute bottom-0 right-0"></span>
                             </div>
                         </div>
                     </div>

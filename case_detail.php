@@ -121,7 +121,7 @@
         </div>
     </section>
 
-    <section class="pt-10 lg:py-20 relative overflow-hidden px-4 md:px-10">
+    <section class="pt-10 lg:pt-20 pb-0 relative overflow-hidden px-4 md:px-10">
         <div class="wrapper">
             <div
                 class="text-10 lg:text-[64px] 3xl:text-[100px] font-medium mb-8 lg:mb-10 xl:mb-0 3xl:mb-20 pl-0 3xl:pl-10">
@@ -173,6 +173,24 @@
             </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+                gsap.from(".item-idea", {
+                    y: 100,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".item-idea",
+                        start: "top 85%",
+                    }
+                });
+            }
+        });
+    </script>
 
     <section class="relative py-10 md:py-20 3xl:py-25 px-6 md:px-10 bg-white hidden md:block">
         <div class="wrapper relative">
