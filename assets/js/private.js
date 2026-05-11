@@ -1,4 +1,13 @@
 $(document).ready(function () {
+
+  $(".bar").on("click", function () {
+    $('.nav-menu').addClass('active');
+  });
+
+  $(".close-menu").on("click", function () {
+    $('.nav-menu').removeClass('active');
+  });
+
   var swiperConfig = {
     spaceBetween: 16,
     slidesPerView: 2,
@@ -37,7 +46,7 @@ $(document).ready(function () {
     },
   });
 
-  let lenis; 
+  let lenis;
 
   if (typeof Lenis !== "undefined") {
     lenis = new Lenis({

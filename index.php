@@ -38,7 +38,7 @@
 </div>
 <main>
     <section class="relative overflow-hidden">
-        <div class="gradient-canvas lg:block"></div>
+        <div class="gradient-canvas hidden lg:block"></div>
 
         <div class="wrapper p-6 md:p-10 min-h-[unset] md:min-h-[100vh] relative">
             <div
@@ -87,12 +87,10 @@
                 </div>
                 <div class="vision-shape-logo">
                     <div class="logo-top">
-                        <img src="assets/images/take-1.svg" class=""
-                            alt="">
+                        <img src="assets/images/take-1.svg" class="" alt="">
                     </div>
                     <div class="logo-bottom">
-                        <img src="assets/images/take-2.svg" class=""
-                            alt="">
+                        <img src="assets/images/take-2.svg" class="" alt="">
                     </div>
                 </div>
 
@@ -317,7 +315,8 @@
                                     ?>
                                     <div
                                         class="whyus-slide absolute top-0 left-0 w-full h-full block flex items-center gap-6 lg:gap-10 xl:gap-20 3xl:gap-32 <?php echo $x === 1 ? '' : 'opacity-0 translate-y-10'; ?>">
-                                        <div class="avarta w-full max-w-36 md:max-w-56 lg:max-w-60 xl:max-w-85 3xl:max-w-105">
+                                        <div
+                                            class="avarta w-full max-w-36 md:max-w-56 lg:max-w-60 xl:max-w-85 3xl:max-w-105">
                                             <img src="assets/images/why.png" class="max-w-105" alt="">
                                         </div>
                                         <div class="desc">
@@ -335,7 +334,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="pt-10 block md:hidden px-6">
                 <div class="grid grid-cols-1 gap-6">
                     <?php
