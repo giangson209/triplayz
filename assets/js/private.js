@@ -1,11 +1,10 @@
-$(document).ready(function () {
-
+function initPrivate() {
   $(".bar").on("click", function () {
-    $('.nav-menu').addClass('active');
+    $(".nav-menu").addClass("active");
   });
 
   $(".close-menu").on("click", function () {
-    $('.nav-menu').removeClass('active');
+    $(".nav-menu").removeClass("active");
   });
 
   var swiperConfig = {
@@ -35,9 +34,9 @@ $(document).ready(function () {
     },
   };
 
-  var swiperModel1 = new Swiper(".swiper-model-1", swiperConfig);
+  window._swiper1 = new Swiper(".swiper-model-1", swiperConfig);
 
-  var swiperModel2 = new Swiper(".swiper-model-2", {
+  window._swiper2 = new Swiper(".swiper-model-2", {
     ...swiperConfig,
     autoplay: {
       delay: 0,
@@ -55,6 +54,8 @@ $(document).ready(function () {
       smooth: true,
       smoothTouch: false,
     });
+
+    window._lenis = lenis;
 
     if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       ScrollTrigger.scrollerProxy(document.body, {
@@ -74,9 +75,9 @@ $(document).ready(function () {
 
       lenis.on("scroll", ScrollTrigger.update);
 
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
+      const _lenisRaf = (time) => lenis.raf(time * 1000);
+      window._lenisTickerFn = _lenisRaf;
+      gsap.ticker.add(_lenisRaf);
       gsap.ticker.lagSmoothing(0);
 
       ScrollTrigger.refresh();
@@ -161,7 +162,7 @@ $(document).ready(function () {
       if (scrollTrig) {
         const slides = gsap.utils.toArray(".whyus-slide");
         const origins = ["top", "center", "top", "center"];
-        const rotates = [-2, 3, -.5, 2];
+        const rotates = [-2, 3, -0.5, 2];
 
         slides.forEach((sl, i) => {
           sl.classList.remove("opacity-0", "translate-y-10");
@@ -199,7 +200,7 @@ $(document).ready(function () {
             const yPct = Math.max(-100, Math.min(100, (i - tp) * 100));
 
             let rotateX = 0;
-            let rotate = 0
+            let rotate = 0;
             let z = 0;
             let y = 0;
             let opacity = 1;
@@ -331,9 +332,13 @@ $(document).ready(function () {
   $(".form-contact input, .form-contact textarea").on("input", function () {
     var $icon = $(this).siblings(".btn-clear");
     if ($(this).val().length > 0) {
-      $icon.removeClass("opacity-0 pointer-events-none").addClass("!opacity-100 !pointer-events-auto");
+      $icon
+        .removeClass("opacity-0 pointer-events-none")
+        .addClass("!opacity-100 !pointer-events-auto");
     } else {
-      $icon.addClass("opacity-0 pointer-events-none").removeClass("!opacity-100 !pointer-events-auto");
+      $icon
+        .addClass("opacity-0 pointer-events-none")
+        .removeClass("!opacity-100 !pointer-events-auto");
     }
   });
 
@@ -372,15 +377,17 @@ $(document).ready(function () {
           ease: "power1.out",
         });
       } else {
-        gsap.set($path[0], { attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" } });
+        gsap.set($path[0], {
+          attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
+        });
         tl.to($path[0], {
           attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
           duration: 0.15,
-          ease: "power1.in"
+          ease: "power1.in",
         }).to($path[0], {
           attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" },
           duration: 0.15,
-          ease: "power1.out"
+          ease: "power1.out",
         });
       }
     });
@@ -394,31 +401,40 @@ $(document).ready(function () {
       let isTop = relY < rect.height / 2;
 
       if (isTop) {
-        gsap.set($path[0], { attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" } });
+        gsap.set($path[0], {
+          attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" },
+        });
         tl.to($path[0], {
           attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
           duration: 0.35,
-          ease: "power1.in"
+          ease: "power1.in",
         }).to($path[0], {
           attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" },
           duration: 0.35,
-          ease: "power1.out"
+          ease: "power1.out",
         });
       } else {
-        gsap.set($path[0], { attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" } });
+        gsap.set($path[0], {
+          attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" },
+        });
         tl.to($path[0], {
           attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
           duration: 0.35,
-          ease: "power1.in"
+          ease: "power1.in",
         }).to($path[0], {
           attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
           duration: 0.35,
-          ease: "power1.out"
+          ease: "power1.out",
         });
       }
     });
   });
-});
+}
+
+PageAnimations.register(initPrivate);
+
+
+  
 
 
 
