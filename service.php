@@ -174,61 +174,61 @@
                         </div>
                     </div>
 
-                    <div
-                        class="grid grid-cols-1 md:grid-cols-2 gap-x-20 md:gap-x-10 lg:gap-x-25 2xl:gap-x-50 gap-y-20 lg:gap-y-35">
-                        <?php
-                        for ($j = 1; $j <= 5; $j++) { ?>
-                            <div class="item">
-                                <div class="top anek mb-5 lg:mb-6">
-                                    <div class="mb-4 flex items-center justify-between">
-                                        <span class="title-animation">Front-end languages & frameworks</span>
-                                        <div class="icon">
-                                            <img src="assets/images/cpu.svg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
-                                </div>
-                                <div class="list relative text-5 lg:text-6 font-medium">
-                                    <?php
-                                    for ($x = 1; $x <= 3; $x++) { ?>
-                                        <div
-                                            class="item item-tools relative overflow-hidden flex items-center justify-between px-0 lg:px-6 py-3 md:py-4 lg:py-6 border-b-[2px] border-[#594CBC]">
-                                            <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
-                                            <span>Kafka</span>
-                                            <div class="logo opacity-100 md:opacity-0">
-                                                <img src="assets/images/kafa.png" alt="">
-                                            </div>
-
-                                            <svg class="d-studio-award-block--filler absolute top-0 left-0 w-full h-full -z-10"
-                                                viewBox="0 0 500 100" preserveAspectRatio="none" style="opacity: 0;">
-                                                <path fill="#8B86F7" class="d-award-path" d="M 0 100 V 100 Q 250 100 500 100 V 100 z">
-                                                </path>
-                                            </svg>
-                                        </div>
-                                    <?php }
-                                    ?>
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-x-20 md:gap-x-10 lg:gap-x-25 2xl:gap-x-50 gap-y-20 lg:gap-y-35">
+                <?php
+                for ($j = 1; $j <= 5; $j++) { ?>
+                    <div class="item">
+                        <div class="top anek mb-5 lg:mb-6">
+                            <div class="mb-4 flex items-center justify-between">
+                                <span class="title-animation">Front-end languages & frameworks</span>
+                                <div class="icon">
+                                    <img src="assets/images/cpu.svg" alt="">
                                 </div>
                             </div>
-                        <?php }
-                        ?>
+                            <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
+                        </div>
+                        <div class="list relative text-5 lg:text-6 font-medium">
+                            <?php
+                            for ($x = 1; $x <= 3; $x++) { ?>
+                                <div
+                                    class="item item-tools relative overflow-hidden flex items-center justify-between px-0 lg:px-6 py-3 md:py-4 lg:py-6 border-b-[2px] border-[#594CBC]">
+                                    <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
+                                    <span>Kafka</span>
+                                    <div class="logo opacity-100 md:opacity-0">
+                                        <img src="assets/images/kafa.png" alt="">
+                                    </div>
+
+                                    <svg class="d-studio-award-block--filler absolute top-0 left-0 w-full h-full -z-10"
+                                        viewBox="0 0 500 100" preserveAspectRatio="none" style="opacity: 0;">
+                                        <path fill="#8B86F7" class="d-award-path" d="M 0 100 V 100 Q 250 100 500 100 V 100 z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            <?php }
+                            ?>
+                        </div>
                     </div>
-                </div>
-            </section>
+                <?php }
+                ?>
+            </div>
+        </div>
+    </section>
 
-            <section class="py-10 md:py-25 px-4 md:px-10 relative">
-                <div class="block lg:grid grid-cols-2 gap-20">
-                    <div class="item mb-10 lg:mb-0">
-                        <div class="sticky top-6">
-                            <div class="top mb-10 md:mb-16 2xl:mb-25">
-                                <div class="block 2xl:flex items-center gap-10">
-                                    <span class="anek opacity-65 title-animation">/DELIVERY PROCESS</span>
-                                    <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium title-animation">We validate
-                                    </div>
-                                </div>
-                                <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium opacity-35 title-animation">
-                                    concepts &
-                                    attract</div>
+    <section class="py-10 md:py-25 px-4 md:px-10 relative">
+        <div class="block lg:grid grid-cols-2 gap-20">
+            <div class="item mb-10 lg:mb-0">
+                <div class="sticky top-6">
+                    <div class="top mb-10 md:mb-16 2xl:mb-25">
+                        <div class="block 2xl:flex items-center gap-10">
+                            <span class="anek opacity-65 title-animation">/DELIVERY PROCESS</span>
+                            <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium title-animation">We validate
                             </div>
+                        </div>
+                        <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium opacity-35 title-animation">
+                            concepts &
+                            attract</div>
+                    </div>
 
                             <div class="avarta hidden lg:block">
                                 <img src="assets/images/detail-1.png"

@@ -123,58 +123,58 @@
                 </div>
             </section>
 
-            <section class="pt-10 lg:py-20 relative overflow-hidden px-4 md:px-10">
-                <div class="wrapper">
-                    <div
-                        class="text-10 lg:text-[64px] 3xl:text-[100px] font-medium mb-8 lg:mb-10 xl:mb-0 3xl:mb-20 pl-0 3xl:pl-10">
-                        The
-                        Result
-                    </div>
-                    <div class="block xl:grid grid-cols-3 gap-10">
-                        <div
-                            class="item col-span-1 anek pl-0 3xl:pl-10 pt-0 xl:pt-16 mb-20 xl:mb-0 block md:flex items-end justify-between xl:block">
-                            <ul class="mb-10 md:mb-0 xl:mb-36">
-                                <li>Design: Julian Fella</li>
-                                <li>Development: Good Fella</li>
-                                <li>Product: Good Fella</li>
-                            </ul>
-                            <div class="block">
-                                <div class="text-6 md:text-8 font-medium mb-6 md:mb-10">Have an idea in mind? </div>
-                                <div class="btn-main">
-                                    <a href="" class="!px-7 !py-4">
-                                        LETS DISCUSS
-                                        <span class="dot"></span>
-                                        <span class="dot"></span>
-                                        <span class="dot"></span>
-                                        <span class="dot"></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item col-span-2 pb-6 md:pb-0">
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 anek">
-                                <?php
-                                for ($x = 1; $x <= 4; $x++) { ?>
-                                    <div class="item item-idea">
-                                        <div class="border-[1px] border-[#FFFFFF26] bg-[#FFFFFF14] p-8 rounded-1 relative">
-                                            <div class="icon mb-6">
-                                                <img src="assets/images/casestudy/check.png" class="w-6 md:w-8" alt="">
-                                            </div>
-                                            <h3 class="mb-8 text-5 md:text-6 font-semibold anek">Unified Brand Identity</h3>
-                                            <div class="desc opacity-85">
-                                                The integration of the new interface throughout the website brought Lake & Oak’s
-                                                brand value closer to its customers.
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php }
-                                ?>
-
-                            </div>
+    <section class="pt-10 lg:py-20 relative overflow-hidden px-4 md:px-10">
+        <div class="wrapper">
+            <div
+                class="text-10 lg:text-[64px] 3xl:text-[100px] font-medium mb-8 lg:mb-10 xl:mb-0 3xl:mb-20 pl-0 3xl:pl-10">
+                The
+                Result
+            </div>
+            <div class="block xl:grid grid-cols-3 gap-10">
+                <div
+                    class="item col-span-1 anek pl-0 3xl:pl-10 pt-0 xl:pt-16 mb-20 xl:mb-0 block md:flex items-end justify-between xl:block">
+                    <ul class="mb-10 md:mb-0 xl:mb-36">
+                        <li>Design: Julian Fella</li>
+                        <li>Development: Good Fella</li>
+                        <li>Product: Good Fella</li>
+                    </ul>
+                    <div class="block">
+                        <div class="text-6 md:text-8 font-medium mb-6 md:mb-10">Have an idea in mind? </div>
+                        <div class="btn-main">
+                            <a href="" class="!px-7 !py-4">
+                                LETS DISCUSS
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </section>
+                <div class="item col-span-2 pb-6 md:pb-0">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 anek">
+                        <?php
+                        for ($x = 1; $x <= 4; $x++) { ?>
+                            <div class="item item-idea">
+                                <div class="border-[1px] border-[#FFFFFF26] bg-[#FFFFFF14] p-8 rounded-1 relative">
+                                    <div class="icon mb-6">
+                                        <img src="assets/images/casestudy/check.png" class="w-6 md:w-8" alt="">
+                                    </div>
+                                    <h3 class="mb-8 text-5 md:text-6 font-semibold anek">Unified Brand Identity</h3>
+                                    <div class="desc opacity-85">
+                                        The integration of the new interface throughout the website brought Lake & Oak’s
+                                        brand value closer to its customers.
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
             <section class="relative py-10 md:py-20 3xl:py-25 px-6 md:px-10 bg-white hidden md:block">
                 <div class="wrapper relative">

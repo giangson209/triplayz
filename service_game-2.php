@@ -1,85 +1,57 @@
 <?php include 'header.php'; ?>
-<div data-barba="wrapper">
-    <div data-barba="container" data-barba-namespace="service_game-2.php">
-        <main class="">
-            <section
-                class="relative overflow-hidden h-[auto] md:h-screen pt-25 md:pt-40 2xl:pt-55 pb-10 2xl:pb-20 px-4 md:px-10 2xl:px-20">
-                <img src="assets/images/bn-gami.jpg"
-                    class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt="">
-                <div class="wrapper flex flex-col justify-between h-full relative z-2">
-                    <div
-                        class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none">
-                        <img src="assets/images/gami-detail.png" class="w-110 2xl:w-160" alt="">
-                    </div>
-                    <div class="top mb-8 md:mb-0">
-                        <div
-                            class="text-10 md:text-[48px] lg:text-[56px] 2xl:text-[64px] font-medium title-animation text-center md:text-left">
-                            BFSI
-                            Solutions
-                            <br>Built to Scale
-                        </div>
-                    </div>
-                    <div class="bot flex items-end justify-between">
-                        <div class="btn-main hidden md:block">
-                            <a href="">
-                                TALK WITH US
-                                <div class="dot"></div>
-                                <div class="dot"></div>
-                                <div class="dot"></div>
-                                <div class="dot"></div>
-                            </a>
-                        </div>
-                        <div class="max-w-full md:max-w-94 w-full opacity-85 anek title-animation text-center md:text-left">
-                            Triplayz helps fintech startups and mid-market companies build complex BFSI platforms with
-                            high-security, stable infrastructure. By combining deep domain expertise with technical precision,
-                            we ensure your system scale without failure.
-                        </div>
-                    </div>
+<main class="">
+    <section
+        class="relative overflow-hidden h-[auto] md:h-screen pt-25 md:pt-40 2xl:pt-55 pb-10 2xl:pb-20 px-4 md:px-10 2xl:px-20">
+        <img src="assets/images/bn-game-2.png"
+            class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt="">
+        <div class="wrapper flex flex-col justify-between h-full relative z-2">
+            <div
+                class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none">
+                <img src="assets/images/game-2.png" class="w-110 2xl:w-160" alt="">
+            </div>
+            <div class="top mb-8 md:mb-0">
+                <div
+                    class="text-10 md:text-[48px] lg:text-[56px] 2xl:text-[64px] font-medium title-animation text-center md:text-left max-w-full md:max-w-144">
+                    Gamification Solutions for Enterprises
                 </div>
-            </section>
-            <section class="py-10 md:py-20 2xl:py-25 relative px-10">
-                <div class="wrapper">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
-                        <div class="item p-0 lg:p-6">
-                            <div class="mb-3 md:mb-4 lg:mb-6 font-medium text-10 lg:text-[56px] xl:text-[64px] 2xl:text-[80px]">
-                                10y+
-                            </div>
-                            <div class="anek text-5 lg:text-6 opacity-85">Customizable Games</div>
-                        </div>
-                        <div class="item p-0 lg:p-6">
-                            <div class="mb-3 md:mb-4 lg:mb-6 font-medium text-10 lg:text-[56px] xl:text-[64px] 2xl:text-[80px]">
-                                100%
-                            </div>
-                            <div class="anek text-5 lg:text-6 opacity-85">On-time delivery</div>
-                        </div>
-                        <div class="item p-0 lg:p-6">
-                            <div class="mb-3 md:mb-4 lg:mb-6 font-medium text-10 lg:text-[56px] xl:text-[64px] 2xl:text-[80px]">
-                                < 24H</div>
-                                    <div class="anek text-5 lg:text-6 opacity-85">Response SLA</div>
+            </div>
+            <div class="bot flex items-end justify-between">
+                <div class="btn-main hidden md:block">
+                    <a href="">
+                        TALK WITH US
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </a>
+                </div>
+                <div class="max-w-full md:max-w-94 w-full opacity-85 anek title-animation text-center md:text-left">
+                    Triplayz helps fintech startups and mid-market companies build complex BFSI platforms with
+                    high-security, stable infrastructure. By combining deep domain expertise with technical precision,
+                    we ensure your system scale without failure.
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-10 md:py-25 overflow-hidden">
+        <div class="wrapper">
+            <div class="px-4 md:px-10 text-10 mb-6 md:mb-10 font-medium text-center md:text-left">Trusted by the
+                industry
+                leaders</div>
+            <div class="swiper-container swiper-model-1">
+                <div class="swiper-wrapper">
+                    <?php for ($x = 1; $x <= 15; $x++) { ?>
+                        <div class="swiper-slide">
+                            <div
+                                class="item flex items-center py-4 md:py-7.5 px-8 md:px-20 bg-[#FFFFFF0D] rounded-[2px] overflow-hidden">
+                                <img src="assets/images/partner.png" alt="">
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
-            </section>
-            <section class="py-10 md:py-25 overflow-hidden">
-                <div class="wrapper">
-                    <div class="px-4 md:px-10 text-10 mb-6 md:mb-10 font-medium text-center md:text-left">Trusted by the
-                        industry
-                        leaders</div>
-                    <div class="swiper-container swiper-model-1">
-                        <div class="swiper-wrapper">
-                            <?php for ($x = 1; $x <= 15; $x++) { ?>
-                                <div class="swiper-slide">
-                                    <div
-                                        class="item flex items-center py-4 md:py-7.5 px-8 md:px-20 bg-[#FFFFFF0D] rounded-[2px] overflow-hidden">
-                                        <img src="assets/images/partner.png" alt="">
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
             <section class="relative pt-10 md:pt-25 3xl:pt-58 pb-10 md:pb-20 px-4 md:px-10 overflow-hidden">
                 <div class="absolute top-0 left-0 h-full hidden md:flex items-center">
