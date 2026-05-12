@@ -6,7 +6,7 @@
             class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt="">
         <div class="wrapper flex flex-col justify-between h-full relative z-2">
             <div
-                class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none">
+                class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none scale-100 lg:scale-92 2xl:scale-100">
                 <img src="assets/images/gami-detail.png" class="w-110 2xl:w-160" alt="">
             </div>
             <div class="top mb-8 md:mb-0">

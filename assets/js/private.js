@@ -444,6 +444,12 @@ $(document).ready(function () {
       }
     });
   });
+
+  // Mobile Menu Sub-menu Toggle
+  $(".arrow-menu").on("click", function () {
+    $(this).parents("li").find(".sub-menu-mb").slideToggle();
+    $(this).toggleClass("active");
+  });
 });
 
 
