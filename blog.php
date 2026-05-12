@@ -2,7 +2,6 @@
 <div data-barba="wrapper">
     <div data-barba="container" data-barba-namespace="blog">
         <main>
-            <!-- Hero Section -->
             <section
                 class="relative flex justify-end flex-col bg-cover bg-center bg-no-repeat h-[432px] md:h-[450px] 2xl:h-[650px] px-2.5 py-6 md:p-5 2xl:p-10"
                 style="background-image: url('assets/images/asci.png');">
