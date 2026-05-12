@@ -3,7 +3,7 @@
     <div data-barba="container" data-barba-namespace="service_game-1.php">
         <main class="">
             <section
-                class="hidden relative overflow-hidden h-[auto] md:h-screen pt-25 md:pt-40 2xl:pt-55 pb-10 2xl:pb-20 px-4 md:px-10 2xl:px-20">
+                class="relative overflow-hidden h-[auto] md:h-screen pt-25 md:pt-40 2xl:pt-55 pb-10 2xl:pb-20 px-4 md:px-10 2xl:px-20">
                 <img src="assets/images/bn-game-2.png"
                     class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt="">
                 <div class="wrapper flex flex-col justify-between h-full relative z-2">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </section>
-            <section class="py-10 md:py-25 overflow-hidden hidden">
+            <section class="py-10 md:py-25 overflow-hidden">
                 <div class="wrapper">
                     <div class="px-4 md:px-10 text-10 mb-6 md:mb-10 font-medium text-center md:text-left">Trusted by the
                         industry
@@ -57,7 +57,7 @@
                 </div>
             </section>
 
-            <section class="relative pt-10 md:pt-25 3xl:pt-58 pb-10 md:pb-20 px-4 md:px-10 overflow-hidden hidden">
+            <section class="relative pt-10 md:pt-25 3xl:pt-58 pb-10 md:pb-20 px-4 md:px-10 overflow-hidden">
                 <div class="absolute top-0 left-0 h-full hidden md:flex items-center">
                     <img src="assets/images/gami-1-2.png" class="max-h-full" alt="">
                 </div>
