@@ -1444,6 +1444,13 @@ function initPixelatedShader() {
     });
   };
 
+  window.shaderSaveState = function () {
+    window._shaderSavedState = {
+      revealAge: material.uniforms.uRevealAge.value,
+      pulseAge: material.uniforms.uPulseAge.value,
+    };
+  };
+
   window.shaderPause = function () {
     _shaderPaused = true;
   };
@@ -1463,6 +1470,20 @@ function initPixelatedShader() {
     material.uniforms.uGridCenter.value.copy(getGridCenter());
     _dirty = true;
   });
+
+  if (window._shaderSavedState) {
+    const s = window._shaderSavedState;
+    material.uniforms.uRevealAge.value = s.revealAge;
+    material.uniforms.uPulseAge.value = s.pulseAge;
+    _dirty = true;
+
+    // Nếu đã reveal xong thì resume pulse loop
+    if (s.revealAge >= 1.35) {
+      setTimeout(runPulseLoop, 500);
+    }
+
+    window._shaderSavedState = null;
+  }
 }
 PageAnimations.register(initPixelatedShader);
 
