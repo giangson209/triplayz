@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 <div data-barba="wrapper">
-    <div data-barba="container" data-barba-namespace="case_detail">\
+    <div data-barba="container" data-barba-namespace="case_detail">
         <main>
             <section class="pt-0 lg:pt-28"></section>
             <section class="relative pt-30 lg:pt-20 px-4 md:px-10">

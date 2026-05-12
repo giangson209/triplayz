@@ -153,10 +153,9 @@ function initPageTransition() {
     });
   }
 
-  // ────────────────────────────────────────────────────────────
-  // destroyCurrentPage — xóa sạch mọi thứ của page hiện tại
-  // ────────────────────────────────────────────────────────────
+  
   function destroyCurrentPage() {
+    window.shaderSaveState?.();
     ScrollTrigger.getAll().forEach((t) => t.kill());
     ScrollTrigger.clearScrollMemory?.();
 
