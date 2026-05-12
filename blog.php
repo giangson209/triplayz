@@ -179,4 +179,6 @@
                 </div>
             </section>
         </main>
+    </div>
+</div>
 <?php include 'footer.php'; ?>

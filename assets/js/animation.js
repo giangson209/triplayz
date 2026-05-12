@@ -2751,6 +2751,8 @@ function initPrivate() {
       const footerEl = document.querySelector("footer");
       if (!mainEl || !footerEl) return;
 
+      document.getElementById("footer-reveal-spacer")?.remove();
+
       const MAIN_SLOW = 2;
       const FOOTER_SLOW = 0.7;
 
@@ -2768,8 +2770,8 @@ function initPrivate() {
         const FH = footerEl.offsetHeight;
         spacer.style.height =
           Math.max(
-            V * MAIN_SLOW * 0.64,
-            V * FOOTER_SLOW * 0.64 + Math.max(0, FH - V),
+            V * MAIN_SLOW * 0.6,
+            V * FOOTER_SLOW * 0.6 + Math.max(0, FH - V),
           ) + "px";
       }
 

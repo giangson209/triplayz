@@ -139,7 +139,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
     <script type="text/javascript" src="assets/js/transition.js?v=<?php echo time() ?>"></script>
     <script type="text/javascript" src="assets/js/animation.js?v=<?php echo time() ?>"></script>
-    <script type="text/javascript" src="assets/js/private.js?v=<?php echo time() ?>"></script>
 </footer>
 </body>
 
