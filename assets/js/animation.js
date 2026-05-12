@@ -3000,38 +3000,61 @@ function initPrivate() {
     let $this = $(this);
     let $svg = $this.find(".d-studio-award-block--filler");
     let $path = $svg.find("path");
+    let $logo = $this.find(".logo");
+
     let tl;
 
     $this.on("mouseenter", function (e) {
+      // Clear all other items in the same list instantly to ensure only ONE liquid is visible
+      $this.closest(".list").find(".item-tools").not($this).each(function () {
+        let $other = $(this);
+        let $otherPath = $other.find(".d-award-path");
+        let $otherLogo = $other.find(".logo");
+
+        // Kill any running timelines on siblings
+        gsap.killTweensOf($otherPath);
+        gsap.killTweensOf($otherLogo);
+
+        // Reset siblings to hidden/empty state
+        gsap.set($otherPath, { attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" } });
+        gsap.set($otherLogo, { opacity: window.innerWidth < 768 ? 1 : 0 });
+      });
+
       if (tl) tl.kill();
       tl = gsap.timeline();
+
       let rect = this.getBoundingClientRect();
       let relY = e.clientY - rect.top;
       let isTop = relY < rect.height / 2;
+
       gsap.set($svg[0], { opacity: 1 });
+
+      // Animate logo opacity
+      tl.to($logo, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0);
+
       if (isTop) {
-        gsap.set($path[0], { attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" } });
+        // Enter from top (Moving DOWN): Arch DOWN
+        gsap.set($path[0], { attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
+          attr: { d: "M 0 0 Q 250 40 500 0 V 50 Q 250 90 0 50 z" },
           duration: 0.15,
-          ease: "power1.in",
-        }).to($path[0], {
-          attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" },
+          ease: "power2.in",
+        }, 0).to($path[0], {
+          attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" },
           duration: 0.15,
-          ease: "power1.out",
+          ease: "power2.out",
         });
       } else {
-        gsap.set($path[0], {
-          attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
-        });
+        // Enter from bottom (Moving UP): Arch UP
+        gsap.set($path[0], { attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
+          attr: { d: "M 0 100 Q 250 80 500 100 V 50 Q 250 -20 0 50 z" },
           duration: 0.15,
-          ease: "power1.in",
-        }).to($path[0], {
-          attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" },
+          ease: "power2.in"
+        }, 0).to($path[0], {
+          attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" },
           duration: 0.15,
-          ease: "power1.out",
+          ease: "power2.out"
         });
       }
     });
@@ -3039,34 +3062,37 @@ function initPrivate() {
     $this.on("mouseleave", function (e) {
       if (tl) tl.kill();
       tl = gsap.timeline();
+
       let rect = this.getBoundingClientRect();
       let relY = e.clientY - rect.top;
       let isTop = relY < rect.height / 2;
+
+      // Animate logo opacity back
+      tl.to($logo, { opacity: window.innerWidth < 768 ? 1 : 0, duration: 0.2, ease: "power2.in" }, 0);
+
       if (isTop) {
-        gsap.set($path[0], {
-          attr: { d: "M 0 0 V 100 Q 250 100 500 100 V 0 z" },
-        });
+        // Exit from top (Moving UP): Arch UP
+        gsap.set($path[0], { attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 0 V 50 Q 250 100 500 50 V 0 z" },
-          duration: 0.35,
-          ease: "power1.in",
-        }).to($path[0], {
-          attr: { d: "M 0 0 V 0 Q 250 0 500 0 V 0 z" },
-          duration: 0.35,
-          ease: "power1.out",
+          attr: { d: "M 0 0 Q 250 20 500 0 V 50 Q 250 -30 0 50 z" },
+          duration: 0.12,
+          ease: "power2.in"
+        }, 0).to($path[0], {
+          attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" },
+          duration: 0.12,
+          ease: "power2.out"
         });
       } else {
-        gsap.set($path[0], {
-          attr: { d: "M 0 100 V 0 Q 250 0 500 0 V 100 z" },
-        });
+        // Exit from bottom (Moving DOWN): Arch DOWN
+        gsap.set($path[0], { attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" } });
         tl.to($path[0], {
-          attr: { d: "M 0 100 V 50 Q 250 0 500 50 V 100 z" },
-          duration: 0.35,
-          ease: "power1.in",
-        }).to($path[0], {
-          attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
-          duration: 0.35,
-          ease: "power1.out",
+          attr: { d: "M 0 100 Q 250 70 500 100 V 50 Q 250 120 0 50 z" },
+          duration: 0.12,
+          ease: "power2.in"
+        }, 0).to($path[0], {
+          attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" },
+          duration: 0.12,
+          ease: "power2.out"
         });
       }
     });
@@ -3157,281 +3183,7 @@ function initServiceGame() {
 }
 PageAnimations.register(initServiceGame);
 
-function initAboutAnimation() {
-  gsap.registerPlugin(ScrollTrigger);
 
-  let mm = gsap.matchMedia();
-
-  const achieveSection = document.getElementById("achieve-section");
-  const contents = gsap.utils.toArray(".achieve-content");
-  if (!achieveSection || !contents) return;
-
-  if (achieveSection && contents.length > 0) {
-    mm.add("(min-width: 768px)", () => {
-      // Setup initial states
-      gsap.set(contents, { autoAlpha: 0, y: 40 });
-      gsap.set(contents[0], { autoAlpha: 1, y: 0 });
-
-      // Create a timeline for pinning
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: achieveSection,
-          start: "center center",
-          end: "+=3500", // Stretch scrolling distance for smoother feel
-          pin: true,
-          scrub: 1.5, // Add momentum / smoothing to the scroll linkage
-          anticipatePin: 1,
-        },
-      });
-
-      // Pause slightly on the first item
-      tl.to({}, { duration: 1.5 });
-
-      // Animate through contents
-      contents.forEach((content, i) => {
-        if (i === 0) return;
-
-        // Synchronize fade out and fade in using labels
-        tl.add(`step${i}`);
-
-        // Fade out previous item
-        tl.to(
-          contents[i - 1],
-          { autoAlpha: 0, y: -40, duration: 1.5, ease: "power2.inOut" },
-          `step${i}`,
-        );
-
-        // Fade in current item
-        tl.to(
-          content,
-          { autoAlpha: 1, y: 0, duration: 1.5, ease: "power2.inOut" },
-          `step${i}+=0.5`,
-        );
-
-        // Add a pause to allow users to read
-        tl.to({}, { duration: 1.5 });
-      });
-    });
-
-    mm.add("(max-width: 767px)", () => {
-      // Remove inline styles set by GSAP to ensure pure CSS handles mobile
-      gsap.set(contents, { clearProps: "all" });
-    });
-  }
-
-  // --- Leaders Section Animation ---
-  const leadersSection = document.getElementById("leaders-section");
-
-  if (leadersSection) {
-    mm.add("(min-width: 768px)", () => {
-      // Chỉ lấy các item-member nằm trong members-container của desktop
-      const members = gsap.utils.toArray(".members-container .item-member");
-
-      if (members.length > 0) {
-        // Hàm xáo trộn mảng để random vị trí
-        const shuffle = (array) => {
-          let currentIndex = array.length,
-            randomIndex;
-          while (currentIndex !== 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [
-              array[randomIndex],
-              array[currentIndex],
-            ];
-          }
-          return array;
-        };
-
-        // Tạo danh sách làn đường được xáo trộn ngẫu nhiên từng cụm 3
-        let randomLanes = [];
-        for (let i = 0; i < members.length; i += 3) {
-          randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
-        }
-
-        // Set initial positions for members
-        members.forEach((member, i) => {
-          const laneIndex = randomLanes[i];
-
-          // Mỗi làn chiếm khoảng 30%, cộng thêm tí random
-          const randomLeft = laneIndex * 32 + Math.random() * 5;
-
-          // Strict vertical stagger: each item is placed at least 80% of screen height below the previous
-          // + random(0, 15) to add slight visual irregularity without breaking the gap
-          const startTop = 100 + i * 80 + Math.random() * 15;
-
-          member.style.pointerEvents = "auto";
-
-          gsap.set(member, {
-            left: `${randomLeft}%`,
-            top: `${startTop}%`,
-            position: "absolute",
-            zIndex: members.length - i, // Ensure items that appear later don't inappropriately layer over earlier ones
-          });
-        });
-
-        // Calculate total travel distance needed for the very last item to clear the top of the screen
-        const lastItemStartTop = 100 + (members.length - 1) * 80 + 15;
-        const travelDistance = lastItemStartTop + 80; // Additional 80% to ensure it fully exits
-
-        // Create scroll animation
-        // By moving all items by the EXACT SAME amount (-=travelDistance%),
-        // their vertical gaps are perfectly preserved and they never collide.
-        gsap.to(members, {
-          top: `-=${travelDistance}%`,
-          ease: "none",
-          scrollTrigger: {
-            trigger: leadersSection,
-            start: "top top",
-            end: `+=${members.length * 700}`, // Adjust scroll length based on number of items
-            pin: true,
-            scrub: 1.5,
-          },
-        });
-      }
-    });
-
-    mm.add("(max-width: 767px)", () => {
-      // Clear props on mobile if needed (mostly safe since we only target desktop elements now)
-      const members = gsap.utils.toArray(".members-container .item-member");
-      if (members.length > 0) gsap.set(members, { clearProps: "all" });
-    });
-  }
-}
-PageAnimations.register(initAboutAnimation);
-
-function initSecondAbout() {
-  const items = [
-    "Entering the Japan Market",
-    "Founded & Strategically Positioned",
-    "Entering the Japan Market",
-    "Entering the Japan Market",
-    "Entering the Japan Market",
-  ];
-
-  const frame = document.getElementById("frame");
-  const section = document.getElementById("journey-section");
-  const dotsEl = document.getElementById("dots");
-  const outerEl = document.getElementById("outer");
-  const textJourney = document.getElementById("text-journey");
-  if (!frame || !section || !dotsEl || !outerEl || textJourney) return;
-
-  let mm = gsap.matchMedia();
-
-  mm.add("(min-width: 768px)", () => {
-    const cardWraps = [];
-    const dots = [];
-    const ANGLE_STEP = 28;
-
-    // Trạng thái ban đầu: ẩn cards, chuẩn bị text
-    gsap.set(outerEl, { opacity: 0, visibility: "hidden" });
-    gsap.set(textJourney, { opacity: 0, y: 30 });
-
-    // Tạo các item cho Desktop
-    items.forEach((title, i) => {
-      const wrap = document.createElement("div");
-      wrap.className = "card-wrap";
-      wrap.style.position = "absolute";
-      wrap.style.transformOrigin = "0px 50%";
-      wrap.innerHTML = `<div class="card">${title}</div>`;
-      frame.appendChild(wrap);
-      cardWraps.push(wrap);
-
-      const dot = document.createElement("div");
-      dot.className = "dot";
-      dotsEl.appendChild(dot);
-      dots.push(dot);
-    });
-
-    function updateLayout(floatIndex) {
-      const roundedIndex = Math.round(floatIndex);
-      cardWraps.forEach((card, i) => {
-        const diff = i - floatIndex;
-        const abs = Math.abs(diff);
-        const angle = diff * ANGLE_STEP;
-
-        let opacity = 0;
-        if (abs === 0) opacity = 1;
-        else if (abs <= 1) opacity = 1 - abs * 0.35;
-        else if (abs <= 2) opacity = 0.65 - (abs - 1) * 0.3;
-        else opacity = Math.max(0, 0.35 - (abs - 2) * 0.35);
-
-        card
-          .querySelector(".card")
-          .classList.toggle("active", roundedIndex === i);
-        dots[i].classList.toggle("on", roundedIndex === i);
-
-        gsap.set(card, {
-          rotation: angle,
-          opacity: opacity,
-          zIndex: items.length - Math.floor(abs),
-        });
-      });
-    }
-
-    updateLayout(0);
-
-    let introPlayed = false;
-
-    // ScrollTrigger chính để ghim section
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: "+=5000",
-      pin: true,
-      scrub: 0.5,
-      onEnter: () => {
-        if (!introPlayed) {
-          // Khóa cuộn trang khi đang show text
-          document.body.style.overflow = "hidden";
-
-          const introTl = gsap.timeline({
-            onComplete: () => {
-              introPlayed = true;
-              // Mở lại cuộn trang sau khi xong intro
-              document.body.style.overflow = "";
-            },
-          });
-          introTl
-            .to(textJourney, {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              ease: "power2.out",
-            })
-            .to(textJourney, {
-              opacity: 0,
-              y: -20,
-              duration: 0.6,
-              delay: 1.2,
-              ease: "power2.in",
-            })
-            .to(outerEl, {
-              autoAlpha: 1,
-              duration: 0.7,
-              onStart: () => {
-                outerEl.style.visibility = "visible";
-              },
-            });
-        }
-      },
-      onUpdate: (self) => {
-        if (introPlayed) {
-          updateLayout(self.progress * (items.length - 1));
-        }
-      },
-    });
-
-    // Cleanup
-    return () => {
-      frame.innerHTML = "";
-      dotsEl.innerHTML = "";
-      document.body.style.overflow = ""; // Reset scroll lock
-      gsap.set([outerEl, textJourney], { clearProps: "all" });
-    };
-  });
-}
-PageAnimations.register(initSecondAbout);
 
 function initCaseStudy() {
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {

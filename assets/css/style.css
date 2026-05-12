@@ -589,7 +589,22 @@ body img {
 }
 
 .item-game {
-  cursor: url("../images/hover-game.png") 60 60, auto;
+  position: relative;
+  z-index: 5;
+}
+@media (min-width: 1024px) {
+  .item-game {
+    cursor: none;
+  }
+}
+.item-game .desc-item-game {
+  display: none;
+}
+.item-game .arrow-click {
+  transition: 0.4s all !important;
+}
+.item-game.active .arrow-click {
+  transform: rotate(180deg) !important;
 }
 
 .outer::-webkit-scrollbar {
@@ -673,6 +688,16 @@ body img {
   font-size: 12px;
   color: var(--color-text-tertiary);
   margin-bottom: 6px;
+}
+
+.item-member .desc {
+  display: none;
+}
+.item-member .clc-desc-member svg path {
+  transition: all 0.3s ease;
+}
+.item-member .clc-desc-member.active svg path:nth-child(2) {
+  opacity: 0;
 }
 
 /*# sourceMappingURL=style.css.map */
