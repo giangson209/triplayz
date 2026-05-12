@@ -1,4 +1,12 @@
-$(document).ready(function () {
+function initPrivate() {
+  if (window._initPrivateDone) {
+    $(".bar").off("click.nav");
+    $(".close-menu").off("click.nav");
+    $(".item-tools").off("mouseenter.tools mouseleave.tools");
+    window._swiper1?.destroy(true, true);
+    window._swiper2?.destroy(true, true);
+  }
+  window._initPrivateDone = true;
   $(".bar").on("click", function () {
     $(".nav-menu").addClass("active");
   });
@@ -491,4 +499,5 @@ $(document).ready(function () {
     $(this).parents("li").find(".sub-menu-mb").slideToggle();
     $(this).toggleClass("active");
   });
-});
+}
+PageAnimations.register(initPrivate);
