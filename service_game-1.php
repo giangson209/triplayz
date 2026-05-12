@@ -1,87 +1,63 @@
 <?php include 'header.php'; ?>
-<main class="">
-    <section
-        class="relative overflow-hidden h-[auto] md:h-screen pt-25 md:pt-40 2xl:pt-55 pb-10 2xl:pb-20 px-4 md:px-10 2xl:px-20">
-        <img src="assets/images/bn-gami.jpg"
-            class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt="">
-        <div class="wrapper flex flex-col justify-between h-full relative z-2">
-            <div
-                class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none">
-                <img src="assets/images/gami-detail.png" class="w-110 2xl:w-160" alt="">
-            </div>
-            <div class="top mb-8 md:mb-0">
-                <div
-                    class="text-10 md:text-[48px] lg:text-[56px] 2xl:text-[64px] font-medium title-animation text-center md:text-left">
-                    BFSI
-                    Solutions
-                    <br>Built to Scale
-                </div>
-            </div>
-            <div class="bot flex items-end justify-between">
-                <div class="btn-main hidden md:block">
-                    <a href="">
-                        TALK WITH US
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </a>
-                </div>
-                <div class="max-w-full md:max-w-94 w-full opacity-85 anek title-animation text-center md:text-left">
-                    Triplayz helps fintech startups and mid-market companies build complex BFSI platforms with
-                    high-security, stable infrastructure. By combining deep domain expertise with technical precision,
-                    we ensure your system scale without failure.
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-10 md:py-20 2xl:py-25 relative px-10">
-        <div class="wrapper">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
-                <div class="item p-0 lg:p-6">
-                    <div class="mb-3 md:mb-4 lg:mb-6 font-medium text-10 lg:text-[56px] xl:text-[64px] 2xl:text-[80px]">
-                        10y+
+<div data-barba="wrapper">
+    <div data-barba="container" data-barba-namespace="service_game-1.php">
+        <main class="">
+            <section
+                class="relative overflow-hidden h-[auto] md:h-screen pt-25 md:pt-40 2xl:pt-55 pb-10 2xl:pb-20 px-4 md:px-10 2xl:px-20">
+                <img src="assets/images/bn-game-2.png"
+                    class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt="">
+                <div class="wrapper flex flex-col justify-between h-full relative z-2">
+                    <div
+                        class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none">
+                        <img src="assets/images/game-2.png" class="w-110 2xl:w-160" alt="">
                     </div>
-                    <div class="anek text-5 lg:text-6 opacity-85">Customizable Games</div>
-                </div>
-                <div class="item p-0 lg:p-6">
-                    <div class="mb-3 md:mb-4 lg:mb-6 font-medium text-10 lg:text-[56px] xl:text-[64px] 2xl:text-[80px]">
-                        100%
-                    </div>
-                    <div class="anek text-5 lg:text-6 opacity-85">On-time delivery</div>
-                </div>
-                <div class="item p-0 lg:p-6">
-                    <div class="mb-3 md:mb-4 lg:mb-6 font-medium text-10 lg:text-[56px] xl:text-[64px] 2xl:text-[80px]">
-                        < 24H</div>
-                            <div class="anek text-5 lg:text-6 opacity-85">Response SLA</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="py-10 md:py-25 overflow-hidden">
-        <div class="wrapper">
-            <div class="px-4 md:px-10 text-10 mb-6 md:mb-10 font-medium text-center md:text-left">Trusted by the
-                industry
-                leaders</div>
-            <div class="swiper-container swiper-model-1">
-                <div class="swiper-wrapper">
-                    <?php for ($x = 1; $x <= 15; $x++) { ?>
-                        <div class="swiper-slide">
-                            <div
-                                class="item flex items-center py-4 md:py-7.5 px-8 md:px-20 bg-[#FFFFFF0D] rounded-[2px] overflow-hidden">
-                                <img src="assets/images/partner.png" alt="">
-                            </div>
+                    <div class="top mb-8 md:mb-0">
+                        <div
+                            class="text-10 md:text-[48px] lg:text-[56px] 2xl:text-[64px] font-medium title-animation text-center md:text-left max-w-full md:max-w-144">
+                            Gamification Solutions for Enterprises
                         </div>
-                    <?php } ?>
+                    </div>
+                    <div class="bot flex items-end justify-between">
+                        <div class="btn-main hidden md:block">
+                            <a href="">
+                                TALK WITH US
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </a>
+                        </div>
+                        <div class="max-w-full md:max-w-94 w-full opacity-85 anek title-animation text-center md:text-left">
+                            Triplayz helps fintech startups and mid-market companies build complex BFSI platforms with
+                            high-security, stable infrastructure. By combining deep domain expertise with technical precision,
+                            we ensure your system scale without failure.
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
+            <section class="py-10 md:py-25 overflow-hidden">
+                <div class="wrapper">
+                    <div class="px-4 md:px-10 text-10 mb-6 md:mb-10 font-medium text-center md:text-left">Trusted by the
+                        industry
+                        leaders</div>
+                    <div class="swiper-container swiper-model-1">
+                        <div class="swiper-wrapper">
+                            <?php for ($x = 1; $x <= 15; $x++) { ?>
+                                <div class="swiper-slide">
+                                    <div
+                                        class="item flex items-center py-4 md:py-7.5 px-8 md:px-20 bg-[#FFFFFF0D] rounded-[2px] overflow-hidden">
+                                        <img src="assets/images/partner.png" alt="">
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <section class="relative pt-10 md:pt-25 3xl:pt-58 pb-10 md:pb-20 px-4 md:px-10 overflow-hidden">
                 <div class="absolute top-0 left-0 h-full hidden md:flex items-center">
-                    <img src="assets/images/game-1-2.png" class="max-h-full" alt="">
+                    <img src="assets/images/gami-1-2.png" class="max-h-full" alt="">
                 </div>
                 <div class="wrapper relative z-2">
                     <div
@@ -260,23 +236,26 @@
                 </div>
             </section>
 
-            <section class="relative py-10 md:py-25 px-4 md:px-10">
-                <div class="wrapper">
-                    <div class="text-8 md:text-10 2xl:text-[64px] 3xl:text-[80px] text-center font-medium mb-6 md:mb-10">
-                        We offer 20+ Game Capabilities
+            <section class="py-10 md:py-20 lg:py-25 relative overflow-hidden">
+                <div class="absolute top-0 left-0">
+                    <img src="assets/images/gami-1-3.png" alt="">
+                </div>
+                <div class="wrapper pl-0 md:pl-10 relative grid grid-cols-12 gap-6 md:gap-10 relative z-2">
+                    <div
+                        class="item flex items-center justify-center md:justify-start col-span-12 md:col-span-5 2xl:col-span-6 px-4 md:px-0">
+                        <div class="w-full max-w-85 md:max-w-100 2xl:max-w-140 text-center md:text-left">
+                            <div class="text-10 lg:text-[48px] 2xl:text-[64px] font-medium mb-4 lg:mb-8">
+                                Your platform stays up.
+                            </div>
+                            <div class="anek opacity-85">
+                                Enterprise BFSI platforms engineered with compliance, security, and scale from day one — not
+                                patched in after launch.
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center gap-2 md:gap-6 flex-nowrap">
-                        <div class="item">
-                            <a href=""><img src="assets/images/g-1.png" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href=""><img src="assets/images/g-2.png" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href=""><img src="assets/images/g-3.png" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href=""><img src="assets/images/g-4.png" alt=""></a>
+                    <div class="item col-span-12 md:col-span-7 2xl:col-span-6 px-4 md:px-0">
+                        <div class="block">
+                            <img src="assets/images/1000.png" class="w-full" alt="">
                         </div>
                     </div>
                 </div>
@@ -303,7 +282,7 @@
                             class="item-project relative py-5 md:py-6 px-5 md:px-10 bg-[#2B2B38] border-[2px] border-[#FFFFFF26] w-full max-w-full md:max-w-100 2xl:max-w-117 mb-4 last:mb-0">
                             <div class="top flex items-center justify-between">
                                 <h3
-                                    class="text-5 md:text-6 2xl:text-7 font-medium max-w-[calc(100%-48px)] md:max-w-[calc(100%-136px)]  pr-8 text-left">
+                                    class="text-5 md:text-6 2xl:text-7 font-medium max-w-[calc(100%-48px)] md:max-w-[calc(100%-136px)] pr-8 text-left">
                                     Customizable Games
                                 </h3>
                                 <div class="doto text-6 md:text-[48px] 2xl:text-[64px] font-bold opacity-25">/0<?php echo $x; ?>
@@ -316,6 +295,32 @@
                         </div>
                     <?php }
                     ?>
+                </div>
+            </section>
+
+            <section class="py-10 md:py-20 lg:py-25 relative overflow-hidden">
+                <div class="absolute top-0 left-0">
+                    <img src="assets/images/gami-1-3.png" alt="">
+                </div>
+                <div class="wrapper pr-0 md:pr-10 relative grid grid-cols-12 gap-6 md:gap-10 relative z-2">
+                    <div class="item col-span-12 md:col-span-7 2xl:col-span-6 px-4 md:px-0 order-2 md:order-1">
+                        <div class="block">
+                            <img src="assets/images/1000.png" class="w-full" alt="">
+                        </div>
+                    </div>
+                    <div
+                        class="item flex items-center justify-center md:justify-end col-span-12 md:col-span-5 2xl:col-span-6 px-4 md:px-0 order-1 md:order-2">
+                        <div class="w-full max-w-85 md:max-w-100 2xl:max-w-140 text-center md:text-left">
+                            <div class="text-10 lg:text-[48px] 2xl:text-[64px] font-medium mb-4 lg:mb-8">
+                                Your platform stays up.
+                            </div>
+                            <div class="anek opacity-85">
+                                Enterprise BFSI platforms engineered with compliance, security, and scale from day one — not
+                                patched in after launch.
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
@@ -381,7 +386,6 @@
                                             <span
                                                 class="bg-[#7060E5] inline-flex items-center w-3 lg:w-4 h-3 lg:h-4 rounded-[2px]"></span>
                                             GAMIFICATIONS
-
                                         </div>
                                         <h3>
                                             <a href=""

@@ -43,6 +43,27 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms || 0));
 }
 
+
+// ────────────────────────────────────────────────────────────
+// updateNavLinks — disable link trỏ tới page hiện tại
+// ────────────────────────────────────────────────────────────
+function updateNavLinks() {
+  document.querySelectorAll(".h-menu a, .nav-menu a").forEach((a) => {
+    a.classList.remove("is-active");
+    a.removeAttribute("aria-disabled");
+    a.style.pointerEvents = "";
+
+    try {
+      const url = new URL(a.href, location.origin);
+      if (url.pathname === location.pathname) {
+        a.classList.add("is-active");
+        a.setAttribute("aria-disabled", "true");
+        a.style.pointerEvents = "none";
+      }
+    } catch (_) {}
+  });
+}
+updateNavLinks();
 // ═══════════════════════════════════════════════════════════════
 // 3. Page Transition
 // ═══════════════════════════════════════════════════════════════
@@ -289,6 +310,7 @@ function initPageTransition() {
   }
 
   barba.hooks.after(({ next }) => {
+    updateNavLinks();
     PageAnimations.runAll();
     document.querySelectorAll(".h-menu a, .nav-menu a").forEach((a) => {
       a.classList.remove("is-active");
