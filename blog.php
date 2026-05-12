@@ -109,74 +109,74 @@
                 </div>
             </section>
 
-    <!-- Consultation Section (Reused from index.php) -->
-    <section class="py-20 lg:py-25 px-10 relative overflow-hidden hidden md:block wrapper form-parallax-sec text-white">
-        <img src="assets/images/bn-form.jpg" class="w-full h-full absolute object-cover top-0 left-0 form-parallax-img"
-            alt="" style="transform: scale(1.1);">
-        <div class="grid grid-cols-12 gap-10 relative z-2">
-            <div class="item item col-span-12 lg:col-span-6 2xl:col-span-7 h-full flex items-center">
-                <div class="title-animation text-[48px] lg:text-[64px] 3xl:text-[80px] font-medium">Get a free
-                    consultation</div>
-            </div>
-            <div class="item col-span-12 lg:col-span-6 2xl:col-span-5">
-                <div class="bg-white w-full p-10 text-black">
-                    <div class="text-10 font-medium mb-8">Get a free consultation</div>
-                    <div class="grid grid-cols-2 gap-4 3xl:gap-6 anek">
-                        <div class="item">
-                            <input type="text"
-                                class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
-                                placeholder="Firstname">
-                        </div>
-                        <div class="item">
-                            <input type="text"
-                                class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
-                                placeholder="Lastname">
-                        </div>
-                        <div class="item">
-                            <input type="text"
-                                class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
-                                placeholder="Company">
-                        </div>
-                        <div class="item">
-                            <input type="text"
-                                class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
-                                placeholder="Company email">
-                        </div>
-                        <div class="item">
-                            <input type="text"
-                                class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
-                                placeholder="Phone">
-                        </div>
-                        <div class="item">
-                            <select
-                                class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none">
-                                <option value="">Service/Fields</option>
-                                <option value="">Service/Fields</option>
-                                <option value="">Service/Fields</option>
-                                <option value="">Service/Fields</option>
-                                <option value="">Service/Fields</option>
-                            </select>
-                        </div>
-                        <div class="item col-span-2">
-                            <textarea
-                                class="w-full h-28 3xl:h-36 px-5 py-4 border border-[#1D1D2726] rounded-1 outline-none"
-                                placeholder="To better assist you, please describe how we can help...."></textarea>
-                        </div>
-                        <div class="item">
-                            <div class="btn-main">
-                                <a href="" style="border: 1px solid #1D1D2714; background: #1D1D2714;">
-                                    SUBMIT NOW
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                    <span class="dot !bg-[#1D1D27]"></span>
-                                </a>
+            <!-- Consultation Section (Reused from index.php) -->
+            <section class="py-20 lg:py-25 px-10 relative overflow-hidden hidden md:block wrapper form-parallax-sec text-white">
+                <img src="assets/images/bn-form.jpg" class="w-full h-full absolute object-cover top-0 left-0 form-parallax-img"
+                    alt="" style="transform: scale(1.1);">
+                <div class="grid grid-cols-12 gap-10 relative z-2">
+                    <div class="item item col-span-12 lg:col-span-6 2xl:col-span-7 h-full flex items-center">
+                        <div class="title-animation text-[48px] lg:text-[64px] 3xl:text-[80px] font-medium">Get a free
+                            consultation</div>
+                    </div>
+                    <div class="item col-span-12 lg:col-span-6 2xl:col-span-5">
+                        <div class="bg-white w-full p-10 text-black">
+                            <div class="text-10 font-medium mb-8">Get a free consultation</div>
+                            <div class="grid grid-cols-2 gap-4 3xl:gap-6 anek">
+                                <div class="item">
+                                    <input type="text"
+                                        class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
+                                        placeholder="Firstname">
+                                </div>
+                                <div class="item">
+                                    <input type="text"
+                                        class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
+                                        placeholder="Lastname">
+                                </div>
+                                <div class="item">
+                                    <input type="text"
+                                        class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
+                                        placeholder="Company">
+                                </div>
+                                <div class="item">
+                                    <input type="text"
+                                        class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
+                                        placeholder="Company email">
+                                </div>
+                                <div class="item">
+                                    <input type="text"
+                                        class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
+                                        placeholder="Phone">
+                                </div>
+                                <div class="item">
+                                    <select
+                                        class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none">
+                                        <option value="">Service/Fields</option>
+                                        <option value="">Service/Fields</option>
+                                        <option value="">Service/Fields</option>
+                                        <option value="">Service/Fields</option>
+                                        <option value="">Service/Fields</option>
+                                    </select>
+                                </div>
+                                <div class="item col-span-2">
+                                    <textarea
+                                        class="w-full h-28 3xl:h-36 px-5 py-4 border border-[#1D1D2726] rounded-1 outline-none"
+                                        placeholder="To better assist you, please describe how we can help...."></textarea>
+                                </div>
+                                <div class="item">
+                                    <div class="btn-main">
+                                        <a href="" style="border: 1px solid #1D1D2714; background: #1D1D2714;">
+                                            SUBMIT NOW
+                                            <span class="dot !bg-[#1D1D27]"></span>
+                                            <span class="dot !bg-[#1D1D27]"></span>
+                                            <span class="dot !bg-[#1D1D27]"></span>
+                                            <span class="dot !bg-[#1D1D27]"></span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-</main>
+            </section>
+        </main>
 <?php include 'footer.php'; ?>
