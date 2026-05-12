@@ -126,14 +126,22 @@
             </div>
         </div>
     </div>
+
+    <script type='text/javascript' src='assets/lib/js/jquery.min.js'></script>
+    <script type='text/javascript' src='assets/lib/js/wow.min.js'></script>
+    <script type='text/javascript' src='assets/lib/js/swiper.min.js'></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+    <script type="text/javascript" src="assets/js/transition.js?v=<?php echo time() ?>"></script>
+    <script type="text/javascript" src="assets/js/animation.js?v=<?php echo time() ?>"></script>
 </footer>
-<script type='text/javascript' src='assets/lib/js/jquery.min.js'></script>
-<script type='text/javascript' src='assets/lib/js/wow.min.js'></script>
-<script type='text/javascript' src='assets/lib/js/swiper.min.js'></script>
-<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script type="text/javascript" src="assets/js/private.js?v=<?php echo time() ?>"></script>
+
 </body>
 
 </html>

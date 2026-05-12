@@ -1,4 +1,4 @@
-(function initPreloaderTextAnimation() {
+function initPreloaderTextAnimation() {
   function setupSplits(texts) {
     const targets = Array.isArray(texts) ? texts : [texts];
 
@@ -122,6 +122,9 @@
   const columns = document.querySelectorAll("#preloader .column");
 
   if (!ring || !loaderIcon || !columns.length) return;
+
+  if (window._preloaderDone) return;
+
   document.body.style.overflowY = "hidden";
   document.documentElement.style.overflowY = "hidden";
 
@@ -131,8 +134,8 @@
 
   const steps = [
     { pct: 35, duration: 0.7, ease: "power1.inOut" },
-    { pct: 50, duration: 0.5, ease: "power1.inOut" },
-    { pct: 80, duration: 0.8, ease: "power2.inOut" },
+    { pct: 60, duration: 0.5, ease: "power1.inOut" },
+    { pct: 85, duration: 0.8, ease: "power2.inOut" },
     { pct: 100, duration: 0.6, ease: "power2.in" },
   ];
 
@@ -240,14 +243,20 @@
         gsap.set("#preloader", { display: "none" });
         document.body.style.overflowY = "";
         document.documentElement.style.overflowY = "";
+        window._preloaderDone = true;
         window.showScrollbar?.();
       },
     },
     "<0.1",
   );
-})();
+}
+PageAnimations.register(initPreloaderTextAnimation);
 
-(function initCustomScrollbar() {
+
+
+function initCustomScrollbar() {
+  if (window._initCustomScrollbar) return;
+  window._initCustomScrollbar = true;
   let isReady = !document.getElementById("preloader");
 
   const style = document.createElement("style");
@@ -260,7 +269,6 @@
   const TRACK_W = 14;
   const THUMB_W = 10;
   const THUMB_MARGIN = (TRACK_W - THUMB_W) / 2;
-  const THUMB_MIN_H = 48;
 
   const track = document.createElement("div");
   Object.assign(track.style, {
@@ -322,7 +330,7 @@
     const winH = window.innerHeight;
     const trackH = winH;
     const ratio = winH / docH;
-    const thumbH = Math.max(THUMB_MIN_H, trackH * ratio);
+    const thumbH = 64;
     const scrollable = docH - winH;
     const thumbRange = trackH - thumbH;
     const thumbTop =
@@ -405,9 +413,14 @@
   };
 
   updateThumb();
-})();
+}
+PageAnimations.register(initCustomScrollbar);
 
-(function initHeaderAnimation() {
+
+
+function initHeaderAnimation() {
+  if (window._initHeaderAnimation) return;
+  window._initHeaderAnimation = true;
   const overrideStyle = document.createElement("style");
   overrideStyle.textContent = `
   .h-menu li .sub-menu-child,
@@ -527,9 +540,6 @@
     container.addEventListener("mouseenter", openMenu);
     container.addEventListener("mouseleave", closeMenu);
 
-    // Ngăn click trong submenu bubble lên document
-    subMenu.addEventListener("click", (e) => e.stopPropagation());
-
     const ref = {
       get isOpen() {
         return isOpen;
@@ -560,9 +570,12 @@
     if (trigger && arrow && subMenu)
       setupTrigger(trigger, arrow, subMenu, translateBtn); // container = div.btn-head-menu
   }
-})();
+}
+PageAnimations.register(initHeaderAnimation);
 
-(function initVisionShapeAnimation() {
+
+
+function initVisionShapeAnimation() {
   const scrollTrig = document.getElementById("vision-scroll-trigger");
   const section = document.getElementById("vision-pinned-section");
   if (!scrollTrig || !section) return;
@@ -636,11 +649,15 @@
 
   window.addEventListener("resize", onScroll);
   onScroll();
-})();
+}
+PageAnimations.register(initVisionShapeAnimation);
 
-(function initButtonAnimation() {
+
+
+function initButtonAnimation() {
   function wrapButtonContent() {
     document.querySelectorAll(".btn-main a").forEach((a) => {
+      if (a.querySelector(".button-white")) return;
       const nodes = [...a.childNodes];
 
       const whiteDiv = document.createElement("div");
@@ -729,9 +746,12 @@
   }
 
   wrapButtonContent();
-})();
+}
+PageAnimations.register(initButtonAnimation);
 
-(function initPixelatedShader() {
+
+
+function initPixelatedShader() {
   const wrapper = document.querySelector(".gradient-canvas");
   if (!wrapper) return;
 
@@ -1443,9 +1463,12 @@
     material.uniforms.uGridCenter.value.copy(getGridCenter());
     _dirty = true;
   });
-})();
+}
+PageAnimations.register(initPixelatedShader);
 
-(function initVisibilityControl() {
+
+
+function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");
   if (!shaderSection || !globeSection) return;
@@ -1471,15 +1494,17 @@
 
   observer.observe(shaderSection);
   observer.observe(globeSection);
-})();
+}
+PageAnimations.register(initVisibilityControl);
 
-(function init3DGlobeAnimation() {
+
+
+function init3DGlobeAnimation() {
   window.init3DGlobe = async function init3DGlobe() {
     const msgEl = document.getElementById("company-globe-msg");
     const msgText = document.getElementById("company-globe-msg-text");
     const prog = document.getElementById("company-globe-prog");
     if (!msgEl || !msgText || !prog) return;
-
 
     const CITIES = [
       {
@@ -1929,10 +1954,13 @@
   } else {
     window.init3DGlobe();
   }
-})();
+}
+PageAnimations.register(init3DGlobeAnimation);
 
-(function initServiceAnimation() {
 
+
+function initServiceAnimation() {
+  console.log("service run")
   const SRV_IMAGES = [
     "./assets/images/srv-1.svg",
     "./assets/images/srv-2.svg",
@@ -2060,9 +2088,12 @@
   imgFrom.src = SRV_IMAGES[0];
   imgTo.src = SRV_IMAGES[1];
   onScroll();
-})();
+}
+PageAnimations.register(initServiceAnimation);
 
-(function initCompanyDarkOverlay() {
+
+
+function initCompanyDarkOverlay() {
   const section = document.getElementById("company");
   const rows = document.querySelectorAll(".company-dark-row");
   if (!section || !rows.length) return;
@@ -2070,7 +2101,7 @@
   const ROW_DURATION = 420;
   const STAGGER_PX = 130;
   const done = new Array(rows.length).fill(false);
-  const maxT = new Array(rows.length).fill(0); 
+  const maxT = new Array(rows.length).fill(0);
 
   function onScroll() {
     const rect = section.getBoundingClientRect();
@@ -2106,9 +2137,12 @@
 
   window.addEventListener("resize", onScroll);
   onScroll();
-})();
+}
+PageAnimations.register(initCompanyDarkOverlay);
 
-(function initCompanyFadeAnimations() {
+
+
+function initCompanyFadeAnimations() {
   const swiperRows = document.querySelectorAll(
     ".company-marquee .swiper-container",
   );
@@ -2150,9 +2184,12 @@
       });
     },
   });
-})();
+}
+PageAnimations.register(initCompanyFadeAnimations);
 
-(function initCaseStudyCounter() {
+
+
+function initCaseStudyCounter() {
   const items = document.querySelectorAll(".item-casestudy");
   const digitWrap = document.getElementById("case-digit-wrap");
   const digitTrack = document.getElementById("case-digit-track");
@@ -2195,9 +2232,12 @@
   if (typeof lenis !== "undefined") lenis.on("scroll", onScroll);
 
   onScroll();
-})();
+}
+PageAnimations.register(initCaseStudyCounter);
 
-(function initFooterLinkAnimation() {
+
+
+function initFooterLinkAnimation() {
   function run() {
     const footerLinks = Array.from(
       document.querySelectorAll("footer a"),
@@ -2209,6 +2249,7 @@
     });
 
     footerLinks.forEach((a) => {
+      if (a.querySelector(".footer-link-line")) return;
       a.classList.add("footer-anim-link");
 
       const line = document.createElement("span");
@@ -2245,12 +2286,12 @@
 
       a.addEventListener("mouseenter", () => {
         if (!playing) playAction("enter");
-        else pending = "enter"; 
+        else pending = "enter";
       });
 
       a.addEventListener("mouseleave", () => {
         if (!playing) playAction("leave");
-        else pending = "leave"; 
+        else pending = "leave";
       });
     });
   }
@@ -2260,15 +2301,20 @@
   } else {
     run();
   }
-})();
+}
+PageAnimations.register(initFooterLinkAnimation);
 
-(function initWorkWithUsAnimation() {
+
+
+function initWorkWithUsAnimation() {
   function run() {
     let workBtn = null;
     document.querySelectorAll("footer a").forEach((a) => {
       if (a.textContent.trim().startsWith("WORK WITH US")) workBtn = a;
     });
     if (!workBtn) return;
+    if (workBtn.dataset.animInit) return;
+    workBtn.dataset.animInit = "true";
 
     let textContent = "";
     let svgEl = null;
@@ -2324,11 +2370,7 @@
           // svgLeft trượt vào
           tlEnter.to(svgLeft, { x: 0, duration: 0.42, ease: "power1.out" }, 0);
           // text trượt sang phải về đúng vị trí
-          tlEnter.to(
-            textSpan,
-            { x: 0, duration: 0.42, ease: "sine.out" },
-            0,
-          );
+          tlEnter.to(textSpan, { x: 0, duration: 0.42, ease: "sine.out" }, 0);
           // svgRight bị đẩy ra ngoài phải
           tlEnter.to(svgRight, { x: 0, duration: 0.42, ease: "power1.out" }, 0);
         });
@@ -2361,11 +2403,16 @@
   } else {
     run();
   }
-})();
+}
+PageAnimations.register(initWorkWithUsAnimation);
 
-(function initSocialIconFlipAnimation() {
+
+
+function initSocialIconFlipAnimation() {
   function run() {
     document.querySelectorAll(".social-flip-btn").forEach((a) => {
+      if (a.dataset.flipInit) return;
+      a.dataset.flipInit = "true";
       const front = a.querySelector(".social-front");
       const back = a.querySelector(".social-back");
       if (!front || !back) return;
@@ -2436,15 +2483,18 @@
   }
 
   window.addEventListener("load", run);
-})();
+}
+PageAnimations.register(initSocialIconFlipAnimation);
 
-(function initCaseStudyHoverAnimation() {
+
+
+function initCaseStudyHoverAnimation() {
   document.querySelectorAll(".item-casestudy").forEach((item) => {
     const panel = item.querySelector(".desc-absolute");
     if (!panel) return;
 
-    const titleEl = panel.querySelector(".anek.mb-6"); 
-    const quoteEl = panel.querySelector(".font-medium"); 
+    const titleEl = panel.querySelector(".anek.mb-6");
+    const quoteEl = panel.querySelector(".font-medium");
     const logoEl = panel.querySelector(".logo img");
 
     if (!titleEl || !quoteEl || !logoEl) return;
@@ -2542,4 +2592,496 @@
       );
     });
   });
-})();
+}
+PageAnimations.register(initCaseStudyHoverAnimation);
+
+
+
+function initServiceDelivery() {
+  console.log("servicedelivery run");
+  gsap.registerPlugin(ScrollTrigger);
+
+  const steps = document.querySelectorAll(".step-block");
+  const processImg = document.getElementById("process-img");
+  if (!steps.length || !processImg) return;
+
+  steps.forEach((step, index) => {
+    const lineFill = step.querySelector(".line-fill");
+    const stepNum = step.querySelector(".step-num");
+    const imgSrc = step.getAttribute("data-img");
+
+    if (lineFill) {
+      gsap.to(lineFill, {
+        height: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: step,
+          start: "top 60%",
+          end: "bottom 60%",
+          scrub: true,
+        },
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: step,
+      start: "top 60%",
+      onEnter: () => {
+        stepNum.classList.remove("bg-[#1D1D27]", "border-[#FFFFFF26]");
+        stepNum.classList.add("bg-[#8B86F7]", "border-[#8B86F7]", "text-white");
+        changeImage(imgSrc);
+      },
+      onLeaveBack: () => {
+        stepNum.classList.remove(
+          "bg-[#8B86F7]",
+          "border-[#8B86F7]",
+          "text-white",
+        );
+        stepNum.classList.add("bg-[#1D1D27]", "border-[#FFFFFF26]");
+
+        if (index > 0) {
+          const prevImgSrc = steps[index - 1].getAttribute("data-img");
+          changeImage(prevImgSrc);
+        }
+      },
+    });
+  });
+
+  function changeImage(imgSrc) {
+    if (processImg && processImg.getAttribute("src") !== imgSrc) {
+      gsap.killTweensOf(processImg);
+      gsap.to(processImg, {
+        opacity: 0,
+        duration: 0.15,
+        onComplete: () => {
+          processImg.setAttribute("src", imgSrc);
+          gsap.to(processImg, { opacity: 1, duration: 0.15 });
+        },
+      });
+    }
+  }
+
+  if (steps.length > 0) {
+    const firstNum = steps[0].querySelector(".step-num");
+    firstNum.classList.remove("bg-[#1D1D27]", "border-[#FFFFFF26]");
+    firstNum.classList.add("bg-[#8B86F7]", "border-[#8B86F7]", "text-white");
+    if (processImg) {
+      processImg.setAttribute("src", steps[0].getAttribute("data-img"));
+    }
+  }
+}
+PageAnimations.register(initServiceDelivery);
+
+
+
+function initServiceGame() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  let mm = gsap.matchMedia();
+
+  // --- Project Section Animation ---
+  const projectSection = document.getElementById("project");
+
+  if (!projectSection) return;
+
+  if (projectSection) {
+    mm.add("(min-width: 768px)", () => {
+      // Chỉ lấy các item-project nằm trong list-item của desktop
+      const projects = gsap.utils.toArray(".list-item .item-project");
+
+      if (projects.length > 0) {
+        // Hàm xáo trộn mảng để random vị trí
+        const shuffle = (array) => {
+          let currentIndex = array.length,
+            randomIndex;
+          while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+              array[randomIndex],
+              array[currentIndex],
+            ];
+          }
+          return array;
+        };
+
+        // Chia làm 3 làn trên toàn màn hình (vì container là w-full)
+        let randomLanes = [];
+        for (let i = 0; i < projects.length; i += 3) {
+          randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
+        }
+
+        // Set initial positions for projects
+        projects.forEach((proj, i) => {
+          const laneIndex = randomLanes[i];
+
+          // Mỗi làn chiếm khoảng 30%, từ trái sang phải
+          const randomLeft = 5 + laneIndex * 30 + Math.random() * 5;
+
+          // Strict vertical stagger: each item is placed at least 80% of screen height below the previous
+          const startTop = 100 + i * 80 + Math.random() * 15;
+
+          proj.style.pointerEvents = "auto";
+
+          gsap.set(proj, {
+            left: `${randomLeft}%`,
+            top: `${startTop}%`,
+            position: "absolute",
+            zIndex: projects.length - i,
+          });
+        });
+
+        // Calculate total travel distance
+        const lastItemStartTop = 100 + (projects.length - 1) * 80 + 15;
+        const travelDistance = lastItemStartTop + 80;
+
+        gsap.to(projects, {
+          top: `-=${travelDistance}%`,
+          ease: "none",
+          scrollTrigger: {
+            trigger: projectSection,
+            start: "top top",
+            end: `+=${projects.length * 700}`, // Adjust scroll length based on number of items
+            pin: true,
+            scrub: 1.5,
+          },
+        });
+      }
+    });
+
+    mm.add("(max-width: 767px)", () => {
+      const projects = gsap.utils.toArray(".list-item .item-project");
+      if (projects.length > 0) gsap.set(projects, { clearProps: "all" });
+    });
+  }
+}
+PageAnimations.register(initServiceGame);
+
+
+
+function initAboutAnimation() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  let mm = gsap.matchMedia();
+
+  const achieveSection = document.getElementById("achieve-section");
+  const contents = gsap.utils.toArray(".achieve-content");
+  if (!achieveSection || !contents) return;
+
+  if (achieveSection && contents.length > 0) {
+    mm.add("(min-width: 768px)", () => {
+      // Setup initial states
+      gsap.set(contents, { autoAlpha: 0, y: 40 });
+      gsap.set(contents[0], { autoAlpha: 1, y: 0 });
+
+      // Create a timeline for pinning
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: achieveSection,
+          start: "center center",
+          end: "+=3500", // Stretch scrolling distance for smoother feel
+          pin: true,
+          scrub: 1.5, // Add momentum / smoothing to the scroll linkage
+          anticipatePin: 1,
+        },
+      });
+
+      // Pause slightly on the first item
+      tl.to({}, { duration: 1.5 });
+
+      // Animate through contents
+      contents.forEach((content, i) => {
+        if (i === 0) return;
+
+        // Synchronize fade out and fade in using labels
+        tl.add(`step${i}`);
+
+        // Fade out previous item
+        tl.to(
+          contents[i - 1],
+          { autoAlpha: 0, y: -40, duration: 1.5, ease: "power2.inOut" },
+          `step${i}`,
+        );
+
+        // Fade in current item
+        tl.to(
+          content,
+          { autoAlpha: 1, y: 0, duration: 1.5, ease: "power2.inOut" },
+          `step${i}+=0.5`,
+        );
+
+        // Add a pause to allow users to read
+        tl.to({}, { duration: 1.5 });
+      });
+    });
+
+    mm.add("(max-width: 767px)", () => {
+      // Remove inline styles set by GSAP to ensure pure CSS handles mobile
+      gsap.set(contents, { clearProps: "all" });
+    });
+  }
+
+  // --- Leaders Section Animation ---
+  const leadersSection = document.getElementById("leaders-section");
+
+  if (leadersSection) {
+    mm.add("(min-width: 768px)", () => {
+      // Chỉ lấy các item-member nằm trong members-container của desktop
+      const members = gsap.utils.toArray(".members-container .item-member");
+
+      if (members.length > 0) {
+        // Hàm xáo trộn mảng để random vị trí
+        const shuffle = (array) => {
+          let currentIndex = array.length,
+            randomIndex;
+          while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+              array[randomIndex],
+              array[currentIndex],
+            ];
+          }
+          return array;
+        };
+
+        // Tạo danh sách làn đường được xáo trộn ngẫu nhiên từng cụm 3
+        let randomLanes = [];
+        for (let i = 0; i < members.length; i += 3) {
+          randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
+        }
+
+        // Set initial positions for members
+        members.forEach((member, i) => {
+          const laneIndex = randomLanes[i];
+
+          // Mỗi làn chiếm khoảng 30%, cộng thêm tí random
+          const randomLeft = laneIndex * 32 + Math.random() * 5;
+
+          // Strict vertical stagger: each item is placed at least 80% of screen height below the previous
+          // + random(0, 15) to add slight visual irregularity without breaking the gap
+          const startTop = 100 + i * 80 + Math.random() * 15;
+
+          member.style.pointerEvents = "auto";
+
+          gsap.set(member, {
+            left: `${randomLeft}%`,
+            top: `${startTop}%`,
+            position: "absolute",
+            zIndex: members.length - i, // Ensure items that appear later don't inappropriately layer over earlier ones
+          });
+        });
+
+        // Calculate total travel distance needed for the very last item to clear the top of the screen
+        const lastItemStartTop = 100 + (members.length - 1) * 80 + 15;
+        const travelDistance = lastItemStartTop + 80; // Additional 80% to ensure it fully exits
+
+        // Create scroll animation
+        // By moving all items by the EXACT SAME amount (-=travelDistance%),
+        // their vertical gaps are perfectly preserved and they never collide.
+        gsap.to(members, {
+          top: `-=${travelDistance}%`,
+          ease: "none",
+          scrollTrigger: {
+            trigger: leadersSection,
+            start: "top top",
+            end: `+=${members.length * 700}`, // Adjust scroll length based on number of items
+            pin: true,
+            scrub: 1.5,
+          },
+        });
+      }
+    });
+
+    mm.add("(max-width: 767px)", () => {
+      // Clear props on mobile if needed (mostly safe since we only target desktop elements now)
+      const members = gsap.utils.toArray(".members-container .item-member");
+      if (members.length > 0) gsap.set(members, { clearProps: "all" });
+    });
+  }
+}
+PageAnimations.register(initAboutAnimation);
+
+
+
+
+function initSecondAbout() {
+  const items = [
+    "Entering the Japan Market",
+    "Founded & Strategically Positioned",
+    "Entering the Japan Market",
+    "Entering the Japan Market",
+    "Entering the Japan Market",
+  ];
+
+  const frame = document.getElementById("frame");
+  const section = document.getElementById("journey-section");
+  const dotsEl = document.getElementById("dots");
+  const outerEl = document.getElementById("outer");
+  const textJourney = document.getElementById("text-journey");
+  if (!frame || !section || !dotsEl || !outerEl || textJourney) return;
+
+  let mm = gsap.matchMedia();
+
+  mm.add("(min-width: 768px)", () => {
+    const cardWraps = [];
+    const dots = [];
+    const ANGLE_STEP = 28;
+
+    // Trạng thái ban đầu: ẩn cards, chuẩn bị text
+    gsap.set(outerEl, { opacity: 0, visibility: "hidden" });
+    gsap.set(textJourney, { opacity: 0, y: 30 });
+
+    // Tạo các item cho Desktop
+    items.forEach((title, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "card-wrap";
+      wrap.style.position = "absolute";
+      wrap.style.transformOrigin = "0px 50%";
+      wrap.innerHTML = `<div class="card">${title}</div>`;
+      frame.appendChild(wrap);
+      cardWraps.push(wrap);
+
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      dotsEl.appendChild(dot);
+      dots.push(dot);
+    });
+
+    function updateLayout(floatIndex) {
+      const roundedIndex = Math.round(floatIndex);
+      cardWraps.forEach((card, i) => {
+        const diff = i - floatIndex;
+        const abs = Math.abs(diff);
+        const angle = diff * ANGLE_STEP;
+
+        let opacity = 0;
+        if (abs === 0) opacity = 1;
+        else if (abs <= 1) opacity = 1 - abs * 0.35;
+        else if (abs <= 2) opacity = 0.65 - (abs - 1) * 0.3;
+        else opacity = Math.max(0, 0.35 - (abs - 2) * 0.35);
+
+        card
+          .querySelector(".card")
+          .classList.toggle("active", roundedIndex === i);
+        dots[i].classList.toggle("on", roundedIndex === i);
+
+        gsap.set(card, {
+          rotation: angle,
+          opacity: opacity,
+          zIndex: items.length - Math.floor(abs),
+        });
+      });
+    }
+
+    updateLayout(0);
+
+    let introPlayed = false;
+
+    // ScrollTrigger chính để ghim section
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: "+=5000",
+      pin: true,
+      scrub: 0.5,
+      onEnter: () => {
+        if (!introPlayed) {
+          // Khóa cuộn trang khi đang show text
+          document.body.style.overflow = "hidden";
+
+          const introTl = gsap.timeline({
+            onComplete: () => {
+              introPlayed = true;
+              // Mở lại cuộn trang sau khi xong intro
+              document.body.style.overflow = "";
+            },
+          });
+          introTl
+            .to(textJourney, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power2.out",
+            })
+            .to(textJourney, {
+              opacity: 0,
+              y: -20,
+              duration: 0.6,
+              delay: 1.2,
+              ease: "power2.in",
+            })
+            .to(outerEl, {
+              autoAlpha: 1,
+              duration: 0.7,
+              onStart: () => {
+                outerEl.style.visibility = "visible";
+              },
+            });
+        }
+      },
+      onUpdate: (self) => {
+        if (introPlayed) {
+          updateLayout(self.progress * (items.length - 1));
+        }
+      },
+    });
+
+    // Cleanup
+    return () => {
+      frame.innerHTML = "";
+      dotsEl.innerHTML = "";
+      document.body.style.overflow = ""; // Reset scroll lock
+      gsap.set([outerEl, textJourney], { clearProps: "all" });
+    };
+  });
+}
+PageAnimations.register(initSecondAbout);
+
+
+
+
+function initCaseStudy() {
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    const items = document.querySelectorAll("#casestudy-list > .item");
+    if (!items.length) return;
+
+    items.forEach((item, index) => {
+      const isLeft = index % 2 === 0;
+      const startX = isLeft ? "-100vw" : "100vw";
+
+      if (index < 2) {
+        gsap.fromTo(
+          item,
+          { x: startX },
+          {
+            x: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            delay: 0.2,
+          },
+        );
+      } else {
+        gsap.fromTo(
+          item,
+          { x: startX },
+          {
+            x: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 95%",
+              end: "top 50%",
+              scrub: 1,
+            },
+          },
+        );
+      }
+    });
+  }
+}
+PageAnimations.register(initCaseStudy);
+
+
+
+PageAnimations.runAll();

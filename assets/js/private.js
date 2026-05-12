@@ -1,11 +1,18 @@
-$(document).ready(function () {
-
+function initPrivate() {
+  if (window._initPrivateDone) {
+    $(".bar").off("click.nav");
+    $(".close-menu").off("click.nav");
+    $(".item-tools").off("mouseenter.tools mouseleave.tools");
+    window._swiper1?.destroy(true, true);
+    window._swiper2?.destroy(true, true);
+  }
+  window._initPrivateDone = true;
   $(".bar").on("click", function () {
-    $('.nav-menu').addClass('active');
+    $(".nav-menu").addClass("active");
   });
 
   $(".close-menu").on("click", function () {
-    $('.nav-menu').removeClass('active');
+    $(".nav-menu").removeClass("active");
   });
 
   var swiperConfig = {
@@ -161,7 +168,7 @@ $(document).ready(function () {
       if (scrollTrig) {
         const slides = gsap.utils.toArray(".whyus-slide");
         const origins = ["top", "center", "top", "center"];
-        const rotates = [-2, 3, -.5, 2];
+        const rotates = [-2, 3, -0.5, 2];
 
         slides.forEach((sl, i) => {
           sl.classList.remove("opacity-0", "translate-y-10");
@@ -199,7 +206,7 @@ $(document).ready(function () {
             const yPct = Math.max(-100, Math.min(100, (i - tp) * 100));
 
             let rotateX = 0;
-            let rotate = 0
+            let rotate = 0;
             let z = 0;
             let y = 0;
             let opacity = 1;
@@ -331,9 +338,13 @@ $(document).ready(function () {
   $(".form-contact input, .form-contact textarea").on("input", function () {
     var $icon = $(this).siblings(".btn-clear");
     if ($(this).val().length > 0) {
-      $icon.removeClass("opacity-0 pointer-events-none").addClass("!opacity-100 !pointer-events-auto");
+      $icon
+        .removeClass("opacity-0 pointer-events-none")
+        .addClass("!opacity-100 !pointer-events-auto");
     } else {
-      $icon.addClass("opacity-0 pointer-events-none").removeClass("!opacity-100 !pointer-events-auto");
+      $icon
+        .addClass("opacity-0 pointer-events-none")
+        .removeClass("!opacity-100 !pointer-events-auto");
     }
   });
 
@@ -353,19 +364,25 @@ $(document).ready(function () {
 
     $this.on("mouseenter", function (e) {
       // Clear all other items in the same list instantly to ensure only ONE liquid is visible
-      $this.closest(".list").find(".item-tools").not($this).each(function() {
-        let $other = $(this);
-        let $otherPath = $other.find(".d-award-path");
-        let $otherLogo = $other.find(".logo");
-        
-        // Kill any running timelines on siblings
-        gsap.killTweensOf($otherPath);
-        gsap.killTweensOf($otherLogo);
-        
-        // Reset siblings to hidden/empty state
-        gsap.set($otherPath, { attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" } });
-        gsap.set($otherLogo, { opacity: window.innerWidth < 768 ? 1 : 0 });
-      });
+      $this
+        .closest(".list")
+        .find(".item-tools")
+        .not($this)
+        .each(function () {
+          let $other = $(this);
+          let $otherPath = $other.find(".d-award-path");
+          let $otherLogo = $other.find(".logo");
+
+          // Kill any running timelines on siblings
+          gsap.killTweensOf($otherPath);
+          gsap.killTweensOf($otherLogo);
+
+          // Reset siblings to hidden/empty state
+          gsap.set($otherPath, {
+            attr: { d: "M 0 100 V 100 Q 250 100 500 100 V 100 z" },
+          });
+          gsap.set($otherLogo, { opacity: window.innerWidth < 768 ? 1 : 0 });
+        });
 
       if (tl) tl.kill();
       tl = gsap.timeline();
@@ -381,27 +398,39 @@ $(document).ready(function () {
 
       if (isTop) {
         // Enter from top (Moving DOWN): Arch DOWN
-        gsap.set($path[0], { attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" } });
-        tl.to($path[0], {
-          attr: { d: "M 0 0 Q 250 40 500 0 V 50 Q 250 90 0 50 z" },
-          duration: 0.15,
-          ease: "power2.in",
-        }, 0).to($path[0], {
+        gsap.set($path[0], {
+          attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" },
+        });
+        tl.to(
+          $path[0],
+          {
+            attr: { d: "M 0 0 Q 250 40 500 0 V 50 Q 250 90 0 50 z" },
+            duration: 0.15,
+            ease: "power2.in",
+          },
+          0,
+        ).to($path[0], {
           attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" },
           duration: 0.15,
           ease: "power2.out",
         });
       } else {
         // Enter from bottom (Moving UP): Arch UP
-        gsap.set($path[0], { attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" } });
-        tl.to($path[0], {
-          attr: { d: "M 0 100 Q 250 80 500 100 V 50 Q 250 -20 0 50 z" },
-          duration: 0.15,
-          ease: "power2.in"
-        }, 0).to($path[0], {
+        gsap.set($path[0], {
+          attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" },
+        });
+        tl.to(
+          $path[0],
+          {
+            attr: { d: "M 0 100 Q 250 80 500 100 V 50 Q 250 -20 0 50 z" },
+            duration: 0.15,
+            ease: "power2.in",
+          },
+          0,
+        ).to($path[0], {
           attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" },
           duration: 0.15,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       }
     });
@@ -415,31 +444,51 @@ $(document).ready(function () {
       let isTop = relY < rect.height / 2;
 
       // Animate logo opacity back
-      tl.to($logo, { opacity: window.innerWidth < 768 ? 1 : 0, duration: 0.2, ease: "power2.in" }, 0);
+      tl.to(
+        $logo,
+        {
+          opacity: window.innerWidth < 768 ? 1 : 0,
+          duration: 0.2,
+          ease: "power2.in",
+        },
+        0,
+      );
 
       if (isTop) {
         // Exit from top (Moving UP): Arch UP
-        gsap.set($path[0], { attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" } });
-        tl.to($path[0], {
-          attr: { d: "M 0 0 Q 250 20 500 0 V 50 Q 250 -30 0 50 z" },
-          duration: 0.12,
-          ease: "power2.in"
-        }, 0).to($path[0], {
+        gsap.set($path[0], {
+          attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" },
+        });
+        tl.to(
+          $path[0],
+          {
+            attr: { d: "M 0 0 Q 250 20 500 0 V 50 Q 250 -30 0 50 z" },
+            duration: 0.12,
+            ease: "power2.in",
+          },
+          0,
+        ).to($path[0], {
           attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" },
           duration: 0.12,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       } else {
         // Exit from bottom (Moving DOWN): Arch DOWN
-        gsap.set($path[0], { attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" } });
-        tl.to($path[0], {
-          attr: { d: "M 0 100 Q 250 70 500 100 V 50 Q 250 120 0 50 z" },
-          duration: 0.12,
-          ease: "power2.in"
-        }, 0).to($path[0], {
+        gsap.set($path[0], {
+          attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" },
+        });
+        tl.to(
+          $path[0],
+          {
+            attr: { d: "M 0 100 Q 250 70 500 100 V 50 Q 250 120 0 50 z" },
+            duration: 0.12,
+            ease: "power2.in",
+          },
+          0,
+        ).to($path[0], {
           attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" },
           duration: 0.12,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       }
     });
@@ -450,7 +499,5 @@ $(document).ready(function () {
     $(this).parents("li").find(".sub-menu-mb").slideToggle();
     $(this).toggleClass("active");
   });
-});
-
-
-
+}
+PageAnimations.register(initPrivate);

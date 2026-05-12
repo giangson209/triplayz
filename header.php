@@ -293,26 +293,4 @@
                 <li><a href="contact.php">Contact</a></li>
             </ul>
         </div>
-
-        <div class="translate-mobile relative text-[20px] font-normal py-6">
-            <div class="inline-flex px-6 py-4 items-center gap-2 [#2B2B38] border border-[#FFFFFF26] rounded-[2px]">
-                <div class="flag flex items-center">
-                    <img src="assets/images/eng.png" alt="">
-                </div>
-                <span>English</span>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
-                </svg>
-            </div>
-        </div>
-        <div class="block text-[16px] font-normal anek">
-            <div class="opacity-65 uppercase mb-3">CONTACT</div>
-            <ul class="mb-3">
-                <li>T: (+84) 868 217 954</li>
-                <li>(日本): 050 5539 3197</li>
-                <li>E: contact@triplayz.com</li>
-            </ul>
-            <p>3 Le Van Huu Street, Hai Ba Trung Ward, Hanoi, Vietnam</p>
-        </div>
-
-    </div>
+    </header>
