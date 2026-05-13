@@ -837,11 +837,13 @@ footer a.footer-anim-link .footer-link-line {
   inset: 0;
   z-index: 3;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .mosaic-cell {
   position: absolute;
   overflow: hidden;
+  contain: paint;
 }
 
 .mosaic-cell img {
@@ -849,4 +851,8 @@ footer a.footer-anim-link .footer-link-line {
   display: block;
   pointer-events: none;
   user-select: none;
+}
+
+.item-pixel {
+  padding-bottom: 22vh;
 }

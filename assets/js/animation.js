@@ -5132,8 +5132,8 @@ function initMosaicAndPixelReveal() {
   const section = document.querySelector(".random-pixel");
   if (!section) return;
 
-  const COLS = 30;
-  const ROWS = 15;
+  const COLS = 32;
+  const ROWS = 16;
   const ROW_BLEND = 4;
 
   const CELL_COLOR = "#1d1d27";
@@ -5258,7 +5258,7 @@ function initMosaicAndPixelReveal() {
   Object.assign(section.style, {
     position: "sticky",
     top: "0",
-    height: "100vh",
+    height: "120vh",
     overflow: "hidden",
   });
 
@@ -5328,19 +5328,39 @@ function initMosaicAndPixelReveal() {
 
           el.className = "mosaic-cell";
 
-          const bpx = (ox - col * cellW).toFixed(4);
-          const bpy = (oy - row * cellH).toFixed(4);
+          // overlap nhẹ để tránh seam
+          const overlap = 1;
 
-          el.style.cssText =
-            `left:${((col / COLS) * 100).toFixed(4)}%;` +
-            `top:${((row / ROWS) * 100).toFixed(4)}%;` +
-            `width:${(100 / COLS).toFixed(4)}%;` +
-            `height:${(100 / ROWS).toFixed(4)}%;` +
-            `opacity:0;` +
-            `will-change:opacity;` +
-            `background-image:url(${missionImgEl.src});` +
-            `background-size:${bgW}% ${bgH}%;` +
-            `background-position:${bpx}px ${bpy}px;`;
+          const x = col * cellW;
+          const y = row * cellH;
+
+          const bpx = ox - x;
+          const bpy = oy - y;
+
+          el.style.cssText = `
+            position:absolute;
+
+            left:${x - overlap / 2}px;
+            top:${y - overlap / 2}px;
+
+            width:${cellW + overlap}px;
+            height:${cellH + overlap}px;
+
+            opacity:0;
+            will-change:opacity;
+
+            background-image:url(${missionImgEl.src});
+
+            /* scale nhẹ hơn để che line */
+            background-size:${rW + 2}px ${rH + 2}px;
+
+            background-position:${bpx - 1}px ${bpy - 1}px;
+
+            background-repeat:no-repeat;
+
+            backface-visibility:hidden;
+            transform:translateZ(0);
+          `;
 
           mosaicGrid.appendChild(el);
 

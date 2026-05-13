@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 <div data-barba="wrapper">
-    <div data-barba="container" data-barba-namespace="blog_detail">
+    <div data-barba="container" data-barba-namespace="about">
         <main>
             <section class="relative overflow-hidden">
                 <div class="block">
@@ -55,7 +55,6 @@
                 </div>
             </section>
             <section class="relative random-pixel">
-
                 <!-- Vision Wrapper (z-index thấp hơn) -->
                 <div class="pixel-wrapper vision-wrapper">
                     <img src="assets/images/bn-about.png"
@@ -69,7 +68,7 @@
                         </div>
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item item-pixel">
                         <div class="w-full max-w-98 ml-auto anek">
                         Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
                         technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
@@ -92,7 +91,7 @@
                         </div>
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item item-pixel">
                         <div class="w-full max-w-98 ml-auto anek">
                         Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
                         technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
