@@ -123,7 +123,13 @@ function initPreloaderTextAnimation() {
 
   if (!ring || !loaderIcon || !columns.length) return;
 
-  if (window._preloaderDone) return;
+  if (window._preloaderDone) {
+    document.querySelectorAll(".hero-intro, .hero-title").forEach((el) => {
+      el.style.opacity = "1";
+      el.style.visibility = "visible";
+    });
+    return;
+  }
 
   document.body.style.overflowY = "hidden";
   document.documentElement.style.overflowY = "hidden";
@@ -1467,12 +1473,16 @@ function initPixelatedShader() {
     material.uniforms.uPulseAge.value = s.pulseAge;
     _dirty = true;
 
-    // Nếu đã reveal xong thì resume pulse loop
     if (s.revealAge >= 1.35) {
       setTimeout(runPulseLoop, 500);
     }
 
     window._shaderSavedState = null;
+  } else if (window._preloaderDone) {
+    
+    material.uniforms.uRevealAge.value = 1.35;
+    _dirty = true;
+    setTimeout(runPulseLoop, 500);
   }
 }
 PageAnimations.register(initPixelatedShader);
