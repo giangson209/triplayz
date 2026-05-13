@@ -20,7 +20,8 @@
                 </div>
             </section>
 
-            <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
+            <section id="service"
+                class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
                 <div class="wrapper relative">
                     <div class="absolute top-0 right-0 pointer-events-none">
                         <img class="srv-bg" src="assets/images/asci.png" alt="">
@@ -48,7 +49,8 @@
                                 </div>
                                 <div
                                     class="text-animation max-w-full md:max-w-1/2 xl:max-w-103 w-full anek opacity-85 order-1 md:order-2 mb-6 md:mb-0">
-                                    We combine technical precision with strategic thinking — so every solution we deliver moves
+                                    We combine technical precision with strategic thinking — so every solution we
+                                    deliver moves
                                     your business meaningfully forward.
                                 </div>
                             </div>
@@ -143,7 +145,8 @@
                                             <?php echo ['Gamification', 'BFSI Solution', 'Digital Solution'][$x - 1]; ?>
                                         </div>
                                         <div class="desc mb-5 opacity-85 anek">
-                                            We combine technical precision with strategic thinking — so every solution we deliver
+                                            We combine technical precision with strategic thinking — so every solution we
+                                            deliver
                                             moves your business meaningfully forward.
                                         </div>
                                         <ul class="desc-item-servce grid grid-cols-2 gap-x-5 gap-y-1 pl-4 list-disc anek">
@@ -163,7 +166,8 @@
                 <div class="wrapper">
                     <div class="block lg:flex items-end justify-between mb-20 lg:mb-25 2xl:mb-36">
                         <div class="item">
-                            <div class="text-10 lg:text-[64px] 2xl:text-[80px] 3xl:text-[124px] font-medium title-animation">
+                            <div
+                                class="text-10 lg:text-[64px] 2xl:text-[80px] 3xl:text-[124px] font-medium title-animation">
                                 Technologies <br> & Tools
                             </div>
                         </div>
@@ -174,57 +178,102 @@
                         </div>
                     </div>
 
-                <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-x-20 md:gap-x-10 lg:gap-x-25 2xl:gap-x-50 gap-y-20 lg:gap-y-35">
-                    <?php
-                    for ($j = 1; $j <= 5; $j++) { ?>
-                        <div class="item">
-                            <div class="top anek mb-5 lg:mb-6">
-                                <div class="mb-4 flex items-center justify-between">
-                                    <span class="title-animation">Front-end languages & frameworks</span>
-                                    <div class="icon">
-                                        <img src="assets/images/cpu.svg" alt="">
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-x-20 md:gap-x-10 lg:gap-x-25 2xl:gap-x-50 gap-y-20 lg:gap-y-35">
+                        <?php
+                        for ($j = 1; $j <= 5; $j++) { ?>
+                            <div class="item">
+                                <div class="top font-medium mb-5 lg:mb-6">
+                                    <div class="mb-4 flex items-center justify-between">
+                                        <span class="title-animation">Front-end languages & frameworks</span>
+                                        <div class="icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="5" y="3" width="14" height="2" fill="white" />
+                                                <rect x="5" y="19" width="14" height="2" fill="white" />
+                                                <rect x="3" y="5" width="2" height="14" fill="white" />
+                                                <rect x="19" y="5" width="2" height="14" fill="white" />
+                                                <rect x="9" y="7" width="6" height="2" fill="white" />
+                                                <rect x="9" y="15" width="6" height="2" fill="white" />
+                                                <rect x="7" y="9" width="2" height="6" fill="white" />
+                                                <rect x="15" y="9" width="2" height="6" fill="white" />
+                                                <rect x="11" y="1" width="2" height="2" fill="white" />
+                                                <rect x="11" y="21" width="2" height="2" fill="white" />
+                                                <rect x="1" y="11" width="2" height="2" fill="white" />
+                                                <rect x="21" y="11" width="2" height="2" fill="white" />
+                                                <rect x="21" y="7" width="2" height="2" fill="white" />
+                                                <rect x="21" y="15" width="2" height="2" fill="white" />
+                                                <rect x="1" y="15" width="2" height="2" fill="white" />
+                                                <rect x="1" y="7" width="2" height="2" fill="white" />
+                                                <rect x="7" y="1" width="2" height="2" fill="white" />
+                                                <rect x="15" y="1" width="2" height="2" fill="white" />
+                                                <rect x="15" y="21" width="2" height="2" fill="white" />
+                                                <rect x="7" y="21" width="2" height="2" fill="white" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
+                                </div>
+                                <div class="flex flex-wrap gap-4">
+                                    <div class="item">
+                                        <img src="assets/images/sv-2.png" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img src="assets/images/sv-3.png" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img src="assets/images/sv-2.png" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img src="assets/images/sv-3.png" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img src="assets/images/sv-2.png" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img src="assets/images/sv-3.png" alt="">
                                     </div>
                                 </div>
-                                <div class="line"><img src="assets/images/line-cpu.svg" class="w-full" alt=""></div>
-                            </div>
-                            <div class="list relative text-5 lg:text-6 font-medium">
-                                <?php
-                                for ($x = 1; $x <= 3; $x++) { ?>
-                                    <div
-                                        class="item item-tools relative overflow-hidden flex items-center justify-between px-0 lg:px-6 py-3 md:py-4 lg:py-6 border-b-[2px] border-[#594CBC]">
-                                        <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
-                                        <span>Kafka</span>
-                                        <div class="logo opacity-100 md:opacity-0">
-                                            <img src="assets/images/kafa.png" alt="">
-                                        </div>
+                                <div class="list relative text-5 lg:text-6 font-medium hidden">
+                                    <?php
+                                    for ($x = 1; $x <= 3; $x++) { ?>
+                                        <div
+                                            class="item item-tools relative overflow-hidden flex items-center justify-between px-0 lg:px-6 py-3 md:py-4 lg:py-6 border-b-[2px] border-[#594CBC]">
+                                            <a href="" class="absolute top-0 left-0 w-full h-full z-3"></a>
+                                            <span>Kafka</span>
+                                            <div class="logo opacity-100 md:opacity-0">
+                                                <img src="assets/images/kafa.png" alt="">
+                                            </div>
 
-                                        <svg class="d-studio-award-block--filler absolute top-0 left-0 w-full h-full -z-10"
-                                            viewBox="0 0 500 100" preserveAspectRatio="none" style="opacity: 0;">
-                                            <path fill="#8B86F7" class="d-award-path" d="M 0 100 V 100 Q 250 100 500 100 V 100 z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                <?php }
-                                ?>
+                                            <svg class="d-studio-award-block--filler absolute top-0 left-0 w-full h-full -z-10"
+                                                viewBox="0 0 500 100" preserveAspectRatio="none" style="opacity: 0;">
+                                                <path fill="#8B86F7" class="d-award-path"
+                                                    d="M 0 100 V 100 Q 250 100 500 100 V 100 z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    <?php }
+                                    ?>
+                                </div>
                             </div>
-                        </div>
-                    <?php }
-                    ?>
-                </div>
+                        <?php }
+                        ?>
+                    </div>
             </section>
 
-            <section class="py-10 md:py-25 px-4 md:px-10 relative">
+            <section class="px-4 md:px-10 relative">
                 <div class="block lg:grid grid-cols-2 gap-20">
-                    <div class="item mb-10 lg:mb-0">
-                        <div class="sticky top-6">
-                            <div class="top mb-10 md:mb-16 2xl:mb-25">
+                    <div class="item">
+                        <div class="sticky top-0 h-[auto] lg:h-[100vh] py-10 lg:py-25 flex flex-col justify-between">
+                            <div class="top mb-0 lg:mb-16 2xl:mb-25">
                                 <div class="block 2xl:flex items-center gap-10">
                                     <span class="anek opacity-65 title-animation">/DELIVERY PROCESS</span>
-                                    <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium title-animation">We validate
+                                    <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium title-animation">We
+                                        validate
                                     </div>
                                 </div>
-                                <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium opacity-35 title-animation">
+                                <div
+                                    class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium opacity-35 title-animation">
                                     concepts &
                                     attract
                                 </div>
@@ -232,11 +281,12 @@
 
                             <div class="avarta hidden lg:block">
                                 <img src="assets/images/detail-1.png"
-                                    class="max-h-60 2xl:max-h-85 transition-opacity duration-300" alt="" id="process-img">
+                                    class="max-h-60 2xl:max-h-85 transition-opacity duration-300" alt=""
+                                    id="process-img">
                             </div>
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item pt-0 lg:pt-[100vh] pb-10 lg:pb-[45vh]">
                         <?php
                         // Mảng dữ liệu mẫu (sau này bạn thay bằng dữ liệu từ database)
                         $process_steps = [
@@ -272,7 +322,8 @@
                             ?>
                             <div class="item-step relative pb-16 2xl:pb-25 last:pb-0 flex step-block"
                                 data-img="<?php echo $step['image']; ?>">
-                                <div class="line w-0.5 h-full bg-[#2F2F38] absolute top-0 left-4.5 lg:left-9 overflow-hidden">
+                                <div
+                                    class="line w-0.5 h-full bg-[#2F2F38] absolute top-0 left-4.5 lg:left-9 overflow-hidden">
                                     <div class="line-fill w-full bg-[#8B86F7]" style="height: 0%;"></div>
                                 </div>
                                 <div class="w-full max-w-10 lg:max-w-18 relative font-bold text-5 lg:text-8">

@@ -3,17 +3,24 @@
         <img src="assets/images/bg-footer.png" class="w-full h-full top-0 left-0 absolute object-cover" alt="">
         <div class="grid grid-cols-12 gap-0 md:gap-6 relative z-2">
             <div class="item col-span-12 md:col-span-6 3xl:col-span-7 relative order-2 md:order-1">
-                <div class="logo mb-[-64px] md:mb-55 px-6 md:px-0"><img src="assets/images/logo-fter.png" alt=""></div>
-                <div class="text-8 lg:text-[42px] 2xl:text-[56px] 3xl:text-[64px] font-medium mb-6 md:mb-12 relative z-3">
-                    Ready to Bring Your <br>Vision to Life?
+                <div class="logo mb-[-64px] md:mb-22 px-6 md:px-0 max-w-full lg:max-w-68.5 lg:max-w-87.5 3xl:max-w-100">
+                    <img src="assets/images/logo-fter.png" alt="">
                 </div>
-                <ul class="block md:flex items-center gap-4 lg:gap-10 anek">
-                    <li class="other-info mb-4 last:mb-0">© 2026 TriPlayZ</li>
-                    <li class="other-info mb-4 last:mb-0"><a href="">Terms & Conditions</a></li>
-                    <li class="other-info mb-4 last:mb-0"><a href="">Privacy Policy</a></li>
-                </ul>
+                <div class="block">
+                    <div
+                        class="text-7 md:text-8 lg:text-[42px] 2xl:text-[56px] 3xl:text-[64px] font-medium mb-6 md:mb-12 relative z-3 text-center lg:text-left">
+                        Ready to Bring Your <br>Vision to Life?
+                    </div>
+                    <ul class="hidden md:flex items-center gap-4 lg:gap-10 anek">
+                        <li class="other-info mb-4 last:mb-0">© 2026 TriPlayZ</li>
+                        <li class="other-info mb-4 last:mb-0"><a href="">Terms & Conditions</a></li>
+                        <li class="other-info mb-4 last:mb-0"><a href="">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
             </div>
-            <div class="item col-span-12 md:col-span-6 3xl:col-span-5 anek relative flex flex-col justify-between order-1 md:order-2">
+            <div
+                class="item col-span-12 md:col-span-6 3xl:col-span-5 anek relative flex flex-col justify-between order-1 md:order-2">
                 <div class="absolute top-0 right-0 hidden md:block">
                     <ul>
                         <li class="mb-6 last:mb-0">
@@ -50,8 +57,10 @@
                 </div>
                 <div class="top">
                     <div class="pr-0 md:pr-18">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pl-0 md:pl-6 border-0 md:border-l border-[#FFFFFF26]">
-                            <div class="item md:border-r border-[#FFFFFF26] pr-0 md:pr-10 3xl:pr-0 relative pl-6 md:pl-0">
+                        <div
+                            class="grid grid-cols-1 lg:grid-cols-2 gap-6 pl-0 md:pl-6 border-0 md:border-l border-[#FFFFFF26]">
+                            <div
+                                class="item md:border-r border-[#FFFFFF26] pr-0 md:pr-10 3xl:pr-0 relative pl-6 md:pl-0">
                                 <div class="block md:hidden absolute top-0 left-0 w-[1px] h-full bg-[#FFFFFF26]"></div>
                                 <div class="item mb-8 3xl:mb-25 last:mb-0">
                                     <div class="text-5 3xl:text-6 font-semibold mb-4">SERVICES</div>
@@ -72,12 +81,14 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="item md:border-r border-[#FFFFFF26] pr-0 md:pr-10 3xl:pr-0 relative pl-6 md:pl-0">
+                            <div
+                                class="item md:border-r border-[#FFFFFF26] pr-0 md:pr-10 3xl:pr-0 relative pl-6 md:pl-0">
                                 <div class="block md:hidden absolute top-0 left-0 w-[1px] h-full bg-[#FFFFFF26]"></div>
                                 <div class="item mb-8 3xl:mb-25 last:mb-0">
                                     <div class="text-5 3xl:text-6 font-semibold mb-4">OFFICES</div>
                                     <ul>
-                                        <li class="mb-3 md:mb-6 lg:mb-18 last:mb-0">3 Le Van Huu Street, Hai Ba Trung Ward, Hanoi, Vietnam</li>
+                                        <li class="mb-3 md:mb-6 lg:mb-18 last:mb-0">3 Le Van Huu Street, Hai Ba Trung
+                                            Ward, Hanoi, Vietnam</li>
                                         <li class="mb-3 md:mb-6 lg:mb-18 last:mb-0">
                                             T: (+84) 868 217 954 <br>
                                             (日本): 050 5539 3197 <br>
@@ -112,13 +123,17 @@
                 <div class="bot">
                     <div class="flex items-center justify-between pt-0 md:pt-4 pb-4">
                         <a href="">GET IN TOUCH WITH US</a>
-                        <span>[UTC +7] Hanoi, Vietnam</span>
+                        <span class="hidden md:block">[UTC +7] Hanoi, Vietnam</span>
                     </div>
                     <div class="w-full">
-                        <a href="" class="flex items-center justify-center gap-4 py-4 md:py-6 lg:py-10 2xl:py-12 3xl:py-14 px-10 border border-[#FFFFFF26] bg-[#6154C4]">
+                        <a href=""
+                            class="flex items-center justify-center gap-4 py-4 md:py-6 lg:py-10 2xl:py-12 3xl:py-14 px-10 border border-[#FFFFFF26] bg-[#6154C4]">
                             WORK WITH US
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22.667L14.667 22.667L14.667 20L17.333 20L17.333 17.333L20 17.333L20 14.667L17.333 14.667L17.333 12L14.667 12L14.667 9.33301L12 9.33301L12 22.667Z" fill="white"/>
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 22.667L14.667 22.667L14.667 20L17.333 20L17.333 17.333L20 17.333L20 14.667L17.333 14.667L17.333 12L14.667 12L14.667 9.33301L12 9.33301L12 22.667Z"
+                                    fill="white" />
                             </svg>
                         </a>
                     </div>

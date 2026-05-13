@@ -8,7 +8,7 @@
                     class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt="">
                 <div class="wrapper flex flex-col justify-between h-full relative z-2">
                     <div
-                        class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none">
+                        class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none scale-100 xl:scale-78 2xl:scale-80 3xl:scale-100">
                         <img src="assets/images/game-2.png" class="w-110 2xl:w-160" alt="">
                     </div>
                     <div class="top mb-8 md:mb-0">
@@ -73,9 +73,10 @@
 
             <section class="pt-0 md:pt-20 py-10 md:py-20 px-4 md:px-10">
                 <div class="wraaper pt-6 md:pt-0 border-t-[1px] md:border-0 border-[#FFFFFF26]">
-                    <div
-                        class="text-8 lg:text-6 font-medium pb-4 lg:pb-6 mb-0 md:mb-4 lg:mb-6 border-0 md:border-b-[1px] border-[#FFFFFF26]">
-                        Banking Solution
+                    <div class="text-5 md:text-6 font-medium mb-4 lg:mb-6 border-b-[1px] border-[#FFFFFF26]">
+                        <span
+                            class="inline-flex text-[#1D1D27] px-5 md:px-8 py-2 md:py-3 rounded-[4px_4px_0_0] bg-[#97DAFF]">Banking
+                            Solution</span>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
                         <div class="item block lg:flex flex-col justify-between gap-10">
@@ -86,20 +87,33 @@
                             </div>
                             <div class="w-full max-w-86 relative anek py-10 px-8 hidden lg:block">
                                 <div class="absolute top-0 left-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H16V3.2H3.2V16H0V0Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 0H16V3.2H3.2V16H0V0Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="absolute top-0 right-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 0H0V3.2H12.8V16H16V0Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 0H0V3.2H12.8V16H16V0Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="absolute bottom-0 left-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 16H16V12.8H3.2V0H0V16Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 16H16V12.8H3.2V0H0V16Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="absolute bottom-0 right-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 16H0V12.8H12.8V0H16V16Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 16H0V12.8H12.8V0H16V16Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="opacity-85 relative z-2">
                                     We help brands create immersive digital experiences that turn passive audiences into
-                                    active participants — driving deeper engagement at every touchpoint.
+                                    active
+                                    participants — driving deeper engagement at every touchpoint.
                                 </div>
                             </div>
                         </div>
@@ -108,19 +122,24 @@
                                 data-img="assets/images/hover-1.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -133,19 +152,24 @@
                                 data-img="assets/images/hover-2.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Virtual Brand World</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -158,19 +182,24 @@
                                 data-img="assets/images/hover-3.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Virtual Brand World</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -183,19 +212,24 @@
                                 data-img="assets/images/hover-4.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -211,9 +245,10 @@
 
             <section class="pt-0 md:pt-20 py-10 md:py-20 px-4 md:px-10">
                 <div class="wraaper pt-6 md:pt-0 border-t-[1px] md:border-0 border-[#FFFFFF26]">
-                    <div
-                        class="text-8 lg:text-6 font-medium pb-4 lg:pb-6 mb-0 md:mb-4 lg:mb-6 border-0 md:border-b-[1px] border-[#FFFFFF26]">
-                        Banking Solution
+                    <div class="text-5 md:text-6 font-medium mb-4 lg:mb-6 border-b-[1px] border-[#FFFFFF26]">
+                        <span
+                            class="inline-flex text-[#1D1D27] px-5 md:px-8 py-2 md:py-3 rounded-[4px_4px_0_0] bg-[#97DAFF]">Banking
+                            Solution</span>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
                         <div class="item block lg:flex flex-col justify-between gap-10">
@@ -224,20 +259,33 @@
                             </div>
                             <div class="w-full max-w-86 relative anek py-10 px-8 hidden lg:block">
                                 <div class="absolute top-0 left-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H16V3.2H3.2V16H0V0Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 0H16V3.2H3.2V16H0V0Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="absolute top-0 right-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 0H0V3.2H12.8V16H16V0Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 0H0V3.2H12.8V16H16V0Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="absolute bottom-0 left-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 16H16V12.8H3.2V0H0V16Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 16H16V12.8H3.2V0H0V16Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="absolute bottom-0 right-0">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 16H0V12.8H12.8V0H16V16Z" fill="white" /></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 16H0V12.8H12.8V0H16V16Z" fill="white" />
+                                    </svg>
                                 </div>
                                 <div class="opacity-85 relative z-2">
                                     We help brands create immersive digital experiences that turn passive audiences into
-                                    active participants — driving deeper engagement at every touchpoint.
+                                    active
+                                    participants — driving deeper engagement at every touchpoint.
                                 </div>
                             </div>
                         </div>
@@ -246,19 +294,24 @@
                                 data-img="assets/images/hover-1.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -271,19 +324,24 @@
                                 data-img="assets/images/hover-2.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -296,19 +354,24 @@
                                 data-img="assets/images/hover-3.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -321,19 +384,24 @@
                                 data-img="assets/images/hover-4.png">
                                 <div class="border-b-[1px] border-[#FFFFFF26] pb-6">
                                     <div class="flex items-center">
-                                        <div class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
-                                        <div class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                        <div
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8.5L12 14.5L19 8.5" stroke="white" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -454,9 +522,12 @@
                                         style="display:inline-block; overflow:hidden; position:relative; width:0.6em; height:1.15em; vertical-align:bottom;">
                                         <span id="case-digit-track"
                                             style="position:absolute; top:0; left:0; width:100%; will-change:transform;">
-                                            <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">1</span>
-                                            <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">2</span>
-                                            <span style="display:block; text-align:center; height:1.15em; line-height:1.15;">3</span>
+                                            <span
+                                                style="display:block; text-align:center; height:1.15em; line-height:1.15;">1</span>
+                                            <span
+                                                style="display:block; text-align:center; height:1.15em; line-height:1.15;">2</span>
+                                            <span
+                                                style="display:block; text-align:center; height:1.15em; line-height:1.15;">3</span>
                                         </span>
                                     </span>
                                     <span class="opacity-25">/03</span>
@@ -477,7 +548,7 @@
                                 <div class="item item-casestudy mb-6 md:mb-10 3xl:mb-20 last:mb-0">
                                     <div class="relative avarta overflow-hidden">
                                         <img src="assets/images/study.jpg" class="w-full" alt="">
-                                        <div class="hidden md:block absolute desc-absolute top-0 right-0 p-6 w-[55%] bg-[#00000080] border border-[#FFFFFF47]"
+                                        <div class="hidden md:block absolute desc-absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 w-[60%] bg-[#00000080] border border-[#FFFFFF47]"
                                             style="backdrop-filter: blur(74px)">
                                             <div class="text-5 anek mb-6">CUSTOMER FEEDBACK</div>
                                             <div class="text-4 2xl:text-6 font-medium mb-40">
@@ -490,7 +561,8 @@
                                     <div class="mt-4 md:mt-8">
                                         <div
                                             class="mb-2 lg:mb-4 flex items-center text-[14px] md:text-4 lg:text-5 font-medium anek gap-3 text-black">
-                                            <span class="bg-[#7060E5] inline-flex items-center w-3 lg:w-4 h-3 lg:h-4 rounded-[2px]"></span>
+                                            <span
+                                                class="bg-[#7060E5] inline-flex items-center w-3 lg:w-4 h-3 lg:h-4 rounded-[2px]"></span>
                                             GAMIFICATIONS
                                         </div>
                                         <h3>

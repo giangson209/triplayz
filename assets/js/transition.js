@@ -31,6 +31,12 @@ window.PageAnimations = (() => {
         try { fn(); }
         catch (err) { console.warn("[PageAnimations]", fn.name, err); }
       });
+      // Đảm bảo các trigger point được tính toán lại sau khi tất cả DOM manipulations hoàn tất
+      if (typeof ScrollTrigger !== "undefined") {
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 100);
+      }
     },
   };
 })();

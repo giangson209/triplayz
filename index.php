@@ -30,7 +30,8 @@
                         <div
                             class="py-6 2xl:py-8 3xl:py-10 border-t border-[#FFFFFF26] block md:flex items-center justify-between gap-6 md:gap-16 2xl:gap-8 3xl:gap-10 text-center md:text-left">
                             <div class="hero-intro item anek max-w-121 w-full text-center md:text-left mb-6 md:mb-0">
-                                Gamification, BFSI solutions, and digital solutions under one roof, helping enterprises across
+                                Gamification, BFSI solutions, and digital solutions under one roof, helping enterprises
+                                across
                                 industries engage customers and grow sustainably
                             </div>
                             <div class="clutch item px-6 md:px-0">
@@ -71,10 +72,12 @@
                     <div class="vision txt text-[40px] font-medium vision-text">where vision</div>
                     <div class="relative py-10">
                         <div class="item-logo-top">
-                            <img src="assets/images/take-1.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]" alt="">
+                            <img src="assets/images/take-1.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]"
+                                alt="">
                         </div>
                         <div class="item-logo-bottom mt-[-40px] md:mt-[-60px]">
-                            <img src="assets/images/take-2.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]" alt="">
+                            <img src="assets/images/take-2.svg" class="max-h-[18vh] 2xl:max-h-[26vh] 3xl:max-h-[40vh]"
+                                alt="">
                         </div>
                     </div>
 
@@ -83,7 +86,8 @@
             </section>
 
 
-            <section id="service" class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
+            <section id="service"
+                class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
                 <div class="wrapper relative">
                     <div class="absolute top-0 right-0 pointer-events-none">
                         <img class="srv-bg" src="assets/images/asci.png" alt="">
@@ -111,7 +115,8 @@
                                 </div>
                                 <div
                                     class="text-animation max-w-full md:max-w-1/2 xl:max-w-103 w-full anek opacity-85 order-1 md:order-2 mb-6 md:mb-0">
-                                    We combine technical precision with strategic thinking — so every solution we deliver moves
+                                    We combine technical precision with strategic thinking — so every solution we
+                                    deliver moves
                                     your business meaningfully forward.
                                 </div>
                             </div>
@@ -214,7 +219,8 @@
                                             <?php echo $x; ?>.<?php echo ['Gamification', 'BFSI Solution', 'Digital Solution'][$x - 1]; ?>
                                         </div>
                                         <div class="desc mb-5 opacity-85 anek">
-                                            We combine technical precision with strategic thinking — so every solution we deliver
+                                            We combine technical precision with strategic thinking — so every solution we
+                                            deliver
                                             moves your business meaningfully forward.
                                         </div>
                                         <ul class="desc-item-servce grid grid-cols-2 gap-x-5 gap-y-1 pl-4 list-disc anek">
@@ -264,7 +270,8 @@
                             <div class="relative">
                                 <div class="w-[45%] 3xl:w-1/2 ml-[-25%] flex items-center relative z-4">
                                     <img src="assets/images/circle-blue.png" class="whyus-wheel" alt="">
-                                    <div class="absolute top-0 left-0 w-full h-full flex items-center z-2 pointer-events-none">
+                                    <div
+                                        class="absolute top-0 left-0 w-full h-full flex items-center z-2 pointer-events-none">
                                         <img src="assets/images/circle-gray.png" alt="">
                                     </div>
                                     <div
@@ -272,7 +279,8 @@
                                         <img src="assets/images/arrow-right.svg" alt="">
                                     </div>
                                 </div>
-                                <div class="absolute top-0 left-0 w-full h-full flex items-center pl-[36%] 3xl:pl-[40%]">
+                                <div
+                                    class="absolute top-0 left-0 w-full h-full flex items-center pl-[36%] 3xl:pl-[40%]">
                                     <div class="relative w-full h-full whyus-slides-container overflow-hidden">
                                         <?php for ($x = 1; $x <= 4; $x++) {
                                             $numbers = ['50+', '100+', '200+', '300+'];
@@ -289,7 +297,8 @@
                                                         class="title-animation font-medium text-[48px] xl:text-[80px] 2xl:text-[112px] 3xl:text-[142px]">
                                                         <?php echo $numbers[$x - 1]; ?>
                                                     </div>
-                                                    <div class="text-animation anek text-5 xl:text-6"><?php echo $texts[$x - 1]; ?>
+                                                    <div class="text-animation anek text-5 xl:text-6">
+                                                        <?php echo $texts[$x - 1]; ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -343,7 +352,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="block relative mb-16 md:mb-31">
+                    <div class="block relative mb-16 xl:mb-20 2xl:mb-28 3xl:mb-31">
                         <div class="mb-6 md:mb-10 last:mb-0 relative overflow-hidden">
                             <div class="swiper-container swiper-model-1">
                                 <div class="swiper-wrapper">
@@ -373,9 +382,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="company-layer"></div>
+                    <div class="maps text-center relative z-2 px-3 lg:px-20 2xl:px-54">
+                        <img src="assets/images/maps-v2.png" class="inline" alt="">
+                    </div>
+                    <div class="company-layer hidden"></div>
                 </div>
-                <div class="globe-wrapper">
+                <div class="globe-wrapper hidden">
                     <div class="company-globe-container">
                         <div id="company-globe" class="company-globe">
                             <canvas id="company-globe-canvas"></canvas>
@@ -397,11 +409,13 @@
                         <div
                             class="item col-span-5 md:col-span-2 2xl:col-span-1 h-[auto] md:h-[80vh] block md:sticky top-25 pb-6 md:pb-0 mb-6 md:mb-0 border-b md:border-0 border-[#00000026]">
                             <div class="block md:flex flex-col justify-between h-full text-[#1D1D27]">
-                                <div class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium">
+                                <div
+                                    class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium">
                                     Highlight <br>
                                     case study</div>
                                 <div class="block md:hidden py-6 anek">
-                                    We combine technical precision with strategic thinking — so every solution we deliver moves
+                                    We combine technical precision with strategic thinking — so every solution we
+                                    deliver moves
                                     your business meaningfully forward.
                                 </div>
                                 <div class="numb text-10 2xl:text-[64px] font-medium hidden md:flex items-center">
@@ -437,7 +451,7 @@
                                 <div class="item item-casestudy mb-6 md:mb-10 3xl:mb-20 last:mb-0">
                                     <div class="relative avarta overflow-hidden">
                                         <img src="assets/images/study.jpg" class="w-full" alt="">
-                                        <div class="hidden md:block absolute desc-absolute top-0 right-0 p-6 w-[55%] bg-[#00000080] border border-[#FFFFFF47]"
+                                        <div class="hidden md:block absolute desc-absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 w-[60%] bg-[#00000080] border border-[#FFFFFF47]"
                                             style="backdrop-filter: blur(74px)">
                                             <div class="text-5 anek mb-6">CUSTOMER FEEDBACK</div>
                                             <div class="text-4 2xl:text-6 font-medium mb-40">

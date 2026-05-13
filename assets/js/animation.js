@@ -4196,8 +4196,9 @@ function initPrivate() {
         const target = lenis ? lenis.targetScroll : window.scrollY;
         smoothedScroll += (target - smoothedScroll) * LERP_FACTOR;
 
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
+        const rect = section.getBoundingClientRect();
+        const sectionTop = rect.top + (lenis ? lenis.scroll : window.scrollY);
+        const sectionHeight = rect.height;
         const vh = window.innerHeight;
         const start = sectionTop - vh;
         const end = sectionTop + sectionHeight;
@@ -4460,6 +4461,14 @@ PageAnimations.register(initServiceGameScroll);
 
 
 function initServiceGameCursor() {
+  // Handle accordion toggle only for mobile/tablet (<= 1023px)
+  $(".item-game").off("click").on("click", function () {
+    if (window.innerWidth <= 1023) {
+      $(this).find(".desc-item-game").slideToggle();
+      $(this).toggleClass("active");
+    }
+  });
+
   if (window.innerWidth < 1024) return;
 
   const hoverItems = document.querySelectorAll(".item-game");
@@ -4478,19 +4487,16 @@ function initServiceGameCursor() {
   let scrollEndTimer = null;
   let scrollCheckRaf = null;
 
-  // Gom các parent container chứa item-game
-  const itemContainers = [];
-  hoverItems.forEach((item) => {
-    const parent = item.parentElement;
-    if (parent && !itemContainers.includes(parent)) {
-      itemContainers.push(parent);
-    }
-  });
-
   if (!document.getElementById("scroll-hover-style")) {
     const s = document.createElement("style");
     s.id = "scroll-hover-style";
     s.textContent = `
+      .item-game {
+        cursor: default !important;
+      }
+      .item-game.scroll-hover {
+        cursor: none !important;
+      }
       .item-game.scroll-hover .transition-colors {
         color: white !important;
       }
@@ -4507,13 +4513,10 @@ function initServiceGameCursor() {
       hideTimer = null;
     }
     gsap.killTweensOf(cursorContainer);
-    gsap.to(cursorContainer, {
+    gsap.set(cursorContainer, {
       opacity: 0,
       scale: 0.5,
-      skewX: 0,
-      rotation: 0,
-      duration: 0.3,
-      ease: "power2.in",
+      overwrite: true
     });
   }
 
@@ -4536,58 +4539,22 @@ function initServiceGameCursor() {
   function checkScrollHover() {
     if (currentClientX === -9999) return;
 
-    // Bước 1: cursor còn trong bất kỳ parent container nào không?
-    const inAnyContainer = itemContainers.some((container) =>
-      isPointInRect(
-        currentClientX,
-        currentClientY,
-        container.getBoundingClientRect(),
-      ),
-    );
+    const elUnder = document.elementFromPoint(currentClientX, currentClientY);
+    const foundItem = elUnder?.closest(".item-game");
 
-    if (!inAnyContainer) {
-      // Cursor thoát khỏi toàn bộ list → ẩn
-      if (activeItem) {
-        activeItem.classList.remove("scroll-hover");
-        activeItem = null;
-      }
-      if (parseFloat(gsap.getProperty(cursorContainer, "opacity")) > 0) {
-        hideCursorImmediate();
-      }
-      return;
-    }
-
-    // Bước 2: cursor đang over item-game nào?
-    let foundItem = null;
-    hoverItems.forEach((item) => {
-      if (
-        isPointInRect(
-          currentClientX,
-          currentClientY,
-          item.getBoundingClientRect(),
-        )
-      ) {
-        foundItem = item;
-      }
-    });
-
-    if (foundItem) {
-      // Cursor đang trên một item → activate nếu chưa
+    if (foundItem && !isScrolling) {
       if (foundItem !== activeItem) {
         activateItem(foundItem, true);
       }
-      // Cập nhật vị trí cursor image
+      
       gsap.to(cursorContainer, {
         x: currentClientX - 60,
         y: currentClientY - 60,
-        duration: 0.15,
+        duration: 0.1,
         ease: "none",
       });
+
       if (parseFloat(gsap.getProperty(cursorContainer, "opacity")) < 0.5) {
-        if (hideTimer) {
-          clearTimeout(hideTimer);
-          hideTimer = null;
-        }
         gsap.to(cursorContainer, {
           opacity: 1,
           scale: 1,
@@ -4596,30 +4563,12 @@ function initServiceGameCursor() {
         });
       }
     } else {
-      // ✅ FIX: cursor trong container nhưng không trên item nào
-      // (scroll qua hết, hoặc khoảng trống ngoài item) → ẩn cursor
       if (activeItem) {
         activeItem.classList.remove("scroll-hover");
         activeItem = null;
       }
-      if (parseFloat(gsap.getProperty(cursorContainer, "opacity")) > 0) {
-        hideCursorImmediate();
-      }
+      hideCursorImmediate();
     }
-  }
-
-  // rAF loop: poll mỗi frame trong khi scroll
-  function startScrollCheckLoop() {
-    if (scrollCheckRaf) return;
-    function loop() {
-      if (!isScrolling) {
-        scrollCheckRaf = null;
-        return;
-      }
-      checkScrollHover();
-      scrollCheckRaf = requestAnimationFrame(loop);
-    }
-    scrollCheckRaf = requestAnimationFrame(loop);
   }
 
   function activateItem(item, triggerEnterAnim) {
@@ -4677,10 +4626,15 @@ function initServiceGameCursor() {
   });
 
   hoverItems.forEach((item) => {
-    item.addEventListener("mouseenter", () => {
+    item.addEventListener("mouseenter", (e) => {
       if (hideTimer) {
         clearTimeout(hideTimer);
         hideTimer = null;
+      }
+      // Set initial coords on enter if not yet set
+      if (currentClientX === -9999) {
+        currentClientX = e.clientX;
+        currentClientY = e.clientY;
       }
       activateItem(item, true);
     });
@@ -4690,6 +4644,9 @@ function initServiceGameCursor() {
       const skew = gsap.utils.clamp(-20, 20, dx * 0.5);
       const rotate = gsap.utils.clamp(-15, 15, dx * 0.2);
       mouseX = e.clientX;
+      currentClientX = e.clientX;
+      currentClientY = e.clientY;
+
       gsap.to(cursorContainer, {
         x: e.clientX - 60,
         y: e.clientY - 60,
@@ -4716,7 +4673,12 @@ function initServiceGameCursor() {
       isScrolling = true;
       document.body.classList.add("is-scrolling");
 
-      startScrollCheckLoop();
+      // Immediately hide when scroll starts
+      if (activeItem) {
+        activeItem.classList.remove("scroll-hover");
+        activeItem = null;
+      }
+      hideCursorImmediate();
 
       if (scrollEndTimer) clearTimeout(scrollEndTimer);
       scrollEndTimer = setTimeout(() => {
@@ -4730,11 +4692,6 @@ function initServiceGameCursor() {
     },
     { passive: true },
   );
-
-  $(".item-game").click(function () {
-    $(this).find(".desc-item-game").slideToggle();
-    $(this).toggleClass("active");
-  });
 }
 PageAnimations.register(initServiceGameCursor);
 
@@ -4785,149 +4742,47 @@ PageAnimations.register(initCaseStudy);
 
 
 
-function initAboutAnimation() {
-  gsap.registerPlugin(ScrollTrigger);
-
-  let mm = gsap.matchMedia();
-
+function initAchieveAnimation() {
   const achieveSection = document.getElementById("achieve-section");
   const contents = gsap.utils.toArray(".achieve-content");
 
   if (!achieveSection || !contents.length) return;
 
-  if (achieveSection && contents.length > 0) {
-    mm.add("(min-width: 768px)", () => {
-      // Setup initial states
-      gsap.set(contents, { autoAlpha: 0, y: 40 });
-      gsap.set(contents[0], { autoAlpha: 1, y: 0 });
+  let mm = gsap.matchMedia();
 
-      // Create a timeline for pinning
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: achieveSection,
-          start: "center center",
-          end: "+=3500", // Stretch scrolling distance for smoother feel
-          pin: true,
-          scrub: 1.5, // Add momentum / smoothing to the scroll linkage
-          anticipatePin: 1,
-        },
-      });
+  mm.add("(min-width: 768px)", () => {
+    // Setup initial states
+    gsap.set(contents, { autoAlpha: 0, y: 40 });
+    gsap.set(contents[0], { autoAlpha: 1, y: 0 });
 
-      // Pause slightly on the first item
-      tl.to({}, { duration: 1.5 });
-
-      // Animate through contents
-      contents.forEach((content, i) => {
-        if (i === 0) return;
-
-        // Synchronize fade out and fade in using labels
-        tl.add(`step${i}`);
-
-        // Fade out previous item
-        tl.to(
-          contents[i - 1],
-          { autoAlpha: 0, y: -40, duration: 1.5, ease: "power2.inOut" },
-          `step${i}`,
-        );
-
-        // Fade in current item
-        tl.to(
-          content,
-          { autoAlpha: 1, y: 0, duration: 1.5, ease: "power2.inOut" },
-          `step${i}+=0.5`,
-        );
-
-        // Add a pause to allow users to read
-        tl.to({}, { duration: 1.5 });
-      });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: achieveSection,
+        start: "center center",
+        end: "+=3000",
+        pin: true,
+        scrub: 1.2,
+        anticipatePin: 1,
+      },
     });
 
-    mm.add("(max-width: 767px)", () => {
-      // Remove inline styles set by GSAP to ensure pure CSS handles mobile
-      gsap.set(contents, { clearProps: "all" });
+    tl.to({}, { duration: 1 });
+
+    contents.forEach((content, i) => {
+      if (i === 0) return;
+      tl.add(`step${i}`);
+      tl.to(contents[i - 1], { autoAlpha: 0, y: -40, duration: 1.5, ease: "power2.inOut" }, `step${i}`);
+      tl.to(content, { autoAlpha: 1, y: 0, duration: 1.5, ease: "power2.inOut" }, `step${i}+=0.5`);
+      tl.to({}, { duration: 1 });
     });
-  }
+  });
 
-  // --- Leaders Section Animation ---
-  const leadersSection = document.getElementById("leaders-section");
+  mm.add("(max-width: 767px)", () => {
+    gsap.set(contents, { clearProps: "all" });
+  });
+}
 
-  if (leadersSection) {
-    mm.add("(min-width: 768px)", () => {
-      // Chỉ lấy các item-member nằm trong members-container của desktop
-      const members = gsap.utils.toArray(".members-container .item-member");
-
-      if (members.length > 0) {
-        // Hàm xáo trộn mảng để random vị trí
-        const shuffle = (array) => {
-          let currentIndex = array.length,
-            randomIndex;
-          while (currentIndex !== 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [
-              array[randomIndex],
-              array[currentIndex],
-            ];
-          }
-          return array;
-        };
-
-        // Tạo danh sách làn đường được xáo trộn ngẫu nhiên từng cụm 3
-        let randomLanes = [];
-        for (let i = 0; i < members.length; i += 3) {
-          randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
-        }
-
-        // Set initial positions for members
-        members.forEach((member, i) => {
-          const laneIndex = randomLanes[i];
-
-          // Mỗi làn chiếm khoảng 30%, cộng thêm tí random
-          const randomLeft = laneIndex * 32 + Math.random() * 5;
-
-          // Strict vertical stagger: each item is placed at least 80% of screen height below the previous
-          // + random(0, 15) to add slight visual irregularity without breaking the gap
-          const startTop = 100 + i * 80 + Math.random() * 15;
-
-          member.style.pointerEvents = "auto";
-
-          gsap.set(member, {
-            left: `${randomLeft}%`,
-            top: `${startTop}%`,
-            position: "absolute",
-            zIndex: members.length - i, // Ensure items that appear later don't inappropriately layer over earlier ones
-          });
-        });
-
-        // Calculate total travel distance needed for the very last item to clear the top of the screen
-        const lastItemStartTop = 100 + (members.length - 1) * 80 + 15;
-        const travelDistance = lastItemStartTop + 80; // Additional 80% to ensure it fully exits
-
-        // Create scroll animation
-        // By moving all items by the EXACT SAME amount (-=travelDistance%),
-        // their vertical gaps are perfectly preserved and they never collide.
-        gsap.to(members, {
-          top: `-=${travelDistance}%`,
-          ease: "none",
-          scrollTrigger: {
-            trigger: leadersSection,
-            start: "top top",
-            end: `+=${members.length * 700}`, // Adjust scroll length based on number of items
-            pin: true,
-            scrub: 1.5,
-          },
-        });
-      }
-    });
-
-    mm.add("(max-width: 767px)", () => {
-      // Clear props on mobile if needed (mostly safe since we only target desktop elements now)
-      const members = gsap.utils.toArray(".members-container .item-member");
-      if (members.length > 0) gsap.set(members, { clearProps: "all" });
-    });
-  }
-
-  // --- Our Value Section Animation ---
+function initOurValueAnimation() {
   const ourValueItems = gsap.utils.toArray(".item-our-value");
   if (ourValueItems.length > 0) {
     gsap.set(ourValueItems, { y: 50, opacity: 0 });
@@ -4944,14 +4799,78 @@ function initAboutAnimation() {
       start: "top 90%",
     });
   }
+}
 
-  // --- Member Description Toggle ---
-  $(".clc-desc-member").on("click", function () {
+function initLeadersAnimation() {
+  const leadersSection = document.getElementById("leaders-section");
+  if (!leadersSection) return;
+
+  let mm = gsap.matchMedia();
+
+  mm.add("(min-width: 768px)", () => {
+    const members = gsap.utils.toArray(".members-container .item-member");
+    if (members.length > 0) {
+      const shuffle = (array) => {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+      };
+
+      let randomLanes = [];
+      for (let i = 0; i < members.length; i += 3) {
+        randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
+      }
+
+      members.forEach((member, i) => {
+        const laneIndex = randomLanes[i];
+        const randomLeft = laneIndex * 32 + Math.random() * 5;
+        const startTop = 100 + i * 85 + Math.random() * 15;
+
+        gsap.set(member, {
+          left: `${randomLeft}%`,
+          top: `${startTop}%`,
+          position: "absolute",
+          zIndex: members.length - i,
+        });
+      });
+
+      const travelDistance = (100 + (members.length - 1) * 85 + 15) + 80;
+
+      gsap.to(members, {
+        top: `-=${travelDistance}%`,
+        ease: "none",
+        scrollTrigger: {
+          trigger: leadersSection,
+          start: "top top",
+          end: `+=${members.length * 600}`,
+          pin: true,
+          scrub: 1.5,
+        },
+      });
+
+      return () => {
+        gsap.set(members, { clearProps: "all" });
+      };
+    }
+  });
+
+  mm.add("(max-width: 767px)", () => {
+    const members = gsap.utils.toArray(".members-container .item-member");
+    if (members.length > 0) gsap.set(members, { clearProps: "all" });
+  });
+
+  $(".clc-desc-member").off("click").on("click", function () {
     $(this).toggleClass("active");
-    $(this).closest(".item-member").find(".desc").slideToggle();
+    $(this).closest(".item-member").find(".desc").slideToggle(400, () => {
+        ScrollTrigger.refresh();
+    });
   });
 }
-PageAnimations.register(initAboutAnimation);
+
 
 
 
@@ -5070,7 +4989,7 @@ function initSecondAbout() {
       scrub: 0.5,
       onEnter: () => {
         if (!introPlayed) {
-          // Khóa cuộn trang hoàn toàn (Lenis + Body)
+          // Khóa cuộn trang để user đọc text
           document.body.style.overflow = "hidden";
           if (window._lenis) window._lenis.stop();
 
@@ -5123,7 +5042,11 @@ function initSecondAbout() {
     };
   });
 }
+PageAnimations.register(initMosaicAndPixelReveal);
+PageAnimations.register(initAchieveAnimation);
+PageAnimations.register(initOurValueAnimation);
 PageAnimations.register(initSecondAbout);
+PageAnimations.register(initLeadersAnimation);
 
 
 
@@ -5490,7 +5413,7 @@ function initMosaicAndPixelReveal() {
 
   onScroll();
 }
-PageAnimations.register(initMosaicAndPixelReveal);
+// Register reordered above to match page flow
 
 
 

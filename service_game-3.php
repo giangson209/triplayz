@@ -8,7 +8,7 @@
                     class="w-full h-full absolute top-0 left-0 object-cover pointer-events-none" class="" alt=""> -->
                 <div class="wrapper flex flex-col justify-between h-full relative z-2">
                     <div
-                        class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none">
+                        class="relative md:absolute top-0 left-0 w-full h-full flex items-center justify-center text-center pointer-events-none scale-100 xl:scale-78 2xl:scale-80 3xl:scale-100">
                         <img src="assets/images/game-3.png" class="w-110 2xl:w-160" alt="">
                     </div>
                     <div class="top mb-8 md:mb-0">
@@ -54,9 +54,10 @@
 
             <section class="pt-0 md:pt-20 py-10 md:py-20 px-4 md:px-10">
                 <div class="wraaper pt-6 md:pt-0 border-t-[1px] md:border-0 border-[#FFFFFF26]">
-                    <div
-                        class="text-8 lg:text-6 font-medium pb-4 lg:pb-6 mb-0 md:mb-4 lg:mb-6 border-0 md:border-b-[1px] border-[#FFFFFF26]">
-                        Banking Solution
+                    <div class="text-5 md:text-6 font-medium mb-4 lg:mb-6 border-b-[1px] border-[#FFFFFF26]">
+                        <span
+                            class="inline-flex text-[#1D1D27] px-5 md:px-8 py-2 md:py-3 rounded-[4px_4px_0_0] bg-[#FAFFBE]">Banking
+                            Solution</span>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
                         <div class="item block lg:flex flex-col justify-between gap-10">
@@ -106,7 +107,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -118,7 +119,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -135,7 +137,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Virtual Brand World</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -147,7 +149,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -164,7 +167,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Virtual Brand World</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -176,7 +179,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -193,7 +197,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -205,7 +209,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -221,9 +226,10 @@
 
             <section class="pt-0 md:pt-20 py-10 md:py-20 px-4 md:px-10">
                 <div class="wraaper pt-6 md:pt-0 border-t-[1px] md:border-0 border-[#FFFFFF26]">
-                    <div
-                        class="text-8 lg:text-6 font-medium pb-4 lg:pb-6 mb-0 md:mb-4 lg:mb-6 border-0 md:border-b-[1px] border-[#FFFFFF26]">
-                        Banking Solution
+                    <div class="text-5 md:text-6 font-medium mb-4 lg:mb-6 border-b-[1px] border-[#FFFFFF26]">
+                        <span
+                            class="inline-flex text-[#1D1D27] px-5 md:px-8 py-2 md:py-3 rounded-[4px_4px_0_0] bg-[#FAFFBE]">Banking
+                            Solution</span>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
                         <div class="item block lg:flex flex-col justify-between gap-10">
@@ -273,7 +279,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -285,7 +291,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -302,7 +309,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -314,7 +321,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -331,7 +339,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -343,7 +351,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -360,7 +369,7 @@
                                             class="numb text-4 lg:text-6 font-medium w-full max-w-10 lg:max-w-21 transition-colors duration-300 group-hover:text-white">
                                             01.</div>
                                         <div
-                                            class="text-white lg:text-[#56565D] text-5 lg:text-10 2xl:text-[64px] font-medium transition-colors duration-300 group-hover:text-white">
+                                            class="text-white lg:text-[#56565D] text-5 lg:text-8 xl:text-10 font-medium transition-colors duration-300 group-hover:text-white">
                                             Minigame</div>
                                         <div class="absolute arrow-click top-0 right-0 block lg:hidden">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -372,7 +381,8 @@
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
                                         <div class="desc py-6">
-                                            We help brands create immersive digital experiences that turn passive audiences
+                                            We help brands create immersive digital experiences that turn passive
+                                            audiences
                                             into active participants — driving deeper engagement at every touchpoint.
                                         </div>
                                         <div class="icon-logo">
@@ -404,24 +414,24 @@
                     class="list-item relative md:absolute top-0 left-0 w-full h-full pointer-events-none z-20 hidden md:block mt-6 md:mt-0 px-4 md:px-0">
                     <?php
                     for ($x = 1; $x <= 6; $x++) { ?>
-                            <div
-                                class="item-project relative py-5 md:py-6 px-5 md:px-10 bg-[#2B2B38] border-[2px] border-[#FFFFFF26] w-full max-w-full md:max-w-100 2xl:max-w-117 mb-4 last:mb-0">
-                                <div class="top flex items-center justify-between">
-                                    <h3
-                                        class="text-5 md:text-6 2xl:text-7 font-medium max-w-[calc(100%-48px)] md:max-w-[calc(100%-136px)]  pr-8 text-left">
-                                        Customizable Games
-                                    </h3>
-                                    <div class="doto text-6 md:text-[48px] 2xl:text-[64px] font-bold opacity-25">
-                                        /0<?php echo $x; ?>
-                                    </div>
-                                </div>
-                                <div
-                                    class="anek opacity-85 pt-5 md:pt-6 mt-3 md:mt-6 border-t-[1px] border-[#FFFFFF26] text-left">
-                                    Built to match your brand, industry, and campaign goal. Your game, your rules — designed to
-                                    deliver
-                                    measurable results
+                        <div
+                            class="item-project relative py-5 md:py-6 px-5 md:px-10 bg-[#2B2B38] border-[2px] border-[#FFFFFF26] w-full max-w-full md:max-w-100 2xl:max-w-117 mb-4 last:mb-0">
+                            <div class="top flex items-center justify-between">
+                                <h3
+                                    class="text-5 md:text-6 2xl:text-7 font-medium max-w-[calc(100%-48px)] md:max-w-[calc(100%-136px)]  pr-8 text-left">
+                                    Customizable Games
+                                </h3>
+                                <div class="doto text-6 md:text-[48px] 2xl:text-[64px] font-bold opacity-25">
+                                    /0<?php echo $x; ?>
                                 </div>
                             </div>
+                            <div
+                                class="anek opacity-85 pt-5 md:pt-6 mt-3 md:mt-6 border-t-[1px] border-[#FFFFFF26] text-left">
+                                Built to match your brand, industry, and campaign goal. Your game, your rules — designed to
+                                deliver
+                                measurable results
+                            </div>
+                        </div>
                     <?php }
                     ?>
                 </div>

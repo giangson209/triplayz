@@ -6,7 +6,8 @@
                 <div class="block">
                     <img src="assets/images/bn-about.jpg" class="w-full object-cover h-screen" alt="">
                 </div>
-                <div class="absolute top-0 left-0 w-full h-full px-10 lg:px-20 xl:px-36 hidden md:flex items-center pb-[12%]">
+                <div
+                    class="absolute top-0 left-0 w-full h-full px-10 lg:px-20 xl:px-36 hidden md:flex items-center pb-[12%]">
                     <h1 class="text-[60px] lg:text-[80px] xl:text-[100px] 3xl:text-[124px] font-medium">
                         <span class="title-animation block">Your Vision</span>
                         <span class="title-animation block pl-20">Our Innovation</span>
@@ -29,9 +30,11 @@
                                     </a>
                                 </div>
                                 <div class="text-animation w-full max-w-200 xl:max-w-96 anek">
-                                    Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a
+                                    Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz
+                                    is a
                                     global
-                                    technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and
+                                    technology company headquartered in Vietnam, delivering Gamification, BFSI
+                                    Solutions, and
                                     Digital Solutions to enterprises across industries worldwide.
                                 </div>
                                 <div class="btn-main block md:hidden mt-6">
@@ -47,7 +50,8 @@
                         </div>
                         <div class="item col-span-5 hidden xl:block">
                             <div class="text-animation w-full max-w-78 anek ml-auto 3xl:ml-0">
-                                We don't just build technology — we turn ambition into measurable outcomes through a thoughtful
+                                We don't just build technology — we turn ambition into measurable outcomes through a
+                                thoughtful
                                 balance of imagination, precision, and true partnership.
                             </div>
                         </div>
@@ -58,46 +62,52 @@
                 <!-- Vision Wrapper (z-index thấp hơn) -->
                 <div class="pixel-wrapper vision-wrapper">
                     <img src="assets/images/bn-about.png"
-                    class="vision-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
-                    <div class="vision-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
-                    <div class="item">
-                        <div class="w-full max-w-245">
-                        <div class="anek mb-6">/OUR VISION</div>
-                        <div class="text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
-                            To be a trusted global tech partner that turns vision into reality
+                        class="vision-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
+                    <div
+                        class="vision-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
+                        <div class="item">
+                            <div class="w-full max-w-245">
+                                <div class="anek mb-6">/OUR VISION</div>
+                                <div class="text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
+                                    To be a trusted global tech partner that turns vision into reality
+                                </div>
+                            </div>
                         </div>
+                        <div class="item item-pixel">
+                            <div class="w-full max-w-98 ml-auto anek">
+                                Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a
+                                global
+                                technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions,
+                                and Digital
+                                Solutions to enterprises across industries worldwide.
+                            </div>
                         </div>
-                    </div>
-                    <div class="item item-pixel">
-                        <div class="w-full max-w-98 ml-auto anek">
-                        Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
-                        technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
-                        Solutions to enterprises across industries worldwide.
-                        </div>
-                    </div>
                     </div>
                 </div>
 
                 <!-- Mission Wrapper (z-index cao hơn, bị mosaic reveal) -->
                 <div class="pixel-wrapper mission-wrapper">
                     <img src="assets/images/vison.png"
-                    class="mission-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
-                    <div class="mission-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
-                    <div class="item">
-                        <div class="w-full max-w-245">
-                        <div class="title-animation anek mb-6">/OUR MISSION</div>
-                        <div class="title-animation text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
-                            To transform ambitious ideas into digital solutions that truly work
+                        class="mission-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
+                    <div
+                        class="mission-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
+                        <div class="item">
+                            <div class="w-full max-w-245">
+                                <div class="title-animation anek mb-6">/OUR MISSION</div>
+                                <div class="title-animation text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
+                                    To transform ambitious ideas into digital solutions that truly work
+                                </div>
+                            </div>
                         </div>
+                        <div class="item item-pixel">
+                            <div class="text-animation w-full max-w-98 ml-auto anek">
+                                Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a
+                                global
+                                technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions,
+                                and Digital
+                                Solutions to enterprises across industries worldwide.
+                            </div>
                         </div>
-                    </div>
-                    <div class="item item-pixel">
-                        <div class="text-animation w-full max-w-98 ml-auto anek">
-                        Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
-                        technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
-                        Solutions to enterprises across industries worldwide.
-                        </div>
-                    </div>
                     </div>
                 </div>
 
@@ -108,7 +118,8 @@
                     <img src="assets/images/archive.png" class="w-full" alt="">
                 </div>
                 <div class="wrapper relative">
-                    <div class="title-animation text-center text-8 lg:text-[64px] xl:text-[80px] font-medium mb-6 md:mb-10 lg:mb-20">
+                    <div
+                        class="title-animation text-center text-8 lg:text-[64px] xl:text-[80px] font-medium mb-6 md:mb-10 lg:mb-20">
                         We achieve this by
                     </div>
                     <div
@@ -168,7 +179,8 @@
                                             Positioned
                                         </div>
                                         <div class="text-4 opacity-85 anek">
-                                            Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                            Triplayz was founded by a team with deep expertise in Gamification and
+                                            Fintech.From day
                                             one, we positioned ourselves as a new-generation tech partner. Experience-driven
                                             thinking and execution quality guide everything we build.
                                         </div>
@@ -186,7 +198,9 @@
                     <div
                         class="m-auto w-full max-w-244 text-8 lg:text-[60px] 2xl:text-[80px] font-medium text-center md:text-left">
                         <div class="block md:flex gap-10">
-                            <div class="anek opacity-65 text-5 flex items-center justify-center font-regular mb-6 md:mb-0">/OUR
+                            <div
+                                class="anek opacity-65 text-5 flex items-center justify-center font-regular mb-6 md:mb-0">
+                                /OUR
                                 VALUE</div>
                             <div class="text-white">To be a trusted blobal</div>
                         </div>
@@ -245,8 +259,10 @@
 
                             <div class="absolute top-0 right-0 px-10 h-full hidden lg:flex items-center">
                                 <div class="max-w-[24vw] xl:max-w-110 w-full anek opacity-85">
-                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one,
-                                    we positioned ourselves as a new-generation tech partner. Experience-driven thinking and
+                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From
+                                    day one,
+                                    we positioned ourselves as a new-generation tech partner. Experience-driven thinking
+                                    and
                                     execution quality guide everything we build.
                                 </div>
                             </div>
@@ -266,8 +282,10 @@
                                     Entering the Japan Market
                                 </div>
                                 <div class="text-4 anek">
-                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
-                                    positioned ourselves as a new-generation tech partner. Experience-driven thinking and execution
+                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    one, we
+                                    positioned ourselves as a new-generation tech partner. Experience-driven thinking and
+                                    execution
                                     quality guide everything we build.
                                 </div>
                             </div>
@@ -385,7 +403,8 @@
                                 <p class="mb-4">Triplayz was founded by a team with deep expertise in Gamification and
                                     Fintech.From day one,
                                     we positioned ourselves as a new-generation tech partner. </p>
-                                <p>Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one,
+                                <p>Triplayz was founded by a team with deep expertise in Gamification and Fintech.From
+                                    day one,
                                     we positioned ourselves as a new-generation tech partner. </p>
                             </div>
                         </div>
@@ -428,7 +447,8 @@
                                 <div class="relative w-full pr-13">
                                     <div class="text-5 md:text-6 font-medium mb-1 md:mb-0.5">Ngoc Nguyen</div>
                                     <div class="anek opacity-85">CEO</div>
-                                    <div class="absolute top-0 right-0 flex items-center h-full cursor-pointer clc-desc-member">
+                                    <div
+                                        class="absolute top-0 right-0 flex items-center h-full cursor-pointer clc-desc-member">
                                         <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <rect width="48" height="48" rx="24" fill="white" fill-opacity="0.08" />
@@ -437,12 +457,17 @@
                                         </svg>
                                     </div>
                                 </div>
-                                <div class="anek opacity-85 mt-4 md:mt-6 pt-4 md:pt-6 border-t-[1px] border-[#FFFFFF26] desc">
-                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
-                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team with deep
-                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a new-generation
+                                <div
+                                    class="anek opacity-85 mt-4 md:mt-6 pt-4 md:pt-6 border-t-[1px] border-[#FFFFFF26] desc">
+                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    one, we
+                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team
+                                    with deep
+                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a
+                                    new-generation
                                     tech
-                                    partner. Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    partner. Triplayz was founded by a team with deep expertise in Gamification and
+                                    Fintech.From day
                                     one, we positioned ourselves as a new-generation tech partner.
                                 </div>
                             </div>
@@ -464,11 +489,15 @@
                                     </div>
                                 </div>
                                 <div class="anek opacity-85 mt-6 pt-6 border-t-[1px] border-[#FFFFFF26] desc">
-                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
-                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team with deep
-                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a new-generation
+                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    one, we
+                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team
+                                    with deep
+                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a
+                                    new-generation
                                     tech
-                                    partner. Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    partner. Triplayz was founded by a team with deep expertise in Gamification and
+                                    Fintech.From day
                                     one, we positioned ourselves as a new-generation tech partner.
                                 </div>
                             </div>
@@ -480,7 +509,8 @@
                 <div class="hidden">
                     <?php
                     for ($x = 1; $x <= 5; $x++) { ?>
-                        <div class="item-member relative w-full max-w-90 bg-[#2F2F38] border border-[2px] border-[#FFFFFF26]">
+                        <div
+                            class="item-member relative w-full max-w-90 bg-[#2F2F38] border border-[2px] border-[#FFFFFF26]">
                             <div class="block"><img src="assets/images/mem-2.png" alt=""></div>
                             <div class="p-6">
                                 <div class="relative w-full pr-13">
@@ -497,16 +527,21 @@
                                 </div>
                                 <div
                                     class="anek opacity-85 mt-4 md:mt-6 pt-4 md:pt-6 border-t-[1px] border-[#FFFFFF26] desc hidden">
-                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
-                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team with deep
-                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a new-generation
+                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    one, we
+                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team
+                                    with deep
+                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a
+                                    new-generation
                                     tech
-                                    partner. Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    partner. Triplayz was founded by a team with deep expertise in Gamification and
+                                    Fintech.From day
                                     one, we positioned ourselves as a new-generation tech partner.
                                 </div>
                             </div>
                         </div>
-                        <div class="item-member relative w-full max-w-90 bg-[#2F2F38] border border-[2px] border-[#FFFFFF26]">
+                        <div
+                            class="item-member relative w-full max-w-90 bg-[#2F2F38] border border-[2px] border-[#FFFFFF26]">
                             <div class="block"><img src="assets/images/mem-1.png" alt=""></div>
                             <div class="p-6">
                                 <div class="relative w-full pr-13">
@@ -523,11 +558,15 @@
                                 </div>
                                 <div
                                     class="anek opacity-85 mt-4 md:mt-6 pt-4 md:pt-6 border-t-[1px] border-[#FFFFFF26] desc hidden">
-                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day one, we
-                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team with deep
-                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a new-generation
+                                    Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    one, we
+                                    positioned ourselves as a new-generation tech partner. Triplayz was founded by a team
+                                    with deep
+                                    expertise in Gamification and Fintech.From day one, we positioned ourselves as a
+                                    new-generation
                                     tech
-                                    partner. Triplayz was founded by a team with deep expertise in Gamification and Fintech.From day
+                                    partner. Triplayz was founded by a team with deep expertise in Gamification and
+                                    Fintech.From day
                                     one, we positioned ourselves as a new-generation tech partner.
                                 </div>
                             </div>

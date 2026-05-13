@@ -15,7 +15,8 @@
                                 <span>GAMIFICATIONS</span>
                             </div>
                             <h1 class="text-6 lg:text-10 font-medium mb-8 lg:mb-10 xl:mb-20">
-                                Creating an Engaging User Experience with the New Lake & Oak Tea Co. Interface on Shopify
+                                Creating an Engaging User Experience with the New Lake & Oak Tea Co. Interface on
+                                Shopify
                             </h1>
 
                             <div class="font-semibold uppercase mb-4 lg:mb-8">Technology we used</div>
@@ -42,16 +43,22 @@
                             <div class="font-semibold uppercase mb-4 lg:mb-8">ABOUT LAKE & OAK TEA CO</div>
                             <div class="single-text anek opacity-85">
                                 <p>
-                                    Lake & Oak Tea Co. is a handcrafted herbal tea brand from Canada, founded with the mission
+                                    Lake & Oak Tea Co. is a handcrafted herbal tea brand from Canada, founded with the
+                                    mission
                                     of enhancing health and well-being through natural, wholesome tea blends. Using 100%
-                                    plant-based, caffeine-free, and fully organic ingredients, the brand carefully formulates
-                                    its products to provide relaxation and nourishment, making them suitable for all ages and
+                                    plant-based, caffeine-free, and fully organic ingredients, the brand carefully
+                                    formulates
+                                    its products to provide relaxation and nourishment, making them suitable for all
+                                    ages and
                                     lifestyles.
                                 </p>
                                 <p>
-                                    The company places a strong emphasis on sustainability, employing eco-friendly packaging and
-                                    committing to supporting local communities through collaborations with organic farmers.
-                                    Today, Lake & Oak Tea Co. is available in numerous retail stores across Canada and the U.S.,
+                                    The company places a strong emphasis on sustainability, employing eco-friendly
+                                    packaging and
+                                    committing to supporting local communities through collaborations with organic
+                                    farmers.
+                                    Today, Lake & Oak Tea Co. is available in numerous retail stores across Canada and
+                                    the U.S.,
                                     as well as through a modern and convenient e-commerce platform.
                                 </p>
                             </div>
@@ -63,8 +70,10 @@
             <section class="py-6 lg:py-10 lg:py-20 px-4 lg:px-10">
                 <div class="wrapper">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10">
-                        <div class="item"><img src="assets/images/casestudy/single-1.png" class="w-full rounded-3" alt=""></div>
-                        <div class="item"><img src="assets/images/casestudy/single-2.png" class="w-full rounded-3" alt=""></div>
+                        <div class="item"><img src="assets/images/casestudy/single-1.png" class="w-full rounded-3"
+                                alt=""></div>
+                        <div class="item"><img src="assets/images/casestudy/single-2.png" class="w-full rounded-3"
+                                alt=""></div>
                     </div>
                 </div>
             </section>
@@ -79,9 +88,12 @@
                         <div class="item">
                             <div class="single-text">
                                 <p>
-                                    Lake & Oak has been in the process of modernizing its customer experience following a
-                                    rebranding initiative. Introducing new user interfaces to unify the user experience and
-                                    optimize the shopping journey—from browsing to purchasing—has become a top priority for the
+                                    Lake & Oak has been in the process of modernizing its customer experience following
+                                    a
+                                    rebranding initiative. Introducing new user interfaces to unify the user experience
+                                    and
+                                    optimize the shopping journey—from browsing to purchasing—has become a top priority
+                                    for the
                                     brand.
                                 </p>
                             </div>
@@ -96,19 +108,26 @@
                             <div class="item">
                                 <div class="single-text">
                                     <p>
-                                        Understanding the brand’s needs, TriPlayZ quickly began integrating the desired features
+                                        Understanding the brand’s needs, TriPlayZ quickly began integrating the desired
+                                        features
                                         and offered full support to bring the project to life efficiently:
                                     </p>
                                     <p>
 
-                                        Redesigning the Homepage Interface: The new homepage incorporates various visual effects
-                                        and optimizes layout and content presentation. This ensures the brand’s identity is
+                                        Redesigning the Homepage Interface: The new homepage incorporates various visual
+                                        effects
+                                        and optimizes layout and content presentation. This ensures the brand’s identity
+                                        is
                                         well-represented while creating a welcoming and engaging user experience.
-                                        Launching New Product Pages: Innovative product pages were designed to clearly showcase
-                                        product features, allowing users to easily discover options tailored to their needs.
-                                        Optimizing User Experience: In addition to new interfaces, emphasis was placed on
+                                        Launching New Product Pages: Innovative product pages were designed to clearly
+                                        showcase
+                                        product features, allowing users to easily discover options tailored to their
+                                        needs.
+                                        Optimizing User Experience: In addition to new interfaces, emphasis was placed
+                                        on
                                         creating a seamless and intuitive user experience. Efforts were made to reduce
-                                        decision-making time and ensure a consistent design across devices, including desktops,
+                                        decision-making time and ensure a consistent design across devices, including
+                                        desktops,
                                         tablets, and smartphones.
                                     </p>
                                 </div>
@@ -162,7 +181,8 @@
                                             </div>
                                             <h3 class="mb-8 text-5 md:text-6 font-semibold anek">Unified Brand Identity</h3>
                                             <div class="desc opacity-85">
-                                                The integration of the new interface throughout the website brought Lake & Oak’s
+                                                The integration of the new interface throughout the website brought Lake &
+                                                Oak’s
                                                 brand value closer to its customers.
                                             </div>
                                         </div>
@@ -200,11 +220,13 @@
                         <div
                             class="item col-span-5 md:col-span-2 2xl:col-span-1 h-[auto] md:h-[80vh] block md:sticky top-25 pb-6 md:pb-0 mb-6 md:mb-0 border-b md:border-0 border-[#00000026]">
                             <div class="block md:flex flex-col justify-between h-full text-[#1D1D27]">
-                                <div class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium">
+                                <div
+                                    class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] font-medium">
                                     Highlight <br>
                                     case study</div>
                                 <div class="block md:hidden py-6 anek">
-                                    We combine technical precision with strategic thinking — so every solution we deliver moves
+                                    We combine technical precision with strategic thinking — so every solution we
+                                    deliver moves
                                     your business meaningfully forward.
                                 </div>
                                 <div class="numb text-10 2xl:text-[64px] font-medium hidden md:flex items-center">
@@ -240,7 +262,7 @@
                                 <div class="item item-casestudy mb-6 md:mb-10 3xl:mb-20 last:mb-0">
                                     <div class="relative avarta overflow-hidden">
                                         <img src="assets/images/study.jpg" class="w-full" alt="">
-                                        <div class="hidden md:block absolute desc-absolute top-0 right-0 p-6 w-[55%] bg-[#00000080] border border-[#FFFFFF47]"
+                                        <div class="hidden md:block absolute desc-absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 w-[60%] bg-[#00000080] border border-[#FFFFFF47]"
                                             style="backdrop-filter: blur(74px)">
                                             <div class="text-5 anek mb-6">CUSTOMER FEEDBACK</div>
                                             <div class="text-4 2xl:text-6 font-medium mb-40">
