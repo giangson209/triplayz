@@ -45,15 +45,6 @@
             pointer-events: none;
         }
     </style>
-
-    <script>
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        }
-        window.addEventListener('pageshow', function () {
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        });
-    </script>
 </head>
 
 <body>

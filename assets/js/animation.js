@@ -2932,7 +2932,7 @@ function initPrivate() {
         const end = sectionTop + sectionHeight;
         const progress = (smoothedScroll - start) / (end - start);
         const clamped = Math.max(0, Math.min(1, progress));
-        const yPercent = -10 + clamped * 24;
+        const yPercent = -5 + clamped * 18;
         img.style.transform = `translateY(${yPercent}%)`;
       };
 
@@ -3030,7 +3030,7 @@ function initPrivate() {
       gsap.set($svg[0], { opacity: 1 });
 
       // Animate logo opacity
-      tl.to($logo, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0);
+      tl.to($logo, { opacity: 1, duration: 0.2, ease: "sine.out" }, 0);
 
       if (isTop) {
         // Enter from top (Moving DOWN): Arch DOWN
@@ -3038,11 +3038,11 @@ function initPrivate() {
         tl.to($path[0], {
           attr: { d: "M 0 0 Q 250 40 500 0 V 50 Q 250 90 0 50 z" },
           duration: 0.15,
-          ease: "power2.in",
+          ease: "sine.in",
         }, 0).to($path[0], {
           attr: { d: "M 0 0 Q 250 0 500 0 V 100 Q 250 100 0 100 z" },
           duration: 0.15,
-          ease: "power2.out",
+          ease: "sine.out",
         });
       } else {
         // Enter from bottom (Moving UP): Arch UP
@@ -3050,11 +3050,11 @@ function initPrivate() {
         tl.to($path[0], {
           attr: { d: "M 0 100 Q 250 80 500 100 V 50 Q 250 -20 0 50 z" },
           duration: 0.15,
-          ease: "power2.in"
+          ease: "sine.in"
         }, 0).to($path[0], {
           attr: { d: "M 0 100 Q 250 100 500 100 V 0 Q 250 0 0 0 z" },
           duration: 0.15,
-          ease: "power2.out"
+          ease: "sine.out"
         });
       }
     });
@@ -3068,7 +3068,7 @@ function initPrivate() {
       let isTop = relY < rect.height / 2;
 
       // Animate logo opacity back
-      tl.to($logo, { opacity: window.innerWidth < 768 ? 1 : 0, duration: 0.2, ease: "power2.in" }, 0);
+      tl.to($logo, { opacity: window.innerWidth < 768 ? 1 : 0, duration: 0.2, ease: "sine.in" }, 0);
 
       if (isTop) {
         // Exit from top (Moving UP): Arch UP
@@ -3076,11 +3076,11 @@ function initPrivate() {
         tl.to($path[0], {
           attr: { d: "M 0 0 Q 250 20 500 0 V 50 Q 250 -30 0 50 z" },
           duration: 0.12,
-          ease: "power2.in"
+          ease: "sine.in"
         }, 0).to($path[0], {
           attr: { d: "M 0 0 Q 250 0 500 0 V 0 Q 250 0 0 0 z" },
           duration: 0.12,
-          ease: "power2.out"
+          ease: "sine.out"
         });
       } else {
         // Exit from bottom (Moving DOWN): Arch DOWN
@@ -3088,11 +3088,11 @@ function initPrivate() {
         tl.to($path[0], {
           attr: { d: "M 0 100 Q 250 70 500 100 V 50 Q 250 120 0 50 z" },
           duration: 0.12,
-          ease: "power2.in"
+          ease: "sine.in"
         }, 0).to($path[0], {
           attr: { d: "M 0 100 Q 250 100 500 100 V 100 Q 250 100 0 100 z" },
           duration: 0.12,
-          ease: "power2.out"
+          ease: "sine.out"
         });
       }
     });
@@ -3225,5 +3225,476 @@ function initCaseStudy() {
   }
 }
 PageAnimations.register(initCaseStudy);
+
+
+
+function initAboutAnimation() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  let mm = gsap.matchMedia();
+
+  const achieveSection = document.getElementById("achieve-section");
+  const contents = gsap.utils.toArray(".achieve-content");
+
+  if (!achieveSection || !contents.length) return;
+
+  if (achieveSection && contents.length > 0) {
+    mm.add("(min-width: 768px)", () => {
+      // Setup initial states
+      gsap.set(contents, { autoAlpha: 0, y: 40 });
+      gsap.set(contents[0], { autoAlpha: 1, y: 0 });
+
+      // Create a timeline for pinning
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: achieveSection,
+          start: "center center",
+          end: "+=3500", // Stretch scrolling distance for smoother feel
+          pin: true,
+          scrub: 1.5, // Add momentum / smoothing to the scroll linkage
+          anticipatePin: 1,
+        },
+      });
+
+      // Pause slightly on the first item
+      tl.to({}, { duration: 1.5 });
+
+      // Animate through contents
+      contents.forEach((content, i) => {
+        if (i === 0) return;
+
+        // Synchronize fade out and fade in using labels
+        tl.add(`step${i}`);
+
+        // Fade out previous item
+        tl.to(
+          contents[i - 1],
+          { autoAlpha: 0, y: -40, duration: 1.5, ease: "power2.inOut" },
+          `step${i}`,
+        );
+
+        // Fade in current item
+        tl.to(
+          content,
+          { autoAlpha: 1, y: 0, duration: 1.5, ease: "power2.inOut" },
+          `step${i}+=0.5`,
+        );
+
+        // Add a pause to allow users to read
+        tl.to({}, { duration: 1.5 });
+      });
+    });
+
+    mm.add("(max-width: 767px)", () => {
+      // Remove inline styles set by GSAP to ensure pure CSS handles mobile
+      gsap.set(contents, { clearProps: "all" });
+    });
+  }
+
+  // --- Leaders Section Animation ---
+  const leadersSection = document.getElementById("leaders-section");
+
+  if (leadersSection) {
+    mm.add("(min-width: 768px)", () => {
+      // Chỉ lấy các item-member nằm trong members-container của desktop
+      const members = gsap.utils.toArray(".members-container .item-member");
+
+      if (members.length > 0) {
+        // Hàm xáo trộn mảng để random vị trí
+        const shuffle = (array) => {
+          let currentIndex = array.length,
+            randomIndex;
+          while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+              array[randomIndex],
+              array[currentIndex],
+            ];
+          }
+          return array;
+        };
+
+        // Tạo danh sách làn đường được xáo trộn ngẫu nhiên từng cụm 3
+        let randomLanes = [];
+        for (let i = 0; i < members.length; i += 3) {
+          randomLanes = randomLanes.concat(shuffle([0, 1, 2]));
+        }
+
+        // Set initial positions for members
+        members.forEach((member, i) => {
+          const laneIndex = randomLanes[i];
+
+          // Mỗi làn chiếm khoảng 30%, cộng thêm tí random
+          const randomLeft = laneIndex * 32 + Math.random() * 5;
+
+          // Strict vertical stagger: each item is placed at least 80% of screen height below the previous
+          // + random(0, 15) to add slight visual irregularity without breaking the gap
+          const startTop = 100 + i * 80 + Math.random() * 15;
+
+          member.style.pointerEvents = "auto";
+
+          gsap.set(member, {
+            left: `${randomLeft}%`,
+            top: `${startTop}%`,
+            position: "absolute",
+            zIndex: members.length - i, // Ensure items that appear later don't inappropriately layer over earlier ones
+          });
+        });
+
+        // Calculate total travel distance needed for the very last item to clear the top of the screen
+        const lastItemStartTop = 100 + (members.length - 1) * 80 + 15;
+        const travelDistance = lastItemStartTop + 80; // Additional 80% to ensure it fully exits
+
+        // Create scroll animation
+        // By moving all items by the EXACT SAME amount (-=travelDistance%),
+        // their vertical gaps are perfectly preserved and they never collide.
+        gsap.to(members, {
+          top: `-=${travelDistance}%`,
+          ease: "none",
+          scrollTrigger: {
+            trigger: leadersSection,
+            start: "top top",
+            end: `+=${members.length * 700}`, // Adjust scroll length based on number of items
+            pin: true,
+            scrub: 1.5,
+          },
+        });
+      }
+    });
+
+    mm.add("(max-width: 767px)", () => {
+      // Clear props on mobile if needed (mostly safe since we only target desktop elements now)
+      const members = gsap.utils.toArray(".members-container .item-member");
+      if (members.length > 0) gsap.set(members, { clearProps: "all" });
+    });
+  }
+
+  // --- Our Value Section Animation ---
+  const ourValueItems = gsap.utils.toArray(".item-our-value");
+  if (ourValueItems.length > 0) {
+    gsap.set(ourValueItems, { y: 50, opacity: 0 });
+    ScrollTrigger.batch(ourValueItems, {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          opacity: 1,
+          y: 0,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: "power2.out",
+          overwrite: true,
+        }),
+      start: "top 90%",
+    });
+  }
+
+  // --- Member Description Toggle ---
+  $(".clc-desc-member").on("click", function () {
+    $(this).toggleClass("active");
+    $(this).closest(".item-member").find(".desc").slideToggle();
+  });
+}
+PageAnimations.register(initAboutAnimation);
+
+
+
+function initSecondAbout() {
+  const items = [
+    {
+      date: "09.2023",
+      title: "Founded & Strategically Positioned",
+      desc: "Triplayz was founded by a team with deep expertise in Gamification and Fintech. From day one, we positioned ourselves as a new-generation tech partner.",
+    },
+    {
+      date: "12.2023",
+      title: "Expanding Core Team",
+      desc: "We gathered top talents from across the industry to build a foundation of excellence in digital solutions and BFSI excellence.",
+    },
+    {
+      date: "03.2024",
+      title: "Entering the Japan Market",
+      desc: "Successfully established partnerships with key Japanese enterprises, delivering tailored gamification solutions for their ecosystems.",
+    },
+    {
+      date: "06.2024",
+      title: "Innovative Product Launch",
+      desc: "Launched our first major gamified engagement platform, helping clients increase user retention by over 40%.",
+    },
+    {
+      date: "09.2024",
+      title: "Global Strategic Growth",
+      desc: "Expanded our reach to multiple regions, becoming a trusted global tech partner that turns vision into measurable reality.",
+    },
+  ];
+
+  const frame = document.getElementById("frame");
+  const section = document.getElementById("journey-section");
+  const dotsEl = document.getElementById("dots");
+  const outerEl = document.getElementById("outer");
+
+  if (!frame || !section || !dotsEl || !outerEl || !textJourney) return;
+
+
+  const textJourney = document.getElementById("text-journey");
+  const dateEl = section.querySelector(".outer span.relative");
+  const descEl = section.querySelector(".outer .max-w-\\[24vw\\]");
+
+  if (!dateEl || !descEl) return;
+
+  let mm = gsap.matchMedia();
+
+  mm.add("(min-width: 768px)", () => {
+    const cardWraps = [];
+    const dots = [];
+    const ANGLE_STEP = 28;
+
+    // Trạng thái ban đầu: ẩn cards, chuẩn bị text
+    gsap.set(outerEl, { opacity: 0, visibility: "hidden" });
+    gsap.set(textJourney, { opacity: 0, y: 30 });
+
+    // Tạo các item cho Desktop
+    items.forEach((item, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "card-wrap";
+      wrap.style.position = "absolute";
+      wrap.style.transformOrigin = "0px 50%";
+      wrap.innerHTML = `<div class="card">${item.title}</div>`;
+      frame.appendChild(wrap);
+      cardWraps.push(wrap);
+
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      dotsEl.appendChild(dot);
+      dots.push(dot);
+    });
+
+    function updateLayout(floatIndex) {
+      const roundedIndex = Math.round(floatIndex);
+      const item = items[roundedIndex];
+
+      if (item) {
+        if (dateEl) dateEl.textContent = item.date;
+        if (descEl) descEl.textContent = item.desc;
+      }
+
+      cardWraps.forEach((card, i) => {
+        const diff = i - floatIndex;
+        const abs = Math.abs(diff);
+        const angle = diff * ANGLE_STEP;
+
+        let opacity = 0;
+        if (abs === 0) opacity = 1;
+        else if (abs <= 1) opacity = 1 - abs * 0.35;
+        else if (abs <= 2) opacity = 0.65 - (abs - 1) * 0.3;
+        else opacity = Math.max(0, 0.35 - (abs - 2) * 0.35);
+
+        card
+          .querySelector(".card")
+          .classList.toggle("active", roundedIndex === i);
+        dots[i].classList.toggle("on", roundedIndex === i);
+
+        gsap.set(card, {
+          rotation: angle,
+          opacity: opacity,
+          zIndex: items.length - Math.floor(abs),
+        });
+      });
+    }
+
+    updateLayout(0);
+
+    let introPlayed = false;
+
+    // ScrollTrigger chính để ghim section
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: "+=5000",
+      pin: true,
+      scrub: 0.5,
+      onEnter: () => {
+        if (!introPlayed) {
+          // Khóa cuộn trang hoàn toàn (Lenis + Body)
+          document.body.style.overflow = "hidden";
+          if (window._lenis) window._lenis.stop();
+
+          const introTl = gsap.timeline({
+            onComplete: () => {
+              introPlayed = true;
+              // Mở lại cuộn trang sau khi xong intro
+              document.body.style.overflow = "";
+              if (window._lenis) window._lenis.start();
+              updateLayout(0);
+            },
+          });
+          introTl
+            .to(textJourney, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power2.out",
+            })
+            .to(textJourney, {
+              opacity: 0,
+              y: -20,
+              duration: 0.6,
+              delay: 1.2,
+              ease: "power2.in",
+            })
+            .to(outerEl, {
+              autoAlpha: 1,
+              duration: 0.7,
+              onStart: () => {
+                outerEl.style.visibility = "visible";
+              },
+            });
+        }
+      },
+      onUpdate: (self) => {
+        if (introPlayed) {
+          updateLayout(self.progress * (items.length - 1));
+        }
+      },
+    });
+
+    // Cleanup
+    return () => {
+      frame.innerHTML = "";
+      dotsEl.innerHTML = "";
+      document.body.style.overflow = ""; // Reset scroll lock
+      if (window._lenis) window._lenis.start();
+      gsap.set([outerEl, textJourney], { clearProps: "all" });
+    };
+  });
+}
+PageAnimations.register(initSecondAbout);
+
+
+
+
+function initCareerAnimation() {
+  if (!document.querySelector(".avarta-paralax")) return;
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.to(".parallax-img", {
+      yPercent: 20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".avarta-paralax",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+  }
+}
+PageAnimations.register(initCareerAnimation);
+
+
+
+
+
+function initServiceGame() {
+  if (window.innerWidth < 1024) return; // Chỉ chạy trên desktop
+
+  const hoverItems = document.querySelectorAll(".item-game");
+  const cursorContainer = document.getElementById("cursor-image-container");
+  const cursorImg = cursorContainer.querySelector("img");
+
+  if (!hoverItems || !cursorContainer || !cursorImg) return;
+
+  let posX = 0,
+    posY = 0;
+  let mouseX = 0,
+    mouseY = 0;
+
+  // Tối ưu hiệu năng bằng QuickSetter
+  const xSetter = gsap.quickSetter(cursorContainer, "x", "px");
+  const ySetter = gsap.quickSetter(cursorContainer, "y", "px");
+  const skewSetter = gsap.quickSetter(cursorContainer, "skewX", "deg");
+  const rotateSetter = gsap.quickSetter(cursorContainer, "rotation", "deg");
+
+  hoverItems.forEach((item) => {
+    item.addEventListener("mouseenter", (e) => {
+      const newImg = item.getAttribute("data-img");
+      if (!newImg) return;
+
+      // Dừng mọi hiệu ứng đang chạy (đặc biệt là hiệu ứng ẩn từ mouseleave)
+      gsap.killTweensOf(cursorContainer);
+
+      const currentOpacity = gsap.getProperty(cursorContainer, "opacity");
+
+      if (currentOpacity > 0.1) {
+        // Hiệu ứng "Splash" khi CHUYỂN giữa các item (đang hiển thị)
+        const tl = gsap.timeline();
+        tl.to(cursorContainer, {
+          scale: 0.8,
+          rotation: 10,
+          duration: 0.1,
+          ease: "power2.in",
+          onComplete: () => {
+            cursorImg.src = newImg;
+          },
+        }).to(cursorContainer, {
+          opacity: 1, // Đảm bảo luôn hiện
+          scale: 1,
+          rotation: 0,
+          duration: 0.3,
+          ease: "back.out(2)",
+        });
+      } else {
+        // Hiệu ứng hiện ra lần đầu
+        cursorImg.src = newImg;
+        gsap.to(cursorContainer, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+        });
+      }
+    });
+
+    item.addEventListener("mousemove", (e) => {
+      const rect = item.getBoundingClientRect();
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // Tính toán độ nghiêng dựa trên hướng di chuyển
+      const dx = x - mouseX;
+      const skew = gsap.utils.clamp(-20, 20, dx * 0.5);
+      const rotate = gsap.utils.clamp(-15, 15, dx * 0.2);
+
+      mouseX = x;
+      mouseY = y;
+
+      gsap.to(cursorContainer, {
+        x: x - 60,
+        y: y - 60,
+        skewX: skew,
+        rotation: rotate,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    });
+
+    item.addEventListener("mouseleave", () => {
+      gsap.to(cursorContainer, {
+        opacity: 0,
+        scale: 0.5,
+        skewX: 0,
+        rotation: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    });
+  });
+
+  $(".item-game").click(function () {
+    $(this).find(".desc-item-game").slideToggle();
+    $(this).toggleClass("active");
+  });
+}
+PageAnimations.register(initServiceGame);
+
+
 
 PageAnimations.runAll();
