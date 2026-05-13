@@ -111,8 +111,7 @@ function initPageTransition() {
 
     if (!loaderIcon) return;
 
-    // Ẩn ring, chỉ dùng Lottie
-    if (ring) ring.style.display = "block";
+    if (ring) ring.style.display = "none";
 
     window.lottieAnim?.play();
 

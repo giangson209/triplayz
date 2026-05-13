@@ -1395,7 +1395,7 @@ function initPreloaderTextAnimation() {
   document.body.style.overflowY = "hidden";
   document.documentElement.style.overflowY = "hidden";
 
-  const CIRC = 2 * Math.PI * 60;
+  const CIRC = 2 * Math.PI * 68;
   ring.style.strokeDasharray = CIRC;
   ring.style.strokeDashoffset = CIRC;
 
