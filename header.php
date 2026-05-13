@@ -333,10 +333,10 @@
         <div class="column"></div>
     </section>
     <div class="lazy-loading" id="loader-icon">
-        <div id="lottie-loader" style="width: 84px; height: 84px;"></div>
+        <div id="lottie-loader" style="width: 100px; height: 100px;"></div>
 
         <svg class="ring-svg" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="48" cy="48" r="60" class="circle-track" />
-            <circle cx="48" cy="48" r="60" class="circle-fill" id="ring" />
+            <circle cx="48" cy="48" r="68" class="circle-track" />
+            <circle cx="48" cy="48" r="68" class="circle-fill" id="ring" />
         </svg>
     </div>
