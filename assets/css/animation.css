@@ -786,3 +786,67 @@ footer a.footer-anim-link .footer-link-line {
 .desc-absolute {
   transition: none !important;
 }
+
+
+
+
+/* ==================== */
+/* MOSAIC PIXEL REVEAL  */
+/* ==================== */
+
+/* Mobile: wrappers in normal flow */
+.pixel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Desktop: wrappers overlap as absolute */
+@media (min-width: 768px) {
+  .random-pixel {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .pixel-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .vision-wrapper {
+    z-index: 1;
+  }
+
+  .mission-wrapper {
+    z-index: 2;
+  }
+
+  .vision-img,
+  .mission-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+}
+
+.mosaic-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.mosaic-cell {
+  position: absolute;
+  overflow: hidden;
+}
+
+.mosaic-cell img {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
