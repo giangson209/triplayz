@@ -4460,57 +4460,204 @@ PageAnimations.register(initServiceGameScroll);
 
 
 function initServiceGameCursor() {
-  if (window.innerWidth < 1024) return; // Chỉ chạy trên desktop
+  if (window.innerWidth < 1024) return;
 
   const hoverItems = document.querySelectorAll(".item-game");
   const cursorContainer = document.getElementById("cursor-image-container");
-  if (!hoverItems.length || !cursorContainer) return; 
+  if (!hoverItems.length || !cursorContainer) return;
 
   const cursorImg = cursorContainer.querySelector("img");
-
   if (!cursorImg) return;
 
-  let posX = 0,
-    posY = 0;
-  let mouseX = 0,
-    mouseY = 0;
+  let mouseX = 0;
+  let currentClientX = -9999;
+  let currentClientY = -9999;
+  let hideTimer = null;
+  let activeItem = null;
+  let isScrolling = false;
+  let scrollEndTimer = null;
+  let scrollCheckRaf = null;
 
-  // Tối ưu hiệu năng bằng QuickSetter
-  const xSetter = gsap.quickSetter(cursorContainer, "x", "px");
-  const ySetter = gsap.quickSetter(cursorContainer, "y", "px");
-  const skewSetter = gsap.quickSetter(cursorContainer, "skewX", "deg");
-  const rotateSetter = gsap.quickSetter(cursorContainer, "rotation", "deg");
-
+  // Gom các parent container chứa item-game
+  const itemContainers = [];
   hoverItems.forEach((item) => {
-    item.addEventListener("mouseenter", (e) => {
-      const newImg = item.getAttribute("data-img");
-      if (!newImg) return;
+    const parent = item.parentElement;
+    if (parent && !itemContainers.includes(parent)) {
+      itemContainers.push(parent);
+    }
+  });
 
-      // Dừng mọi hiệu ứng đang chạy (đặc biệt là hiệu ứng ẩn từ mouseleave)
-      gsap.killTweensOf(cursorContainer);
+  if (!document.getElementById("scroll-hover-style")) {
+    const s = document.createElement("style");
+    s.id = "scroll-hover-style";
+    s.textContent = `
+      .item-game.scroll-hover .transition-colors {
+        color: white !important;
+      }
+      body.is-scrolling .item-game:not(.scroll-hover) .transition-colors {
+        color: #56565D !important;
+      }
+    `;
+    document.head.appendChild(s);
+  }
 
-      const currentOpacity = gsap.getProperty(cursorContainer, "opacity");
+  function hideCursorImmediate() {
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = null;
+    }
+    gsap.killTweensOf(cursorContainer);
+    gsap.to(cursorContainer, {
+      opacity: 0,
+      scale: 0.5,
+      skewX: 0,
+      rotation: 0,
+      duration: 0.3,
+      ease: "power2.in",
+    });
+  }
 
-      if (currentOpacity > 0.1) {
-        // Hiệu ứng "Splash" khi CHUYỂN giữa các item (đang hiển thị)
-        const tl = gsap.timeline();
-        tl.to(cursorContainer, {
-          scale: 0.8,
-          rotation: 10,
-          duration: 0.1,
-          ease: "power2.in",
-          onComplete: () => {
-            cursorImg.src = newImg;
-          },
-        }).to(cursorContainer, {
-          opacity: 1, // Đảm bảo luôn hiện
+  function hideCursorDelayed() {
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      const elUnder = document.elementFromPoint(currentClientX, currentClientY);
+      if (elUnder?.closest(".item-game")) return;
+      hideCursorImmediate();
+      hideTimer = null;
+    }, 30);
+  }
+
+  function isPointInRect(x, y, rect) {
+    return (
+      x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom
+    );
+  }
+
+  function checkScrollHover() {
+    if (currentClientX === -9999) return;
+
+    // Bước 1: cursor còn trong bất kỳ parent container nào không?
+    const inAnyContainer = itemContainers.some((container) =>
+      isPointInRect(
+        currentClientX,
+        currentClientY,
+        container.getBoundingClientRect(),
+      ),
+    );
+
+    if (!inAnyContainer) {
+      // Cursor thoát khỏi toàn bộ list → ẩn
+      if (activeItem) {
+        activeItem.classList.remove("scroll-hover");
+        activeItem = null;
+      }
+      if (parseFloat(gsap.getProperty(cursorContainer, "opacity")) > 0) {
+        hideCursorImmediate();
+      }
+      return;
+    }
+
+    // Bước 2: cursor đang over item-game nào?
+    let foundItem = null;
+    hoverItems.forEach((item) => {
+      if (
+        isPointInRect(
+          currentClientX,
+          currentClientY,
+          item.getBoundingClientRect(),
+        )
+      ) {
+        foundItem = item;
+      }
+    });
+
+    if (foundItem) {
+      // Cursor đang trên một item → activate nếu chưa
+      if (foundItem !== activeItem) {
+        activateItem(foundItem, true);
+      }
+      // Cập nhật vị trí cursor image
+      gsap.to(cursorContainer, {
+        x: currentClientX - 60,
+        y: currentClientY - 60,
+        duration: 0.15,
+        ease: "none",
+      });
+      if (parseFloat(gsap.getProperty(cursorContainer, "opacity")) < 0.5) {
+        if (hideTimer) {
+          clearTimeout(hideTimer);
+          hideTimer = null;
+        }
+        gsap.to(cursorContainer, {
+          opacity: 1,
           scale: 1,
-          rotation: 0,
           duration: 0.3,
-          ease: "back.out(2)",
+          ease: "back.out(1.7)",
         });
+      }
+    } else {
+      // ✅ FIX: cursor trong container nhưng không trên item nào
+      // (scroll qua hết, hoặc khoảng trống ngoài item) → ẩn cursor
+      if (activeItem) {
+        activeItem.classList.remove("scroll-hover");
+        activeItem = null;
+      }
+      if (parseFloat(gsap.getProperty(cursorContainer, "opacity")) > 0) {
+        hideCursorImmediate();
+      }
+    }
+  }
+
+  // rAF loop: poll mỗi frame trong khi scroll
+  function startScrollCheckLoop() {
+    if (scrollCheckRaf) return;
+    function loop() {
+      if (!isScrolling) {
+        scrollCheckRaf = null;
+        return;
+      }
+      checkScrollHover();
+      scrollCheckRaf = requestAnimationFrame(loop);
+    }
+    scrollCheckRaf = requestAnimationFrame(loop);
+  }
+
+  function activateItem(item, triggerEnterAnim) {
+    if (item === activeItem) return;
+    if (activeItem) activeItem.classList.remove("scroll-hover");
+    activeItem = item;
+    if (!item) return;
+    item.classList.add("scroll-hover");
+
+    const newImg = item.getAttribute("data-img");
+    if (!newImg) return;
+
+    gsap.killTweensOf(cursorContainer);
+    const currentOpacity = parseFloat(
+      gsap.getProperty(cursorContainer, "opacity"),
+    );
+
+    if (triggerEnterAnim) {
+      if (currentOpacity > 0.1) {
+        gsap
+          .timeline()
+          .to(cursorContainer, {
+            scale: 0.8,
+            rotation: 10,
+            duration: 0.1,
+            ease: "power2.in",
+            onComplete: () => {
+              cursorImg.src = newImg;
+            },
+          })
+          .to(cursorContainer, {
+            opacity: 1,
+            scale: 1,
+            rotation: 0,
+            duration: 0.3,
+            ease: "back.out(2)",
+          });
       } else {
-        // Hiệu ứng hiện ra lần đầu
         cursorImg.src = newImg;
         gsap.to(cursorContainer, {
           opacity: 1,
@@ -4519,24 +4666,33 @@ function initServiceGameCursor() {
           ease: "back.out(1.7)",
         });
       }
+    } else {
+      cursorImg.src = newImg;
+    }
+  }
+
+  document.addEventListener("mousemove", (e) => {
+    currentClientX = e.clientX;
+    currentClientY = e.clientY;
+  });
+
+  hoverItems.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+      activateItem(item, true);
     });
 
     item.addEventListener("mousemove", (e) => {
-      const rect = item.getBoundingClientRect();
-      const x = e.clientX;
-      const y = e.clientY;
-
-      // Tính toán độ nghiêng dựa trên hướng di chuyển
-      const dx = x - mouseX;
+      const dx = e.clientX - mouseX;
       const skew = gsap.utils.clamp(-20, 20, dx * 0.5);
       const rotate = gsap.utils.clamp(-15, 15, dx * 0.2);
-
-      mouseX = x;
-      mouseY = y;
-
+      mouseX = e.clientX;
       gsap.to(cursorContainer, {
-        x: x - 60,
-        y: y - 60,
+        x: e.clientX - 60,
+        y: e.clientY - 60,
         skewX: skew,
         rotation: rotate,
         duration: 0.5,
@@ -4545,16 +4701,35 @@ function initServiceGameCursor() {
     });
 
     item.addEventListener("mouseleave", () => {
-      gsap.to(cursorContainer, {
-        opacity: 0,
-        scale: 0.5,
-        skewX: 0,
-        rotation: 0,
-        duration: 0.3,
-        ease: "power2.in",
-      });
+      if (isScrolling) return;
+      if (activeItem === item) {
+        item.classList.remove("scroll-hover");
+        activeItem = null;
+      }
+      hideCursorDelayed();
     });
   });
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      isScrolling = true;
+      document.body.classList.add("is-scrolling");
+
+      startScrollCheckLoop();
+
+      if (scrollEndTimer) clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(() => {
+        isScrolling = false;
+        document.body.classList.remove("is-scrolling");
+
+        if (currentClientX !== -9999) {
+          checkScrollHover();
+        }
+      }, 150);
+    },
+    { passive: true },
+  );
 
   $(".item-game").click(function () {
     $(this).find(".desc-item-game").slideToggle();
