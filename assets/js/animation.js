@@ -4988,11 +4988,10 @@ function initSecondAbout() {
   const section = document.getElementById("journey-section");
   const dotsEl = document.getElementById("dots");
   const outerEl = document.getElementById("outer");
-
+  const textJourney = document.getElementById("text-journey");
+  
   if (!frame || !section || !dotsEl || !outerEl || !textJourney) return;
 
-
-  const textJourney = document.getElementById("text-journey");
   const dateEl = section.querySelector(".outer span.relative");
   const descEl = section.querySelector(".outer .max-w-\\[24vw\\]");
 
@@ -5125,6 +5124,353 @@ function initSecondAbout() {
   });
 }
 PageAnimations.register(initSecondAbout);
+
+
+
+
+function initMosaicAndPixelReveal() {
+  const section = document.querySelector(".random-pixel");
+  if (!section) return;
+
+  const COLS = 30;
+  const ROWS = 15;
+  const ROW_BLEND = 4;
+
+  const CELL_COLOR = "#1d1d27";
+  const isMobile = window.innerWidth < 768;
+
+  const MOSAIC_SCROLL_MULTIPLIER = 4.2;
+
+  // overlay chạy chậm hơn
+  const OVERLAY_DELAY = 0.1;
+
+  // fade mềm hơn
+  const FADE_RANGE = 0.18;
+
+  function getFadeOpacity(progress, threshold, range = FADE_RANGE) {
+    const start = Math.max(0, threshold - range);
+
+    if (progress <= start) return 0;
+    if (progress >= threshold) return 1;
+
+    return (progress - start) / (threshold - start);
+  }
+
+  // ========================================================
+  // OVERLAY
+  // ========================================================
+
+  const overlay = document.createElement("div");
+
+  Object.assign(overlay.style, {
+    position: "absolute",
+    inset: "0",
+    pointerEvents: "none",
+    zIndex: "10",
+    display: "grid",
+    gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+    gridTemplateRows: `repeat(${ROWS}, 1fr)`,
+  });
+
+  const overlayCells = [];
+
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < COLS; col++) {
+      const cell = document.createElement("div");
+
+      cell.style.cssText = `
+        background:${CELL_COLOR};
+        opacity:0;
+        width:100%;
+        height:100%;
+        will-change:opacity;
+      `;
+
+      overlay.appendChild(cell);
+      overlayCells.push({ el: cell, row });
+    }
+  }
+
+  section.appendChild(overlay);
+
+  const sortedOverlay = overlayCells
+    .map((c) => ({
+      ...c,
+      key: ROWS - 1 - c.row + Math.random() * ROW_BLEND,
+    }))
+    .sort((a, b) => a.key - b.key)
+    .map((c, i) => ({
+      ...c,
+      threshold: i / (overlayCells.length - 1),
+    }));
+
+  // ========================================================
+  // MOBILE
+  // ========================================================
+
+  if (isMobile) {
+    let _raf = false;
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (_raf) return;
+
+        _raf = true;
+
+        requestAnimationFrame(() => {
+          const rect = section.getBoundingClientRect();
+
+          let p = Math.max(
+            0,
+            Math.min(1, 1 - rect.bottom / window.innerHeight),
+          );
+
+          p = Math.max(0, (p - OVERLAY_DELAY) / (1 - OVERLAY_DELAY));
+
+          sortedOverlay.forEach((c) => {
+            c.el.style.opacity = getFadeOpacity(p, c.threshold);
+          });
+
+          _raf = false;
+        });
+      },
+      { passive: true },
+    );
+
+    return;
+  }
+
+  // ========================================================
+  // STICKY
+  // ========================================================
+
+  const scrollWrapper = document.createElement("div");
+
+  Object.assign(scrollWrapper.style, {
+    position: "relative",
+    height: `calc(100vh * ${MOSAIC_SCROLL_MULTIPLIER})`,
+  });
+
+  section.parentNode.insertBefore(scrollWrapper, section);
+  scrollWrapper.appendChild(section);
+
+  Object.assign(section.style, {
+    position: "sticky",
+    top: "0",
+    height: "100vh",
+    overflow: "hidden",
+  });
+
+  // ========================================================
+  // MOSAIC
+  // ========================================================
+
+  let sortedMosaic = [];
+  let containerShown = false;
+
+  const missionImgEl = section.querySelector(".mission-img");
+
+  const missionContainer = section.querySelector(
+    ".mission-wrapper .mission-container",
+  );
+
+  const missionWrapper = section.querySelector(".mission-wrapper");
+
+  let mosaicGrid = null;
+
+  if (missionImgEl) {
+    missionImgEl.style.visibility = "hidden";
+
+    if (missionContainer) {
+      gsap.set(missionContainer, { opacity: 0 });
+      missionContainer.style.zIndex = "4";
+    }
+
+    mosaicGrid = document.createElement("div");
+    mosaicGrid.className = "mosaic-grid";
+
+    (missionWrapper || section).appendChild(mosaicGrid);
+
+    function buildMosaicCells() {
+      mosaicGrid.innerHTML = "";
+      sortedMosaic = [];
+
+      const W = section.offsetWidth;
+      const H = section.offsetHeight;
+
+      if (!W || !H) return;
+
+      const nW = missionImgEl.naturalWidth;
+      const nH = missionImgEl.naturalHeight;
+
+      if (!nW || !nH) return;
+
+      const scale = Math.max(W / nW, H / nH);
+
+      const rW = nW * scale;
+      const rH = nH * scale;
+
+      const ox = (W - rW) / 2;
+      const oy = (H - rH) / 2;
+
+      const cellW = W / COLS;
+      const cellH = H / ROWS;
+
+      const bgW = ((rW / cellW) * 100).toFixed(4);
+      const bgH = ((rH / cellH) * 100).toFixed(4);
+
+      const cells = [];
+
+      for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+          const el = document.createElement("div");
+
+          el.className = "mosaic-cell";
+
+          const bpx = (ox - col * cellW).toFixed(4);
+          const bpy = (oy - row * cellH).toFixed(4);
+
+          el.style.cssText =
+            `left:${((col / COLS) * 100).toFixed(4)}%;` +
+            `top:${((row / ROWS) * 100).toFixed(4)}%;` +
+            `width:${(100 / COLS).toFixed(4)}%;` +
+            `height:${(100 / ROWS).toFixed(4)}%;` +
+            `opacity:0;` +
+            `will-change:opacity;` +
+            `background-image:url(${missionImgEl.src});` +
+            `background-size:${bgW}% ${bgH}%;` +
+            `background-position:${bpx}px ${bpy}px;`;
+
+          mosaicGrid.appendChild(el);
+
+          cells.push({ el, row });
+        }
+      }
+
+      sortedMosaic = cells
+        .map((c) => ({
+          ...c,
+          key: ROWS - 1 - c.row + Math.random() * ROW_BLEND,
+        }))
+        .sort((a, b) => a.key - b.key)
+        .map((c, i) => ({
+          ...c,
+          threshold: i / (cells.length - 1),
+        }));
+    }
+
+    if (missionImgEl.complete && missionImgEl.naturalWidth > 0) {
+      buildMosaicCells();
+    } else {
+      missionImgEl.addEventListener("load", buildMosaicCells, {
+        once: true,
+      });
+    }
+
+    window.addEventListener("resize", () => {
+      buildMosaicCells();
+      onScroll();
+    });
+  }
+
+  // ========================================================
+  // PROGRESS
+  // ========================================================
+
+  function getMosaicProgress() {
+    const rect = scrollWrapper.getBoundingClientRect();
+
+    const total = scrollWrapper.offsetHeight - window.innerHeight;
+
+    return Math.max(0, Math.min(1, -rect.top / total));
+  }
+
+  function getOverlayProgress() {
+    const rect = section.getBoundingClientRect();
+
+    // trigger muộn hơn
+    const triggerPoint = window.innerHeight * 0.75;
+
+    if (rect.bottom > triggerPoint) {
+      return 0;
+    }
+
+    const distance = triggerPoint - rect.bottom;
+
+    // overlay complete chậm hơn
+    const maxDistance = window.innerHeight * 1.3;
+
+    let p = distance / maxDistance;
+
+    p = Math.max(0, Math.min(1, p));
+
+    p = Math.max(0, (p - OVERLAY_DELAY) / (1 - OVERLAY_DELAY));
+
+    return p;
+  }
+
+  // ========================================================
+  // SCROLL
+  // ========================================================
+
+  function onScroll() {
+    if (sortedMosaic.length) {
+      const mp = getMosaicProgress();
+
+      sortedMosaic.forEach((c) => {
+        c.el.style.opacity = getFadeOpacity(mp, c.threshold);
+      });
+
+      if (mp >= 0.9 && !containerShown && missionContainer) {
+        containerShown = true;
+
+        gsap.to(missionContainer, {
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.out",
+        });
+      } else if (mp < 0.8 && containerShown && missionContainer) {
+        containerShown = false;
+
+        gsap.to(missionContainer, {
+          opacity: 0,
+          duration: 0.3,
+        });
+      }
+    }
+
+    const op = getOverlayProgress();
+
+    sortedOverlay.forEach((c) => {
+      c.el.style.opacity = getFadeOpacity(op, c.threshold);
+    });
+  }
+
+  // ========================================================
+  // RAF
+  // ========================================================
+
+  let _rafPending = false;
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (_rafPending) return;
+
+      _rafPending = true;
+
+      requestAnimationFrame(() => {
+        onScroll();
+        _rafPending = false;
+      });
+    },
+    { passive: true },
+  );
+
+  onScroll();
+}
+PageAnimations.register(initMosaicAndPixelReveal);
 
 
 

@@ -54,41 +54,54 @@
                     </div>
                 </div>
             </section>
-            <section class="relative">
-                <div class="block md:hidden bg-[#483BA8] py-10 px-4">
-                    <div class="w-full max-w-245">
-                        <div class="anek mb-6">/OUR VISON</div>
+            <section class="relative random-pixel">
+
+                <!-- Vision Wrapper (z-index thấp hơn) -->
+                <div class="pixel-wrapper vision-wrapper">
+                    <img src="assets/images/bn-about.png"
+                    class="vision-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
+                    <div class="vision-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
+                    <div class="item">
+                        <div class="w-full max-w-245">
+                        <div class="anek mb-6">/OUR VISION</div>
                         <div class="text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
                             To be a trusted global tech partner that turns vision into reality
                         </div>
-                    </div>
-                </div>
-                <img src="assets/images/bn-about.png" class="w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover"
-                    alt="">
-                <div
-                    class="absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
-                    <div class="item">
-                        <div class="w-full max-w-245">
-                            <div class="anek mb-6">/OUR VISON</div>
-                            <div class="text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
-                                To be a trusted global tech partner that turns vision into reality
-                            </div>
                         </div>
                     </div>
                     <div class="item">
                         <div class="w-full max-w-98 ml-auto anek">
-                            Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
-                            technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
-                            Solutions to enterprises across industries worldwide.
+                        Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
+                        technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
+                        Solutions to enterprises across industries worldwide.
                         </div>
+                    </div>
                     </div>
                 </div>
 
-                <div class="pt-6 pb-10 block md:hidden anek px-4 text-4">
-                    Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
-                    technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
-                    Solutions to enterprises across industries worldwide.
+                <!-- Mission Wrapper (z-index cao hơn, bị mosaic reveal) -->
+                <div class="pixel-wrapper mission-wrapper">
+                    <img src="assets/images/vison.png"
+                    class="mission-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
+                    <div class="mission-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
+                    <div class="item">
+                        <div class="w-full max-w-245">
+                        <div class="anek mb-6">/OUR MISSION</div>
+                        <div class="text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
+                            To transform ambitious ideas into digital solutions that truly work
+                        </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="w-full max-w-98 ml-auto anek">
+                        Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
+                        technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
+                        Solutions to enterprises across industries worldwide.
+                        </div>
+                    </div>
+                    </div>
                 </div>
+
             </section>
 
             <section id="achieve-section" class="py-10 md:py-25 relative px-4 md:px-10 overflow-hidden">
