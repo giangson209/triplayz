@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 <main>
-    <section class="relative overflow-hidden hidden">
+    <section class="relative overflow-hidden">
         <div class="block">
             <img src="assets/images/bn-about.jpg" class="w-full object-cover h-screen" alt="">
         </div>
@@ -52,7 +52,7 @@
             </div>
         </div>
     </section>
-    <section class="relative hidden">
+    <section class="relative">
         <div class="block md:hidden bg-[#483BA8] py-10 px-4">
             <div class="w-full max-w-245">
                 <div class="anek mb-6">/OUR VISON</div>
@@ -89,7 +89,7 @@
         </div>
     </section>
 
-    <section id="achieve-section" class="py-10 md:py-25 relative px-4 md:px-10 overflow-hidden hidden">
+    <section id="achieve-section" class="py-10 md:py-25 relative px-4 md:px-10 overflow-hidden">
         <div class="absolute flex items-center justify-center top-0 left-0 w-full h-full">
             <img src="assets/images/archive.png" class="w-full" alt="">
         </div>
@@ -167,7 +167,7 @@
         </div>
     </section>
 
-    <section class="relative py-10 md:py-25 px-4 md:px-10 hidden">
+    <section class="relative py-10 md:py-25 px-4 md:px-10 dden">
         <div class="wrapper">
             <div
                 class="m-auto w-full max-w-244 text-8 lg:text-[60px] 2xl:text-[80px] font-medium text-center md:text-left">
@@ -202,7 +202,7 @@
             </div>
     </section>
 
-    <section id="journey-section" class="relative py-10 md:py-0 px-4 md:px-0 hidden">
+    <section id="journey-section" class="relative py-10 md:py-0 px-4 md:px-0">
         <div class="wrapper relative">
             <div class="text-left md:text-center m-auto relative md:absolute top-0 left-0 w-full h-full flex items-center justify-start md:justify-center"
                 id="text-journey">
@@ -264,7 +264,7 @@
         </div>
     </section>
 
-    <section class="relative py-10 md:py-25 lg:py-36 px-4 md:px-10 hidden">
+    <section class="relative py-10 md:py-25 lg:py-36 px-4 md:px-10">
         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
             <img src="assets/images/vuong.jpg" class="w-full h-full object-cover top-0 left-0" alt="">
         </div>
