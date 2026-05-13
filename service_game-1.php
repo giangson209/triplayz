@@ -563,13 +563,6 @@
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
-
-<div id="cursor-image-container"
-    class="fixed top-0 left-0 w-[120px] h-[120px] pointer-events-none z-[999] opacity-0 scale-50">
-    <img src="" class="w-full h-full object-contain" alt="Cursor Hover">
-</div>
-
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         if (window.innerWidth < 1024) return; // Chỉ chạy trên desktop
@@ -672,3 +665,10 @@
         $(this).toggleClass('active')
     })
 </script>
+
+<?php include 'footer.php'; ?>
+
+<div id="cursor-image-container"
+    class="fixed top-0 left-0 w-[120px] h-[120px] pointer-events-none z-[999] opacity-0 scale-50">
+    <img src="" class="w-full h-full object-contain" alt="Cursor Hover">
+</div>

@@ -233,31 +233,89 @@
             </div>
         </div>
 
-        <div
-            class="nav-menu text-[28px] font-medium block lg:hidden bg-[#1D1D27] fixed top-0 w-full h-full z-[100] p-4">
-            <div class="flex rounded-1 border border-[#2F2F38] p-4 items-center justify-between">
-                <div class="logo">
-                    <a href="index.php"><img src="assets/images/logo.svg" alt=""></a>
-                </div>
-                <div class="close-menu">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 19L18 6" stroke="white" stroke-width="2" stroke-linecap="square" />
-                        <path d="M6 6L19 19" stroke="white" stroke-width="2" stroke-linecap="square" />
-                    </svg>
-                </div>
-            </div>
 
+    </header>
+
+    <div
+        class="nav-menu text-[32px] font-medium block lg:hidden bg-[#1D1D27] fixed top-0 w-full md:w-[375px] h-full z-[100] p-4 no-scrollbar overflow-y-scroll">
+        <div class="flex rounded-1 border border-[#2F2F38] p-4 items-center justify-between mb-8 md:mb-16">
+            <div class="logo">
+                <a href="index.php"><img src="assets/images/logo.svg" alt=""></a>
+            </div>
+            <div class="close-menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 19L18 6" stroke="white" stroke-width="2" stroke-linecap="square" />
+                    <path d="M6 6L19 19" stroke="white" stroke-width="2" stroke-linecap="square" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="mm-mobile">
             <ul>
-                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="index.php">Home</a></li>
-                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="service.php">Service</a></li>
-                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="case-study.php">Case Study</a></li>
-                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="about.php">About Us</a></li>
-                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="career.php">Career</a></li>
-                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="blog.php">Blog</a></li>
-                <li class="py-3.5 border-b-[1px] border-[#FFFFFF14]"><a href="contact.php">Contact</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li>
+                    <div class="relaitve children-menu-mb">
+                        <a href="service.php">Service</a>
+                        <div class="arrow-menu w-7 h-7 flex items-center justify-center">
+                            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0 0L-1.16578e-07 2.66699L2.66699 2.66699L2.66699 5.33301L5.33398 5.33301L5.33398 8L8 8L8 5.33301L10.667 5.33301L10.667 2.66699L13.334 2.66699L13.334 0L0 0Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                    </div>
+                    <ul class="sub-menu-mb">
+                        <li><a href="service_game-1.php">Gamifcation</a></li>
+                        <li><a href="service_game-2.php">BFSI Solution</a></li>
+                        <li><a href="service_game-3.php">Digital Solution</a></li>
+                    </ul>
+                </li>
+                <li><a href="casestudy.php">Case Study</a></li>
+                <li>
+                    <div class="relaitve children-menu-mb">
+                        <a href="about.php">Company</a>
+                        <div class="arrow-menu w-7 h-7 flex items-center justify-center">
+                            <svg width="14" height="8" viewBox="0 0 14 8" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0 0L-1.16578e-07 2.66699L2.66699 2.66699L2.66699 5.33301L5.33398 5.33301L5.33398 8L8 8L8 5.33301L10.667 5.33301L10.667 2.66699L13.334 2.66699L13.334 0L0 0Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                    </div>
+                    <ul class="sub-menu-mb">
+                        <li><a href="about.php">About us</a></li>
+                        <li><a href="career.php">Career</a></li>
+                        <li><a href="blog.php">Blog</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.php">Contact</a></li>
             </ul>
         </div>
-    </header>
+
+        <div class="translate-mobile relative text-[20px] font-normal py-6">
+            <div class="inline-flex px-6 py-4 items-center gap-2 [#2B2B38] border border-[#FFFFFF26] rounded-[2px]">
+                <div class="flag flex items-center">
+                    <img src="assets/images/eng.png" alt="">
+                </div>
+                <span>English</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
+                </svg>
+            </div>
+        </div>
+        <div class="block text-[16px] font-normal anek">
+            <div class="opacity-65 uppercase mb-3">CONTACT</div>
+            <ul class="mb-3">
+                <li>T: (+84) 868 217 954</li>
+                <li>(日本): 050 5539 3197</li>
+                <li>E: contact@triplayz.com</li>
+            </ul>
+            <p>3 Le Van Huu Street, Hai Ba Trung Ward, Hanoi, Vietnam</p>
+        </div>
+
+    </div>
 
     <section id="preloader">
         <div class="column"></div>
