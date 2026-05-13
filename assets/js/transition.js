@@ -105,51 +105,43 @@ function initPageTransition() {
     });
   }
 
-  // ────────────────────────────────────────────────────────────
-  // startLoader
-  // ────────────────────────────────────────────────────────────
   function startLoader() {
     const loaderIcon = document.getElementById("loader-icon");
-    const ring = document.getElementById("ring");
+    const ring = document.querySelector(".ring-svg");
 
-    if (!loaderIcon || !ring) return;
+    if (!loaderIcon) return;
 
-    const CIRC = 2 * Math.PI * 60;
-    ring.style.strokeDasharray = CIRC;
-    ring.style.strokeDashoffset = CIRC;
+    // Ẩn ring, chỉ dùng Lottie
+    if (ring) ring.style.display = "block";
+
+    window.lottieAnim?.play();
 
     loaderIcon.style.display = "block";
     gsap.set(loaderIcon, { opacity: 0, scale: 0.95 });
 
-    gsap
-      .timeline()
-      .to(loaderIcon, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
-        ease: "power2.out",
-      })
-      .to(
-        ring,
-        { strokeDashoffset: 0, duration: 1.2, ease: "power1.inOut" },
-        "<0.1",
-      );
+    gsap.to(loaderIcon, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.3,
+      ease: "power2.out",
+    });
   }
 
-  // ────────────────────────────────────────────────────────────
-  // hideLoader
-  // ────────────────────────────────────────────────────────────
   function hideLoader() {
     const loaderIcon = document.getElementById("loader-icon");
+    const ring = document.querySelector(".ring-svg");
+
     if (!loaderIcon) return;
 
     gsap.to(loaderIcon, {
       opacity: 0,
       scale: 0.95,
-      duration: 0.25,
+      duration: .6,
       ease: "power2.in",
       onComplete: () => {
-        loaderIcon.style.display = "none";
+        loaderIcon.style.display = "block";
+        // Hiện lại ring cho lần preloader sau (nếu cần)
+        if (ring) ring.style.display = "block";
       },
     });
   }
@@ -252,7 +244,7 @@ function initPageTransition() {
     COVER: 800,
     LOADER: 1600,
     HIDE: 300,
-    REVEAL: 400,
+    REVEAL: 350,
   };
 
   // ────────────────────────────────────────────────────────────
