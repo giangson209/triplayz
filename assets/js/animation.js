@@ -3110,7 +3110,10 @@ function initPrivate() {
 }
 PageAnimations.register(initPrivate);
 
-function initServiceGame() {
+
+
+
+function initServiceGameScroll() {
   gsap.registerPlugin(ScrollTrigger);
 
   let mm = gsap.matchMedia();
@@ -3191,7 +3194,115 @@ function initServiceGame() {
     });
   }
 }
-PageAnimations.register(initServiceGame);
+PageAnimations.register(initServiceGameScroll);
+
+
+
+function initServiceGameCursor() {
+  if (window.innerWidth < 1024) return; // Chỉ chạy trên desktop
+
+  const hoverItems = document.querySelectorAll(".item-game");
+  const cursorContainer = document.getElementById("cursor-image-container");
+  if (!hoverItems.length || !cursorContainer) return; 
+
+  const cursorImg = cursorContainer.querySelector("img");
+
+  if (!cursorImg) return;
+
+  let posX = 0,
+    posY = 0;
+  let mouseX = 0,
+    mouseY = 0;
+
+  // Tối ưu hiệu năng bằng QuickSetter
+  const xSetter = gsap.quickSetter(cursorContainer, "x", "px");
+  const ySetter = gsap.quickSetter(cursorContainer, "y", "px");
+  const skewSetter = gsap.quickSetter(cursorContainer, "skewX", "deg");
+  const rotateSetter = gsap.quickSetter(cursorContainer, "rotation", "deg");
+
+  hoverItems.forEach((item) => {
+    item.addEventListener("mouseenter", (e) => {
+      const newImg = item.getAttribute("data-img");
+      if (!newImg) return;
+
+      // Dừng mọi hiệu ứng đang chạy (đặc biệt là hiệu ứng ẩn từ mouseleave)
+      gsap.killTweensOf(cursorContainer);
+
+      const currentOpacity = gsap.getProperty(cursorContainer, "opacity");
+
+      if (currentOpacity > 0.1) {
+        // Hiệu ứng "Splash" khi CHUYỂN giữa các item (đang hiển thị)
+        const tl = gsap.timeline();
+        tl.to(cursorContainer, {
+          scale: 0.8,
+          rotation: 10,
+          duration: 0.1,
+          ease: "power2.in",
+          onComplete: () => {
+            cursorImg.src = newImg;
+          },
+        }).to(cursorContainer, {
+          opacity: 1, // Đảm bảo luôn hiện
+          scale: 1,
+          rotation: 0,
+          duration: 0.3,
+          ease: "back.out(2)",
+        });
+      } else {
+        // Hiệu ứng hiện ra lần đầu
+        cursorImg.src = newImg;
+        gsap.to(cursorContainer, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+        });
+      }
+    });
+
+    item.addEventListener("mousemove", (e) => {
+      const rect = item.getBoundingClientRect();
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // Tính toán độ nghiêng dựa trên hướng di chuyển
+      const dx = x - mouseX;
+      const skew = gsap.utils.clamp(-20, 20, dx * 0.5);
+      const rotate = gsap.utils.clamp(-15, 15, dx * 0.2);
+
+      mouseX = x;
+      mouseY = y;
+
+      gsap.to(cursorContainer, {
+        x: x - 60,
+        y: y - 60,
+        skewX: skew,
+        rotation: rotate,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    });
+
+    item.addEventListener("mouseleave", () => {
+      gsap.to(cursorContainer, {
+        opacity: 0,
+        scale: 0.5,
+        skewX: 0,
+        rotation: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    });
+  });
+
+  $(".item-game").click(function () {
+    $(this).find(".desc-item-game").slideToggle();
+    $(this).toggleClass("active");
+  });
+}
+PageAnimations.register(initServiceGameCursor);
+
+
 
 
 
@@ -3603,107 +3714,7 @@ PageAnimations.register(initCareerAnimation);
 
 
 
-function initServiceGame() {
-  if (window.innerWidth < 1024) return; // Chỉ chạy trên desktop
 
-  const hoverItems = document.querySelectorAll(".item-game");
-  const cursorContainer = document.getElementById("cursor-image-container");
-  const cursorImg = cursorContainer.querySelector("img");
-
-  if (!hoverItems || !cursorContainer || !cursorImg) return;
-
-  let posX = 0,
-    posY = 0;
-  let mouseX = 0,
-    mouseY = 0;
-
-  // Tối ưu hiệu năng bằng QuickSetter
-  const xSetter = gsap.quickSetter(cursorContainer, "x", "px");
-  const ySetter = gsap.quickSetter(cursorContainer, "y", "px");
-  const skewSetter = gsap.quickSetter(cursorContainer, "skewX", "deg");
-  const rotateSetter = gsap.quickSetter(cursorContainer, "rotation", "deg");
-
-  hoverItems.forEach((item) => {
-    item.addEventListener("mouseenter", (e) => {
-      const newImg = item.getAttribute("data-img");
-      if (!newImg) return;
-
-      // Dừng mọi hiệu ứng đang chạy (đặc biệt là hiệu ứng ẩn từ mouseleave)
-      gsap.killTweensOf(cursorContainer);
-
-      const currentOpacity = gsap.getProperty(cursorContainer, "opacity");
-
-      if (currentOpacity > 0.1) {
-        // Hiệu ứng "Splash" khi CHUYỂN giữa các item (đang hiển thị)
-        const tl = gsap.timeline();
-        tl.to(cursorContainer, {
-          scale: 0.8,
-          rotation: 10,
-          duration: 0.1,
-          ease: "power2.in",
-          onComplete: () => {
-            cursorImg.src = newImg;
-          },
-        }).to(cursorContainer, {
-          opacity: 1, // Đảm bảo luôn hiện
-          scale: 1,
-          rotation: 0,
-          duration: 0.3,
-          ease: "back.out(2)",
-        });
-      } else {
-        // Hiệu ứng hiện ra lần đầu
-        cursorImg.src = newImg;
-        gsap.to(cursorContainer, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.4,
-          ease: "back.out(1.7)",
-        });
-      }
-    });
-
-    item.addEventListener("mousemove", (e) => {
-      const rect = item.getBoundingClientRect();
-      const x = e.clientX;
-      const y = e.clientY;
-
-      // Tính toán độ nghiêng dựa trên hướng di chuyển
-      const dx = x - mouseX;
-      const skew = gsap.utils.clamp(-20, 20, dx * 0.5);
-      const rotate = gsap.utils.clamp(-15, 15, dx * 0.2);
-
-      mouseX = x;
-      mouseY = y;
-
-      gsap.to(cursorContainer, {
-        x: x - 60,
-        y: y - 60,
-        skewX: skew,
-        rotation: rotate,
-        duration: 0.5,
-        ease: "power2.out",
-      });
-    });
-
-    item.addEventListener("mouseleave", () => {
-      gsap.to(cursorContainer, {
-        opacity: 0,
-        scale: 0.5,
-        skewX: 0,
-        rotation: 0,
-        duration: 0.3,
-        ease: "power2.in",
-      });
-    });
-  });
-
-  $(".item-game").click(function () {
-    $(this).find(".desc-item-game").slideToggle();
-    $(this).toggleClass("active");
-  });
-}
-PageAnimations.register(initServiceGame);
 
 
 
