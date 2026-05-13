@@ -9,10 +9,10 @@
                 <div class="wrapper relative z-3">
                     <div
                         class="flex flex-col-reverse gap-[16px] justify-end lg:gap-[40px] flex-col lg:flex-row lg:items-center">
-                        <div class="anek text-[16px] min-[1200px]:text-[20px] max-w-[219px] leading-[1.25]">
+                        <div class="text-animation anek text-[16px] min-[1200px]:text-[20px] max-w-[219px] leading-[1.25]">
                             Grow your career as we grow. Join the team that's changing IT services
                         </div>
-                        <h1 class="text-[56px] md:text-[80px] 2xl:text-[100px] 3xl:text-[124px] font-medium leading-[1.25]">
+                        <h1 class="title-animation text-[56px] md:text-[80px] 2xl:text-[100px] 3xl:text-[124px] font-medium leading-[1.25]">
                             Start Your Journey
                         </h1>
                     </div>
@@ -31,12 +31,12 @@
                 <div class="wrapper">
                     <div class="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6 lg:gap-20">
                         <div class="w-full">
-                            <h2 class="text-5 md:text-12 2xl:text-16 3xl:text-20 font-medium leading-tight max-w-[833px]">
+                            <h2 class="title-animation text-5 md:text-12 2xl:text-16 3xl:text-20 font-medium leading-tight max-w-[833px]">
                                 More Than a Workplace. <br>A Place to Grow.
                             </h2>
                         </div>
                         <div class="flex items-center max-w-full lg:max-w-[500px]">
-                            <p class="anek text-4 md:text-5 leading-relaxed  opacity-85">
+                            <p class="text-animation anek text-4 md:text-5 leading-relaxed  opacity-85">
                                 At Triplayz, we believe the best products are built by people who are empowered to think boldly,
                                 collaborate openly, and take pride in their craft. We're a global team united by a shared
                                 passion for innovation — and a commitment to growing together, every step of the way.
@@ -51,8 +51,8 @@
                 <div class="wrapper">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20">
                         <div class="lg:col-span-4">
-                            <h2 class="text-6 md:text-8 font-medium mb-4">People First</h2>
-                            <p class="anek text-[14px] md:text-4 opacity-70">
+                            <h2 class="title-animation text-6 md:text-8 font-medium mb-4">People First</h2>
+                            <p class="text-animation anek text-[14px] md:text-4 opacity-70">
                                 We put our people first. We build a place where exciting work is done by everyone.
                             </p>
                         </div>
