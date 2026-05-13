@@ -8,8 +8,8 @@
                 </div>
                 <div class="absolute top-0 left-0 w-full h-full px-10 lg:px-20 xl:px-36 hidden md:flex items-center pb-[12%]">
                     <h1 class="text-[60px] lg:text-[80px] xl:text-[100px] 3xl:text-[124px] font-medium">
-                        <span class="block">Your Vision</span>
-                        <span class="block pl-20">Our Innovation</span>
+                        <span class="title-animation block">Your Vision</span>
+                        <span class="title-animation block pl-20">Our Innovation</span>
                     </h1>
                 </div>
                 <div class="absolute bottom-0 left-0 w-full px-4 md:px-10 lg:px-16 py-10 z-3">
@@ -28,7 +28,7 @@
                                         <div class="dot"></div>
                                     </a>
                                 </div>
-                                <div class="w-full max-w-200 xl:max-w-96 anek">
+                                <div class="text-animation w-full max-w-200 xl:max-w-96 anek">
                                     Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a
                                     global
                                     technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="item col-span-5 hidden xl:block">
-                            <div class="w-full max-w-78 anek ml-auto 3xl:ml-0">
+                            <div class="text-animation w-full max-w-78 anek ml-auto 3xl:ml-0">
                                 We don't just build technology — we turn ambition into measurable outcomes through a thoughtful
                                 balance of imagination, precision, and true partnership.
                             </div>
@@ -85,14 +85,14 @@
                     <div class="mission-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
                     <div class="item">
                         <div class="w-full max-w-245">
-                        <div class="anek mb-6">/OUR MISSION</div>
-                        <div class="text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
+                        <div class="title-animation anek mb-6">/OUR MISSION</div>
+                        <div class="title-animation text-8 lg:text-[64px] 3xl:text-[80px] font-medium">
                             To transform ambitious ideas into digital solutions that truly work
                         </div>
                         </div>
                     </div>
                     <div class="item item-pixel">
-                        <div class="w-full max-w-98 ml-auto anek">
+                        <div class="text-animation w-full max-w-98 ml-auto anek">
                         Founded in 2023 by a team with more than a decade of hands-on experience, Triplayz is a global
                         technology company headquartered in Vietnam, delivering Gamification, BFSI Solutions, and Digital
                         Solutions to enterprises across industries worldwide.
@@ -108,7 +108,7 @@
                     <img src="assets/images/archive.png" class="w-full" alt="">
                 </div>
                 <div class="wrapper relative">
-                    <div class="text-center text-8 lg:text-[64px] xl:text-[80px] font-medium mb-6 md:mb-10 lg:mb-20">
+                    <div class="title-animation text-center text-8 lg:text-[64px] xl:text-[80px] font-medium mb-6 md:mb-10 lg:mb-20">
                         We achieve this by
                     </div>
                     <div

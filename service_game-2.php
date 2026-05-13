@@ -27,7 +27,7 @@
                                 <div class="dot"></div>
                             </a>
                         </div>
-                        <div class="max-w-full md:max-w-94 w-full opacity-85 anek title-animation text-center md:text-left">
+                        <div class="max-w-full md:max-w-94 w-full opacity-85 anek text-animation text-center md:text-left">
                             Triplayz helps fintech startups and mid-market companies build complex BFSI platforms with
                             high-security, stable infrastructure. By combining deep domain expertise with technical precision,
                             we ensure your system scale without failure.

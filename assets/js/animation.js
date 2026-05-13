@@ -1277,7 +1277,7 @@ function initPreloaderTextAnimation() {
       text.anim = gsap.to(split.words, {
         scrollTrigger: {
           trigger: text,
-          start: "bottom 80%",
+          start: "bottom 100%",
         },
         duration: 0.3,
         ease: "power2.out",
@@ -1336,7 +1336,7 @@ function initPreloaderTextAnimation() {
 
       ScrollTrigger.create({
         trigger: title,
-        start: "bottom 90%",
+        start: "bottom 100%",
         once: true,
         onEnter: () => lineTl.play(),
       });

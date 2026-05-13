@@ -7,10 +7,10 @@
                 style="background-image: url('assets/images/asci.png');">
                 <div class="wrapper relative z-3">
                     <div class="flex gap-[16px] lg:gap-[40px] flex-col lg:flex-row lg:items-center">
-                        <h1 class="text-[56px] md:text-[100px] 2xl:text-[124px] font-medium leading-[1.25]">
+                        <h1 class="title-animation text-[56px] md:text-[100px] 2xl:text-[124px] font-medium leading-[1.25]">
                             Our Story
                         </h1>
-                        <div class="anek text-[16px] min-[1200px]:text-[20px] max-w-[219px] leading-[1.25]">
+                        <div class="text-animation anek text-[16px] min-[1200px]:text-[20px] max-w-[219px] leading-[1.25]">
                             Grow your career as we grow. Join the team that's changing IT services
                         </div>
                     </div>
