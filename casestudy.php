@@ -11,7 +11,7 @@
                     </div>
                     <div class="item">
                         <div
-                            class="text-[64px] lg:text-[88px] xl:2xl:text-[142px] 3xl:text-[165px] font-medium mb-10 text-left lg:text-right">
+                            class="title-animation text-[64px] lg:text-[88px] xl:2xl:text-[142px] 3xl:text-[165px] font-medium mb-10 text-left lg:text-right">
                             Case Studies
                         </div>
                         <div
