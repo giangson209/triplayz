@@ -44,7 +44,7 @@
                 </div>
                 <div class="wrapper relative z-2">
                     <div
-                        class="ml-auto w-full max-w-171 2xl:max-w-266 3xl:max-w-325 text-8 md:text-10 2xl:text-[64px] 3xl:text-[80px] font-medium">
+                        class="title-animation ml-auto w-full max-w-171 2xl:max-w-266 3xl:max-w-325 text-8 md:text-10 2xl:text-[64px] 3xl:text-[80px] font-medium">
                         End-to-end development across the full financial services spectrum — for fintech enterprises,
                         digital
                         banks, and insurance platforms
@@ -61,7 +61,7 @@
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
                         <div class="item block lg:flex flex-col justify-between gap-10">
-                            <div class="w-full max-w-full lg:max-w-131 anek opacity-85">
+                            <div class="text-animation w-full max-w-full lg:max-w-131 anek opacity-85">
                                 We help brands create immersive digital experiences that turn passive audiences into
                                 active
                                 participants — driving deeper engagement at every touchpoint.
@@ -91,7 +91,7 @@
                                         <path d="M16 16H0V12.8H12.8V0H16V16Z" fill="white" />
                                     </svg>
                                 </div>
-                                <div class="opacity-85 relative z-2">
+                                <div class="text-animation opacity-85 relative z-2">
                                     We help brands create immersive digital experiences that turn passive audiences into
                                     active
                                     participants — driving deeper engagement at every touchpoint.
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -148,7 +148,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -178,7 +178,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -208,7 +208,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -233,7 +233,7 @@
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
                         <div class="item block lg:flex flex-col justify-between gap-10">
-                            <div class="w-full max-w-full lg:max-w-131 anek opacity-85">
+                            <div class="text-animation w-full max-w-full lg:max-w-131 anek opacity-85">
                                 We help brands create immersive digital experiences that turn passive audiences into
                                 active
                                 participants — driving deeper engagement at every touchpoint.
@@ -263,7 +263,7 @@
                                         <path d="M16 16H0V12.8H12.8V0H16V16Z" fill="white" />
                                     </svg>
                                 </div>
-                                <div class="opacity-85 relative z-2">
+                                <div class="text-animation opacity-85 relative z-2">
                                     We help brands create immersive digital experiences that turn passive audiences into
                                     active
                                     participants — driving deeper engagement at every touchpoint.
@@ -290,7 +290,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -320,7 +320,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -350,7 +350,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -380,7 +380,7 @@
                                         </div>
                                     </div>
                                     <div class="desc-item-game max-w-full flex-[0_0_100%]">
-                                        <div class="desc py-6">
+                                        <div class="text-animation desc py-6">
                                             We help brands create immersive digital experiences that turn passive
                                             audiences
                                             into active participants — driving deeper engagement at every touchpoint.
@@ -400,10 +400,10 @@
                 <img src="assets/images/project.jpg" class="absolute top-0 left-0 w-full h-full object-cover" alt="">
                 <div class="wrapper relative z-2 flex items-center justify-center h-full px-4 md:px-10">
                     <div class="w-full max-w-217 m-auto">
-                        <div class="text-10 md:text-[48px] 2xl:text-[64px] font-medium mb-4 md:mb-6">
+                        <div class="title-animation text-10 md:text-[48px] 2xl:text-[64px] font-medium mb-4 md:mb-6">
                             Reliability Without Compromise Choose Triplayz for your projects
                         </div>
-                        <div class="anek opacity-85 m-auto w-full max-w-121">
+                        <div class="text-animation anek opacity-85 m-auto w-full max-w-121">
                             Enterprise BFSI platforms engineered with compliance, security, and scale from day one — not
                             patched
                             in after launch.

@@ -7,9 +7,9 @@
                 <div class="absolute bottom-0 left-0 w-full p-4 md:p-10 lg:p-18 3xl:p-20">
                     <div class="wrapper">
                         <div class="block xl:flex gap-40 xl:gap-72 3xl:gap-92 justify-end">
-                            <div class="item anek font-medium pt-0 xl:pt-14 mb-8 xl:mb-0">[ SERVICES ]</div>
+                            <div class="title-animation item anek font-medium pt-0 xl:pt-14 mb-8 xl:mb-0">[ SERVICES ]</div>
                             <div class="item">
-                                <h1 class="text-10 xl:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-semibold">
+                                <h1 class="title-animation text-10 xl:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-semibold">
                                     One Partner <br>
                                     Three Strengths <br>
                                     Endless Possibilities

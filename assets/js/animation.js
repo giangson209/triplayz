@@ -5413,7 +5413,6 @@ function initMosaicAndPixelReveal() {
 
   onScroll();
 }
-// Register reordered above to match page flow
 
 
 

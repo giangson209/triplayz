@@ -199,13 +199,13 @@
                         class="m-auto w-full max-w-244 text-8 lg:text-[60px] 2xl:text-[80px] font-medium text-center md:text-left">
                         <div class="block md:flex gap-10">
                             <div
-                                class="anek opacity-65 text-5 flex items-center justify-center font-regular mb-6 md:mb-0">
+                                class="title-animation anek opacity-65 text-5 flex items-center justify-center font-regular mb-6 md:mb-0">
                                 /OUR
                                 VALUE</div>
-                            <div class="text-white">To be a trusted blobal</div>
+                            <div class="title-animation text-white">To be a trusted blobal</div>
                         </div>
-                        <p>tech partner that turns</p>
-                        <p class="opacity-35">vision into reality</p>
+                        <p class="title-animation">tech partner that turns</p>
+                        <p class="title-animation opacity-35">vision into reality</p>
                     </div>
                     <div
                         class="mt-6 lg:mt-20 overflow-scroll md:overflow-hidden w-[calc(100%+32px)] md:w-full relative left-[-16px] md:left-0 px-4 md:px-0">
@@ -302,7 +302,7 @@
                 </div>
                 <div class="wrapper relative z-2 pr-0 3xl:pr-[8%]">
                     <div
-                        class="relative 2xl:absolute font-medium text-8 md:text-[52px] xl:text-[64px] top-0 left-0 mb-6 md:mb-10 lg:mb-20 2xl:mb-0 text-center md:text-left">
+                        class="title-animation relative 2xl:absolute font-medium text-8 md:text-[52px] xl:text-[64px] top-0 left-0 mb-6 md:mb-10 lg:mb-20 2xl:mb-0 text-center md:text-left">
                         Brings the best <br>technology solution
                     </div>
                     <div class="block md:flex justify-end gap-6 w-full max-w-230 ml-auto mb-6 last:mb-0">
@@ -394,16 +394,16 @@
                     <div class="block md:flex gap-10 xl:gap-25 justify-between">
                         <div class="w-full max-w-208 mb-6 md:mb-10">
                             <div
-                                class="text-8 md:text-10 xl:text-[56px] 2xl:text-[64px] font-medium leading-tight pr-0 xl:pr-[8%] 2xl:pr-0  text-center md:text-left">
+                                class="title-animation text-8 md:text-10 xl:text-[56px] 2xl:text-[64px] font-medium leading-tight pr-0 xl:pr-[8%] 2xl:pr-0  text-center md:text-left">
                                 The leaders driving worldquant foundry's mission forward
                             </div>
                         </div>
                         <div class="w-full max-w-122 hidden md:block">
                             <div class="single-text anek opacity-85">
-                                <p class="mb-4">Triplayz was founded by a team with deep expertise in Gamification and
+                                <p class="text-animation mb-4">Triplayz was founded by a team with deep expertise in Gamification and
                                     Fintech.From day one,
                                     we positioned ourselves as a new-generation tech partner. </p>
-                                <p>Triplayz was founded by a team with deep expertise in Gamification and Fintech.From
+                                <p class="text-animation">Triplayz was founded by a team with deep expertise in Gamification and Fintech.From
                                     day one,
                                     we positioned ourselves as a new-generation tech partner. </p>
                             </div>
@@ -587,7 +587,7 @@
                     </div>
                     <div class="item col-span-12 lg:col-span-6 2xl:col-span-5">
                         <div class="bg-white w-full p-10 text-black">
-                            <div class="text-10 font-medium mb-8">Get a free consultation</div>
+                            <div class="title-animation text-10 font-medium mb-8">Get a free consultation</div>
                             <div class="grid grid-cols-2 gap-4 3xl:gap-6 anek">
                                 <div class="item">
                                     <input type="text"
