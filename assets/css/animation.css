@@ -470,7 +470,7 @@ ma #company-globe-msg {
   transform: translate(calc(-50% + 6vw), -50%);
   width: min(48vw, 64vh);
   height: min(48vw, 64vh);
-  overflow: visible;
+  overflow: hidden;
 }
 
 .srv-slide-img {
@@ -680,7 +680,7 @@ ma #company-globe-msg {
   left: 0;
   width: 100%;
   height: 1px;
-  background: hsla(201, 100%, 80%, 1);
+  background: #fff;
   z-index: 30;
   pointer-events: none;
   opacity: 0;

@@ -3236,7 +3236,6 @@ function init3DGlobeAnimation() {
 PageAnimations.register(init3DGlobeAnimation);
 
 function initServiceAnimation() {
-  console.log("service run");
   const SRV_IMAGES = [
     "./assets/images/srv-1.svg",
     "./assets/images/srv-2.svg",
@@ -3249,7 +3248,23 @@ function initServiceAnimation() {
     "End-to-end digital solutions that accelerate transformation and connect your business to the modern ecosystem.",
   ];
 
+  const SRV_LINKS = [
+    "service_game-1.php",
+    "service_game-2.php",
+    "service_game-3.php",
+  ];
+
   const TOTAL = SRV_IMAGES.length;
+
+  // ─── Config ──────────────────────────────────────────────────────────────
+  const NUM_ROWS = 32;
+  const WINDOW_SIZE = 8;
+
+  // overlap theo px để tránh seam
+  const EXTEND_PX = 3;
+
+  // ─────────────────────────────────────────────────────────────────────────
+
   const imgFrom = document.getElementById("srv-img-from");
   const imgTo = document.getElementById("srv-img-to");
   const titleItems = document.querySelectorAll(".srv-title-item");
@@ -3277,31 +3292,84 @@ function initServiceAnimation() {
   )
     return;
 
-  let lastFrom = -1,
-    lastTo = -1,
-    lastSlideIdx = -1;
+  imgTo.style.display = "none";
 
+  let lastFrom = -1;
+  let lastTo = -1;
+  let lastSlideIdx = -1;
+
+  // ── Create mosaic rows ───────────────────────────────────────────────────
+  const mosaicRowEls = [];
+
+  SRV_IMAGES.forEach((src) => {
+    const i = new Image();
+    i.src = src;
+  });
+
+  for (let i = 0; i < NUM_ROWS; i++) {
+    const div = document.createElement("div");
+
+    Object.assign(div.style, {
+      position: "absolute",
+      inset: "0",
+      zIndex: "2",
+      pointerEvents: "none",
+
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "100% 100%",
+      backgroundPosition: "center",
+
+      transform: "translateZ(0)",
+      backfaceVisibility: "hidden",
+      willChange: "clip-path",
+    });
+
+    imageStage.appendChild(div);
+    mosaicRowEls.push(div);
+  }
+
+  // ── Ease ─────────────────────────────────────────────────────────────────
+  function easeOut(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  // ── UI Helpers ───────────────────────────────────────────────────────────
   function moveBullet(idx) {
     const target = titleItems[idx];
     if (!target) return;
-    const itemRect = target.getBoundingClientRect();
-    const pinnedRect = pinnedSec.getBoundingClientRect();
-    const midY = itemRect.top - pinnedRect.top + itemRect.height / 2;
-    bullet.style.top = midY + "px";
+
+    const ir = target.getBoundingClientRect();
+    const pr = pinnedSec.getBoundingClientRect();
+
+    bullet.style.top = ir.top - pr.top + ir.height / 2 + "px";
   }
 
   function updateUI(idx) {
     if (idx === lastSlideIdx) return;
     lastSlideIdx = idx;
-    titleItems.forEach((el, i) => el.classList.toggle("active", i === idx));
+
+    titleItems.forEach((el, i) => {
+      el.classList.toggle("active", i === idx);
+    });
+
     moveBullet(idx);
-    const digitH = slotWindow.offsetHeight;
-    slotTrack.style.transform = `translateY(-${idx * digitH}px)`;
+
+    slotTrack.style.transform = `translateY(-${
+      idx * slotWindow.offsetHeight
+    }px)`;
+
     descText.style.opacity = "0";
+
     setTimeout(() => {
       descText.textContent = SRV_DESCRIPTIONS[idx];
       descText.style.opacity = "1";
     }, 200);
+
+    // Cập nhật link button
+    const srvBtn = document.querySelector("#srv-description .btn-main a");
+    if (srvBtn) {
+      srvBtn.href = SRV_LINKS[idx];
+    }
   }
 
   function updateImages(from, to) {
@@ -3309,8 +3377,14 @@ function initServiceAnimation() {
       imgFrom.src = SRV_IMAGES[from];
       lastFrom = from;
     }
+
     if (to !== lastTo) {
-      imgTo.src = SRV_IMAGES[to];
+      const bgUrl = `url(${SRV_IMAGES[to]})`;
+
+      mosaicRowEls.forEach((div) => {
+        div.style.backgroundImage = bgUrl;
+      });
+
       lastTo = to;
     }
   }
@@ -3318,51 +3392,95 @@ function initServiceAnimation() {
   function getProgress() {
     const rect = scrollTrig.getBoundingClientRect();
     const total = scrollTrig.offsetHeight - window.innerHeight;
+
     return Math.max(0, Math.min(1, -rect.top / total));
   }
 
+  // ── Main Scroll Handler ─────────────────────────────────────────────────
   function onScroll() {
     const p = getProgress();
+
     const numT = TOTAL - 1;
     const tp = p * numT;
+
     const from = Math.min(Math.floor(tp), numT - 1);
     const to = Math.min(from + 1, TOTAL - 1);
+
     const t = tp - from;
 
     updateUI(t > 0.5 ? to : from);
     updateImages(from, to);
 
-    const topPct = (1 - t) * 100;
-    imgTo.style.clipPath = `inset(${topPct.toFixed(2)}% 0 0 0)`;
+    // ── PX BASED CALCULATION ───────────────────────────────────────────────
+    const stageH = imageStage.offsetHeight;
+    const rowHpx = stageH / NUM_ROWS;
 
+    const wipePos = (1 - t) * (NUM_ROWS + WINDOW_SIZE);
+
+    for (let i = 0; i < NUM_ROWS; i++) {
+      const bandEndPx = (i + 1) * rowHpx;
+
+      const bottomInsetPx = stageH - bandEndPx;
+
+      const dist = wipePos - i;
+
+      const rawT = 1 - Math.max(0, Math.min(WINDOW_SIZE, dist)) / WINDOW_SIZE;
+
+      const rowT = easeOut(rawT);
+
+      const currentTopPx = bandEndPx - rowT * rowHpx;
+
+      // overlap mạnh để tránh seam
+      const clipTop = Math.max(0, currentTopPx - EXTEND_PX);
+
+      const clipBottom = Math.max(0, bottomInsetPx + EXTEND_PX);
+
+      mosaicRowEls[i].style.clipPath = `
+        inset(
+          ${clipTop.toFixed(6)}px
+          0
+          ${clipBottom.toFixed(6)}px
+          0
+        )
+      `;
+    }
+
+    // ── Wipe line ──────────────────────────────────────────────────────────
     if (t > 0.005 && t < 0.995) {
       wipeLine.style.opacity = "1";
-      wipeLine.style.top = `${(1 - t) * 100}%`;
+      wipeLine.style.top = `${((1 - t) * 100).toFixed(2)}%`;
     } else {
       wipeLine.style.opacity = "0";
     }
   }
 
-  let _srvRafPending = false;
+  // ── RAF Scroll Optimization ─────────────────────────────────────────────
+  let rafPending = false;
+
   window.addEventListener(
     "scroll",
     () => {
-      if (_srvRafPending) return;
-      _srvRafPending = true;
+      if (rafPending) return;
+
+      rafPending = true;
+
       requestAnimationFrame(() => {
         onScroll();
-        _srvRafPending = false;
+        rafPending = false;
       });
     },
     { passive: true },
   );
+
   window.addEventListener("resize", onScroll);
+
   window.addEventListener("load", () => {
     moveBullet(0);
   });
 
+  // ── Init ────────────────────────────────────────────────────────────────
   imgFrom.src = SRV_IMAGES[0];
-  imgTo.src = SRV_IMAGES[1];
+
   onScroll();
 }
 PageAnimations.register(initServiceAnimation);
