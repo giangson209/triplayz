@@ -3261,7 +3261,7 @@ function initServiceAnimation() {
   const WINDOW_SIZE = 8;
 
   // overlap theo px để tránh seam
-  const EXTEND_PX = 12;
+  const EXTEND_PX = 30;
 
   // ─────────────────────────────────────────────────────────────────────────
 
