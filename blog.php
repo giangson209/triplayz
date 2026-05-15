@@ -3,8 +3,8 @@
     <div data-barba="container" data-barba-namespace="blog">
         <main>
             <section
-                class="relative flex justify-end flex-col bg-cover bg-center bg-no-repeat h-[432px] md:h-[450px] 2xl:h-[650px] px-2.5 py-6 md:p-5 2xl:p-10"
-                style="background-image: url('assets/images/asci.png');">
+                class="relative flex justify-end flex-col bg-cover bg-center bg-no-repeat h-[432px] md:h-[450px] 2xl:h-[650px] px-2.5 py-6 md:p-5 2xl:p-10">
+                <div class="no-logo-canvas lg:block"></div>
                 <div class="wrapper relative z-3">
                     <div class="flex gap-[16px] lg:gap-[40px] flex-col lg:flex-row lg:items-center">
                         <h1 class="title-animation text-[56px] md:text-[100px] 2xl:text-[124px] font-medium leading-[1.25]">

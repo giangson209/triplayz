@@ -3,7 +3,7 @@
     <div data-barba="container" data-barba-namespace="casestudy">
         <main>
             <section class="relative pt-36 lg:pt-62 pb=6 lg:pb-10 px-5 md:px-10 overflow-hidden">
-                <img src="assets/images/bn-casestudy.jpg" class="w-full h-full absolute top-0 left-0 object-cover" alt="">
+                <div class="no-logo-canvas lg:block"></div>
                 <div class="block lg:flex items-center justify-between relative z-3">
                     <div
                         class="numb doto font-medium text-white text-[80px] lg:text-[142px] xl:text-[160px] 2xl:text-[200px] 3xl:text-[240px] mb-24 lg:mb-0">

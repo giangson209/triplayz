@@ -2748,6 +2748,465 @@ function initPixelatedShader() {
 }
 PageAnimations.register(initPixelatedShader);
 
+function initNoLogoShader() {
+  const wrapper = document.querySelector(".no-logo-canvas");
+  if (!wrapper) return;
+
+  const config = {
+    pixelSize: 14.0,
+    pixelGap: 0.18,
+  };
+
+  // ─── Trail system (giữ nguyên bản gốc) ──────────────────────────────────────
+  const MAX_TRAIL = 24;
+  const TRAIL_DURATION = 400;
+  const TRAIL_MIN_DIST = 3;
+
+  const _trailBuf = new Float64Array(MAX_TRAIL * 3);
+  let _trailHead = 0;
+  let _trailLen = 0;
+
+  function trailGet(i) {
+    const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
+    return {
+      x: _trailBuf[slot * 3],
+      y: _trailBuf[slot * 3 + 1],
+      time: _trailBuf[slot * 3 + 2],
+    };
+  }
+
+  function sampleTrail(x, y) {
+    const now = performance.now();
+    if (_trailLen > 0) {
+      const last = trailGet(0);
+      if (Math.hypot(x - last.x, y - last.y) < TRAIL_MIN_DIST) return;
+    }
+    _trailBuf[_trailHead * 3] = x;
+    _trailBuf[_trailHead * 3 + 1] = y;
+    _trailBuf[_trailHead * 3 + 2] = performance.now();
+    _trailHead = (_trailHead + 1) % MAX_TRAIL;
+    if (_trailLen < MAX_TRAIL) _trailLen++;
+  }
+
+  const _velOut = { x: 0, y: 0 };
+
+  function computeVelocity() {
+    if (_trailLen < 2) {
+      _velOut.x = 0;
+      _velOut.y = 0;
+      return _velOut;
+    }
+    const n = Math.min(5, _trailLen);
+    let dx = 0,
+      dy = 0,
+      totalW = 0;
+    for (let i = 0; i < n - 1; i++) {
+      const a = trailGet(i),
+        b = trailGet(i + 1);
+      const w = 1.0 / (i + 1);
+      dx += (a.x - b.x) * w;
+      dy += (a.y - b.y) * w;
+      totalW += w;
+    }
+    if (totalW === 0) {
+      _velOut.x = 0;
+      _velOut.y = 0;
+      return _velOut;
+    }
+    dx /= totalW;
+    dy /= totalW;
+    const len = Math.hypot(dx, dy);
+    if (len < 0.0001) {
+      _velOut.x = 0;
+      _velOut.y = 0;
+      return _velOut;
+    }
+    _velOut.x = dx / len;
+    _velOut.y = dy / len;
+    return _velOut;
+  }
+
+  function hexToRgb(hex) {
+    return [
+      parseInt(hex.slice(1, 3), 16) / 255,
+      parseInt(hex.slice(3, 5), 16) / 255,
+      parseInt(hex.slice(5, 7), 16) / 255,
+    ];
+  }
+
+  // ─── Font atlas — giữ nguyên bản gốc ────────────────────────────────────────
+  function createFontAtlas(size) {
+    const chars = ["2", "0", "x", "+", "."];
+    const canvas = document.createElement("canvas");
+    canvas.width = size * chars.length;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = `bold ${Math.floor(size * 0.75)}px monospace`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#fff";
+    for (let i = 0; i < chars.length; i++) {
+      const cx = i * size + size / 2,
+        cy = size / 2;
+      if (chars[i] === ".") {
+        ctx.beginPath();
+        ctx.arc(cx, cy, size * 0.13, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillText(chars[i], cx, cy);
+      }
+    }
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.minFilter = tex.magFilter = THREE.LinearFilter;
+    return tex;
+  }
+
+  // ─── Shaders — khôi phục sequence digit, bỏ grid/shape ──────────────────────
+  const vertexShader = `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+
+  const fragmentShader = `
+    #define MAX_TRAIL 24
+
+    uniform float iTime;
+    uniform vec2  iResolution;
+    uniform vec3  uColor1;
+    uniform float uPixelSize;
+    uniform float uPixelGap;
+    uniform sampler2D uFontAtlas;
+    uniform vec2  uMousePos;
+    uniform float uMouseActive;
+    uniform vec2  uVelocity;
+    uniform sampler2D uTrailTex;
+    uniform int   uTrailCount;
+    uniform vec3  uBgTop;
+    uniform vec3  uBgBot;
+
+    varying vec2 vUv;
+
+    vec3 hsl2rgb(float h, float s, float l) {
+      float c = (1.0 - abs(2.0 * l - 1.0)) * s;
+      float hp = h / 60.0;
+      float x = c * (1.0 - abs(mod(hp, 2.0) - 1.0));
+      vec3 rgb;
+      if      (hp < 1.0) rgb = vec3(c, x, 0.0);
+      else if (hp < 2.0) rgb = vec3(x, c, 0.0);
+      else if (hp < 3.0) rgb = vec3(0.0, c, x);
+      else if (hp < 4.0) rgb = vec3(0.0, x, c);
+      else if (hp < 5.0) rgb = vec3(x, 0.0, c);
+      else               rgb = vec3(c, 0.0, x);
+      return rgb + (l - c * 0.5);
+    }
+
+    void main() {
+      vec2 cellIndex  = floor(vUv * iResolution / uPixelSize);
+      vec2 cellUV     = fract(vUv * iResolution / uPixelSize);
+      vec2 cellCenter = (cellIndex + 0.5) * uPixelSize / iResolution;
+      vec2 pixelPos   = cellCenter * iResolution;
+
+      float gapHalf = uPixelGap * 0.5;
+      bool inGap = cellUV.x < gapHalf || cellUV.x > (1.0 - gapHalf) ||
+                   cellUV.y < gapHalf || cellUV.y > (1.0 - gapHalf);
+
+      vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
+
+      if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
+
+      // ── Trail zone detection ─────────────────────────────────────────────────
+      bool  inZone   = false;
+      float bestDist = 999.0;
+      float bestAge  = 1.0;
+
+      for (int i = 0; i < MAX_TRAIL - 1; i++) {
+        if (i >= uTrailCount - 1) break;
+
+        vec4 texA = texture2D(uTrailTex, vec2((float(i)     + 0.5) / float(MAX_TRAIL), 0.5));
+        vec4 texB = texture2D(uTrailTex, vec2((float(i + 1) + 0.5) / float(MAX_TRAIL), 0.5));
+
+        vec2  a    = texA.xy * iResolution;
+        vec2  b    = texB.xy * iResolution;
+        float ageA = texA.z;
+        float ageB = texB.z;
+
+        if (ageA >= 1.0 && ageB >= 1.0) continue;
+
+        vec2  ab   = b - a;
+        vec2  ap   = pixelPos - a;
+        float len2 = dot(ab, ab);
+        float t    = (len2 > 0.0) ? clamp(dot(ap, ab) / len2, 0.0, 1.0) : 0.0;
+        vec2  proj = a + t * ab;
+        float dist = length((pixelPos - proj) / uPixelSize);
+        float age  = mix(ageA, ageB, t);
+
+        if (dist < 1.5) {
+          if (!inZone || age < bestAge) {
+            inZone   = true;
+            bestDist = dist;
+            bestAge  = age;
+          }
+        }
+      }
+
+      // ── Comet head ──────────────────────────────────────────────────────────
+      if (uMouseActive > 0.5) {
+        vec2  diff   = pixelPos - uMousePos;
+        float dist   = length(diff / uPixelSize);
+        float cometR = 2.0;
+        if (dist < cometR) {
+          float velLen = length(uVelocity);
+          float cometMask;
+          if (velLen < 0.01) {
+            cometMask = smoothstep(0.8, 0.0, dist);
+          } else {
+            vec2  backward   = -uVelocity;
+            vec2  toPixel    = (dist > 0.001) ? normalize(diff) : vec2(0.0);
+            float alignment  = dot(toPixel, backward);
+            float angleMask  = smoothstep(-0.15, 0.65, alignment);
+            float elongation = mix(1.0, 2.2, max(0.0, alignment));
+            float distFade   = 1.0 - smoothstep(0.0, cometR * elongation * 0.5, dist);
+            float headMask   = smoothstep(0.6, 0.0, dist);
+            cometMask = max(headMask, angleMask * distFade);
+          }
+          if (cometMask > 0.3) {
+            if (!inZone || 0.0 < bestAge) {
+              inZone   = true;
+              bestDist = dist;
+              bestAge  = 0.0;
+            }
+          }
+        }
+      }
+
+      if (!inZone) { gl_FragColor = vec4(bgColor, 1.0); return; }
+
+      float seqPos = bestAge * 6.0;
+      if (seqPos >= 5.0) {
+        // ← đổi uColor1 thành bgColor: không fill sau khi sequence xong
+        gl_FragColor = vec4(bgColor, 1.0);
+        return;
+      }
+
+      int  digitIndex = int(floor(seqPos));
+      vec2 innerUV    = (cellUV - gapHalf) / (1.0 - uPixelGap);
+      float atlasX    = (float(digitIndex) + innerUV.x) / 5.0;
+      float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
+
+      // ← tất cả digit dùng uColor1 (tím), bỏ hết hsl
+      gl_FragColor = vec4(mix(bgColor, uColor1, glyphAlpha), 1.0);
+    }
+  `;
+
+  // ─── Three.js setup ──────────────────────────────────────────────────────────
+  const DPR = Math.min(window.devicePixelRatio, 2);
+  const physicalPixelSize = Math.round(config.pixelSize * DPR);
+
+  // Dùng rect của wrapper để tính size — không phụ thuộc window.innerHeight
+  function getRect() {
+    return wrapper.getBoundingClientRect();
+  }
+
+  function getCanvasSize() {
+    const r = getRect();
+    return {
+      w: Math.round(r.width * DPR),
+      h: Math.round(r.height * DPR),
+    };
+  }
+
+  let _res = getCanvasSize();
+
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(_res.w, _res.h, false);
+  renderer.setPixelRatio(1);
+  renderer.domElement.style.width = "100%";
+  renderer.domElement.style.height = "100%";
+  wrapper.appendChild(renderer.domElement);
+
+  const fontAtlas = createFontAtlas(physicalPixelSize * 4);
+
+  const _trailTexData = new Float32Array(MAX_TRAIL * 4);
+  const _trailTex = new THREE.DataTexture(
+    _trailTexData,
+    MAX_TRAIL,
+    1,
+    THREE.RGBAFormat,
+    THREE.FloatType,
+  );
+  _trailTex.minFilter = _trailTex.magFilter = THREE.NearestFilter;
+
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      iTime: { value: 0 },
+      iResolution: { value: new THREE.Vector2(_res.w, _res.h) },
+      uColor1: { value: new THREE.Vector3(...hexToRgb("#766FF6")) },
+      uPixelSize: { value: physicalPixelSize },
+      uPixelGap: { value: config.pixelGap },
+      uFontAtlas: { value: fontAtlas },
+      uMousePos: { value: new THREE.Vector2(-9999, -9999) },
+      uMouseActive: { value: 0.0 },
+      uVelocity: { value: new THREE.Vector2(0, 0) },
+      uTrailTex: { value: _trailTex },
+      uTrailCount: { value: 0 },
+      uBgTop: {
+        value: (() => {
+          const c = new THREE.Color("#30286c");
+          return new THREE.Vector3(c.r, c.g, c.b);
+        })(),
+      },
+      uBgBot: {
+        value: (() => {
+          const c = new THREE.Color("#1c1c26");
+          return new THREE.Vector3(c.r, c.g, c.b);
+        })(),
+      },
+    },
+    vertexShader,
+    fragmentShader,
+  });
+
+  const scene = new THREE.Scene();
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+
+  // ─── Trail texture update ─────────────────────────────────────────────────────
+  function updateTrailTexture() {
+    const now = performance.now();
+    while (_trailLen > 0) {
+      if (now - trailGet(_trailLen - 1).time >= TRAIL_DURATION) _trailLen--;
+      else break;
+    }
+    for (let i = 0; i < MAX_TRAIL; i++) {
+      const base = i * 4;
+      if (i < _trailLen) {
+        const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
+        _trailTexData[base] = _trailBuf[slot * 3] / _res.w;
+        _trailTexData[base + 1] = _trailBuf[slot * 3 + 1] / _res.h;
+        _trailTexData[base + 2] =
+          (now - _trailBuf[slot * 3 + 2]) / TRAIL_DURATION;
+        _trailTexData[base + 3] = 0.0;
+      } else {
+        _trailTexData[base] = -1.0;
+        _trailTexData[base + 1] = -1.0;
+        _trailTexData[base + 2] = 1.0;
+        _trailTexData[base + 3] = 0.0;
+      }
+    }
+    _trailTex.needsUpdate = true;
+    material.uniforms.uTrailCount.value = _trailLen;
+    const vel = computeVelocity();
+    material.uniforms.uVelocity.value.set(vel.x, vel.y);
+  }
+
+  // ─── Mouse — dùng document như bản gốc, tính Y từ rect.height ────────────────
+  // FIX 1: document listener → không bị chặn bởi child elements
+  // FIX 2: Y dùng rect.height (không phải window.innerHeight) → đúng với canvas thấp
+  const actualMouse = { x: -9999, y: -9999, active: false };
+  const laggedMouse = { x: -9999, y: -9999 };
+  const LERP_FACTOR = 0.15;
+  let lastMoveTime = 0;
+  let _dirty = true;
+
+  document.addEventListener("mousemove", (e) => {
+    const rect = getRect();
+    const cssX = e.clientX - rect.left;
+    const cssY = e.clientY - rect.top;
+
+    // Chuột ngoài wrapper → tắt active (thay thế mouseleave)
+    const outside =
+      cssX < 0 || cssX > rect.width || cssY < 0 || cssY > rect.height;
+    if (outside) {
+      if (actualMouse.active) {
+        actualMouse.active = false;
+        material.uniforms.uMouseActive.value = 0.0;
+        _dirty = true;
+      }
+      return;
+    }
+
+    // ← KEY FIX: rect.height thay vì window.innerHeight
+    actualMouse.x = cssX * DPR;
+    actualMouse.y = (rect.height - cssY) * DPR;
+    actualMouse.active = true;
+    lastMoveTime = performance.now();
+
+    if (laggedMouse.x === -9999) {
+      laggedMouse.x = actualMouse.x;
+      laggedMouse.y = actualMouse.y;
+    }
+    _dirty = true;
+  });
+
+  document.addEventListener("mouseleave", () => {
+    actualMouse.active = false;
+    material.uniforms.uMouseActive.value = 0.0;
+    _dirty = true;
+  });
+
+  // ─── Render loop ──────────────────────────────────────────────────────────────
+  let _paused = false;
+
+  function animate() {
+    if (_paused) return;
+    requestAnimationFrame(animate);
+
+    const now = performance.now();
+
+    if (actualMouse.active) {
+      laggedMouse.x += (actualMouse.x - laggedMouse.x) * LERP_FACTOR;
+      laggedMouse.y += (actualMouse.y - laggedMouse.y) * LERP_FACTOR;
+      sampleTrail(laggedMouse.x, laggedMouse.y);
+      material.uniforms.uMousePos.value.set(laggedMouse.x, laggedMouse.y);
+      material.uniforms.uMouseActive.value = 1.0;
+      _dirty = true;
+    }
+
+    if (lastMoveTime > 0 && now - lastMoveTime > 120) {
+      material.uniforms.uMouseActive.value = 0.0;
+      lastMoveTime = 0;
+      actualMouse.active = false;
+      _dirty = true;
+    }
+
+    if (_trailLen > 0) _dirty = true;
+
+    if (_dirty) {
+      material.uniforms.iTime.value = now * 0.001;
+      updateTrailTexture();
+      renderer.render(scene, camera);
+      _dirty = _trailLen > 0 || actualMouse.active;
+    }
+  }
+
+  animate();
+
+  // ─── Resize ───────────────────────────────────────────────────────────────────
+  window.addEventListener("resize", () => {
+    _res = getCanvasSize();
+    renderer.setSize(_res.w, _res.h, false);
+    material.uniforms.iResolution.value.set(_res.w, _res.h);
+    _dirty = true;
+  });
+
+  return {
+    pause() {
+      _paused = true;
+    },
+    resume() {
+      if (!_paused) return;
+      _paused = false;
+      _dirty = true;
+      animate();
+    },
+  };
+}
+PageAnimations.register(initNoLogoShader);
+
 function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");
@@ -3261,7 +3720,7 @@ function initServiceAnimation() {
   const WINDOW_SIZE = 8;
 
   // overlap theo px để tránh seam
-  const EXTEND_PX = 50;
+  const EXTEND_PX = 30;
 
   // ─────────────────────────────────────────────────────────────────────────
 
