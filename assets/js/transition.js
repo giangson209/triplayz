@@ -272,6 +272,7 @@ function initPageTransition() {
           name: "columns",
 
           async leave({ current }) {
+            document.querySelector(".nav-menu")?.classList.remove("active");
             coverScreen();
             await delay(T.COVER);
             destroyCurrentPage();

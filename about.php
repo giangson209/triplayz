@@ -62,9 +62,9 @@
                 <!-- Vision Wrapper (z-index thấp hơn) -->
                 <div class="pixel-wrapper vision-wrapper">
                     <img src="assets/images/bn-about.png"
-                        class="vision-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
+                        class="vision-img w-full min-h-screen md:min-h-145 lg:min-h-[unset] object-cover" alt="">
                     <div
-                        class="vision-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
+                        class="vision-container absolute top-0 left-0 w-full h-full flex flex-col justify-between gap-5 py-10 px-4 md:px-10 lg:px-16">
                         <div class="item">
                             <div class="w-full max-w-245">
                                 <div class="anek mb-6">/OUR VISION</div>
@@ -88,9 +88,9 @@
                 <!-- Mission Wrapper (z-index cao hơn, bị mosaic reveal) -->
                 <div class="pixel-wrapper mission-wrapper">
                     <img src="assets/images/vison.png"
-                        class="mission-img w-full min-h-100 md:min-h-145 lg:min-h-[unset] object-cover" alt="">
+                        class="mission-img w-full min-h-screen md:min-h-145 lg:min-h-[unset] object-cover" alt="">
                     <div
-                        class="mission-container absolute top-0 left-0 w-full h-full hidden md:flex flex-col justify-between gap-5 py-10 px-10 lg:px-16">
+                        class="mission-container absolute top-0 left-0 w-full h-full flex flex-col justify-between gap-5 py-10 px-4 md:px-10 lg:px-16">
                         <div class="item">
                             <div class="w-full max-w-245">
                                 <div class="title-animation anek mb-6">/OUR MISSION</div>
@@ -297,9 +297,9 @@
             </section>
 
             <section class="relative py-10 md:py-25 lg:py-36 px-4 md:px-10">
-                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                <!-- <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                     <img src="assets/images/vuong.jpg" class="w-full h-full object-cover top-0 left-0" alt="">
-                </div>
+                </div> -->
                 <div class="wrapper relative z-2 pr-0 3xl:pr-[8%]">
                     <div
                         class="title-animation relative 2xl:absolute font-medium text-8 md:text-[52px] xl:text-[64px] top-0 left-0 mb-6 md:mb-10 lg:mb-20 2xl:mb-0 text-center md:text-left">
@@ -400,10 +400,12 @@
                         </div>
                         <div class="w-full max-w-122 hidden md:block">
                             <div class="single-text anek opacity-85">
-                                <p class="text-animation mb-4">Triplayz was founded by a team with deep expertise in Gamification and
+                                <p class="text-animation mb-4">Triplayz was founded by a team with deep expertise in
+                                    Gamification and
                                     Fintech.From day one,
                                     we positioned ourselves as a new-generation tech partner. </p>
-                                <p class="text-animation">Triplayz was founded by a team with deep expertise in Gamification and Fintech.From
+                                <p class="text-animation">Triplayz was founded by a team with deep expertise in
+                                    Gamification and Fintech.From
                                     day one,
                                     we positioned ourselves as a new-generation tech partner. </p>
                             </div>

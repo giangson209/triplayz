@@ -7,9 +7,11 @@
                 <div class="absolute bottom-0 left-0 w-full p-4 md:p-10 lg:p-18 3xl:p-20">
                     <div class="wrapper">
                         <div class="block xl:flex gap-40 xl:gap-72 3xl:gap-92 justify-end">
-                            <div class="title-animation item anek font-medium pt-0 xl:pt-14 mb-8 xl:mb-0">[ SERVICES ]</div>
+                            <div class="title-animation item anek font-medium pt-0 xl:pt-14 mb-8 xl:mb-0">[ SERVICES ]
+                            </div>
                             <div class="item">
-                                <h1 class="title-animation text-10 xl:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-semibold">
+                                <h1
+                                    class="title-animation text-10 xl:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-semibold">
                                     One Partner <br>
                                     Three Strengths <br>
                                     Endless Possibilities
@@ -28,12 +30,11 @@
                     </div>
                     <div class="block lg:flex mb-6 md:mb-20 gap-50 relative z-2">
                         <div class="item anek font-medium opacity-65 pt-0 lg:pt-10 mb-6 lg:mb-0">/SERVICES</div>
-                        <div class="wraper max-w-300">
+                        <div class="wraper max-w-280 title-br">
                             <h2
                                 class="title-animation text-8 md:text-[48px] lg:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-medium leading-[1.25]">
                                 What our purpose-built
-                                <br class="hidden xl:block">solutions can do for <br class="hidden xl:block"><span
-                                    class="text-[#56565D]">your growth strategy</span>
+                                solutions can do for <span class="text-[#56565D]">your growth strategy</span>
                             </h2>
 
                             <div

@@ -871,3 +871,9 @@ footer a.footer-anim-link .footer-link-line {
 .item-pixel {
   padding-bottom: 22vh;
 }
+
+@media (max-width: 767px) {
+  .item-pixel {
+    padding-bottom: 0;
+  }
+}

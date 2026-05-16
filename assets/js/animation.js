@@ -4525,6 +4525,12 @@ function initPrivate() {
     $(".nav-menu").removeClass("active");
   });
 
+  $(".arrow-menu").off("click.triplayz").on("click.triplayz", function(e) {
+    e.preventDefault();
+    $(this).toggleClass("active");
+    $(this).closest(".children-menu-mb").next(".sub-menu-mb").slideToggle();
+  });
+
   const hasSwiperModel1 = document.querySelector(".swiper-model-1");
   const hasSwiperModel2 = document.querySelector(".swiper-model-2");
 
@@ -5343,14 +5349,14 @@ function initAchieveAnimation() {
       },
     });
 
-    tl.to({}, { duration: 1 });
+    tl.to({}, { duration: 0.2 });
 
     contents.forEach((content, i) => {
       if (i === 0) return;
       tl.add(`step${i}`);
-      tl.to(contents[i - 1], { autoAlpha: 0, y: -40, duration: 1.5, ease: "power2.inOut" }, `step${i}`);
-      tl.to(content, { autoAlpha: 1, y: 0, duration: 1.5, ease: "power2.inOut" }, `step${i}+=0.5`);
-      tl.to({}, { duration: 1 });
+      tl.to(contents[i - 1], { autoAlpha: 0, y: -40, duration: 1, ease: "power2.inOut" }, `step${i}`);
+      tl.to(content, { autoAlpha: 1, y: 0, duration: 1, ease: "power2.inOut" }, `step${i}+=0.2`);
+      tl.to({}, { duration: 0.5 });
     });
   });
 
@@ -5500,9 +5506,9 @@ function initSecondAbout() {
     const dots = [];
     const ANGLE_STEP = 28;
 
-    // Trạng thái ban đầu: ẩn cards, chuẩn bị text
-    gsap.set(outerEl, { opacity: 0, visibility: "hidden" });
-    gsap.set(textJourney, { opacity: 0, y: 30 });
+    // Trạng thái ban đầu: ẩn cards
+    gsap.set(outerEl, { autoAlpha: 0 });
+    gsap.set(textJourney, { opacity: 1, y: 0 });
 
     // Tạo các item cho Desktop
     items.forEach((item, i) => {
@@ -5555,66 +5561,33 @@ function initSecondAbout() {
 
     updateLayout(0);
 
-    let introPlayed = false;
+    const dummy = { progress: 0 };
 
-    // ScrollTrigger chính để ghim section
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: "+=5000",
-      pin: true,
-      scrub: 0.5,
-      onEnter: () => {
-        if (!introPlayed) {
-          // Khóa cuộn trang để user đọc text
-          document.body.style.overflow = "hidden";
-          if (window._lenis) window._lenis.stop();
-
-          const introTl = gsap.timeline({
-            onComplete: () => {
-              introPlayed = true;
-              // Mở lại cuộn trang sau khi xong intro
-              document.body.style.overflow = "";
-              if (window._lenis) window._lenis.start();
-              updateLayout(0);
-            },
-          });
-          introTl
-            .to(textJourney, {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              ease: "power2.out",
-            })
-            .to(textJourney, {
-              opacity: 0,
-              y: -20,
-              duration: 0.6,
-              delay: 1.2,
-              ease: "power2.in",
-            })
-            .to(outerEl, {
-              autoAlpha: 1,
-              duration: 0.7,
-              onStart: () => {
-                outerEl.style.visibility = "visible";
-              },
-            });
-        }
-      },
-      onUpdate: (self) => {
-        if (introPlayed) {
-          updateLayout(self.progress * (items.length - 1));
-        }
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=4000",
+        pin: true,
+        scrub: 1,
       },
     });
+
+    tl.to(textJourney, { opacity: 0, y: -50, duration: 1 })
+      .to(outerEl, { autoAlpha: 1, duration: 1 })
+      .to(dummy, {
+        progress: items.length - 1,
+        duration: 5,
+        ease: "none",
+        onUpdate: () => {
+          updateLayout(dummy.progress);
+        }
+      });
 
     // Cleanup
     return () => {
       frame.innerHTML = "";
       dotsEl.innerHTML = "";
-      document.body.style.overflow = ""; // Reset scroll lock
-      if (window._lenis) window._lenis.start();
       gsap.set([outerEl, textJourney], { clearProps: "all" });
     };
   });
@@ -5632,12 +5605,13 @@ function initMosaicAndPixelReveal() {
   const section = document.querySelector(".random-pixel");
   if (!section) return;
 
-  const COLS = 32;
+  const isMobile = window.innerWidth < 768;
+  const COLS = isMobile ? 16 : 32;
   const ROWS = 16;
   const ROW_BLEND = 4;
 
   const CELL_COLOR = "#1d1d27";
-  const isMobile = window.innerWidth < 768;
+
 
   const MOSAIC_SCROLL_MULTIPLIER = 4.2;
 
@@ -5708,38 +5682,7 @@ function initMosaicAndPixelReveal() {
   // MOBILE
   // ========================================================
 
-  if (isMobile) {
-    let _raf = false;
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (_raf) return;
-
-        _raf = true;
-
-        requestAnimationFrame(() => {
-          const rect = section.getBoundingClientRect();
-
-          let p = Math.max(
-            0,
-            Math.min(1, 1 - rect.bottom / window.innerHeight),
-          );
-
-          p = Math.max(0, (p - OVERLAY_DELAY) / (1 - OVERLAY_DELAY));
-
-          sortedOverlay.forEach((c) => {
-            c.el.style.opacity = getFadeOpacity(p, c.threshold);
-          });
-
-          _raf = false;
-        });
-      },
-      { passive: true },
-    );
-
-    return;
-  }
+  // Removed mobile early return so the mosaic animation works on all screen sizes.
 
   // ========================================================
   // STICKY

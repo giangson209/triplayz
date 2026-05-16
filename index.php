@@ -519,7 +519,7 @@
                                         class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none"
                                         placeholder="Phone">
                                 </div>
-                                <div class="item">
+                                <div class="item relative">
                                     <select
                                         class="w-full h-13.5 3xl:h-18 px-5 border border-[#1D1D2726] rounded-1 outline-none">
                                         <option value="">Service/Fields</option>
@@ -528,6 +528,10 @@
                                         <option value="">Service/Fields</option>
                                         <option value="">Service/Fields</option>
                                     </select>
+                                    <div
+                                        class="icon flex items-center absolute top-0 right-0 h-full right-6 pointer-events-none">
+                                        <img src="assets/images/arrow-down-dark.png" alt="">
+                                    </div>
                                 </div>
                                 <div class="item col-span-2">
                                     <textarea
