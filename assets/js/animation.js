@@ -2752,25 +2752,20 @@ function initOtherPagesShader() {
   const wrapper = document.querySelector(".no-logo-canvas");
   if (!wrapper) return;
 
-  const PAGE_CONFIGS = {
-    "career.php": {
-      grid: "CAREER",
-      centerX: 0.15,
-      centerY: 0.45,
-    },
-    "blog.php": {
-      grid: "OURSTORY",
-      centerX: 0.8,
-      centerY: 0.4,
-    },
-    "contact.php": {
-      grid: "CONTACT",
-      centerX: 0.8,
-      centerY: 0.4,
-    },
+  // ─── Animation Config (USER-CONTROLLABLE) ─────────────────────────────────
+  const ANIM_CONFIG = {
+    concurrentDots: 8, // số dot animate ĐỒNG THỜI (5–40)
+    animSpeed: 0.05, // tốc độ vòng lặp: giá trị nhỏ = chậm, lớn = nhanh
+    seqDuration: 1, // thời gian chạy đủ 5 digits trong 1 lần kích hoạt (giây)
   };
 
-  // ─── Resolve current page ─────────────────────────────────────────────────
+  // ─── Page configs ─────────────────────────────────────────────────────────
+  const PAGE_CONFIGS = {
+    "career.php": { grid: "CAREER", centerX: 0.15, centerY: 0.45 },
+    "blog.php": { grid: "OURSTORY", centerX: 0.8, centerY: 0.4 },
+    "contact.php": { grid: "CONTACT", centerX: 0.8, centerY: 0.4 },
+  };
+
   function getCurrentPage() {
     const path = window.location.pathname;
     for (const key of Object.keys(PAGE_CONFIGS)) {
@@ -2782,9 +2777,7 @@ function initOtherPagesShader() {
   const currentPage = getCurrentPage();
   const pageConfig = currentPage ? PAGE_CONFIGS[currentPage] : null;
 
-  // ─── PIXEL GRIDS ──────────────────────────────────────────────────────────
-
-  // career.php  — 26×26 "CAREER"
+  // ─── Pixel Grids ──────────────────────────────────────────────────────────
   const PIXEL_GRID_CAREER = [
     [
       0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
@@ -2892,7 +2885,6 @@ function initOtherPagesShader() {
     ],
   ];
 
-  // blog.php  — 31×23 "OUR STORY"
   const PIXEL_GRID_OURSTORY = [
     [
       0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
@@ -2988,7 +2980,6 @@ function initOtherPagesShader() {
     ],
   ];
 
-  // contact.php  — 25×23 "CONTACT"
   const PIXEL_GRID_CONTACT = [
     [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -3021,9 +3012,16 @@ function initOtherPagesShader() {
     CONTACT: { grid: PIXEL_GRID_CONTACT, w: 25, h: 23 },
   };
 
-  // Chọn bitmap theo page, fallback null (không vẽ gì)
   const activeGridKey = pageConfig ? pageConfig.grid : null;
   const activeGridData = activeGridKey ? GRID_MAP[activeGridKey] : null;
+
+  // ─── Tính animWindow từ concurrentDots ────────────────────────────────────
+  const totalShapeCells = activeGridData
+    ? activeGridData.grid.flat().reduce((a, b) => a + b, 0)
+    : 1;
+
+  const getAnimWindow = () =>
+    ANIM_CONFIG.concurrentDots / Math.max(1, totalShapeCells);
 
   // ─── Trail system ─────────────────────────────────────────────────────────
   const MAX_TRAIL = 24;
@@ -3051,7 +3049,7 @@ function initOtherPagesShader() {
     }
     _trailBuf[_trailHead * 3] = x;
     _trailBuf[_trailHead * 3 + 1] = y;
-    _trailBuf[_trailHead * 3 + 2] = performance.now();
+    _trailBuf[_trailHead * 3 + 2] = now;
     _trailHead = (_trailHead + 1) % MAX_TRAIL;
     if (_trailLen < MAX_TRAIL) _trailLen++;
   }
@@ -3148,7 +3146,7 @@ function initOtherPagesShader() {
     return tex;
   }
 
-  // ─── Shaders ──────────────────────────────────────────────────────────────
+  // ─── Vertex Shader ────────────────────────────────────────────────────────
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -3157,7 +3155,7 @@ function initOtherPagesShader() {
     }
   `;
 
-  // uHasGrid: 1.0 = có bitmap, 0.0 = không (trang khác)
+  // ─── Fragment Shader ──────────────────────────────────────────────────────
   const fragmentShader = `
     #define MAX_TRAIL 24
 
@@ -3180,19 +3178,24 @@ function initOtherPagesShader() {
     uniform vec2      uGridCenter;
     uniform float     uHasGrid;
 
+    // ── Continuous Random Loop Uniforms ───────────────────────────────────
+    uniform float uAnimSpeed;   // tốc độ vòng lặp (chu kỳ/giây)
+    uniform float uAnimWindow;  // tỉ lệ chu kỳ cell đang active (concurrency)
+    uniform float uSeqDuration; // thời gian chạy đủ 5 digits trong 1 lần (giây)
+
     varying vec2 vUv;
 
     vec3 hsl2rgb(float h, float s, float l) {
       float c = (1.0 - abs(2.0 * l - 1.0)) * s;
       float hp = h / 60.0;
-      float x = c * (1.0 - abs(mod(hp, 2.0) - 1.0));
+      float x  = c * (1.0 - abs(mod(hp, 2.0) - 1.0));
       vec3 rgb;
-      if      (hp < 1.0) rgb = vec3(c, x, 0.0);
-      else if (hp < 2.0) rgb = vec3(x, c, 0.0);
-      else if (hp < 3.0) rgb = vec3(0.0, c, x);
-      else if (hp < 4.0) rgb = vec3(0.0, x, c);
-      else if (hp < 5.0) rgb = vec3(x, 0.0, c);
-      else               rgb = vec3(c, 0.0, x);
+      if      (hp < 1.0) rgb = vec3(c,x,0.0);
+      else if (hp < 2.0) rgb = vec3(x,c,0.0);
+      else if (hp < 3.0) rgb = vec3(0.0,c,x);
+      else if (hp < 4.0) rgb = vec3(0.0,x,c);
+      else if (hp < 5.0) rgb = vec3(x,0.0,c);
+      else               rgb = vec3(c,0.0,x);
       return rgb + (l - c * 0.5);
     }
 
@@ -3207,15 +3210,16 @@ function initOtherPagesShader() {
                    cellUV.y < gapHalf || cellUV.y > (1.0 - gapHalf);
 
       vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
-
       if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
 
-      // ── Grid shape lookup (skip nếu uHasGrid == 0) ─────────────────────
-      bool isShape = false;
+      // ── Grid shape lookup ─────────────────────────────────────────────────
+      bool isShape  = false;
+      vec2 localCell = vec2(0.0);
+
       if (uHasGrid > 0.5) {
         vec2 gridSizePx     = uGridDims * uPixelSize;
         vec2 gridOriginCell = floor((uGridCenter - gridSizePx * 0.5) / uPixelSize);
-        vec2 localCell      = cellIndex - gridOriginCell;
+        localCell           = cellIndex - gridOriginCell;
 
         if (localCell.x >= 0.0 && localCell.x < uGridDims.x &&
             localCell.y >= 0.0 && localCell.y < uGridDims.y) {
@@ -3227,24 +3231,40 @@ function initOtherPagesShader() {
         }
       }
 
-      // ── Trail zone detection ────────────────────────────────────────────
+      // ── Continuous Random Loop ────────────────────────────────────────────
+      // rand: phase offset ngẫu nhiên cố định theo vị trí cell (0→1)
+      float rand = fract(sin(dot(localCell, vec2(127.1, 311.7))) * 43758.5453);
+
+      // cellPhase: vị trí trong chu kỳ hiện tại (0→1, lặp liên tục)
+      float cellPhase = mod(iTime * uAnimSpeed + rand, 1.0);
+
+      // seqWindow: tỉ lệ chu kỳ mà 1 dot cần để chạy đủ seqDuration giây
+      // = seqDuration * animSpeed (nhưng clamp để tránh overlap quá nhiều)
+      float seqWindow = clamp(uSeqDuration * uAnimSpeed, 0.001, 0.95);
+
+      // cell đang animate khi cellPhase nằm trong seqWindow
+      bool cellAnimating = isShape && (cellPhase < seqWindow);
+
+      // seqAge: tiến trình 0→1 trong đúng uSeqDuration giây thực tế
+      // elapsed = số giây kể từ đầu chu kỳ hiện tại của cell
+      float elapsed = cellPhase / max(uAnimSpeed, 0.0001);
+      float seqAge  = cellAnimating
+        ? clamp(elapsed / max(uSeqDuration, 0.0001), 0.0, 1.0)
+        : 1.0;
+
+      // ── Trail zone detection ───────────────────────────────────────────────
       bool  inZone   = false;
       float bestDist = 999.0;
       float bestAge  = 1.0;
 
       for (int i = 0; i < MAX_TRAIL - 1; i++) {
         if (i >= uTrailCount - 1) break;
-
         vec4 texA = texture2D(uTrailTex, vec2((float(i)     + 0.5) / float(MAX_TRAIL), 0.5));
         vec4 texB = texture2D(uTrailTex, vec2((float(i + 1) + 0.5) / float(MAX_TRAIL), 0.5));
-
-        vec2  a    = texA.xy * iResolution;
-        vec2  b    = texB.xy * iResolution;
-        float ageA = texA.z;
-        float ageB = texB.z;
-
+        vec2  a = texA.xy * iResolution;
+        vec2  b = texB.xy * iResolution;
+        float ageA = texA.z, ageB = texB.z;
         if (ageA >= 1.0 && ageB >= 1.0) continue;
-
         vec2  ab   = b - a;
         vec2  ap   = pixelPos - a;
         float len2 = dot(ab, ab);
@@ -3252,13 +3272,12 @@ function initOtherPagesShader() {
         vec2  proj = a + t * ab;
         float dist = length((pixelPos - proj) / uPixelSize);
         float age  = mix(ageA, ageB, t);
-
         if (dist < 1.5) {
           if (!inZone || age < bestAge) { inZone = true; bestDist = dist; bestAge = age; }
         }
       }
 
-      // ── Comet head ──────────────────────────────────────────────────────
+      // ── Comet head ────────────────────────────────────────────────────────
       if (uMouseActive > 0.5) {
         vec2  diff   = pixelPos - uMousePos;
         float dist   = length(diff / uPixelSize);
@@ -3284,29 +3303,48 @@ function initOtherPagesShader() {
         }
       }
 
-      // ── Shape: tím tĩnh (ưu tiên render trước trail nếu không bị trail đè) ─
-      if (isShape && !inZone) {
+      // ── Render ─────────────────────────────────────────────────────────────
+      // Priority: trail > cell-animating > shape-static > bg
+
+      // 1. KHÔNG trong trail zone
+      if (!inZone) {
+        if (!isShape) { gl_FragColor = vec4(bgColor, 1.0); return; }
+
+        if (cellAnimating) {
+          // seqAge đã chạy đủ tốc độ để hoàn thành 5 digits trong seqDuration giây
+          float sp  = seqAge * 5.0;
+          int   di  = int(floor(sp));
+          vec2  iuv = (cellUV - gapHalf) / (1.0 - uPixelGap);
+          float ax  = (float(di) + iuv.x) / 5.0;
+          float alp = texture2D(uFontAtlas, vec2(ax, iuv.y)).r;
+          vec3  dc;
+          if      (di == 0) dc = hsl2rgb(161.0, 0.85, 0.50);
+          else if (di == 1) dc = hsl2rgb(201.0, 1.00, 0.80);
+          else if (di == 2) dc = hsl2rgb( 65.0, 1.00, 0.87);
+          else if (di == 3) dc = vec3(0.996);
+          else              dc = uColor1;
+          gl_FragColor = vec4(mix(bgColor, dc, alp), 1.0);
+          return;
+        }
+
+        // Shape tĩnh → màu tím
         gl_FragColor = vec4(uColor1, 1.0);
         return;
       }
 
-      // ── Không có trail ──────────────────────────────────────────────────
-      if (!inZone) { gl_FragColor = vec4(bgColor, 1.0); return; }
-
-      // ── Trail sequence ──────────────────────────────────────────────────
+      // 2. Trong trail zone
       float seqPos = bestAge * 6.0;
       if (seqPos >= 5.0) {
-        // Trail đã fade: trả về màu đúng theo shape/bg
         gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
         return;
       }
 
+      // Trail digit animation (override tất cả)
       int  digitIndex  = int(floor(seqPos));
       vec2 innerUV     = (cellUV - gapHalf) / (1.0 - uPixelGap);
       float atlasX     = (float(digitIndex) + innerUV.x) / 5.0;
       float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
 
-      // Digit màu sáng trên shape, tím trên bg
       vec3 digitColor;
       if (isShape) {
         if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
@@ -3317,19 +3355,17 @@ function initOtherPagesShader() {
       } else {
         digitColor = uColor1;
       }
-
       gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0);
     }
   `;
 
-  // ─── Three.js setup ──────────────────────────────────────────────────────
+  // ─── Three.js setup ───────────────────────────────────────────────────────
   const DPR = Math.min(window.devicePixelRatio, 2);
   const physicalPixelSize = Math.round(14.0 * DPR);
 
   function getRect() {
     return wrapper.getBoundingClientRect();
   }
-
   function getCanvasSize() {
     const r = getRect();
     return { w: Math.round(r.width * DPR), h: Math.round(r.height * DPR) };
@@ -3337,7 +3373,6 @@ function initOtherPagesShader() {
 
   let _res = getCanvasSize();
 
-  // Grid center theo page config (centerX/Y độc lập mỗi trang)
   function getGridCenter() {
     if (!pageConfig) return new THREE.Vector2(-9999, -9999);
     return new THREE.Vector2(
@@ -3356,16 +3391,14 @@ function initOtherPagesShader() {
 
   const fontAtlas = createFontAtlas(physicalPixelSize * 4);
 
-  // Grid texture: dùng bitmap thật nếu có page match, dùng 1×1 dummy nếu không
-  let gridTex;
-  let GRID_W = 1,
+  let gridTex,
+    GRID_W = 1,
     GRID_H = 1;
   if (activeGridData) {
     GRID_W = activeGridData.w;
     GRID_H = activeGridData.h;
     gridTex = createGridTexture(activeGridData.grid, GRID_W, GRID_H);
   } else {
-    // 1×1 empty texture để tránh WebGL complain
     const dummy = new Uint8Array([0, 0, 0, 255]);
     gridTex = new THREE.DataTexture(dummy, 1, 1, THREE.RGBAFormat);
     gridTex.needsUpdate = true;
@@ -3406,11 +3439,15 @@ function initOtherPagesShader() {
           return new THREE.Vector3(c.r, c.g, c.b);
         })(),
       },
-      // ── Grid ───────────────────────────────────────────────────────────
       uGridTex: { value: gridTex },
       uGridDims: { value: new THREE.Vector2(GRID_W, GRID_H) },
       uGridCenter: { value: getGridCenter() },
       uHasGrid: { value: activeGridData ? 1.0 : 0.0 },
+
+      // ── Animation uniforms ──────────────────────────────────────────────
+      uAnimSpeed: { value: ANIM_CONFIG.animSpeed },
+      uAnimWindow: { value: getAnimWindow() },
+      uSeqDuration: { value: ANIM_CONFIG.seqDuration }, // ← NEW: đảm bảo chạy hết sequence
     },
     vertexShader,
     fragmentShader,
@@ -3447,6 +3484,25 @@ function initOtherPagesShader() {
     const vel = computeVelocity();
     material.uniforms.uVelocity.value.set(vel.x, vel.y);
   }
+
+  // ─── Runtime controls ─────────────────────────────────────────────────────
+  window.otherPageSetConcurrentDots = function (n) {
+    ANIM_CONFIG.concurrentDots = n;
+    material.uniforms.uAnimWindow.value = getAnimWindow();
+    _dirty = true;
+  };
+
+  window.otherPageSetAnimSpeed = function (s) {
+    ANIM_CONFIG.animSpeed = s;
+    material.uniforms.uAnimSpeed.value = s;
+    _dirty = true;
+  };
+
+  window.otherPageSetSeqDuration = function (d) {
+    ANIM_CONFIG.seqDuration = d;
+    material.uniforms.uSeqDuration.value = d;
+    _dirty = true;
+  };
 
   // ─── Mouse ────────────────────────────────────────────────────────────────
   const actualMouse = { x: -9999, y: -9999, active: false };
@@ -3510,6 +3566,9 @@ function initOtherPagesShader() {
     }
     if (_trailLen > 0) _dirty = true;
 
+    // Time-driven khi có grid
+    if (activeGridData) _dirty = true;
+
     if (_dirty) {
       material.uniforms.iTime.value = now * 0.001;
       updateTrailTexture();
@@ -3542,6 +3601,7 @@ function initOtherPagesShader() {
   };
 }
 PageAnimations.register(initOtherPagesShader);
+
 function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");
