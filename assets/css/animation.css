@@ -927,12 +927,12 @@ footer a.footer-anim-link .footer-link-line {
 /* Other pages */
 .hero-contact {
   width: 100vw;
-  height: 90vh;
+  height: 75vh;
 }
 
 @media (min-width: 1720px) {
     .hero-contact {
-        height: 80vh;
+        height: 65vh;
     }
 }
 
