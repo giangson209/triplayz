@@ -4770,7 +4770,6 @@ function initCaseStudyHoverAnimation() {
 PageAnimations.register(initCaseStudyHoverAnimation);
 
 function initServiceDelivery() {
-  console.log("servicedelivery run");
   gsap.registerPlugin(ScrollTrigger);
 
   const steps = document.querySelectorAll(".step-block");
