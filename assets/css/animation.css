@@ -877,3 +877,50 @@ footer a.footer-anim-link .footer-link-line {
     padding-bottom: 0;
   }
 }
+
+
+
+
+
+
+
+/* Process image */
+#process-img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    object-fit: contain;
+    transform: translateY(-32px);
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+    #process-img {
+        max-width: 280px;
+    }
+}
+
+@media (min-width: 1280px) and (max-width: 1535px) {
+    #process-img {
+        max-width: 340px;
+    }
+}
+
+@media (min-width: 1536px) and (max-width: 1919px) {
+    #process-img {
+        max-width: 380px;
+    }
+}
+
+@media (min-width: 1920px) {
+    #process-img {
+        max-width: 420px;
+    }
+}
+
+@media (min-width: 1720px) {
+    .process-title-text {
+        font-size: 80px;
+    }
+}
+
+

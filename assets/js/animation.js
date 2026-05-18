@@ -2008,7 +2008,7 @@ function initButtonAnimation() {
 }
 PageAnimations.register(initButtonAnimation);
 
-function initPixelatedShader() {
+function initPixelatedHomeShader() {
   const wrapper = document.querySelector(".gradient-canvas");
   if (!wrapper) return;
 
@@ -2746,9 +2746,9 @@ function initPixelatedShader() {
     setTimeout(runPulseLoop, 500);
   }
 }
-PageAnimations.register(initPixelatedShader);
+PageAnimations.register(initPixelatedHomeShader);
 
-function initNoLogoShader() {
+function initOtherPagesShader() {
   const wrapper = document.querySelector(".no-logo-canvas");
   if (!wrapper) return;
 
@@ -3205,7 +3205,7 @@ function initNoLogoShader() {
     },
   };
 }
-PageAnimations.register(initNoLogoShader);
+PageAnimations.register(initOtherPagesShader);
 
 function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");

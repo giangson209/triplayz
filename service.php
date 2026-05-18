@@ -269,12 +269,12 @@
                             <div class="top mb-0 lg:mb-16 2xl:mb-25">
                                 <div class="block 2xl:flex items-center gap-10">
                                     <span class="anek opacity-65 title-animation">/DELIVERY PROCESS</span>
-                                    <div class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium title-animation">We
+                                    <div class="text-10 lg:text-[60px] 2xl:text-[76px] font-medium title-animation process-title-text">We
                                         validate
                                     </div>
                                 </div>
                                 <div
-                                    class="text-10 lg:text-[64px] 2xl:text-[80px] font-medium opacity-35 title-animation">
+                                    class="text-10 lg:text-[60px] 2xl:text-[76px] font-medium opacity-35 title-animation process-title-text">
                                     concepts &
                                     attract
                                 </div>
