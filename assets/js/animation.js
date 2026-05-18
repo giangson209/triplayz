@@ -2014,133 +2014,57 @@ function initPixelatedHomeShader() {
 
   const config = {
     color1: "#766FF6",
-    pixelSize: 14.0,
     pixelGap: 0.18,
-    marginLeft: 120,
+    marginLeft: 120,   // desktop left margin in CSS px
     centerY: 0.5,
   };
 
+  // ── Responsive pixel-size helpers ──────────────────────────────────────────
+  const BASE_SCREEN_WIDTH = 1520;
+  const BASE_PIXEL_CSS_PX = 14.0;   // pixel size (CSS px) at 1520 px screen
+  const DPR = Math.min(window.devicePixelRatio, 2);
+  const MIN_PHYSICAL_PX = 18;
+
+  function calcPhysicalPixelSize() {
+    const scale = window.innerWidth / BASE_SCREEN_WIDTH;
+    const cssPx = BASE_PIXEL_CSS_PX * scale;
+    return Math.max(MIN_PHYSICAL_PX, Math.round(cssPx * DPR));
+  }
+
+  let physicalPixelSize = calcPhysicalPixelSize();
+
+  // ── Grid data ──────────────────────────────────────────────────────────────
   const PIXEL_GRID = [
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1,
-      1, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1,
-      1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1,
-      1, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1,
-    ],
-    [
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1,
-    ],
-    [
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1,
-    ],
-    [
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1,
-      1, 1, 1, 1, 1,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1,
-      1, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1,
-      1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1,
-      1, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0,
-    ],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0],
+    [0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],
+    [0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0],
+    [0,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0],
+    [0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0],
+    [1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1],
+    [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0],
+    [0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0],
+    [0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],
+    [0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
   ];
   const GRID_W = PIXEL_GRID[0].length;
   const GRID_H = PIXEL_GRID.length;
@@ -2162,6 +2086,7 @@ function initPixelatedHomeShader() {
     return tex;
   }
 
+  // ── Trail system ───────────────────────────────────────────────────────────
   const MAX_TRAIL = 24;
   const TRAIL_DURATION = 400;
   const TRAIL_MIN_DIST = 3;
@@ -2172,11 +2097,7 @@ function initPixelatedHomeShader() {
 
   function trailGet(i) {
     const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
-    return {
-      x: _trailBuf[slot * 3],
-      y: _trailBuf[slot * 3 + 1],
-      time: _trailBuf[slot * 3 + 2],
-    };
+    return { x: _trailBuf[slot*3], y: _trailBuf[slot*3+1], time: _trailBuf[slot*3+2] };
   }
 
   function sampleTrail(x, y) {
@@ -2185,9 +2106,9 @@ function initPixelatedHomeShader() {
       const last = trailGet(0);
       if (Math.hypot(x - last.x, y - last.y) < TRAIL_MIN_DIST) return;
     }
-    _trailBuf[_trailHead * 3] = x;
-    _trailBuf[_trailHead * 3 + 1] = y;
-    _trailBuf[_trailHead * 3 + 2] = now;
+    _trailBuf[_trailHead*3]   = x;
+    _trailBuf[_trailHead*3+1] = y;
+    _trailBuf[_trailHead*3+2] = now;
     _trailHead = (_trailHead + 1) % MAX_TRAIL;
     if (_trailLen < MAX_TRAIL) _trailLen++;
   }
@@ -2195,77 +2116,57 @@ function initPixelatedHomeShader() {
   const _velOut = { x: 0, y: 0 };
 
   function computeVelocity() {
-    if (_trailLen < 2) {
-      _velOut.x = 0;
-      _velOut.y = 0;
-      return _velOut;
-    }
+    if (_trailLen < 2) { _velOut.x = 0; _velOut.y = 0; return _velOut; }
     const n = Math.min(5, _trailLen);
-    let dx = 0,
-      dy = 0,
-      totalW = 0;
+    let dx = 0, dy = 0, totalW = 0;
     for (let i = 0; i < n - 1; i++) {
-      const a = trailGet(i);
-      const b = trailGet(i + 1);
+      const a = trailGet(i), b = trailGet(i + 1);
       const w = 1.0 / (i + 1);
       dx += (a.x - b.x) * w;
       dy += (a.y - b.y) * w;
       totalW += w;
     }
-    if (totalW === 0) {
-      _velOut.x = 0;
-      _velOut.y = 0;
-      return _velOut;
-    }
-    dx /= totalW;
-    dy /= totalW;
+    if (totalW === 0) { _velOut.x = 0; _velOut.y = 0; return _velOut; }
+    dx /= totalW; dy /= totalW;
     const len = Math.hypot(dx, dy);
-    if (len < 0.0001) {
-      _velOut.x = 0;
-      _velOut.y = 0;
-      return _velOut;
-    }
-    _velOut.x = dx / len;
-    _velOut.y = dy / len;
+    if (len < 0.0001) { _velOut.x = 0; _velOut.y = 0; return _velOut; }
+    _velOut.x = dx / len; _velOut.y = dy / len;
     return _velOut;
   }
 
   function hexToRgb(hex) {
     return [
-      parseInt(hex.slice(1, 3), 16) / 255,
-      parseInt(hex.slice(3, 5), 16) / 255,
-      parseInt(hex.slice(5, 7), 16) / 255,
+      parseInt(hex.slice(1,3),16)/255,
+      parseInt(hex.slice(3,5),16)/255,
+      parseInt(hex.slice(5,7),16)/255,
     ];
   }
 
   function createFontAtlas(size) {
-    const chars = ["2", "0", "x", "+", "."];
+    const chars = ["2","0","x","+","."];
     const canvas = document.createElement("canvas");
-    canvas.width = size * chars.length;
+    canvas.width  = size * chars.length;
     canvas.height = size;
     const ctx = canvas.getContext("2d");
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = `bold ${Math.floor(size * 0.75)}px monospace`;
-    ctx.textAlign = "center";
+    ctx.textAlign    = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle    = "#fff";
     for (let i = 0; i < chars.length; i++) {
-      const cx = i * size + size / 2;
-      const cy = size / 2;
+      const cx = i * size + size / 2, cy = size / 2;
       if (chars[i] === ".") {
-        ctx.beginPath();
-        ctx.arc(cx, cy, size * 0.13, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, size * 0.13, 0, Math.PI * 2); ctx.fill();
       } else {
         ctx.fillText(chars[i], cx, cy);
       }
     }
     const tex = new THREE.CanvasTexture(canvas);
-    tex.minFilter = THREE.LinearFilter;
-    tex.magFilter = THREE.LinearFilter;
+    tex.minFilter = tex.magFilter = THREE.LinearFilter;
     return tex;
   }
 
+  // ── Shaders (unchanged) ────────────────────────────────────────────────────
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -2273,6 +2174,7 @@ function initPixelatedHomeShader() {
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
+
   const fragmentShader = `
     #define MAX_TRAIL 24
 
@@ -2330,17 +2232,12 @@ function initPixelatedHomeShader() {
 
       for (int i = 0; i < MAX_TRAIL - 1; i++) {
         if (i >= uTrailCount - 1) break;
-
         vec4 texA = texture2D(uTrailTex, vec2((float(i)     + 0.5) / float(MAX_TRAIL), 0.5));
         vec4 texB = texture2D(uTrailTex, vec2((float(i + 1) + 0.5) / float(MAX_TRAIL), 0.5));
-
-        vec2 a    = texA.xy * iResolution;
-        vec2 b    = texB.xy * iResolution;
-        float ageA = texA.z;
-        float ageB = texB.z;
-
+        vec2 a = texA.xy * iResolution;
+        vec2 b = texB.xy * iResolution;
+        float ageA = texA.z, ageB = texB.z;
         if (ageA >= 1.0 && ageB >= 1.0) continue;
-
         vec2  ab   = b - a;
         vec2  ap   = pixelPos - a;
         float len2 = dot(ab, ab);
@@ -2348,13 +2245,8 @@ function initPixelatedHomeShader() {
         vec2  proj = a + t * ab;
         float dist = length((pixelPos - proj) / uPixelSize);
         float age  = mix(ageA, ageB, t);
-
         if (dist < 1.5) {
-          if (!inZone || age < bestAge) {
-            inZone   = true;
-            bestDist = dist;
-            bestAge  = age;
-          }
+          if (!inZone || age < bestAge) { inZone = true; bestDist = dist; bestAge = age; }
         }
       }
 
@@ -2378,19 +2270,15 @@ function initPixelatedHomeShader() {
             cometMask = max(headMask, angleMask * distFade);
           }
           if (cometMask > 0.3) {
-            if (!inZone || 0.0 < bestAge) {
-              inZone   = true;
-              bestDist = dist;
-              bestAge  = 0.0;
-            }
+            if (!inZone || 0.0 < bestAge) { inZone = true; bestDist = dist; bestAge = 0.0; }
           }
         }
       }
 
-      vec2 gridSizePx    = uGridDims * uPixelSize;
+      vec2 gridSizePx     = uGridDims * uPixelSize;
       vec2 gridOriginCell = floor((uGridCenter - gridSizePx * 0.5) / uPixelSize);
-      vec2 localCell     = cellIndex - gridOriginCell;
-      bool isShape       = false;
+      vec2 localCell      = cellIndex - gridOriginCell;
+      bool isShape        = false;
 
       if (localCell.x >= 0.0 && localCell.x < uGridDims.x &&
           localCell.y >= 0.0 && localCell.y < uGridDims.y) {
@@ -2402,28 +2290,23 @@ function initPixelatedHomeShader() {
       }
 
       vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
-
       float rand = fract(sin(dot(localCell, vec2(127.1, 311.7))) * 43758.5453);
 
       float revealSeqAge = -1.0;
       if (isShape) {
         float elapsed = uRevealAge - rand;
-        if (elapsed >= 0.0) {
-          revealSeqAge = clamp(elapsed / 0.35, 0.0, 1.05);
-        }
+        if (elapsed >= 0.0) revealSeqAge = clamp(elapsed / 0.35, 0.0, 1.05);
       }
       bool shapeRevealed = isShape && (revealSeqAge >= 1.0);
 
-      float cellDist = length(localCell - uGridDims * 0.5);
-      float maxDist  = length(uGridDims * 0.5);
-      float normDist = cellDist / maxDist;
+      float cellDist  = length(localCell - uGridDims * 0.5);
+      float maxDist   = length(uGridDims * 0.5);
+      float normDist  = cellDist / maxDist;
 
       float pulseSeqAge = -1.0;
       if (shapeRevealed) {
         float pelapsed = uPulseAge - normDist;
-        if (pelapsed >= 0.0) {
-          pulseSeqAge = clamp(pelapsed / 0.6, 0.0, 1.05);
-        }
+        if (pelapsed >= 0.0) pulseSeqAge = clamp(pelapsed / 0.6, 0.0, 1.05);
       }
       bool pulseActive = pulseSeqAge >= 0.0 && pulseSeqAge < 1.0;
 
@@ -2441,42 +2324,37 @@ function initPixelatedHomeShader() {
         else if (digitIndex == 2) digitColor = hsl2rgb( 65.0, 1.00, 0.87);
         else if (digitIndex == 3) digitColor = vec3(0.996);
         else                      digitColor = uColor1;
-        gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0);
-        return;
+        gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0); return;
       }
 
       if (!inZone && shapeRevealed && pulseActive) {
-        float pseqPos   = pulseSeqAge * 5.0;
-        int   pdigit    = int(floor(pseqPos));
-        vec2  pinnerUV  = (cellUV - gapHalf) / (1.0 - uPixelGap);
-        float patlasX   = (float(pdigit) + pinnerUV.x) / 5.0;
-        float pGlyph    = texture2D(uFontAtlas, vec2(patlasX, pinnerUV.y)).r;
+        float pseqPos  = pulseSeqAge * 5.0;
+        int   pdigit   = int(floor(pseqPos));
+        vec2  pinnerUV = (cellUV - gapHalf) / (1.0 - uPixelGap);
+        float patlasX  = (float(pdigit) + pinnerUV.x) / 5.0;
+        float pGlyph   = texture2D(uFontAtlas, vec2(patlasX, pinnerUV.y)).r;
         vec3  pColor;
         if      (pdigit == 0) pColor = hsl2rgb(161.0, 0.85, 0.50);
         else if (pdigit == 1) pColor = hsl2rgb(201.0, 1.00, 0.80);
         else if (pdigit == 2) pColor = hsl2rgb( 65.0, 1.00, 0.87);
         else if (pdigit == 3) pColor = vec3(0.996);
         else                  pColor = uColor1;
-        gl_FragColor = vec4(mix(bgColor, pColor, pGlyph), 1.0);
-        return;
+        gl_FragColor = vec4(mix(bgColor, pColor, pGlyph), 1.0); return;
       }
 
       if (!inZone) {
-        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
-        return;
+        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0); return;
       }
 
       float seqPos = bestAge * 6.0;
       if (seqPos >= 5.0) {
-        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
-        return;
+        gl_FragColor = shapeRevealed ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0); return;
       }
 
-      int digitIndex = int(floor(seqPos));
-      vec2 innerUV   = (cellUV - gapHalf) / (1.0 - uPixelGap);
-      float atlasX   = (float(digitIndex) + innerUV.x) / 5.0;
+      int digitIndex   = int(floor(seqPos));
+      vec2 innerUV     = (cellUV - gapHalf) / (1.0 - uPixelGap);
+      float atlasX     = (float(digitIndex) + innerUV.x) / 5.0;
       float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
-
       vec3 digitColor;
       if (shapeRevealed) {
         if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
@@ -2487,65 +2365,51 @@ function initPixelatedHomeShader() {
       } else {
         digitColor = uColor1;
       }
-
       gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0);
     }
   `;
 
+  // ── Trail texture ──────────────────────────────────────────────────────────
   const _trailTexData = new Float32Array(MAX_TRAIL * 4);
   let _trailTex = null;
 
   function createTrailTexture() {
     const tex = new THREE.DataTexture(
-      _trailTexData,
-      MAX_TRAIL,
-      1,
-      THREE.RGBAFormat,
-      THREE.FloatType,
+      _trailTexData, MAX_TRAIL, 1, THREE.RGBAFormat, THREE.FloatType
     );
-    tex.minFilter = THREE.NearestFilter;
-    tex.magFilter = THREE.NearestFilter;
+    tex.minFilter = tex.magFilter = THREE.NearestFilter;
     return tex;
   }
 
   function updateTrailTexture(mat, resW, resH) {
     const now = performance.now();
-
     while (_trailLen > 0) {
       const oldest = trailGet(_trailLen - 1);
       if (now - oldest.time >= TRAIL_DURATION) _trailLen--;
       else break;
     }
-
     for (let i = 0; i < MAX_TRAIL; i++) {
       const base = i * 4;
       if (i < _trailLen) {
         const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
-        _trailTexData[base] = _trailBuf[slot * 3] / resW;
-        _trailTexData[base + 1] = _trailBuf[slot * 3 + 1] / resH;
-        _trailTexData[base + 2] =
-          (now - _trailBuf[slot * 3 + 2]) / TRAIL_DURATION;
+        _trailTexData[base]     = _trailBuf[slot*3]   / resW;
+        _trailTexData[base + 1] = _trailBuf[slot*3+1] / resH;
+        _trailTexData[base + 2] = (now - _trailBuf[slot*3+2]) / TRAIL_DURATION;
         _trailTexData[base + 3] = 0.0;
       } else {
-        _trailTexData[base] = -1.0;
-        _trailTexData[base + 1] = -1.0;
-        _trailTexData[base + 2] = 1.0;
-        _trailTexData[base + 3] = 0.0;
+        _trailTexData[base] = -1.0; _trailTexData[base+1] = -1.0;
+        _trailTexData[base+2] = 1.0; _trailTexData[base+3] = 0.0;
       }
     }
-
     mat.uniforms.uTrailTex.value.needsUpdate = true;
     mat.uniforms.uTrailCount.value = _trailLen;
-
     const vel = computeVelocity();
     mat.uniforms.uVelocity.value.set(vel.x, vel.y);
   }
 
+  // ── Three.js setup ─────────────────────────────────────────────────────────
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
-
-  const DPR = Math.min(window.devicePixelRatio, 2);
-  const physicalPixelSize = Math.round(config.pixelSize * DPR);
 
   const _res = {
     w: Math.round(window.innerWidth * DPR),
@@ -2558,15 +2422,22 @@ function initPixelatedHomeShader() {
 
   renderer.setSize(_res.w, _res.h, false);
   renderer.setPixelRatio(1);
-  renderer.domElement.style.width = "100%";
+  renderer.domElement.style.width  = "100%";
   renderer.domElement.style.height = "100%";
   wrapper.appendChild(renderer.domElement);
 
-  const fontAtlas = createFontAtlas(physicalPixelSize * 4);
-  const gridTex = createGridTexture(PIXEL_GRID, GRID_W, GRID_H);
+  // Font atlas created at the BASE physical size so it always looks crisp
+  const fontAtlas = createFontAtlas(Math.round(BASE_PIXEL_CSS_PX * DPR) * 4);
+  const gridTex   = createGridTexture(PIXEL_GRID, GRID_W, GRID_H);
   _trailTex = createTrailTexture();
 
+  // ── CHANGED: responsive grid-center ───────────────────────────────────────
   function getGridCenter() {
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      // Center both axes on mobile
+      return new THREE.Vector2(_res.w * 0.5, _res.h * 0.5);
+    }
     const logoWidthPx = GRID_W * physicalPixelSize;
     return new THREE.Vector2(
       config.marginLeft * DPR + logoWidthPx * 0.5,
@@ -2576,34 +2447,28 @@ function initPixelatedHomeShader() {
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      iTime: { value: 0 },
-      iResolution: { value: new THREE.Vector2(_res.w, _res.h) },
-      uColor1: { value: new THREE.Vector3(...hexToRgb(config.color1)) },
-      uPixelSize: { value: physicalPixelSize },
-      uPixelGap: { value: config.pixelGap },
-      uFontAtlas: { value: fontAtlas },
-      uMousePos: { value: new THREE.Vector2(-9999, -9999) },
+      iTime:        { value: 0 },
+      iResolution:  { value: new THREE.Vector2(_res.w, _res.h) },
+      uColor1:      { value: new THREE.Vector3(...hexToRgb(config.color1)) },
+      uPixelSize:   { value: physicalPixelSize },   // ← driven by calcPhysicalPixelSize()
+      uPixelGap:    { value: config.pixelGap },
+      uFontAtlas:   { value: fontAtlas },
+      uMousePos:    { value: new THREE.Vector2(-9999, -9999) },
       uMouseActive: { value: 0.0 },
-      uVelocity: { value: new THREE.Vector2(0, 0) },
-      uTrailTex: { value: _trailTex },
-      uTrailCount: { value: 0 },
-      uGridTex: { value: gridTex },
-      uGridDims: { value: new THREE.Vector2(GRID_W, GRID_H) },
-      uGridCenter: { value: getGridCenter() },
+      uVelocity:    { value: new THREE.Vector2(0, 0) },
+      uTrailTex:    { value: _trailTex },
+      uTrailCount:  { value: 0 },
+      uGridTex:     { value: gridTex },
+      uGridDims:    { value: new THREE.Vector2(GRID_W, GRID_H) },
+      uGridCenter:  { value: getGridCenter() },
       uBgTop: {
-        value: (() => {
-          const c = new THREE.Color("#30286c");
-          return new THREE.Vector3(c.r, c.g, c.b);
-        })(),
+        value: (() => { const c = new THREE.Color("#30286c"); return new THREE.Vector3(c.r,c.g,c.b); })(),
       },
       uBgBot: {
-        value: (() => {
-          const c = new THREE.Color("#1c1c26");
-          return new THREE.Vector3(c.r, c.g, c.b);
-        })(),
+        value: (() => { const c = new THREE.Color("#1c1c26"); return new THREE.Vector3(c.r,c.g,c.b); })(),
       },
       uRevealAge: { value: 0.0 },
-      uPulseAge: { value: -1.0 },
+      uPulseAge:  { value: -1.0 },
     },
     vertexShader,
     fragmentShader,
@@ -2624,10 +2489,7 @@ function initPixelatedHomeShader() {
     actualMouse.y = (_res.h / DPR - (e.clientY - rect.top)) * DPR;
     actualMouse.active = true;
     lastMoveTime = performance.now();
-    if (laggedMouse.x === -9999) {
-      laggedMouse.x = actualMouse.x;
-      laggedMouse.y = actualMouse.y;
-    }
+    if (laggedMouse.x === -9999) { laggedMouse.x = actualMouse.x; laggedMouse.y = actualMouse.y; }
     _dirty = true;
   });
 
@@ -2642,7 +2504,6 @@ function initPixelatedHomeShader() {
   function shaderAnimate() {
     if (_shaderPaused) return;
     requestAnimationFrame(shaderAnimate);
-
     const now = performance.now();
 
     if (actualMouse.active) {
@@ -2667,7 +2528,6 @@ function initPixelatedHomeShader() {
       material.uniforms.iTime.value = now * 0.001;
       updateTrailTexture(material, _res.w, _res.h);
       renderer.render(scene, camera);
-
       _dirty = _trailLen > 0 || actualMouse.active;
     }
   }
@@ -2678,12 +2538,8 @@ function initPixelatedHomeShader() {
       value: 1.35,
       duration: 3,
       ease: "sine.out",
-      onUpdate: () => {
-        _dirty = true;
-      },
-      onComplete: () => {
-        setTimeout(runPulseLoop, 2000);
-      },
+      onUpdate: () => { _dirty = true; },
+      onComplete: () => { setTimeout(runPulseLoop, 2000); },
     });
   }
 
@@ -2692,25 +2548,19 @@ function initPixelatedHomeShader() {
       value: 1.35,
       duration: 1,
       ease: "power1.out",
-      onUpdate: () => {
-        _dirty = true;
-      },
-      onComplete: () => {
-        setTimeout(runPulseLoop, 3000);
-      },
+      onUpdate: () => { _dirty = true; },
+      onComplete: () => { setTimeout(runPulseLoop, 3000); },
     });
   };
 
   window.shaderSaveState = function () {
     window._shaderSavedState = {
       revealAge: material.uniforms.uRevealAge.value,
-      pulseAge: material.uniforms.uPulseAge.value,
+      pulseAge:  material.uniforms.uPulseAge.value,
     };
   };
 
-  window.shaderPause = function () {
-    _shaderPaused = true;
-  };
+  window.shaderPause  = function () { _shaderPaused = true; };
   window.shaderResume = function () {
     if (!_shaderPaused) return;
     _shaderPaused = false;
@@ -2720,10 +2570,13 @@ function initPixelatedHomeShader() {
 
   shaderAnimate();
 
+  // ── CHANGED: resize recalculates physicalPixelSize ─────────────────────────
   window.addEventListener("resize", () => {
+    physicalPixelSize = calcPhysicalPixelSize();          // ← NEW
     updateRes();
     renderer.setSize(_res.w, _res.h, false);
     material.uniforms.iResolution.value.set(_res.w, _res.h);
+    material.uniforms.uPixelSize.value = physicalPixelSize;  // ← NEW
     material.uniforms.uGridCenter.value.copy(getGridCenter());
     _dirty = true;
   });
@@ -2731,16 +2584,11 @@ function initPixelatedHomeShader() {
   if (window._shaderSavedState) {
     const s = window._shaderSavedState;
     material.uniforms.uRevealAge.value = s.revealAge;
-    material.uniforms.uPulseAge.value = s.pulseAge;
+    material.uniforms.uPulseAge.value  = s.pulseAge;
     _dirty = true;
-
-    if (s.revealAge >= 1.35) {
-      setTimeout(runPulseLoop, 500);
-    }
-
+    if (s.revealAge >= 1.35) setTimeout(runPulseLoop, 500);
     window._shaderSavedState = null;
   } else if (window._preloaderDone) {
-    
     material.uniforms.uRevealAge.value = 1.35;
     _dirty = true;
     setTimeout(runPulseLoop, 500);
@@ -2748,22 +2596,37 @@ function initPixelatedHomeShader() {
 }
 PageAnimations.register(initPixelatedHomeShader);
 
+
 function initOtherPagesShader() {
   const wrapper = document.querySelector(".no-logo-canvas");
   if (!wrapper) return;
 
-  // ─── Animation Config (USER-CONTROLLABLE) ─────────────────────────────────
+  // ── Responsive pixel-size helpers ──────────────────────────────────────────
+  const BASE_SCREEN_WIDTH  = 1520;
+  const BASE_PIXEL_CSS_PX  = 14.0;
+  const DPR                = Math.min(window.devicePixelRatio, 2);
+  const MIN_PHYSICAL_PX    = 18;
+
+  function calcPhysicalPixelSize() {
+    const scale = window.innerWidth / BASE_SCREEN_WIDTH;
+    const cssPx = BASE_PIXEL_CSS_PX * scale;
+    return Math.max(MIN_PHYSICAL_PX, Math.round(cssPx * DPR));
+  }
+
+  let physicalPixelSize = calcPhysicalPixelSize();
+
+  // ── Animation config ───────────────────────────────────────────────────────
   const ANIM_CONFIG = {
-    concurrentDots: 8, // số dot animate ĐỒNG THỜI (5–40)
-    animSpeed: 0.05, // tốc độ vòng lặp: giá trị nhỏ = chậm, lớn = nhanh
-    seqDuration: 1, // thời gian chạy đủ 5 digits trong 1 lần kích hoạt (giây)
+    concurrentDots: 8,
+    animSpeed:      0.05,
+    seqDuration:    1,
   };
 
-  // ─── Page configs ─────────────────────────────────────────────────────────
+  // ── Page configs ───────────────────────────────────────────────────────────
   const PAGE_CONFIGS = {
-    "career.php": { grid: "CAREER", centerX: 0.15, centerY: 0.45 },
-    "blog.php": { grid: "OURSTORY", centerX: 0.8, centerY: 0.4 },
-    "contact.php": { grid: "CONTACT", centerX: 0.8, centerY: 0.4 },
+    "career.php":  { grid: "CAREER",   centerX: 0.15, centerY: 0.45 },
+    "blog.php":    { grid: "OURSTORY", centerX: 0.8,  centerY: 0.4  },
+    "contact.php": { grid: "CONTACT",  centerX: 0.8,  centerY: 0.4  },
   };
 
   function getCurrentPage() {
@@ -2775,270 +2638,115 @@ function initOtherPagesShader() {
   }
 
   const currentPage = getCurrentPage();
-  const pageConfig = currentPage ? PAGE_CONFIGS[currentPage] : null;
+  const pageConfig  = currentPage ? PAGE_CONFIGS[currentPage] : null;
 
-  // ─── Pixel Grids ──────────────────────────────────────────────────────────
+  // ── Pixel grids (unchanged) ────────────────────────────────────────────────
   const PIXEL_GRID_CAREER = [
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-      1,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
-      1,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-      0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-      0,
-    ],
+    [0,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1],
+    [0,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1],
+    [1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1],
+    [1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1],
+    [1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1],
+    [0,0,0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ];
 
   const PIXEL_GRID_OURSTORY = [
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0,
-      0, 0, 0, 1, 1, 1,
-    ],
-    [
-      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0,
-      0, 0, 0, 1, 1, 1,
-    ],
-    [
-      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0,
-      0, 0, 0, 1, 1, 1,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0, 0,
-    ],
-    [
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0, 0,
-    ],
+    [0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1],
+    [1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
   ];
 
   const PIXEL_GRID_CONTACT = [
-    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,0],
+    [1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+    [1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+    [1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+    [0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],
+    [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],
   ];
 
   const GRID_MAP = {
-    CAREER: { grid: PIXEL_GRID_CAREER, w: 26, h: 26 },
+    CAREER:   { grid: PIXEL_GRID_CAREER,   w: 26, h: 26 },
     OURSTORY: { grid: PIXEL_GRID_OURSTORY, w: 31, h: 23 },
-    CONTACT: { grid: PIXEL_GRID_CONTACT, w: 25, h: 23 },
+    CONTACT:  { grid: PIXEL_GRID_CONTACT,  w: 25, h: 23 },
   };
 
-  const activeGridKey = pageConfig ? pageConfig.grid : null;
+  const activeGridKey  = pageConfig ? pageConfig.grid : null;
   const activeGridData = activeGridKey ? GRID_MAP[activeGridKey] : null;
 
-  // ─── Tính animWindow từ concurrentDots ────────────────────────────────────
   const totalShapeCells = activeGridData
     ? activeGridData.grid.flat().reduce((a, b) => a + b, 0)
     : 1;
+  const getAnimWindow = () => ANIM_CONFIG.concurrentDots / Math.max(1, totalShapeCells);
 
-  const getAnimWindow = () =>
-    ANIM_CONFIG.concurrentDots / Math.max(1, totalShapeCells);
-
-  // ─── Trail system ─────────────────────────────────────────────────────────
-  const MAX_TRAIL = 24;
+  // ── Trail system ───────────────────────────────────────────────────────────
+  const MAX_TRAIL      = 24;
   const TRAIL_DURATION = 400;
   const TRAIL_MIN_DIST = 3;
 
   const _trailBuf = new Float64Array(MAX_TRAIL * 3);
-  let _trailHead = 0;
-  let _trailLen = 0;
+  let _trailHead = 0, _trailLen = 0;
 
   function trailGet(i) {
     const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
-    return {
-      x: _trailBuf[slot * 3],
-      y: _trailBuf[slot * 3 + 1],
-      time: _trailBuf[slot * 3 + 2],
-    };
+    return { x: _trailBuf[slot*3], y: _trailBuf[slot*3+1], time: _trailBuf[slot*3+2] };
   }
 
   function sampleTrail(x, y) {
@@ -3047,9 +2755,9 @@ function initOtherPagesShader() {
       const last = trailGet(0);
       if (Math.hypot(x - last.x, y - last.y) < TRAIL_MIN_DIST) return;
     }
-    _trailBuf[_trailHead * 3] = x;
-    _trailBuf[_trailHead * 3 + 1] = y;
-    _trailBuf[_trailHead * 3 + 2] = now;
+    _trailBuf[_trailHead*3]   = x;
+    _trailBuf[_trailHead*3+1] = y;
+    _trailBuf[_trailHead*3+2] = now;
     _trailHead = (_trailHead + 1) % MAX_TRAIL;
     if (_trailLen < MAX_TRAIL) _trailLen++;
   }
@@ -3057,96 +2765,64 @@ function initOtherPagesShader() {
   const _velOut = { x: 0, y: 0 };
 
   function computeVelocity() {
-    if (_trailLen < 2) {
-      _velOut.x = 0;
-      _velOut.y = 0;
-      return _velOut;
-    }
+    if (_trailLen < 2) { _velOut.x = 0; _velOut.y = 0; return _velOut; }
     const n = Math.min(5, _trailLen);
-    let dx = 0,
-      dy = 0,
-      totalW = 0;
+    let dx = 0, dy = 0, totalW = 0;
     for (let i = 0; i < n - 1; i++) {
-      const a = trailGet(i),
-        b = trailGet(i + 1);
+      const a = trailGet(i), b = trailGet(i + 1);
       const w = 1.0 / (i + 1);
-      dx += (a.x - b.x) * w;
-      dy += (a.y - b.y) * w;
-      totalW += w;
+      dx += (a.x - b.x) * w; dy += (a.y - b.y) * w; totalW += w;
     }
-    if (totalW === 0) {
-      _velOut.x = 0;
-      _velOut.y = 0;
-      return _velOut;
-    }
-    dx /= totalW;
-    dy /= totalW;
+    if (totalW === 0) { _velOut.x = 0; _velOut.y = 0; return _velOut; }
+    dx /= totalW; dy /= totalW;
     const len = Math.hypot(dx, dy);
-    if (len < 0.0001) {
-      _velOut.x = 0;
-      _velOut.y = 0;
-      return _velOut;
-    }
-    _velOut.x = dx / len;
-    _velOut.y = dy / len;
+    if (len < 0.0001) { _velOut.x = 0; _velOut.y = 0; return _velOut; }
+    _velOut.x = dx / len; _velOut.y = dy / len;
     return _velOut;
   }
 
   function hexToRgb(hex) {
     return [
-      parseInt(hex.slice(1, 3), 16) / 255,
-      parseInt(hex.slice(3, 5), 16) / 255,
-      parseInt(hex.slice(5, 7), 16) / 255,
+      parseInt(hex.slice(1,3),16)/255,
+      parseInt(hex.slice(3,5),16)/255,
+      parseInt(hex.slice(5,7),16)/255,
     ];
   }
 
-  // ─── Grid texture ─────────────────────────────────────────────────────────
   function createGridTexture(grid, w, h) {
     const data = new Uint8Array(w * h * 4);
     for (let row = 0; row < h; row++) {
       for (let col = 0; col < w; col++) {
         const v = grid[row][col] ? 255 : 0;
         const i = (row * w + col) * 4;
-        data[i] = data[i + 1] = data[i + 2] = v;
-        data[i + 3] = 255;
+        data[i] = data[i+1] = data[i+2] = v; data[i+3] = 255;
       }
     }
     const tex = new THREE.DataTexture(data, w, h, THREE.RGBAFormat);
-    tex.minFilter = THREE.NearestFilter;
-    tex.magFilter = THREE.NearestFilter;
+    tex.minFilter = tex.magFilter = THREE.NearestFilter;
     tex.needsUpdate = true;
     return tex;
   }
 
-  // ─── Font atlas ───────────────────────────────────────────────────────────
   function createFontAtlas(size) {
-    const chars = ["2", "0", "x", "+", "."];
+    const chars = ["2","0","x","+","."];
     const canvas = document.createElement("canvas");
-    canvas.width = size * chars.length;
-    canvas.height = size;
+    canvas.width = size * chars.length; canvas.height = size;
     const ctx = canvas.getContext("2d");
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = `bold ${Math.floor(size * 0.75)}px monospace`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "#fff";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = "#fff";
     for (let i = 0; i < chars.length; i++) {
-      const cx = i * size + size / 2,
-        cy = size / 2;
-      if (chars[i] === ".") {
-        ctx.beginPath();
-        ctx.arc(cx, cy, size * 0.13, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        ctx.fillText(chars[i], cx, cy);
-      }
+      const cx = i * size + size / 2, cy = size / 2;
+      if (chars[i] === ".") { ctx.beginPath(); ctx.arc(cx, cy, size*0.13, 0, Math.PI*2); ctx.fill(); }
+      else ctx.fillText(chars[i], cx, cy);
     }
     const tex = new THREE.CanvasTexture(canvas);
     tex.minFilter = tex.magFilter = THREE.LinearFilter;
     return tex;
   }
 
-  // ─── Vertex Shader ────────────────────────────────────────────────────────
+  // ── Shaders (unchanged) ────────────────────────────────────────────────────
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -3155,7 +2831,6 @@ function initOtherPagesShader() {
     }
   `;
 
-  // ─── Fragment Shader ──────────────────────────────────────────────────────
   const fragmentShader = `
     #define MAX_TRAIL 24
 
@@ -3178,10 +2853,9 @@ function initOtherPagesShader() {
     uniform vec2      uGridCenter;
     uniform float     uHasGrid;
 
-    // ── Continuous Random Loop Uniforms ───────────────────────────────────
-    uniform float uAnimSpeed;   // tốc độ vòng lặp (chu kỳ/giây)
-    uniform float uAnimWindow;  // tỉ lệ chu kỳ cell đang active (concurrency)
-    uniform float uSeqDuration; // thời gian chạy đủ 5 digits trong 1 lần (giây)
+    uniform float uAnimSpeed;
+    uniform float uAnimWindow;
+    uniform float uSeqDuration;
 
     varying vec2 vUv;
 
@@ -3212,8 +2886,7 @@ function initOtherPagesShader() {
       vec3 bgColor = mix(uBgBot, uBgTop, vUv.y);
       if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
 
-      // ── Grid shape lookup ─────────────────────────────────────────────────
-      bool isShape  = false;
+      bool isShape   = false;
       vec2 localCell = vec2(0.0);
 
       if (uHasGrid > 0.5) {
@@ -3231,28 +2904,13 @@ function initOtherPagesShader() {
         }
       }
 
-      // ── Continuous Random Loop ────────────────────────────────────────────
-      // rand: phase offset ngẫu nhiên cố định theo vị trí cell (0→1)
-      float rand = fract(sin(dot(localCell, vec2(127.1, 311.7))) * 43758.5453);
+      float rand       = fract(sin(dot(localCell, vec2(127.1, 311.7))) * 43758.5453);
+      float cellPhase  = mod(iTime * uAnimSpeed + rand, 1.0);
+      float seqWindow  = clamp(uSeqDuration * uAnimSpeed, 0.001, 0.95);
+      bool  cellAnimating = isShape && (cellPhase < seqWindow);
+      float elapsed    = cellPhase / max(uAnimSpeed, 0.0001);
+      float seqAge     = cellAnimating ? clamp(elapsed / max(uSeqDuration, 0.0001), 0.0, 1.0) : 1.0;
 
-      // cellPhase: vị trí trong chu kỳ hiện tại (0→1, lặp liên tục)
-      float cellPhase = mod(iTime * uAnimSpeed + rand, 1.0);
-
-      // seqWindow: tỉ lệ chu kỳ mà 1 dot cần để chạy đủ seqDuration giây
-      // = seqDuration * animSpeed (nhưng clamp để tránh overlap quá nhiều)
-      float seqWindow = clamp(uSeqDuration * uAnimSpeed, 0.001, 0.95);
-
-      // cell đang animate khi cellPhase nằm trong seqWindow
-      bool cellAnimating = isShape && (cellPhase < seqWindow);
-
-      // seqAge: tiến trình 0→1 trong đúng uSeqDuration giây thực tế
-      // elapsed = số giây kể từ đầu chu kỳ hiện tại của cell
-      float elapsed = cellPhase / max(uAnimSpeed, 0.0001);
-      float seqAge  = cellAnimating
-        ? clamp(elapsed / max(uSeqDuration, 0.0001), 0.0, 1.0)
-        : 1.0;
-
-      // ── Trail zone detection ───────────────────────────────────────────────
       bool  inZone   = false;
       float bestDist = 999.0;
       float bestAge  = 1.0;
@@ -3261,23 +2919,19 @@ function initOtherPagesShader() {
         if (i >= uTrailCount - 1) break;
         vec4 texA = texture2D(uTrailTex, vec2((float(i)     + 0.5) / float(MAX_TRAIL), 0.5));
         vec4 texB = texture2D(uTrailTex, vec2((float(i + 1) + 0.5) / float(MAX_TRAIL), 0.5));
-        vec2  a = texA.xy * iResolution;
-        vec2  b = texB.xy * iResolution;
+        vec2  a = texA.xy * iResolution, b = texB.xy * iResolution;
         float ageA = texA.z, ageB = texB.z;
         if (ageA >= 1.0 && ageB >= 1.0) continue;
-        vec2  ab   = b - a;
-        vec2  ap   = pixelPos - a;
+        vec2  ab   = b - a, ap = pixelPos - a;
         float len2 = dot(ab, ab);
         float t    = (len2 > 0.0) ? clamp(dot(ap, ab) / len2, 0.0, 1.0) : 0.0;
-        vec2  proj = a + t * ab;
-        float dist = length((pixelPos - proj) / uPixelSize);
+        float dist = length((pixelPos - (a + t * ab)) / uPixelSize);
         float age  = mix(ageA, ageB, t);
         if (dist < 1.5) {
           if (!inZone || age < bestAge) { inZone = true; bestDist = dist; bestAge = age; }
         }
       }
 
-      // ── Comet head ────────────────────────────────────────────────────────
       if (uMouseActive > 0.5) {
         vec2  diff   = pixelPos - uMousePos;
         float dist   = length(diff / uPixelSize);
@@ -3303,15 +2957,9 @@ function initOtherPagesShader() {
         }
       }
 
-      // ── Render ─────────────────────────────────────────────────────────────
-      // Priority: trail > cell-animating > shape-static > bg
-
-      // 1. KHÔNG trong trail zone
       if (!inZone) {
         if (!isShape) { gl_FragColor = vec4(bgColor, 1.0); return; }
-
         if (cellAnimating) {
-          // seqAge đã chạy đủ tốc độ để hoàn thành 5 digits trong seqDuration giây
           float sp  = seqAge * 5.0;
           int   di  = int(floor(sp));
           vec2  iuv = (cellUV - gapHalf) / (1.0 - uPixelGap);
@@ -3323,28 +2971,20 @@ function initOtherPagesShader() {
           else if (di == 2) dc = hsl2rgb( 65.0, 1.00, 0.87);
           else if (di == 3) dc = vec3(0.996);
           else              dc = uColor1;
-          gl_FragColor = vec4(mix(bgColor, dc, alp), 1.0);
-          return;
+          gl_FragColor = vec4(mix(bgColor, dc, alp), 1.0); return;
         }
-
-        // Shape tĩnh → màu tím
-        gl_FragColor = vec4(uColor1, 1.0);
-        return;
+        gl_FragColor = vec4(uColor1, 1.0); return;
       }
 
-      // 2. Trong trail zone
       float seqPos = bestAge * 6.0;
       if (seqPos >= 5.0) {
-        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
-        return;
+        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0); return;
       }
 
-      // Trail digit animation (override tất cả)
       int  digitIndex  = int(floor(seqPos));
       vec2 innerUV     = (cellUV - gapHalf) / (1.0 - uPixelGap);
       float atlasX     = (float(digitIndex) + innerUV.x) / 5.0;
       float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
-
       vec3 digitColor;
       if (isShape) {
         if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
@@ -3359,95 +2999,78 @@ function initOtherPagesShader() {
     }
   `;
 
-  // ─── Three.js setup ───────────────────────────────────────────────────────
-  const DPR = Math.min(window.devicePixelRatio, 2);
-  const physicalPixelSize = Math.round(14.0 * DPR);
-
-  function getRect() {
-    return wrapper.getBoundingClientRect();
-  }
-  function getCanvasSize() {
-    const r = getRect();
-    return { w: Math.round(r.width * DPR), h: Math.round(r.height * DPR) };
-  }
+  // ── Three.js setup ─────────────────────────────────────────────────────────
+  function getRect()       { return wrapper.getBoundingClientRect(); }
+  function getCanvasSize() { const r = getRect(); return { w: Math.round(r.width * DPR), h: Math.round(r.height * DPR) }; }
 
   let _res = getCanvasSize();
 
+  // ── CHANGED: responsive + mobile-centered grid center ─────────────────────
   function getGridCenter() {
     if (!pageConfig) return new THREE.Vector2(-9999, -9999);
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      // Center bitmap at exact screen center on mobile
+      return new THREE.Vector2(_res.w * 0.65, _res.h * 0.5);
+    }
     return new THREE.Vector2(
       _res.w * pageConfig.centerX,
       _res.h * pageConfig.centerY,
     );
   }
 
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const camera   = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(_res.w, _res.h, false);
   renderer.setPixelRatio(1);
-  renderer.domElement.style.width = "100%";
+  renderer.domElement.style.width  = "100%";
   renderer.domElement.style.height = "100%";
   wrapper.appendChild(renderer.domElement);
 
-  const fontAtlas = createFontAtlas(physicalPixelSize * 4);
+  const fontAtlas = createFontAtlas(Math.round(BASE_PIXEL_CSS_PX * DPR) * 4);
 
-  let gridTex,
-    GRID_W = 1,
-    GRID_H = 1;
+  let gridTex, GRID_W = 1, GRID_H = 1;
   if (activeGridData) {
-    GRID_W = activeGridData.w;
-    GRID_H = activeGridData.h;
+    GRID_W = activeGridData.w; GRID_H = activeGridData.h;
     gridTex = createGridTexture(activeGridData.grid, GRID_W, GRID_H);
   } else {
-    const dummy = new Uint8Array([0, 0, 0, 255]);
+    const dummy = new Uint8Array([0,0,0,255]);
     gridTex = new THREE.DataTexture(dummy, 1, 1, THREE.RGBAFormat);
     gridTex.needsUpdate = true;
   }
 
   const _trailTexData = new Float32Array(MAX_TRAIL * 4);
   const _trailTex = new THREE.DataTexture(
-    _trailTexData,
-    MAX_TRAIL,
-    1,
-    THREE.RGBAFormat,
-    THREE.FloatType,
+    _trailTexData, MAX_TRAIL, 1, THREE.RGBAFormat, THREE.FloatType
   );
   _trailTex.minFilter = _trailTex.magFilter = THREE.NearestFilter;
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      iTime: { value: 0 },
-      iResolution: { value: new THREE.Vector2(_res.w, _res.h) },
-      uColor1: { value: new THREE.Vector3(...hexToRgb("#766FF6")) },
-      uPixelSize: { value: physicalPixelSize },
-      uPixelGap: { value: 0.18 },
-      uFontAtlas: { value: fontAtlas },
-      uMousePos: { value: new THREE.Vector2(-9999, -9999) },
+      iTime:        { value: 0 },
+      iResolution:  { value: new THREE.Vector2(_res.w, _res.h) },
+      uColor1:      { value: new THREE.Vector3(...hexToRgb("#766FF6")) },
+      uPixelSize:   { value: physicalPixelSize },   // ← driven by calcPhysicalPixelSize()
+      uPixelGap:    { value: 0.18 },
+      uFontAtlas:   { value: fontAtlas },
+      uMousePos:    { value: new THREE.Vector2(-9999, -9999) },
       uMouseActive: { value: 0.0 },
-      uVelocity: { value: new THREE.Vector2(0, 0) },
-      uTrailTex: { value: _trailTex },
-      uTrailCount: { value: 0 },
+      uVelocity:    { value: new THREE.Vector2(0, 0) },
+      uTrailTex:    { value: _trailTex },
+      uTrailCount:  { value: 0 },
       uBgTop: {
-        value: (() => {
-          const c = new THREE.Color("#30286c");
-          return new THREE.Vector3(c.r, c.g, c.b);
-        })(),
+        value: (() => { const c = new THREE.Color("#30286c"); return new THREE.Vector3(c.r,c.g,c.b); })(),
       },
       uBgBot: {
-        value: (() => {
-          const c = new THREE.Color("#1c1c26");
-          return new THREE.Vector3(c.r, c.g, c.b);
-        })(),
+        value: (() => { const c = new THREE.Color("#1c1c26"); return new THREE.Vector3(c.r,c.g,c.b); })(),
       },
-      uGridTex: { value: gridTex },
-      uGridDims: { value: new THREE.Vector2(GRID_W, GRID_H) },
-      uGridCenter: { value: getGridCenter() },
-      uHasGrid: { value: activeGridData ? 1.0 : 0.0 },
-
-      // ── Animation uniforms ──────────────────────────────────────────────
-      uAnimSpeed: { value: ANIM_CONFIG.animSpeed },
-      uAnimWindow: { value: getAnimWindow() },
-      uSeqDuration: { value: ANIM_CONFIG.seqDuration }, // ← NEW: đảm bảo chạy hết sequence
+      uGridTex:     { value: gridTex },
+      uGridDims:    { value: new THREE.Vector2(GRID_W, GRID_H) },
+      uGridCenter:  { value: getGridCenter() },
+      uHasGrid:     { value: activeGridData ? 1.0 : 0.0 },
+      uAnimSpeed:   { value: ANIM_CONFIG.animSpeed },
+      uAnimWindow:  { value: getAnimWindow() },
+      uSeqDuration: { value: ANIM_CONFIG.seqDuration },
     },
     vertexShader,
     fragmentShader,
@@ -3456,7 +3079,7 @@ function initOtherPagesShader() {
   const scene = new THREE.Scene();
   scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
 
-  // ─── Trail texture update ─────────────────────────────────────────────────
+  // ── Trail texture update ───────────────────────────────────────────────────
   function updateTrailTexture() {
     const now = performance.now();
     while (_trailLen > 0) {
@@ -3467,16 +3090,13 @@ function initOtherPagesShader() {
       const base = i * 4;
       if (i < _trailLen) {
         const slot = (_trailHead - 1 - i + MAX_TRAIL * 2) % MAX_TRAIL;
-        _trailTexData[base] = _trailBuf[slot * 3] / _res.w;
-        _trailTexData[base + 1] = _trailBuf[slot * 3 + 1] / _res.h;
-        _trailTexData[base + 2] =
-          (now - _trailBuf[slot * 3 + 2]) / TRAIL_DURATION;
+        _trailTexData[base]     = _trailBuf[slot*3]   / _res.w;
+        _trailTexData[base + 1] = _trailBuf[slot*3+1] / _res.h;
+        _trailTexData[base + 2] = (now - _trailBuf[slot*3+2]) / TRAIL_DURATION;
         _trailTexData[base + 3] = 0.0;
       } else {
-        _trailTexData[base] = -1.0;
-        _trailTexData[base + 1] = -1.0;
-        _trailTexData[base + 2] = 1.0;
-        _trailTexData[base + 3] = 0.0;
+        _trailTexData[base] = -1.0; _trailTexData[base+1] = -1.0;
+        _trailTexData[base+2] = 1.0; _trailTexData[base+3] = 0.0;
       }
     }
     _trailTex.needsUpdate = true;
@@ -3485,38 +3105,34 @@ function initOtherPagesShader() {
     material.uniforms.uVelocity.value.set(vel.x, vel.y);
   }
 
-  // ─── Runtime controls ─────────────────────────────────────────────────────
+  // ── Runtime controls ───────────────────────────────────────────────────────
   window.otherPageSetConcurrentDots = function (n) {
     ANIM_CONFIG.concurrentDots = n;
     material.uniforms.uAnimWindow.value = getAnimWindow();
     _dirty = true;
   };
-
   window.otherPageSetAnimSpeed = function (s) {
     ANIM_CONFIG.animSpeed = s;
     material.uniforms.uAnimSpeed.value = s;
     _dirty = true;
   };
-
   window.otherPageSetSeqDuration = function (d) {
     ANIM_CONFIG.seqDuration = d;
     material.uniforms.uSeqDuration.value = d;
     _dirty = true;
   };
 
-  // ─── Mouse ────────────────────────────────────────────────────────────────
+  // ── Mouse ──────────────────────────────────────────────────────────────────
   const actualMouse = { x: -9999, y: -9999, active: false };
   const laggedMouse = { x: -9999, y: -9999 };
   const LERP_FACTOR = 0.15;
-  let lastMoveTime = 0;
-  let _dirty = true;
+  let lastMoveTime = 0, _dirty = true;
 
   document.addEventListener("mousemove", (e) => {
-    const rect = getRect();
-    const cssX = e.clientX - rect.left;
-    const cssY = e.clientY - rect.top;
-    const outside =
-      cssX < 0 || cssX > rect.width || cssY < 0 || cssY > rect.height;
+    const rect   = getRect();
+    const cssX   = e.clientX - rect.left;
+    const cssY   = e.clientY - rect.top;
+    const outside = cssX < 0 || cssX > rect.width || cssY < 0 || cssY > rect.height;
     if (outside) {
       if (actualMouse.active) {
         actualMouse.active = false;
@@ -3529,10 +3145,7 @@ function initOtherPagesShader() {
     actualMouse.y = (rect.height - cssY) * DPR;
     actualMouse.active = true;
     lastMoveTime = performance.now();
-    if (laggedMouse.x === -9999) {
-      laggedMouse.x = actualMouse.x;
-      laggedMouse.y = actualMouse.y;
-    }
+    if (laggedMouse.x === -9999) { laggedMouse.x = actualMouse.x; laggedMouse.y = actualMouse.y; }
     _dirty = true;
   });
 
@@ -3542,7 +3155,7 @@ function initOtherPagesShader() {
     _dirty = true;
   });
 
-  // ─── Render loop ──────────────────────────────────────────────────────────
+  // ── Render loop ────────────────────────────────────────────────────────────
   let _paused = false;
 
   function animate() {
@@ -3560,13 +3173,9 @@ function initOtherPagesShader() {
     }
     if (lastMoveTime > 0 && now - lastMoveTime > 120) {
       material.uniforms.uMouseActive.value = 0.0;
-      lastMoveTime = 0;
-      actualMouse.active = false;
-      _dirty = true;
+      lastMoveTime = 0; actualMouse.active = false; _dirty = true;
     }
     if (_trailLen > 0) _dirty = true;
-
-    // Time-driven khi có grid
     if (activeGridData) _dirty = true;
 
     if (_dirty) {
@@ -3579,25 +3188,19 @@ function initOtherPagesShader() {
 
   animate();
 
-  // ─── Resize ───────────────────────────────────────────────────────────────
   window.addEventListener("resize", () => {
+    physicalPixelSize = calcPhysicalPixelSize();            // ← NEW
     _res = getCanvasSize();
     renderer.setSize(_res.w, _res.h, false);
     material.uniforms.iResolution.value.set(_res.w, _res.h);
+    material.uniforms.uPixelSize.value = physicalPixelSize;  // ← NEW
     material.uniforms.uGridCenter.value.copy(getGridCenter());
     _dirty = true;
   });
 
   return {
-    pause() {
-      _paused = true;
-    },
-    resume() {
-      if (!_paused) return;
-      _paused = false;
-      _dirty = true;
-      animate();
-    },
+    pause()  { _paused = true; },
+    resume() { if (!_paused) return; _paused = false; _dirty = true; animate(); },
   };
 }
 PageAnimations.register(initOtherPagesShader);
