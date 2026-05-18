@@ -924,14 +924,20 @@ footer a.footer-anim-link .footer-link-line {
 }
 
 
-/* Contact */
+/* Other pages */
 .hero-contact {
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
 }
 
 @media (min-width: 1720px) {
     .hero-contact {
         height: 80vh;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-contact {
+        height: 45vh;
     }
 }
