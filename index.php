@@ -2,21 +2,15 @@
 <div data-barba="wrapper">
     <div data-barba="container" data-barba-namespace="home">
         <main>
-            <section class="relative overflow-hidden">
-                <div class="gradient-canvas hidden lg:block"></div>
+            <section class="relative overflow-hidden" style="height: 100svh; min-height: 600px;">
+                <div class="gradient-canvas"></div>
 
-                <div class="wrapper p-6 md:p-10 min-h-[unset] md:min-h-[100vh] relative">
-                    <div
-                        class="relative md:absolute block lg:hidden top-[-13%] lg:top-0 left-[16%] md:left-[10%] lg:left-0 flex items-center z-2 w-full justify-center xl:justify-start scale-[1.8] md:scale-[1]">
-                        <img src="assets/images/bn-1.svg" alt="">
-                    </div>
-                    <div
-                        class="relative md:absolute z-3 bottom-0 right-0 px-0 md:px-10 max-w-full xl:max-w-[60%] text-center md:text-left">
+                <div class="wrapper absolute bottom-0 left-0 right-0 p-6 md:p-10 z-10">
+                    <div class="relative md:absolute z-3 bottom-0 right-0 px-0 md:px-10 max-w-full xl:max-w-[60%] text-center md:text-left">
                         <div class="mb-12 3xl:mb-20">
-                            <div
-                                class="hero-title text-10 md:text-[48px] lg:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-medium mb-8 3xl:mb-10 text-center md:text-left">
-                                a global end-to-end
-                                tech partner</div>
+                            <div class="hero-title text-10 md:text-[48px] lg:text-[64px] 2xl:text-[80px] 3xl:text-[100px] font-medium mb-8 3xl:mb-10 text-center md:text-left">
+                                a global end-to-end tech partner
+                            </div>
                             <div class="btn-main hero-button">
                                 <a href="">
                                     TALK WITH US
@@ -27,12 +21,10 @@
                                 </a>
                             </div>
                         </div>
-                        <div
-                            class="py-6 2xl:py-8 3xl:py-10 border-t border-[#FFFFFF26] block md:flex items-center justify-between gap-6 md:gap-16 2xl:gap-8 3xl:gap-10 text-center md:text-left">
+                        <div class="py-6 2xl:py-8 3xl:py-10 border-t border-[#FFFFFF26] block md:flex items-center justify-between gap-6 md:gap-16 2xl:gap-8 3xl:gap-10 text-center md:text-left">
                             <div class="hero-intro item anek max-w-121 w-full text-center md:text-left mb-6 md:mb-0">
                                 Gamification, BFSI solutions, and digital solutions under one roof, helping enterprises
-                                across
-                                industries engage customers and grow sustainably
+                                across industries engage customers and grow sustainably
                             </div>
                             <div class="clutch item px-6 md:px-0">
                                 <img src="assets/images/clutch.png" class="max-w-69 2xl:max-w-[auto] w-full" alt="">

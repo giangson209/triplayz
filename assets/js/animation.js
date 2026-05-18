@@ -2435,8 +2435,8 @@ function initPixelatedHomeShader() {
   function getGridCenter() {
     const isMobile = window.innerWidth < 768;
     if (isMobile) {
-      // Center both axes on mobile
-      return new THREE.Vector2(_res.w * 0.5, _res.h * 0.5);
+      const logoHeightPx = GRID_H * physicalPixelSize;
+      return new THREE.Vector2(_res.w * 0.5, _res.h * 0.75);
     }
     const logoWidthPx = GRID_W * physicalPixelSize;
     return new THREE.Vector2(
