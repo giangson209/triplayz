@@ -2752,12 +2752,280 @@ function initOtherPagesShader() {
   const wrapper = document.querySelector(".no-logo-canvas");
   if (!wrapper) return;
 
-  const config = {
-    pixelSize: 14.0,
-    pixelGap: 0.18,
+  const PAGE_CONFIGS = {
+    "career.php": {
+      grid: "CAREER",
+      centerX: 0.15,
+      centerY: 0.45,
+    },
+    "blog.php": {
+      grid: "OURSTORY",
+      centerX: 0.8,
+      centerY: 0.4,
+    },
+    "contact.php": {
+      grid: "CONTACT",
+      centerX: 0.8,
+      centerY: 0.4,
+    },
   };
 
-  // ─── Trail system (giữ nguyên bản gốc) ──────────────────────────────────────
+  // ─── Resolve current page ─────────────────────────────────────────────────
+  function getCurrentPage() {
+    const path = window.location.pathname;
+    for (const key of Object.keys(PAGE_CONFIGS)) {
+      if (path.includes(key)) return key;
+    }
+    return null;
+  }
+
+  const currentPage = getCurrentPage();
+  const pageConfig = currentPage ? PAGE_CONFIGS[currentPage] : null;
+
+  // ─── PIXEL GRIDS ──────────────────────────────────────────────────────────
+
+  // career.php  — 26×26 "CAREER"
+  const PIXEL_GRID_CAREER = [
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+      1,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1,
+      1,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+      0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+      0,
+    ],
+  ];
+
+  // blog.php  — 31×23 "OUR STORY"
+  const PIXEL_GRID_OURSTORY = [
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0,
+      0, 0, 0, 1, 1, 1,
+    ],
+    [
+      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0,
+      0, 0, 0, 1, 1, 1,
+    ],
+    [
+      1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0,
+      0, 0, 0, 1, 1, 1,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0,
+    ],
+    [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0,
+    ],
+  ];
+
+  // contact.php  — 25×23 "CONTACT"
+  const PIXEL_GRID_CONTACT = [
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+  ];
+
+  const GRID_MAP = {
+    CAREER: { grid: PIXEL_GRID_CAREER, w: 26, h: 26 },
+    OURSTORY: { grid: PIXEL_GRID_OURSTORY, w: 31, h: 23 },
+    CONTACT: { grid: PIXEL_GRID_CONTACT, w: 25, h: 23 },
+  };
+
+  // Chọn bitmap theo page, fallback null (không vẽ gì)
+  const activeGridKey = pageConfig ? pageConfig.grid : null;
+  const activeGridData = activeGridKey ? GRID_MAP[activeGridKey] : null;
+
+  // ─── Trail system ─────────────────────────────────────────────────────────
   const MAX_TRAIL = 24;
   const TRAIL_DURATION = 400;
   const TRAIL_MIN_DIST = 3;
@@ -2834,7 +3102,25 @@ function initOtherPagesShader() {
     ];
   }
 
-  // ─── Font atlas — giữ nguyên bản gốc ────────────────────────────────────────
+  // ─── Grid texture ─────────────────────────────────────────────────────────
+  function createGridTexture(grid, w, h) {
+    const data = new Uint8Array(w * h * 4);
+    for (let row = 0; row < h; row++) {
+      for (let col = 0; col < w; col++) {
+        const v = grid[row][col] ? 255 : 0;
+        const i = (row * w + col) * 4;
+        data[i] = data[i + 1] = data[i + 2] = v;
+        data[i + 3] = 255;
+      }
+    }
+    const tex = new THREE.DataTexture(data, w, h, THREE.RGBAFormat);
+    tex.minFilter = THREE.NearestFilter;
+    tex.magFilter = THREE.NearestFilter;
+    tex.needsUpdate = true;
+    return tex;
+  }
+
+  // ─── Font atlas ───────────────────────────────────────────────────────────
   function createFontAtlas(size) {
     const chars = ["2", "0", "x", "+", "."];
     const canvas = document.createElement("canvas");
@@ -2862,7 +3148,7 @@ function initOtherPagesShader() {
     return tex;
   }
 
-  // ─── Shaders — khôi phục sequence digit, bỏ grid/shape ──────────────────────
+  // ─── Shaders ──────────────────────────────────────────────────────────────
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -2871,6 +3157,7 @@ function initOtherPagesShader() {
     }
   `;
 
+  // uHasGrid: 1.0 = có bitmap, 0.0 = không (trang khác)
   const fragmentShader = `
     #define MAX_TRAIL 24
 
@@ -2887,6 +3174,11 @@ function initOtherPagesShader() {
     uniform int   uTrailCount;
     uniform vec3  uBgTop;
     uniform vec3  uBgBot;
+
+    uniform sampler2D uGridTex;
+    uniform vec2      uGridDims;
+    uniform vec2      uGridCenter;
+    uniform float     uHasGrid;
 
     varying vec2 vUv;
 
@@ -2918,7 +3210,24 @@ function initOtherPagesShader() {
 
       if (inGap) { gl_FragColor = vec4(bgColor, 1.0); return; }
 
-      // ── Trail zone detection ─────────────────────────────────────────────────
+      // ── Grid shape lookup (skip nếu uHasGrid == 0) ─────────────────────
+      bool isShape = false;
+      if (uHasGrid > 0.5) {
+        vec2 gridSizePx     = uGridDims * uPixelSize;
+        vec2 gridOriginCell = floor((uGridCenter - gridSizePx * 0.5) / uPixelSize);
+        vec2 localCell      = cellIndex - gridOriginCell;
+
+        if (localCell.x >= 0.0 && localCell.x < uGridDims.x &&
+            localCell.y >= 0.0 && localCell.y < uGridDims.y) {
+          vec2 tc = vec2(
+            (localCell.x + 0.5) / uGridDims.x,
+            1.0 - (localCell.y + 0.5) / uGridDims.y
+          );
+          isShape = (texture2D(uGridTex, tc).r > 0.5);
+        }
+      }
+
+      // ── Trail zone detection ────────────────────────────────────────────
       bool  inZone   = false;
       float bestDist = 999.0;
       float bestAge  = 1.0;
@@ -2945,15 +3254,11 @@ function initOtherPagesShader() {
         float age  = mix(ageA, ageB, t);
 
         if (dist < 1.5) {
-          if (!inZone || age < bestAge) {
-            inZone   = true;
-            bestDist = dist;
-            bestAge  = age;
-          }
+          if (!inZone || age < bestAge) { inZone = true; bestDist = dist; bestAge = age; }
         }
       }
 
-      // ── Comet head ──────────────────────────────────────────────────────────
+      // ── Comet head ──────────────────────────────────────────────────────
       if (uMouseActive > 0.5) {
         vec2  diff   = pixelPos - uMousePos;
         float dist   = length(diff / uPixelSize);
@@ -2974,52 +3279,72 @@ function initOtherPagesShader() {
             cometMask = max(headMask, angleMask * distFade);
           }
           if (cometMask > 0.3) {
-            if (!inZone || 0.0 < bestAge) {
-              inZone   = true;
-              bestDist = dist;
-              bestAge  = 0.0;
-            }
+            if (!inZone || 0.0 < bestAge) { inZone = true; bestDist = dist; bestAge = 0.0; }
           }
         }
       }
 
-      if (!inZone) { gl_FragColor = vec4(bgColor, 1.0); return; }
-
-      float seqPos = bestAge * 6.0;
-      if (seqPos >= 5.0) {
-        // ← đổi uColor1 thành bgColor: không fill sau khi sequence xong
-        gl_FragColor = vec4(bgColor, 1.0);
+      // ── Shape: tím tĩnh (ưu tiên render trước trail nếu không bị trail đè) ─
+      if (isShape && !inZone) {
+        gl_FragColor = vec4(uColor1, 1.0);
         return;
       }
 
-      int  digitIndex = int(floor(seqPos));
-      vec2 innerUV    = (cellUV - gapHalf) / (1.0 - uPixelGap);
-      float atlasX    = (float(digitIndex) + innerUV.x) / 5.0;
+      // ── Không có trail ──────────────────────────────────────────────────
+      if (!inZone) { gl_FragColor = vec4(bgColor, 1.0); return; }
+
+      // ── Trail sequence ──────────────────────────────────────────────────
+      float seqPos = bestAge * 6.0;
+      if (seqPos >= 5.0) {
+        // Trail đã fade: trả về màu đúng theo shape/bg
+        gl_FragColor = isShape ? vec4(uColor1, 1.0) : vec4(bgColor, 1.0);
+        return;
+      }
+
+      int  digitIndex  = int(floor(seqPos));
+      vec2 innerUV     = (cellUV - gapHalf) / (1.0 - uPixelGap);
+      float atlasX     = (float(digitIndex) + innerUV.x) / 5.0;
       float glyphAlpha = texture2D(uFontAtlas, vec2(atlasX, innerUV.y)).r;
 
-      // ← tất cả digit dùng uColor1 (tím), bỏ hết hsl
-      gl_FragColor = vec4(mix(bgColor, uColor1, glyphAlpha), 1.0);
+      // Digit màu sáng trên shape, tím trên bg
+      vec3 digitColor;
+      if (isShape) {
+        if      (digitIndex == 0) digitColor = hsl2rgb(161.0, 0.85, 0.50);
+        else if (digitIndex == 1) digitColor = hsl2rgb(201.0, 1.00, 0.80);
+        else if (digitIndex == 2) digitColor = hsl2rgb( 65.0, 1.00, 0.87);
+        else if (digitIndex == 3) digitColor = vec3(0.996);
+        else                      digitColor = uColor1;
+      } else {
+        digitColor = uColor1;
+      }
+
+      gl_FragColor = vec4(mix(bgColor, digitColor, glyphAlpha), 1.0);
     }
   `;
 
-  // ─── Three.js setup ──────────────────────────────────────────────────────────
+  // ─── Three.js setup ──────────────────────────────────────────────────────
   const DPR = Math.min(window.devicePixelRatio, 2);
-  const physicalPixelSize = Math.round(config.pixelSize * DPR);
+  const physicalPixelSize = Math.round(14.0 * DPR);
 
-  // Dùng rect của wrapper để tính size — không phụ thuộc window.innerHeight
   function getRect() {
     return wrapper.getBoundingClientRect();
   }
 
   function getCanvasSize() {
     const r = getRect();
-    return {
-      w: Math.round(r.width * DPR),
-      h: Math.round(r.height * DPR),
-    };
+    return { w: Math.round(r.width * DPR), h: Math.round(r.height * DPR) };
   }
 
   let _res = getCanvasSize();
+
+  // Grid center theo page config (centerX/Y độc lập mỗi trang)
+  function getGridCenter() {
+    if (!pageConfig) return new THREE.Vector2(-9999, -9999);
+    return new THREE.Vector2(
+      _res.w * pageConfig.centerX,
+      _res.h * pageConfig.centerY,
+    );
+  }
 
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -3030,6 +3355,21 @@ function initOtherPagesShader() {
   wrapper.appendChild(renderer.domElement);
 
   const fontAtlas = createFontAtlas(physicalPixelSize * 4);
+
+  // Grid texture: dùng bitmap thật nếu có page match, dùng 1×1 dummy nếu không
+  let gridTex;
+  let GRID_W = 1,
+    GRID_H = 1;
+  if (activeGridData) {
+    GRID_W = activeGridData.w;
+    GRID_H = activeGridData.h;
+    gridTex = createGridTexture(activeGridData.grid, GRID_W, GRID_H);
+  } else {
+    // 1×1 empty texture để tránh WebGL complain
+    const dummy = new Uint8Array([0, 0, 0, 255]);
+    gridTex = new THREE.DataTexture(dummy, 1, 1, THREE.RGBAFormat);
+    gridTex.needsUpdate = true;
+  }
 
   const _trailTexData = new Float32Array(MAX_TRAIL * 4);
   const _trailTex = new THREE.DataTexture(
@@ -3047,7 +3387,7 @@ function initOtherPagesShader() {
       iResolution: { value: new THREE.Vector2(_res.w, _res.h) },
       uColor1: { value: new THREE.Vector3(...hexToRgb("#766FF6")) },
       uPixelSize: { value: physicalPixelSize },
-      uPixelGap: { value: config.pixelGap },
+      uPixelGap: { value: 0.18 },
       uFontAtlas: { value: fontAtlas },
       uMousePos: { value: new THREE.Vector2(-9999, -9999) },
       uMouseActive: { value: 0.0 },
@@ -3066,6 +3406,11 @@ function initOtherPagesShader() {
           return new THREE.Vector3(c.r, c.g, c.b);
         })(),
       },
+      // ── Grid ───────────────────────────────────────────────────────────
+      uGridTex: { value: gridTex },
+      uGridDims: { value: new THREE.Vector2(GRID_W, GRID_H) },
+      uGridCenter: { value: getGridCenter() },
+      uHasGrid: { value: activeGridData ? 1.0 : 0.0 },
     },
     vertexShader,
     fragmentShader,
@@ -3074,7 +3419,7 @@ function initOtherPagesShader() {
   const scene = new THREE.Scene();
   scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
 
-  // ─── Trail texture update ─────────────────────────────────────────────────────
+  // ─── Trail texture update ─────────────────────────────────────────────────
   function updateTrailTexture() {
     const now = performance.now();
     while (_trailLen > 0) {
@@ -3103,9 +3448,7 @@ function initOtherPagesShader() {
     material.uniforms.uVelocity.value.set(vel.x, vel.y);
   }
 
-  // ─── Mouse — dùng document như bản gốc, tính Y từ rect.height ────────────────
-  // FIX 1: document listener → không bị chặn bởi child elements
-  // FIX 2: Y dùng rect.height (không phải window.innerHeight) → đúng với canvas thấp
+  // ─── Mouse ────────────────────────────────────────────────────────────────
   const actualMouse = { x: -9999, y: -9999, active: false };
   const laggedMouse = { x: -9999, y: -9999 };
   const LERP_FACTOR = 0.15;
@@ -3116,8 +3459,6 @@ function initOtherPagesShader() {
     const rect = getRect();
     const cssX = e.clientX - rect.left;
     const cssY = e.clientY - rect.top;
-
-    // Chuột ngoài wrapper → tắt active (thay thế mouseleave)
     const outside =
       cssX < 0 || cssX > rect.width || cssY < 0 || cssY > rect.height;
     if (outside) {
@@ -3128,13 +3469,10 @@ function initOtherPagesShader() {
       }
       return;
     }
-
-    // ← KEY FIX: rect.height thay vì window.innerHeight
     actualMouse.x = cssX * DPR;
     actualMouse.y = (rect.height - cssY) * DPR;
     actualMouse.active = true;
     lastMoveTime = performance.now();
-
     if (laggedMouse.x === -9999) {
       laggedMouse.x = actualMouse.x;
       laggedMouse.y = actualMouse.y;
@@ -3148,13 +3486,12 @@ function initOtherPagesShader() {
     _dirty = true;
   });
 
-  // ─── Render loop ──────────────────────────────────────────────────────────────
+  // ─── Render loop ──────────────────────────────────────────────────────────
   let _paused = false;
 
   function animate() {
     if (_paused) return;
     requestAnimationFrame(animate);
-
     const now = performance.now();
 
     if (actualMouse.active) {
@@ -3165,14 +3502,12 @@ function initOtherPagesShader() {
       material.uniforms.uMouseActive.value = 1.0;
       _dirty = true;
     }
-
     if (lastMoveTime > 0 && now - lastMoveTime > 120) {
       material.uniforms.uMouseActive.value = 0.0;
       lastMoveTime = 0;
       actualMouse.active = false;
       _dirty = true;
     }
-
     if (_trailLen > 0) _dirty = true;
 
     if (_dirty) {
@@ -3185,11 +3520,12 @@ function initOtherPagesShader() {
 
   animate();
 
-  // ─── Resize ───────────────────────────────────────────────────────────────────
+  // ─── Resize ───────────────────────────────────────────────────────────────
   window.addEventListener("resize", () => {
     _res = getCanvasSize();
     renderer.setSize(_res.w, _res.h, false);
     material.uniforms.iResolution.value.set(_res.w, _res.h);
+    material.uniforms.uGridCenter.value.copy(getGridCenter());
     _dirty = true;
   });
 
@@ -3206,7 +3542,6 @@ function initOtherPagesShader() {
   };
 }
 PageAnimations.register(initOtherPagesShader);
-
 function initVisibilityControl() {
   const shaderSection = document.querySelector(".gradient-canvas");
   const globeSection = document.getElementById("company-globe");

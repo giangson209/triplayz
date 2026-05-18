@@ -2,8 +2,8 @@
 <div data-barba="wrapper">
     <div data-barba="container" data-barba-namespace="contact">
         <main>
-            <section class="relative overflow-hidden">
-                <img src="assets/images/bn-contact.png" class="w-full h-100 md:h-162 object-cover" alt="">
+            <section class="relative overflow-hidden hero-contact">
+                <div class="no-logo-canvas lg:block"></div>
                 <div class="absolute left-0 bottom-0 w-full px-4 md:px-10 py-4 md:py-6 lg:py-10">
                     <div class="block lg:flex items-center gap-10 text-4 lg:text-[20px] wrapper">
                         <div class="text-[56px] lg:text-[124px] font-medium mb-2 xl:mb-0">Talk to us</div>
