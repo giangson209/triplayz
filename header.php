@@ -64,7 +64,7 @@
                         <ul>
                             <li>
                                 <a href="service.php">
-                                    Services
+                                    <span class="nav-anim">Services</span>
                                     <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
@@ -116,12 +116,12 @@
                             </li>
                             <li>
                                 <a href="casestudy.php">
-                                    Case Study
+                                    <span class="nav-anim">Case Study</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="">
-                                    Company
+                                    <span class="nav-anim">Company</span>
                                     <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
@@ -182,7 +182,7 @@
                         <div class="translate btn-head-menu relative">
                             <a href="">
                                 <img src="assets/images/eng.png" alt="">
-                                <span>English</span>
+                                <span class="nav-anim">English</span>
                                 <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17 9V11H15V13H13V15H11V13H9V11H7V9H17Z" fill="white" />
@@ -206,7 +206,7 @@
                             </div>
                         </div>
                         <div class="head-contact btn-head-menu">
-                            <a href="contact.php" class="bg-[#5643DD]">Contact Us</a>
+                            <a href="contact.php" class="bg-[#5643DD]"><span class="nav-anim">Contact Us</span></a>
                         </div>
                     </div>
                 </div>

@@ -5952,7 +5952,72 @@ function initCareerAnimation() {
 PageAnimations.register(initCareerAnimation);
 
 
+function initNavLinkAnimation() {
+  const navAnims = Array.from(document.querySelectorAll(".nav-anim"));
 
+  navAnims.forEach((el) => {
+    if (el.querySelector(".nav-link-line")) return;
+
+    el.style.position = "relative";
+    el.style.display = "inline-block";
+
+    const line = document.createElement("span");
+    line.className = "nav-link-line";
+    Object.assign(line.style, {
+      position: "absolute",
+      bottom: "-6px", // spacing cách text
+      left: "0",
+      width: "100%",
+      height: "1px",
+      background: "currentColor",
+      pointerEvents: "none",
+    });
+    el.appendChild(line);
+
+    gsap.set(line, { clipPath: "inset(0 100% 0 0)" });
+
+    let playing = false;
+    let pending = null;
+
+    function playAction(action) {
+      playing = true;
+      pending = null;
+
+      gsap.to(line, {
+        clipPath: action === "enter" ? "inset(0 0% 0 0)" : "inset(0 0% 0 100%)",
+        duration: 0.35,
+        ease: action === "enter" ? "power2.out" : "power2.in",
+        onComplete: () => {
+          if (action === "leave") {
+            gsap.set(line, { clipPath: "inset(0 100% 0 0)" });
+          }
+          playing = false;
+          if (pending) {
+            const next = pending;
+            pending = null;
+            playAction(next);
+          }
+        },
+      });
+    }
+
+    const isNavItem = !!el.closest(".h-menu");
+    const trigger = isNavItem
+      ? el.closest("li") || el.closest("a")
+      : el.closest("a") || el.closest(".item") || el;
+
+    trigger.addEventListener("mouseenter", () => {
+      if (!playing) playAction("enter");
+      else pending = "enter";
+    });
+
+    trigger.addEventListener("mouseleave", () => {
+      if (!playing) playAction("leave");
+      else pending = "leave";
+    });
+  });
+}
+PageAnimations.register(initNavLinkAnimation);
 
 
 
