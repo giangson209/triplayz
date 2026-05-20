@@ -203,6 +203,9 @@ footer {
   background-color: #fff !important;
 }
 
+.dot {
+  border-radius: 0 !important;
+}
 
 
 /* ==================== */
