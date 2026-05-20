@@ -2520,7 +2520,7 @@ function initPixelatedHomeShader() {
       duration: 3,
       ease: "sine.out",
       onUpdate: () => { _dirty = true; },
-      onComplete: () => { setTimeout(runPulseLoop, 2000); },
+      onComplete: () => { setTimeout(runPulseLoop, 100); },
     });
   }
 
@@ -5977,6 +5977,133 @@ function initNavLinkAnimation() {
 }
 PageAnimations.register(initNavLinkAnimation);
 
+
+
+
+function initContactButtonAnimation() {
+  document.querySelectorAll(".button_field").forEach((btn) => {
+    if (btn.dataset.animInit) return;
+    btn.dataset.animInit = "true";
+
+    const input = btn.querySelector(".btn_field");
+    if (!input) return;
+
+    const label = input.value || "SUBMIT";
+
+    // Giữ input trong flow để btn_field không collapse height
+    // Chỉ ẩn visually
+    input.style.opacity = "0";
+    input.style.position = "relative";
+    input.style.zIndex = "10";
+    input.style.cursor = "pointer";
+
+    // Lấy 4 corner dots gốc — sẽ move vào white
+    const cornerDots = [...btn.querySelectorAll(":scope > div.absolute")];
+
+    // ── White face ─────────────────────────────────────────
+    const white = document.createElement("div");
+    white.className = "btn-submit-white";
+    Object.assign(white.style, {
+      position: "absolute",
+      inset: "0",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "rgba(255,255,255,0.0784313725)",
+      border: "1px solid rgba(255,255,255,0.0784313725)",
+      pointerEvents: "none",
+      zIndex: "2",
+      fontSize: "inherit",
+      fontWeight: "inherit",
+      letterSpacing: "inherit",
+      color: "inherit",
+    });
+
+    const whiteText = document.createElement("span");
+    whiteText.textContent = label;
+    white.appendChild(whiteText);
+
+    // Move dots gốc vào white (giống initButtonAnimation move nodes vào button-white)
+    cornerDots.forEach((d) => white.appendChild(d));
+
+    // ── Purple face — clone từ white, bao gồm cả dots ──────
+    const purple = white.cloneNode(true);
+    purple.className = "btn-submit-purple";
+    Object.assign(purple.style, {
+      background: "hsla(247, 48%, 44%, 1)",
+      border: "1px solid hsla(247, 48%, 44%, 1)",
+      color: "#fff",
+    });
+
+    btn.appendChild(white);
+    btn.appendChild(purple);
+
+    // ── GSAP — y hệt initButtonAnimation ──────────────────
+    gsap.set(purple, {
+      rotateX: -90,
+      transformOrigin: "bottom center",
+      translateZ: -180,
+      transformPerspective: 800,
+    });
+    gsap.set(white, {
+      transformOrigin: "top center",
+      transformPerspective: 600,
+    });
+
+    let isHovered = false;
+
+    btn.addEventListener("mouseenter", () => {
+      if (isHovered) return;
+      isHovered = true;
+      const tl = gsap.timeline();
+      tl.to(white, {
+        rotateX: 90,
+        translateZ: -180,
+        duration: 0.45,
+        ease: "power2.inOut",
+        overwrite: true,
+      });
+      tl.to(
+        purple,
+        {
+          rotateX: 0,
+          translateZ: 0,
+          duration: 0.45,
+          ease: "power2.inOut",
+          overwrite: true,
+        },
+        "<.08",
+      );
+    });
+
+    btn.addEventListener("mouseleave", () => {
+      if (!isHovered) return;
+      isHovered = false;
+      const tl = gsap.timeline();
+      tl.to(purple, {
+        rotateX: -90,
+        transformOrigin: "bottom center",
+        translateZ: -180,
+        transformPerspective: 1000,
+        ease: "power2.inOut",
+        duration: 0.45,
+        overwrite: true,
+      });
+      tl.to(
+        white,
+        {
+          rotateX: 0,
+          translateZ: 0,
+          duration: 0.45,
+          ease: "power2.inOut",
+          overwrite: true,
+        },
+        "<.08",
+      );
+    });
+  });
+}
+PageAnimations.register(initContactButtonAnimation);
 
 
 
