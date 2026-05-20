@@ -112,10 +112,10 @@
                                     <div class="item mt-4 2xl:mt-32">
                                         <div class="button_field text-5">
                                             <input type="submit" value="SUBMIT NOW" class="btn_field">
-                                            <div class="dot absolute top-0 left-0 w-1 h-1 bg-white"></div>
-                                            <div class="dot absolute top-0 right-0 w-1 h-1 bg-white"></div>
-                                            <div class="dot absolute bottom-0 left-0 w-1 h-1 bg-white"></div>
-                                            <div class="dot absolute bottom-0 right-0 w-1 h-1 bg-white"></div>
+                                            <div class="absolute top-0 left-0 w-1 h-1 bg-white"></div>
+                                            <div class="absolute top-0 right-0 w-1 h-1 bg-white"></div>
+                                            <div class="absolute bottom-0 left-0 w-1 h-1 bg-white"></div>
+                                            <div class="absolute bottom-0 right-0 w-1 h-1 bg-white"></div>
                                         </div>
                                     </div>
                                 </div>
