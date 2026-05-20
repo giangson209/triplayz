@@ -1839,9 +1839,7 @@ PageAnimations.register(initHeaderAnimation);
 function initVisionShapeAnimation() {
   const scrollTrig = document.getElementById("vision-scroll-trigger");
   const section = document.getElementById("vision-pinned-section");
-  if (!scrollTrig || !section) return;
-
-  if (typeof lenis !== "undefined") lenis.on("scroll", onScroll);
+  if (!scrollTrig || !section || typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 
   const logoTop = section.querySelector(".logo-top img");
   const logoBottom = section.querySelector(".logo-bottom img");
@@ -1864,52 +1862,35 @@ function initVisionShapeAnimation() {
   logoBottom.style.bottom = "0";
   logoBottom.style.opacity = "0";
 
-  function getProgress() {
-    const rect = scrollTrig.getBoundingClientRect();
-    const total = scrollTrig.offsetHeight - window.innerHeight;
-    return Math.max(0, Math.min(1, -rect.top / total));
-  }
-
   function lerp(a, b, t) {
     return a + (b - a) * t;
   }
 
-  function onScroll() {
-    const p = getProgress();
+  ScrollTrigger.create({
+    trigger: scrollTrig,
+    start: "top top",
+    end: "+=1500", // Creates 1500px of scrolling space for the animation
+    pin: section,
+    scrub: true,
+    onUpdate: (self) => {
+      // self.progress goes from 0 to 1 as user scrolls through the 1500px
+      const t = Math.max(0, Math.min(1, self.progress));
 
-    const t = Math.max(0, Math.min(1, (p - 0.01) / 1));
+      textVision.style.right = lerp(0, 32, t) + "vh";
+      textShape.style.left = lerp(0, 32, t) + "vh";
 
-    textVision.style.right = lerp(0, 32, t) + "vh";
-    textShape.style.left = lerp(0, 32, t) + "vh";
+      logoTop.style.top = lerp(0, 21, t) + "vh";
+      logoBottom.style.bottom = lerp(0, 21, t) + "vh";
 
-    logoTop.style.top = lerp(0, 21, t) + "vh";
-    logoBottom.style.bottom = lerp(0, 21, t) + "vh";
+      const logoOpacity = Math.min(1, t * 3);
+      logoTop.style.opacity = logoOpacity;
+      logoBottom.style.opacity = logoOpacity;
 
-    const logoOpacity = Math.min(1, t * 3);
-    logoTop.style.opacity = logoOpacity;
-    logoBottom.style.opacity = logoOpacity;
-
-    const pct = t * 100;
-    textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${pct}%, ${MUTED} ${pct}%)`;
-    textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${pct}%, ${MUTED} ${pct}%)`;
-  }
-
-  let _rafPending = false;
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (_rafPending) return;
-      _rafPending = true;
-      requestAnimationFrame(() => {
-        onScroll();
-        _rafPending = false;
-      });
-    },
-    { passive: true },
-  );
-
-  window.addEventListener("resize", onScroll);
-  onScroll();
+      const pct = t * 100;
+      textVision.style.backgroundImage = `linear-gradient(to left, ${VIVID} ${pct}%, ${MUTED} ${pct}%)`;
+      textShape.style.backgroundImage = `linear-gradient(to right, ${VIVID} ${pct}%, ${MUTED} ${pct}%)`;
+    }
+  });
 }
 PageAnimations.register(initVisionShapeAnimation);
 
@@ -4598,74 +4579,65 @@ function initPrivate() {
     }
 
     function initFooterReveal() {
-      const mainEl = document.querySelector("main");
       const footerEl = document.querySelector("footer");
-      if (!mainEl || !footerEl) return;
+      const barbaWrapper = document.querySelector("[data-barba='wrapper']");
+      if (!footerEl || !barbaWrapper || typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 
-      document.getElementById("footer-reveal-spacer")?.remove();
-
-      const MAIN_SLOW = 2;
-      const FOOTER_SLOW = 0.7;
-
-      const spacer = document.createElement("div");
-      spacer.id = "footer-reveal-spacer";
-      spacer.style.pointerEvents = "none";
-      mainEl.insertAdjacentElement("afterend", spacer);
-
-      function getOffset() {
-        return window.innerHeight * 0.5;
+      // Clean up any old wrapper from previous failed attempts
+      let oldWrapper = footerEl.parentElement;
+      if (oldWrapper.classList.contains("footer-parallax-wrapper")) {
+        oldWrapper.parentNode.insertBefore(footerEl, oldWrapper);
+        oldWrapper.remove();
       }
 
-      function updateSpacer() {
-        const V = window.innerHeight;
-        const FH = footerEl.offsetHeight;
-        spacer.style.height =
-          Math.max(
-            V * MAIN_SLOW * 0.6,
-            V * FOOTER_SLOW * 0.6 + Math.max(0, FH - V),
-          ) + "px";
+      // Disable parallax on mobile or if footer is taller than window to prevent clipping
+      if (window.innerWidth < 1024 || footerEl.offsetHeight >= window.innerHeight) {
+        gsap.set(footerEl, { clearProps: "all" });
+        barbaWrapper.style.marginBottom = "";
+        barbaWrapper.style.position = "";
+        barbaWrapper.style.zIndex = "";
+        barbaWrapper.style.backgroundColor = "";
+        return;
       }
 
-      updateSpacer();
-      footerEl.style.transform = `translateY(${getOffset()}px)`;
+      // Setup the CSS reveal structure
+      // Content gets a solid background and sits above the footer
+      barbaWrapper.style.position = "relative";
+      barbaWrapper.style.zIndex = "2";
+      barbaWrapper.style.backgroundColor = "#1D1D27";
+      
+      // The transparent margin acts as a window to reveal the footer
+      const FH = footerEl.offsetHeight;
+      barbaWrapper.style.marginBottom = FH + "px";
 
-      lenis.on("scroll", ({ scroll }) => {
-        const V = window.innerHeight;
-        const FOOTER_OFFSET = getOffset();
-        const triggerY = mainEl.offsetHeight - V;
+      // Footer is fixed behind the content
+      footerEl.style.position = "fixed";
+      footerEl.style.bottom = "0";
+      footerEl.style.left = "0";
+      footerEl.style.width = "100%";
+      footerEl.style.zIndex = "1";
 
-        if (scroll > triggerY) {
-          const rawDelta = scroll - triggerY;
-          const mainDelta = rawDelta / MAIN_SLOW;
-          mainEl.style.transform = `translateY(-${mainDelta}px)`;
-          mainEl.style.boxShadow = `0 10px 20px rgba(0,0,0,.3)`;
-          const footerProgress = Math.min(1, rawDelta / (FOOTER_SLOW * V));
-          const footerParallax = FOOTER_OFFSET * (1 - footerProgress);
-          const FH = footerEl.offsetHeight;
-          const footerScrollStart = FOOTER_SLOW * V;
-          const footerScrollDelta = Math.min(
-            Math.max(0, rawDelta - footerScrollStart),
-            Math.max(0, FH - V),
-          );
-          footerEl.style.transform = `translateY(${footerParallax - footerScrollDelta}px)`;
-        } else {
-          mainEl.style.transform = "";
-          mainEl.style.boxShadow = "";
-          footerEl.style.transform = `translateY(${getOffset()}px)`;
+      // Slight parallax slide-up while it's being revealed
+      gsap.fromTo(
+        footerEl,
+        { yPercent: -30 },
+        {
+          yPercent: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: barbaWrapper,
+            start: "bottom bottom", // Starts exactly when the margin-bottom enters the viewport
+            end: () => `+=${FH}`,   // Ends after scrolling the height of the footer
+            scrub: true,
+          },
         }
-      });
-
-      window.addEventListener("resize", () => {
-        updateSpacer();
-        footerEl.style.transform = `translateY(${getOffset()}px)`;
-        ScrollTrigger.refresh();
-      });
+      );
     }
     initFooterReveal();
-
-    if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    window.addEventListener("resize", () => {
       ScrollTrigger.refresh();
-    }
+      initFooterReveal();
+    });
   }
 
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
@@ -5122,7 +5094,7 @@ function initServiceGameCursor() {
     const elUnder = document.elementFromPoint(currentClientX, currentClientY);
     const foundItem = elUnder?.closest(".item-game");
 
-    if (foundItem && !isScrolling) {
+    if (foundItem) {
       if (foundItem !== activeItem) {
         activateItem(foundItem, true);
       }
@@ -5238,7 +5210,6 @@ function initServiceGameCursor() {
     });
 
     item.addEventListener("mouseleave", () => {
-      if (isScrolling) return;
       if (activeItem === item) {
         item.classList.remove("scroll-hover");
         activeItem = null;
@@ -5250,25 +5221,12 @@ function initServiceGameCursor() {
   window.addEventListener(
     "scroll",
     () => {
-      isScrolling = true;
-      document.body.classList.add("is-scrolling");
-
-      // Immediately hide when scroll starts
-      if (activeItem) {
-        activeItem.classList.remove("scroll-hover");
-        activeItem = null;
-      }
-      hideCursorImmediate();
-
-      if (scrollEndTimer) clearTimeout(scrollEndTimer);
-      scrollEndTimer = setTimeout(() => {
-        isScrolling = false;
-        document.body.classList.remove("is-scrolling");
-
-        if (currentClientX !== -9999) {
+      if (!scrollCheckRaf) {
+        scrollCheckRaf = requestAnimationFrame(() => {
           checkScrollHover();
-        }
-      }, 150);
+          scrollCheckRaf = null;
+        });
+      }
     },
     { passive: true },
   );

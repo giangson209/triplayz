@@ -2,7 +2,7 @@
     <div class="wrapper">
         <img src="assets/images/bg-footer.png" class="w-full h-full top-0 left-0 absolute object-cover" alt="">
         <div class="grid grid-cols-12 gap-0 md:gap-6 relative z-2">
-            <div class="item col-span-12 md:col-span-6 3xl:col-span-7 relative order-2 md:order-1">
+            <div class="item col-span-12 md:col-span-6 3xl:col-span-7 relative order-2 md:order-1 h-full flex flex-col justify-between">
                 <div class="logo mb-[-64px] md:mb-22 px-6 md:px-0 max-w-full lg:max-w-68.5 lg:max-w-87.5 3xl:max-w-100">
                     <img src="assets/images/logo-fter.png" alt="">
                 </div>
@@ -11,7 +11,7 @@
                         class="text-7 md:text-8 lg:text-[42px] 2xl:text-[56px] 3xl:text-[64px] font-medium mb-6 md:mb-12 relative z-3 text-center lg:text-left">
                         Ready to Bring Your <br>Vision to Life?
                     </div>
-                    <ul class="hidden md:flex items-center gap-4 lg:gap-10 anek">
+                    <ul class="flex items-center gap-4 lg:gap-10 anek">
                         <li class="other-info mb-4 last:mb-0">© 2026 TriPlayZ</li>
                         <li class="other-info mb-4 last:mb-0"><a href="">Terms & Conditions</a></li>
                         <li class="other-info mb-4 last:mb-0"><a href="">Privacy Policy</a></li>
@@ -62,7 +62,7 @@
                             <div
                                 class="item md:border-r border-[#FFFFFF26] pr-0 md:pr-10 3xl:pr-0 relative pl-6 md:pl-0">
                                 <div class="block md:hidden absolute top-0 left-0 w-[1px] h-full bg-[#FFFFFF26]"></div>
-                                <div class="item mb-8 3xl:mb-25 last:mb-0">
+                                <div class="item mb-8 3xl:mb-10 last:mb-0">
                                     <div class="text-5 3xl:text-6 font-semibold mb-4">SERVICES</div>
                                     <ul>
                                         <li class="mb-3 md:mb-6 last:mb-0"><a href="">Gamification</a></li>
@@ -70,10 +70,10 @@
                                         <li class="mb-3 md:mb-6 last:mb-0"><a href="">Digital Solutions</a></li>
                                     </ul>
                                 </div>
-                                <div class="item mb-8 3xl:mb-25 last:mb-0">
+                                <div class="item mb-8 3xl:mb-10 last:mb-0">
                                     <div class="text-5 3xl:text-6 font-semibold mb-4">CASE STUDY</div>
                                 </div>
-                                <div class="item mb-8 3xl:mb-25 last:mb-0">
+                                <div class="item mb-8 3xl:mb-10 last:mb-0">
                                     <div class="text-5 3xl:text-6 font-semibold mb-4">COMPANY</div>
                                     <ul>
                                         <li class="mb-3 md:mb-6 last:mb-0"><a href="">About us</a></li>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bot">
+                <div class="bot mt-16">
                     <div class="flex items-center justify-between pt-0 md:pt-4 pb-4">
                         <a href="">GET IN TOUCH WITH US</a>
                         <span class="hidden md:block">[UTC +7] Hanoi, Vietnam</span>

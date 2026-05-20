@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </section>
-            <div class="vision-scroll-trigger hidden lg:block" id="vision-scroll-trigger">
+            <div class="vision-scroll-trigger hidden lg:block overflow-hidden" id="vision-scroll-trigger">
                 <section id="vision-pinned-section"
                     class="vision-shape-section relative h-[unset] lg:h-[100vh] flex items-center justify-center text-center py-20 lg:py-0 wrapper overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
@@ -59,7 +59,7 @@
                 </section>
             </div>
 
-            <section class="block lg:hidden">
+            <section class="block lg:hidden overflow-hidden">
                 <div class="px-6 py-18 text-center">
                     <div class="vision txt text-[40px] font-medium vision-text">where vision</div>
                     <div class="relative py-10">
@@ -78,7 +78,7 @@
             </section>
 
 
-            <section id="service"
+            <section class="overflow-hidden px-6 lg:px-0" id="service"
                 class="py-10 md:py-20 lg:py-25 3xl:py-50 px-6 md:px-10 relative overflow-hidden relative">
                 <div class="wrapper relative">
                     <div class="absolute top-0 right-0 pointer-events-none">
@@ -320,7 +320,7 @@
                 </div>
             </section>
 
-            <section id="company" class="relative overflow-hidden bg-[#483BA8] pt-10 md:pt-20 lg:pt-25 3xl:pt-50">
+            <section id="company" class="relative !overflow-hidden bg-[#483BA8] max-w-[100vw] w-full pt-10 md:pt-20 lg:pt-25 3xl:pt-50">
                 <div class="company-marquee wrapper relative overflow-hidden">
                     <img src="assets/images/top-company.png" class="w-full absolute top-0 left-0" alt="">
                     <div class="company-dark-overlay">

@@ -34,6 +34,7 @@ body {
   }
   @media (max-width: 767px) {
     font-size: 14px;
+    overflow-x: hidden;
   }
 
   &.active {

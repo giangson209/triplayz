@@ -308,12 +308,12 @@
                     <div class="block md:flex justify-end gap-6 w-full max-w-230 ml-auto mb-6 last:mb-0">
                         <div
                             class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
-                            <div class="absolute top-0 left-0 w-full">
+                            <!-- <div class="absolute top-0 left-0 w-full">
                                 <img src="assets/images/top-bring.png" class="w-full" alt="">
                             </div>
                             <div class="absolute bottom-0 left-0 w-full">
                                 <img src="assets/images/bot-bring.png" class="w-full" alt="">
-                            </div>
+                            </div> -->
                             <div class="top">
                                 <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
                                 <div class="anek opacity-85">
@@ -326,12 +326,12 @@
                         </div>
                         <div
                             class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
-                            <div class="absolute top-0 left-0 w-full">
+                            <!-- <div class="absolute top-0 left-0 w-full">
                                 <img src="assets/images/top-bring.png" class="w-full" alt="">
                             </div>
                             <div class="absolute bottom-0 left-0 w-full">
                                 <img src="assets/images/bot-bring.png" class="w-full" alt="">
-                            </div>
+                            </div> -->
                             <div class="top">
                                 <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
                                 <div class="anek opacity-85">
@@ -346,12 +346,12 @@
                     <div class="block md:flex gap-6 w-full max-w-230 ml-auto mb-6 last:mb-0">
                         <div
                             class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
-                            <div class="absolute top-0 left-0 w-full">
+                            <!-- <div class="absolute top-0 left-0 w-full">
                                 <img src="assets/images/top-bring.png" class="w-full" alt="">
                             </div>
                             <div class="absolute bottom-0 left-0 w-full">
                                 <img src="assets/images/bot-bring.png" class="w-full" alt="">
-                            </div>
+                            </div> -->
                             <div class="top">
                                 <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
                                 <div class="anek opacity-85">
@@ -364,12 +364,12 @@
                         </div>
                         <div
                             class="item relative aspect-[normal] md:aspect-square bg-[#2B2B38] p-6 md:p-8 w-full md:w-90 flex flex-col justify-between mb-6 md:mb-0 last:mb-0">
-                            <div class="absolute top-0 left-0 w-full">
+                            <!-- <div class="absolute top-0 left-0 w-full">
                                 <img src="assets/images/top-bring.png" class="w-full" alt="">
                             </div>
                             <div class="absolute bottom-0 left-0 w-full">
                                 <img src="assets/images/bot-bring.png" class="w-full" alt="">
-                            </div>
+                            </div> -->
                             <div class="top">
                                 <div class="text-5 md:text-6 font-medium mb-2">Luck-based</div>
                                 <div class="anek opacity-85">

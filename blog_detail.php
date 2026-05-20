@@ -126,19 +126,20 @@
             </section>
 
             <!-- Key Take Away Section -->
-            <section class="hidden lg:block py-16 md:py-24 px-6 md:px-10 bg-[#483BA8] text-white">
+            <section class="block py-10 md:py-24 px-4 md:px-10 bg-[#483BA8] text-white">
                 <div class="wrapper max-w-[1200px] mx-auto">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-0">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-0">
                         <!-- Left Column -->
-                        <div class="md:pr-10 lg:pr-20 flex flex-col justify-between">
+                        <div class="pr-0 md:pr-10 lg:pr-20 flex flex-col justify-between">
                             <div>
-                                <h2 class="text-10 md:text-[56px] lg:text-[64px] font-medium mb-6 leading-tight">Key Take Away
+                                <h2 class="text-8 md:text-[56px] lg:text-[64px] font-medium mb-2 md:mb-6 leading-tight text-center md:text-left">
+                                    Key Take Away
                                 </h2>
-                                <div class="anek text-4 opacity-80 mb-10 md:mb-20 max-w-[280px]">
-                                    Consider this for your<br>next Gamification ideas
+                                <div class="anek text-4 opacity-80 mb-6 md:mb-20 max-w-full md:max-w-[280px]">
+                                    Consider this for your next Gamification ideas
                                 </div>
                             </div>
-                            <div>
+                            <div class="hidden md:block">
                                 <div class="text-6 md:text-[28px] font-medium mb-6">Have an idea in mind?</div>
                                 <div class="btn-main inline-block">
                                     <a href=""
@@ -154,15 +155,15 @@
                         </div>
 
                         <!-- Right Column -->
-                        <div
-                            class="md:pl-10 lg:pl-20 md:border-l border-[#FFFFFF33] flex flex-col justify-center gap-10 lg:gap-16 pt-8 md:pt-0">
-                            <div class="item">
-                                <h3 class="text-5 md:text-[24px] font-medium mb-2">Set Clear Goals</h3>
-                                <p class="anek text-4 opacity-80">Define what you want to accomplish</p>
-                            </div>
-                            <div class="item">
-                                <h3 class="text-5 md:text-[24px] font-medium mb-2">Set Clear Goals</h3>
-                                <p class="anek text-4 opacity-80">Define what you want to accomplish</p>
+                        <div class="block h-full flex items-center">
+                            <div class="flex gap-2 md:gap-4 w-full flex-wrap justify-center md:justify-start">
+                                <?php
+                                for ($i = 0; $i < 5; $i++) { ?>
+                                    <a href="" class="inline-flex items-center bg-[#FFFFFF14] font-medium px-3 md:px-6 py-3 md:py-4">Use clear metrics to monito</a>
+                                    <a href="" class="inline-flex items-center bg-[#FFFFFF14] font-medium px-3 md:px-6 py-3 md:py-4">Know Your Audience</a>
+                                <?php }
+                                 ?>
+                                
                             </div>
                         </div>
                     </div>
